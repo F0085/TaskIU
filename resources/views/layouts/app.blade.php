@@ -9,11 +9,16 @@
     <title>CARDIOCENTRO MANTA</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+
+    
+
     <!-- Custom Stylesheet -->
-    <link href="./plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+<!--     <link href="./plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet"> -->
+    <link href="{{asset('css/style.css')}}" rel="stylesheet">
+
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-  
+      
   
     <style type="text/css">
          .content-body{
@@ -26,7 +31,7 @@
             setTimeout("CerrarSesion()", 18000000);
         }
         function CerrarSesion(){
-            location.href = "logout";
+            location.href = "/logout";
         }
     </script>
 
@@ -61,10 +66,10 @@
         <div class="nav-header" style="text-align: center">
            
                 <a href="index.html">
-                    <b class="logo-abbr"><img src="images/logocc.png" width="100%" alt=""> </b>
-                    <span class="logo-compact"><img src="./images/logocc.png" width="100%" alt=""></span>
+                    <b class="logo-abbr"><img src="{{asset('images/logocc.png')}}" width="100%" alt=""> </b>
+                    <span class="logo-compact"><img src="{{asset('./images/logocc.png')}}" width="100%" alt=""></span>
                     <span class="brand-title">
-                        <img src="images/logocardiocentro.png" width="79%" alt="">
+                        <img src="{{asset('images/logocardiocentro.png')}}" width="79%" alt="">
                     </span>
                 </a>
             
@@ -112,7 +117,7 @@
                                     <ul>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/1.jpg" alt="">
+                                                <img class="float-left mr-3 avatar-img" src="{{asset('images/avatar/1.jpg')}}" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Saiful Islam</div>
                                                     <div class="notification-timestamp">08 Hours ago</div>
@@ -122,7 +127,7 @@
                                         </li>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/2.jpg" alt="">
+                                                <img class="float-left mr-3 avatar-img" src="{{asset('images/avatar/2.jpg')}}" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Adam Smith</div>
                                                     <div class="notification-timestamp">08 Hours ago</div>
@@ -132,7 +137,7 @@
                                         </li>
                                         <li>
                                             <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/3.jpg" alt="">
+                                                <img class="float-left mr-3 avatar-img" src="{{asset('images/avatar/3.jpg')}}" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Barak Obama</div>
                                                     <div class="notification-timestamp">08 Hours ago</div>
@@ -142,7 +147,7 @@
                                         </li>
                                         <li>
                                             <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/4.jpg" alt="">
+                                                <img class="float-left mr-3 avatar-img" src="{{asset('images/avatar/4.jpg')}}" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Hilari Clinton</div>
                                                     <div class="notification-timestamp">08 Hours ago</div>
@@ -215,7 +220,7 @@
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                              
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <img src="{{asset('images/user/1.png')}}" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile   dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -257,6 +262,11 @@
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">BIENVENIDO</li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a href="{{url('/Tareas')}}" class="" href="javascript:void()" aria-expanded="false">
+                            <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Tareas</span>
+                        </a>
+                    </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gestión Administrativa</span>
@@ -448,15 +458,16 @@
 <!--     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script> -->
 
 
-         <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
+         <script src="{{asset('plugins/common/common.min.js')}}"></script>
+    <script src="{{ asset('js/custom.min.js')}}"></script>
+    <script src="{{asset('js/settings.js')}}"></script>
+    <script src="{{asset('js/gleek.js')}}"></script>
+    <script src="{{asset('js/styleSwitcher.js')}}"></script>
     <script src="{{ asset('js/alertify.js') }}" defer></script>
+
     <!-- CSS -->
-    <link rel="stylesheet" href="css/alertify.css" />
-    <script type="text/javascript" src="js/jquery.orgchart.js"></script>
+    <link rel="stylesheet" href="{{asset('css/alertify.css')}}" />
+    <script type="text/javascript" src="{{asset('js/jquery.orgchart.js')}}"></script>
 </body>
 
 </html>

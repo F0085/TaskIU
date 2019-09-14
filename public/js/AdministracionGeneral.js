@@ -1,5 +1,4 @@
 
-
 function RegistrarArea(){ 
 	if($('#Area').val()!=''){
 	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
@@ -35,10 +34,7 @@ function RegistrarArea(){
 		        	ListaAreaRoles('F');
 		        	$('#cargar').fadeIn(1000).html(data); 
 		        	alertify.success("Registro exitoso!")
-		        	CancelarActualizacionArea();
-		        		document.getElementById('Area').setAttribute('title','Campo Obligatorio');
-		        		$('#Area').tooltip( 'hide' );
-		        	
+		        	CancelarActualizacionArea();	        	
 
 		        },
 		        error: function () {     
@@ -46,9 +42,18 @@ function RegistrarArea(){
 		        }
 		    }); 
 		}else{
-			document.getElementById('Area').setAttribute('title','Campo Obligatorio');
-			//$('#Area').setAttribute('title','Campo nose  qeu');
-			$('#Area').tooltip('show');
+
+		    $('#mensajeArea').html('');
+			$('#mensajeArea').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								  <strong>Atención!</strong> Faltan campos por llenar.
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div`);
+			$('#mensajeArea').hide();
+	        $('#mensajeArea').prop('hidden',false);
+	        $('#mensajeArea').show(500);
+
 
 		}
 
@@ -71,7 +76,9 @@ function ListaAreas(){
 
 //MUESTRA EL CAMPO A EDITAR DEL AREA
 function EditarArea(id){
-    $.get('Area/'+id+'/edit', function (data) {
+
+    $.get('Area/'+id+'/edit', function (data) {	
+    	CancelarActualizacionArea();
     	$("#inputId").html('');
     	$("#inputId").append(` <input hidden readonly type="text" id="IdAr" name="IdAr" value="${data['Id_Area']}" >`);
         $("#Area").val("");
@@ -84,6 +91,7 @@ function EditarArea(id){
 
 //CANCELA LA ACTUALIZACIÓN
 function CancelarActualizacionArea(){
+	$("#mensajeArea").html("");
 	$("#Area").val("");
 	$("#IngresarArea").html("");
 	$("#IngresarArea").append(`<button onclick="RegistrarArea()" type="button" class="btn btn-primary btn-block">Ingresar </button> `);
@@ -171,7 +179,7 @@ function EliminarArea($id){
 
 function RegistrarRol(){ 
 
-	if($('#Rol').val()!=''){
+	if($('#Rol').val()!='' && $("#nivelRol").val() !='' ){
 	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
 	        <div class="loader"> 
 	            <svg class="circular" viewBox="25 25 50 50">
@@ -215,9 +223,16 @@ function RegistrarRol(){
 		        }
 		    }); 
 		}else{
-			document.getElementById('Rol').setAttribute('title','Campo Obligatorio');
-			//$('#Area').setAttribute('title','Campo nose  qeu');
-			$('#Rol').tooltip('show');
+	    	$('#mensajeRol').html('');
+			$('#mensajeRol').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								  <strong>Atención!</strong> Faltan campos por llenar.
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div`);
+			$('#mensajeRol').hide();
+	        $('#mensajeRol').prop('hidden',false);
+	        $('#mensajeRol').show(500);
 
 		}
 
@@ -258,6 +273,7 @@ function EditarRol(id){
 
 //CANCELA LA ACTUALIZACIÓN
 function CancelarActualizacionRol(){
+	$('#mensajeRol').html('');
 	$("#Rol").val("");
 	$("#nivelRol").val("");
 	$("#IngresarRol").html('');
@@ -345,12 +361,10 @@ function EliminarRol($id){
 
 }
 
-
+//PARA VALIDAR LOS INPUST QUE NO SEAN VACIOS
 function validadorCampos(val){
 	var resul=0;
-
-
-	if($('#'+val).val() == ''){
+	if($('#'+val).val() == '' || $('#'+val).val() == '0' ){
 		$('#'+val).addClass('invalid');
 		
 	}else{
@@ -359,9 +373,68 @@ function validadorCampos(val){
 
 	}
 	return resul;
-	
+}
+
+
+
+//VALIDAR LOS BORDES DE LOS INPUT DE POR LLENAR Y LLENADO
+function borderInput(val){ 
+	if($('#'+val).val() == '' || $('#'+val).val() == '0' ){	
+		if($('#'+val).hasClass('valid')){
+		 $('#'+val).removeClass('valid');
+		}
+		$('#'+val).addClass('invalid');
+	}else{
+		if($('#'+val).hasClass('valid')){
+		 $('#'+val).removeClass('valid');
+		}else if($('#'+val).hasClass('invalid')){
+		 $('#'+val).removeClass('invalid');
+		}
+	}
 
 }
+
+//ELIMINAR LA CLASE DE LOS INPUTS
+function eliminarclaseInput(val){
+	if($('#'+val).hasClass('valid')){
+	 $('#'+val).removeClass('valid');
+	}else if($('#'+val).hasClass('invalid')){
+	 $('#'+val).removeClass('invalid');
+	}
+}
+
+//LIMPIAR LOS CAMPOS DEL FORMULARIO DE REGISTRO DE USUARIOS
+function limpiarCampos(){
+	$('#MensajeAlerta').html('');
+	$("#nombre").val('');
+	$("#apellido").val('');
+	$("#cedula").val('');
+	$("#direccion").val('');
+	$("#tipoUser").val('0');
+	$("#Celular").val('');
+	$("#Sexo").val('0');
+	$("#email").val('');
+	$("#Rol").html('');
+	$("#Rol").append(`<option selected value="0">Seleccion Rol...</option>`);
+	$("#Rol").prop('disabled',true);
+	$("#password").val('');
+	$("#passwordConfir").val('');
+	$("#Area").val('0');
+	$('#MensajeAlerta').val('');
+	eliminarclaseInput('nombre');
+	eliminarclaseInput('apellido');
+	eliminarclaseInput('cedula');
+	eliminarclaseInput('direccion');
+	eliminarclaseInput('tipoUser');
+	eliminarclaseInput('Celular');
+	eliminarclaseInput('Sexo');
+	eliminarclaseInput('email');
+	eliminarclaseInput('Rol');
+	eliminarclaseInput('password');
+	eliminarclaseInput('passwordConfir');
+	eliminarclaseInput('Area');
+}
+
 
 function RegistrarUsuario(val){ 
 	var Vnombre= validadorCampos('nombre'); 
@@ -371,23 +444,15 @@ function RegistrarUsuario(val){
 	var VCelular=validadorCampos('Celular');
 	var VSexo = validadorCampos('Celular');
 	var Vemail =validadorCampos('email');
-	// var VRol =validadorCampos('Rol');
+	var VRol =validadorCampos('Rol');
+	var VtipoUser =validadorCampos('tipoUser');
+	var Varea =validadorCampos('Area');
+	var Vsexo =validadorCampos('Sexo');
 	var Vpassword = validadorCampos('password');
-	var Varea=validadorCampos('Varea');
+	var Vpasswordconfirm = validadorCampos('passwordConfir');
 
-
-	
-	
-	
-	
-	
-	// validadorCampos('nombre');
-	// validadorCampos('nombre');
-	// validadorCampos('nombre');
-	// validadorCampos('nombre');
-
-
-	if(Vnombre==1 && Vapellido==1 && Vcedula==1  && Vdireccion==1  && VCelular==1  && VSexo==1 && Vemail==1 && VRol==1 && Vpassword==1 && Varea==1 ){
+	if(Vnombre==1 && Vapellido==1 && Vcedula==1  && Vdireccion==1  && VCelular==1  && VSexo==1 && Vemail==1 && VRol==1 && Vpassword==1 && Varea==1 && Vpasswordconfirm==1 && VtipoUser==1 && VRol==1 && Varea==1 && Vsexo==1){
+	  if($("#password").val()== $("#passwordConfir").val()){
 	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
 	        <div class="loader"> 
 	            <svg class="circular" viewBox="25 25 50 50">
@@ -408,6 +473,7 @@ function RegistrarUsuario(val){
 		    	Email: $("#email").val(),
 		    	Rol: $("#Rol").val(),
 		    	Clave: $("#password").val(),
+		        Id_Area: $("#Area").val()
 		    }
 
 
@@ -426,6 +492,7 @@ function RegistrarUsuario(val){
 		        {
 		        if(val=='A'){
 		        	 ListaUsuarios();
+		        	 limpiarCampos();
 		        	
 		        	$('#cargar').fadeIn(1000).html(data); 
 		        	alertify.success("Registro exitoso!")
@@ -440,7 +507,26 @@ function RegistrarUsuario(val){
 		        error: function () {     
 		            alertify.error("Ocurrió un error, contactese con el Administrador.")
 		        }
-		    }); 
+		    });
+		  }else{
+		  	$('#MensajeAlerta').html('');
+			$('#MensajeAlerta').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								  <strong>Atención!</strong> Las contraseñas no coinciden.
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div`);
+			if($('#password').hasClass('valid')){
+			 $('#password').removeClass('valid');
+			 $('#password').addClass('invalid');
+			}
+			if($('#passwordConfir').hasClass('valid')){
+			 $('#passwordConfir').removeClass('valid');
+			 $('#passwordConfir').addClass('invalid');
+			}
+				
+			
+		  } 
 		}else{
 			$('#MensajeAlerta').html('');
 			$('#MensajeAlerta').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -473,39 +559,31 @@ function ListaUsuarios(){
 
 //MUESTRA EL CAMPO A EDITAR DEL USUARIO
 function EditarUsuarios(id){
+	limpiarCampos();
     $.get('Usuarios/'+id+'/edit', function (data) {
-    	console.log(data);
+    	RolesArea(data['Id_Area'],data['Id_Roles']);
     	$("#inputIUS").html('');
     	$("#inputIUS").append(` <input hidden readonly type="text" id="IdUS" name="IdUS" value="${data['Id_Usuario']}" >`);
-        $("#nombre").val("");
-        $("#apellido").val("");
-        $("#direccion").val("");
-        $("#cedula").val("");
-         $("#Celular").val("");
-        // $("#tipoUser").val("");
-        $("#email").html("");
         $("#password").prop("hidden",true);
         $("#passwordConfir").prop("hidden",true);
         $("#passwordLabel").prop("hidden",true);
     	$("#passwordConfirLabel").prop("hidden",true);
         $("#IngresarUser").html('');
-         $.each(data, function(i, item) { //recorre el data 
-	        $("#nombre").val(item['Nombre']);
-	        $("#apellido").val(item['Apellido']);
-	        $("#cedula").val(item['Cedula']);
-	        $("#Celular").val(item['Celular']);
-	        $("#direccion").val(item['Direccion']);
-	        $("#tipoUser").val(item['Id_Tipo_Usuario']);
-	        $("#Area").val(item['Id_Area']);
-	        $("#Rol").val(item['Id_Roles']);
-	        $("#email").val(item['email']);
-	        $("#IngresarUser").append(`<div class="form-check mb-3">
-                                        <label class="form-check-label">
-                                        <input onclick="onToggle()" type="checkbox" id="ActClaveCHE" class="form-check-input" value="">Actualizar Contraseña</label>
-                                            </div> <div class="row"> <div class="col-md-6"> <button onclick="ActualizarUsuario()" type="button" class="btn btn-warning btn-block">Actualizar </button></div> <div class="col-md-6"><button onclick="CancelarActualizacionUser()" type="button" class="btn btn-primary btn-block">Cancelar </button></div></div>`);
-	    	// $('#cargar').fadeIn(1000).html(data); 
-	    
-    		});
+        $("#nombre").val(data['Nombre']);
+        $("#apellido").val(data['Apellido']);
+        $("#cedula").val(data['Cedula']);
+        $("#Celular").val(data['Celular']);
+        $("#direccion").val(data['Direccion']);
+        $("#tipoUser").val(data['Id_Tipo_Usuario']);
+        $("#Area").val(data['Id_Area']);
+        $("#Sexo").val(data['Sexo']);
+        //$("#Rol").val(data['Id_Roles']);
+        $("#email").val(data['email']);
+        $("#IngresarUser").append(`<div class="form-check mb-3">
+                                    <label class="form-check-label">
+                                    <input onclick="onToggle()" type="checkbox" id="ActClaveCHE" class="form-check-input" value="">Actualizar Contraseña</label>
+                                        </div> <div class="row"> <div class="col-md-6"> <button onclick="ActualizarUsuario()" type="button" class="btn btn-warning btn-block">Actualizar </button></div> <div class="col-md-6"><button onclick="CancelarActualizacionUser()" type="button" class="btn btn-primary btn-block">Cancelar </button></div></div>`);
+    	// $('#cargar').fadeIn(1000).html(data); 
     });
 
 }
@@ -513,13 +591,7 @@ function EditarUsuarios(id){
 
 //CANCELA LA ACTUALIZACIÓN
 function CancelarActualizacionUser(){
-	$("#nombre").val("");
-    $("#apellido").val("");
-    $("#direccion").val("");
-    $("#cedula").val("");
-    $("#email").val("");
-    $("#tipoUser").val('1');
-    $("#Celular").val('');
+	limpiarCampos();
 	$("#IngresarUser").html('');
 	$("#password").prop("hidden",false);
     $("#passwordConfir").prop("hidden",false);
@@ -545,6 +617,8 @@ function ActualizarUsuario(){
 	    	Cedula: $("#cedula").val(),
 	    	Direccion: $("#direccion").val(),
 	    	TipoUser: $("#tipoUser").val(),
+	    	Id_Area:$("#Area").val(),
+	    	Id_Rol:$("#Rol").val(),
 	    	Email: $("#email").val(),
 	    	Clave: $("#password").val(),
 	    	ActClaveCHE: $("#ActClaveCHE").val(),	
@@ -595,25 +669,42 @@ function ActualizarUsuario(){
     }
   }
 
+// SE CARGA EL COMBO DE LOS ROLES DE ACUERDO AL AREA
+function RolesArea(idAr,rol) {
+	if(rol== 0){
+	borderInput('Area');
+	}
+	if(idAr!= 0){
+		$("#Rol").html('');
+	     $.get('RolesAreaID/'+idAr, function (data) {
+	     	$("#Rol").prop("disabled",false);
+	     	$("#Rol").append(`<option value="0">Seleccione el Rol</option>`);
+	     	$.each(data, function(i, item) { //recorre el data  
+	     		if(item['Id_Roles']==rol){
+	    			$("#Rol").append(`<option selected value="${item['Id_Roles']}">${item['Rol']}</option>`);
+	    		}else{
+	    			$("#Rol").append(`<option value="${item['Id_Roles']}">${item['Rol']}</option>`);
 
-function RolesArea(idAr) {
-	$("#Rol").html('');
-     $.get('RolesAreaID/'+idAr, function (data) {
-     	$("#Rol").prop("disabled",false);
-     	$.each(data, function(i, item) { //recorre el data  
-    		$("#Rol").append(`<option value="${item['Id_Roles']}">${item['Rol']}</option>`);
-        });  
-
-
-	    
-    });
+	    		}
+	        });  	    
+	    });
+    }else{
+    	$("#Rol").html('');
+		$("#Rol").prop("disabled",true);
+	    $("#Rol").append(`<option value="0">Seleccione el Rol</option>`);
+	    if($('#'+val).hasClass('valid')){
+		 $('#'+val).removeClass('valid');
+		}else if($('#'+val).hasClass('invalid')){
+		 $('#'+val).removeClass('invalid');
+		}
+    }
 }
 
 
 
 function RegistrarAreaRol(){ 
 
-	if($('#AreaROL').val()!=''){
+	if($('#AreaROL').val()!='0' && $("#ROL_A").val()!='0' ){
 	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
 	        <div class="loader"> 
 	            <svg class="circular" viewBox="25 25 50 50">
@@ -625,7 +716,6 @@ function RegistrarAreaRol(){
 
 		    var FrmData = { 
 		    	IdArea: $("#AreaROL").val(),
-	
 		        IdRol: $("#ROL_A").val(),
 
 		    }
@@ -647,7 +737,7 @@ function RegistrarAreaRol(){
 		        	$('#cargar').fadeIn(1000).html(data); 
 		        	ListaAreaRoles('I');
 		        	
-		        	// ListaRoles();
+		        	CancelarActualizacionAreaRol();
 		        
 		        	// CancelarActualizacionRol();	        	
 
@@ -657,9 +747,16 @@ function RegistrarAreaRol(){
 		        }
 		    }); 
 		}else{
-			document.getElementById('Rol').setAttribute('title','Campo Obligatorio');
-			//$('#Area').setAttribute('title','Campo nose  qeu');
-			$('#Rol').tooltip('show');
+	    	$('#mensajeAreaRol').html('');
+			$('#mensajeAreaRol').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								  <strong>Atención!</strong> Faltan campos por llenar.
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div`);
+			$('#mensajeAreaRol').hide();
+	        $('#mensajeAreaRol').prop('hidden',false);
+	        $('#mensajeAreaRol').show(500);
 
 		}
 
@@ -669,7 +766,9 @@ function RegistrarAreaRol(){
 //MUESTRA EL CAMPO A EDITAR DEL ROL
 function EditarAreaRol(id){
 
+
     $.get('AreasRoles/'+id+'/edit', function (data) {
+    	CancelarActualizacionAreaRol();
     	$("#inputIdAreaRol").html('');
     	$("#inputIdAreaRol").append(` <input hidden readonly type="text" id="IdAreaRol" name="IdAreaRol" value="${data['Id_Area_Roles']}" >`);
         // $("#AreaROL").val("");
@@ -687,6 +786,7 @@ function EditarAreaRol(id){
 
 //CANCELA LA ACTUALIZACIÓN
 function CancelarActualizacionAreaRol(){
+	 $('#mensajeAreaRol').html('');
 	 $("#IngresarAreaRol").html('');
 	 $("#AreaROL").val('0');
 	 $("#ROL_A").val('0');
@@ -726,6 +826,7 @@ function ActualizarAreaRol(){
 	        {
 	        	  $('#cargar').fadeIn(1000).html(data); 
 	  			ListaAreaRoles('A');
+	  			CancelarActualizacionAreaRol();
 	        	
 	        	
 	        
@@ -748,8 +849,8 @@ function ListaAreaRoles(tipoT){
             </svg>Espere...
 
         </div>
-    </div>`);
-		}
+    	</div>`);
+	}
 
     $.get('DistintAreas', function (data1) {
     	$.get('AreasRoles', function (data) {
@@ -821,3 +922,5 @@ function EliminarAreaRoles($id){
 	    }); 
 
 }
+
+

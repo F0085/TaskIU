@@ -1141,7 +1141,7 @@
       if (opts.nodeTemplate) {
         $nodeDiv.append(opts.nodeTemplate(data));
       } else {
-        $nodeDiv.append('<div style="border: solid 4px white">'+ data[opts.nodeTitle] + '</div>')
+        $nodeDiv.append('<div style="color:black; font-size:20px">'+ data[opts.nodeTitle] + '</div>')
           .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (data[opts.nodeContent] || '') + '</div>' : '');
       }
       //

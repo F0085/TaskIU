@@ -16,13 +16,27 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+//######################GESTIÓN ADMINISTRATIVA#######################
+
+	Route::get('/Administracion', 'GestionAdministrativaController@index')->name('Administracion');
+
+	//REGISTRO DE AREAS
+	Route::resource('Area', 'AreasController');
+
+	//REGISTRO DE ROLES
+    Route::resource('Roles', 'RolesController');
+
+	//REGISTRO DE AREAS ROLES
+    Route::resource('AreasRoles', 'AreasRolesController');
+
+//######################FIN GESTIÓN ADMINISTRATIVA#######################
 
 
 //VISTA DE REGISTRO DEL ADMINISTRADOR
-Route::get('/registro', 'UsuarioController@vista');
+Route::get('/registro', 'UsuarioController@RegistroAdmin');
 
 //VISTA REGISTRO DEL USUARIO NORMAL
-Route::get('/register', 'UsuarioController@RegistroUser');
+Route::get('/register', 'UsuarioController@RegistroUserNormal');
 
 Route::resource('Usuarios', 'UsuarioController');
 
@@ -34,14 +48,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('/Usuarios/{id}', 'AreasController@ListaUsuarios')->name('Usuarios');
 
 
-//REGISTRO DE AREAS
-Route::get('/Administracion', 'AreasController@index2')->name('Administracion');
-Route::resource('Area', 'AreasController');
+Route::resource('Tareas',  'TareasController');
 
-//REGISTRO DE ROLES
-Route::resource('Roles', 'RolesController');
-Route::get('/RolesAreas', 'AreasController@ListaRolesAreas');
-
+ Route::get('/MisTareas/{estado}',  'TareasController@TareasPorEstado');
+Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
 
 
 
@@ -51,27 +61,18 @@ Route::post('/iniciar', 'LoginSController@Login')->name('iniciar');
 
 
 
-
-
-Route::post('/AreaACT', 'AreasController@update')->name('AreaACT');
-Route::get('/roles', 'AreasController@ListaArea')->name('roles');
-
-Route::post('/rolesUser', 'Roles_UsuarioController@store')->name('rolesUser');
-Route::get('/rolesUser', 'Roles_UsuarioController@index')->name('rolesUser');
-
-//Route::post('/login1', 'AreasController@Login')->name('login1');
-
-Route::get('/sesion', 'AreasController@sesion');
-
-
 Route::get('/RolesAreaID/{idArea}', 'RolesController@ListaRolesPorAreas');
 
 
 Route::get('/Organigrama', 'OrganigramaController@index');
+
+	
+
+
 Route::get('UserRoles/{area}/{rol}', 'OrganigramaController@UserRoles');
 
 
-Route::get('/DistintAreas', 'AreasController@DistintAreas');
-Route::resource('AreasRoles', 'AreasRolesController');
+Route::get('/DistintAreas', 'OrganigramaController@DistintAreas');
+
 
 

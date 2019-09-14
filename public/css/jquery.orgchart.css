@@ -151,13 +151,14 @@
 
 /* node styling */
 .orgchart .node {
-  background-color: #cbedcb;
+  background-color: #ffff;
   box-sizing: border-box;
   display: inline-block;
   position: relative;
   margin: 0;
   padding: 3px;
-  border: 2px dashed transparent;
+  border-radius: 10px;
+  border: 2px solid blue;
   text-align: center;
   width: auto;
 }

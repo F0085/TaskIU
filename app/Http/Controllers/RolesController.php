@@ -21,20 +21,21 @@ class RolesController extends Controller
 
     public function index()
     {
-        return $this->ListaRolesAreas();
-        return $roles_usuario=Roles_UsuarioModel::all();
-    
-         return view('ingreso_roles')->with(['roles_usuario'=>$roles_usuario]);    
-     }
-
-    //ROLES CON AREAS
-    public function ListaRolesAreas(){
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
         $response = $client->request('GET', "Roles");
         return json_decode((string) $response->getBody(), true);
-    }
+     }
+
+    // //ROLES CON AREAS
+    // public function ListaRolesAreas(){
+    //     $client = new Client([
+    //       'base_uri' => $this->servidor,
+    //     ]);
+    //     $response = $client->request('GET', "Roles");
+    //     return json_decode((string) $response->getBody(), true);
+    // }
 
     public function ListaRolesPorAreas($idArea){
 

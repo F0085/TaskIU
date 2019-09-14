@@ -15,64 +15,35 @@ class AreasRolesController extends Controller
 
     public $servidor='http://localhost:8000/';
 
+    // LISTA DE AREAS ROLES
     public function index()
     {
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        $response = $client->request('GET', "AreasRoles");
+        $response = $client->request('GET', "ListAreaRoles");
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //REGISTRAR AREAS ROLES
     public function store(Request $request)
     {
-            $client = new Client([
-              'base_uri' => $this->servidor.'AreasRoles',
-            ]);
+        $client = new Client([
+          'base_uri' => $this->servidor.'AreasRoles',
+        ]);
 
-            $data = ['Id_Area'=>$request->IdArea,
-                     'Id_Roles'=>$request->IdRol]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+        $data = ['Id_Area'=>$request->IdArea,
+                 'Id_Roles'=>$request->IdRol]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
 
-            $res = $client->request('POST','',['form_params' => $data]);
-                   
-             if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-             return json_decode((string) $res->getBody(), true);
-            }
+        $res = $client->request('POST','',['form_params' => $data]);
+               
+         if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+         return json_decode((string) $res->getBody(), true);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //EDITAR AREAS ROLES
     public function edit($id)
     {
         $client = new Client([
@@ -82,13 +53,8 @@ class AreasRolesController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    //ACTUALIZAR AREAS ROLES
     public function update(Request $request, $id)
     {
         $id=(int)($id);
@@ -104,12 +70,7 @@ class AreasRolesController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //ELIMINAR AREAS ROLES
     public function destroy($id)
     {
         $id=(int)($id);

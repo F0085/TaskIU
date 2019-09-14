@@ -7,30 +7,11 @@ use GuzzleHttp\Client;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-     //public $servidor='http://172.172.174.180:8000/';
+
+
     public $servidor='http://localhost:8000/';
-   
-    public function vista()
-    {
-        $Usuarios=$this->index();  //LISTA DE USUARIOS
-        $Area=$this->ListaAreas();  //LISTA DE AREA
 
-        return view('registro')->with(['Usuarios'=>$Usuarios, 'Area'=>$Area]);
-    }
-
-    public function RegistroUser()
-    {
-        $Usuarios=$this->index();  //LISTA DE USUARIOS
-        $Area=$this->ListaAreas();  //LISTA DE AREA
-
-        return view('auth.register')->with(['Usuarios'=>$Usuarios, 'Area'=>$Area]);
-    }
-
+    //LISTA DE LAS AREAS
     public function ListaAreas(){
         $client = new Client([
           'base_uri' => $this->servidor,
@@ -38,7 +19,24 @@ class UsuarioController extends Controller
         $response = $client->request('GET', "Area");
         return json_decode((string) $response->getBody(), true);
     }
+   
+    //LLAMADA LA VISTA DE REGISTRO PARA EL ADMINISTRADOR
+    public function RegistroAdmin()
+    {
+        $Usuarios=$this->index();  //LISTA DE USUARIOS
+        $Area=$this->ListaAreas();  //LISTA DE AREA
 
+        return view('GestionUsuarios.registro')->with(['Usuarios'=>$Usuarios, 'Area'=>$Area]);
+    }
+
+
+    //LLAMADA LA VISTA DE REGISTRO PARA EL USUARIO NORMAL
+    public function RegistroUserNormal()
+    {
+        $Usuarios=$this->index();  //LISTA DE USUARIOS
+        $Area=$this->ListaAreas();  //LISTA DE AREA
+        return view('GestionUsuarios.register')->with(['Usuarios'=>$Usuarios, 'Area'=>$Area]);
+    }
 
 
     //LISTA DE USUARIOS
@@ -48,76 +46,41 @@ class UsuarioController extends Controller
           'base_uri' => $this->servidor,
         ]);
         $response = $client->request('GET', "Usuarios");
-
         return json_decode((string) $response->getBody(), true);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //GUARDAR USUARIO
     public function store(Request $request)
     {
-
+        //CLIENTE PARA CONSUMIR LA API
         $client = new Client([
              'base_uri' => $this->servidor.'Usuarios',
         ]);
 
-       // $emailToken= base64_encode($request->Email);
         $clave= base64_encode($request->Clave);
         $tipoUser=(int)($request->TipoUser);
-
         $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
-
-
         //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
         $res = $client->request('POST','',['form_params' => $data]);
 
-       
-               
          if ($res->getStatusCode()==201 || $res->getStatusCode()==201){
             $Usuario= json_decode((string) $res->getBody(), true);
-          
             $client2 = new Client([
-                 'base_uri' => $this->servidor.'StoreUserRoles',
+                 'base_uri' => $this->servidor.'UsuariosRoles',
             ]);
-            $data = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+            $data = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol,'Id_Area'=>$request->Id_Area]; 
             $res = $client2->request('POST','',['form_params' => $data]);
-            return $Usuario;
-                    
+            return $Usuario;         
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //EDITAR USUARIO
     public function edit($id)
     {
         $client = new Client([
@@ -127,40 +90,38 @@ class UsuarioController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //ACTUALIZAR USUARIO
     public function update(Request $request, $id)
     {
-        $id=(int)($id);
+        $id=(int)($id); 
+        //CLIENTE API USUARIOS       
         $client = new Client([
           'base_uri' => $this->servidor.'Usuarios/'.$id,
         ]);
-        
+        //ACTUALIZO USUARIO ROLES
+        $client2 = new Client([
+          'base_uri' => $this->servidor.'UsuariosRoles/'.$id,
+        ]);
+        //EN CASO DE ACTUALIAZR LA CONTRASEÑA
         if($request->ActClaveCHE == 1){
             $clave= base64_encode($request->Clave);
             $tipoUser=(int)($request->TipoUser);
-            $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email, 'Password'=>$clave]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+            $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email, 'Password'=>$clave]; 
+            $data2 = ['Id_Roles'=>$request->Rol, 'Id_Area'=>$request->Id_Area];
+
         }else if( $request->ActClaveCHE == 0 ){
             $tipoUser=(int)($request->TipoUser);
-            $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+            $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email];
+            $data2 = ['Id_Roles'=>$request->Id_Rol, 'Id_Area'=>$request->Id_Area];
         }
-        $res = $client->request('PUT','',['form_params' => $data]);        
+
+        $res = $client->request('PUT','',['form_params' => $data]);  
+        $res2 = $client2->request('PUT','',['form_params' => $data2]);      
         if ($res->getStatusCode()==200){
          return json_decode((string) $res->getBody(), true);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

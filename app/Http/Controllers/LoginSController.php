@@ -13,33 +13,9 @@ class LoginSController extends Controller
     public function index(){
         return view('auth.login');
     }
-    //  public function Login(Request $request){  
-         
-    //     $email= base64_encode($request->email);
 
-    //     $clave= base64_encode($request->clave);
-    //     // dd($email.'   '.$clave);
-   
-    //     //$email=$request->email;
-    //     $client = new Client([
-    //       'base_uri' => $this->servidor,
-    //     ]);
-    //     $response = $client->request('GET', "login/{$email}/{$clave}");
-    //     $UsuariosLogin= json_decode((string) $response->getBody(), true);
-    //     if($UsuariosLogin !=null){
-    //         session_start();
-    //         $_SESSION['id']=$UsuariosLogin[0]['id'];
-    //         $_SESSION['nombre']=$UsuariosLogin[0]['name'];
-    //         $_SESSION['email']=$UsuariosLogin[0]['email'];
-    //         return redirect('/');
-    //     }else{
-    //         return back()->withInput();
-    //     }
-    // }
-
+    //LOGUEAR O INICIAR SESIÓN
     public function Login(Request $request){  
-
-
         $client = new Client([
           'base_uri' => $this->servidor.'Login',
         ]);
@@ -51,10 +27,15 @@ class LoginSController extends Controller
         $UsuariosLogin= json_decode((string) $response->getBody(), true);
      
         if($UsuariosLogin !=null){
-
             session_start();
             $_SESSION['id']=$UsuariosLogin[0]['Id_Usuario'];
             $_SESSION['nombre']=$UsuariosLogin[0]['Nombre'];
+            $_SESSION['apellido']=$UsuariosLogin[0]['Apellido'];
+            $_SESSION['cedula']=$UsuariosLogin[0]['Cedula'];
+            $_SESSION['celular']=$UsuariosLogin[0]['Celular'];
+            $_SESSION['direccion']=$UsuariosLogin[0]['Direccion'];
+            $_SESSION['sexo']=$UsuariosLogin[0]['Sexo'];
+            $_SESSION['Id_tipo_Usuarios']=$UsuariosLogin[0]['Id_tipo_Usuarios'];
             $_SESSION['email']=$UsuariosLogin[0]['email'];
             return redirect('/');
         }else{
@@ -62,7 +43,7 @@ class LoginSController extends Controller
         }
     }
 
-
+    //CERRAR SESION
     public function logout(){
         session_start();    
         session_destroy();

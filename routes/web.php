@@ -49,9 +49,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::resource('Tareas',  'TareasController');
+Route::resource('Reunion',  'ReunionController');
 
  Route::get('/MisTareas/{estado}',  'TareasController@TareasPorEstado');
 Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
+route::get('TareasPorTipo/{estado}/{tipo}','TareasController@TareasPorTipo');
+
+route::get('MisTareasResponsables/{Id_Usuario}/{estado}', 'TareasController@MisTareasResponsables');
 
 
 

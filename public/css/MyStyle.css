@@ -425,3 +425,7 @@ span{
 
 }
 
+.modal-open {
+    overflow: scroll;
+}
+

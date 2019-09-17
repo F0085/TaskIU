@@ -267,6 +267,11 @@
                             <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Tareas</span>
                         </a>
                     </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a href="<?php echo e(url('/Reunion')); ?>" class="" href="javascript:void()" aria-expanded="false">
+                            <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Reunión</span>
+                        </a>
+                    </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gestión Administrativa</span>

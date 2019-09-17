@@ -13,158 +13,19 @@
     style: 'btn-default'
   });
 </script> -->
-@if(isset($_SESSION['Id_tipo_Usuarios']))
-    @if($_SESSION['Id_tipo_Usuarios']=='2')
 
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            TareasGenerales('Pendiente');
-        });
-    </script>
-    @else
-        <script type="text/javascript">
-        $( document ).ready(function() {
-            TareasPorUsuario('Pendiente','MisTareasResponsables',$_SESSION['id']);
-        });
-    </script>
 
-    @endif
-@endif
 <div id="cargar"></div>
-
-
-<div class="row">
-
-    <div class="col-lg-12">
-        <nav class="stroke">
-            <div class="row">
-                <div class="col-md-10">
-                    <ul>
-                      <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
-                        @if(isset($_SESSION['Id_tipo_Usuarios']))
-                            @if($_SESSION['Id_tipo_Usuarios']=='3')
-                                onClick="TareasGenerales('Pendiente','');"
-                            @else
-                                onClick="TareasPorUsuario('Pendiente','MisTareasResponsables',{{$_SESSION['id']}});"
-                            @endif
-                        @endif
-                        >Pendientes</a></li>
-                      <li ><a  id="Proceso" data-value='Proceso' href="javascript:void(0);" 
-                        @if(isset($_SESSION['Id_tipo_Usuarios']))
-                            @if($_SESSION['Id_tipo_Usuarios']=='2')
-                                onClick="TareasGenerales('Proceso');"
-                            @else
-                                onClick="TareasPorUsuario('Proceso','MisTareasResponsables',{{$_SESSION['id']}});"
-                            @endif
-                        @endif
-                        >Proceso</a></li>
-                      <li><a id="Terminada" href="javascript:void(0);"
-                        @if(isset($_SESSION['Id_tipo_Usuarios']))
-                            @if($_SESSION['Id_tipo_Usuarios']=='2')
-                                onClick="TareasGenerales('Terminada');"
-                            @else
-                                onClick="TareasPorUsuario('Terminada','MisTareasResponsables',{{$_SESSION['id']}});"
-                            @endif
-                        @endif 
-                        >Terminadas</a></li>
-                        <li><a id="Vencida" href="javascript:void(0);"
-                        @if(isset($_SESSION['Id_tipo_Usuarios']))
-                            @if($_SESSION['Id_tipo_Usuarios']=='2')
-                                onClick="TareasGenerales('Vencida');"
-                            @else
-                                onClick="TareasPorUsuario('Vencida','MisTareasResponsables',{{$_SESSION['id']}});"
-                            @endif
-                        @endif 
-                        >Venncidas</a></li>
-
-                    </ul>
-                </div>
-                <div class="col-md-2 centerDiv" >
-                   <button style="background-color: #312d79; color: white"   data-toggle="modal" data-target=".bd-example-modal-lg" type="button" class="btn" > <i class="fa fa-plus-square"></i>  Nueva tarea</button>
-                </div>
-            </div>
-        </nav>
-        <div id="ho"></div>         
-    </div>
-</div>
-<br>
-<div class="col-lg-12">
-    <div class="card">
-        <div class="card-body">
-            <ul>
-            <div id="EstaTar" hidden="true"></div>
-            <div class="row">
-                <div class="col-md-2">
-                       <h1 class="card-title" style="padding-top: 20px">LISTA DE TAREAS</h1>
-                </div>
-                <div class="col-md-8">
-            
-                </div>
-                <div class="col-md-2">
-                 <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value)" class="form-control input-default">
-                    <option value="T">Todas</option>
-                    @foreach($TipoTareas as $valores)
-                         <option value="{{$valores['Id_Tipo_Tarea']}}">{{$valores['Descripcion']}}</option>
-                    @endforeach
-                 </select>
-                </div>
-            </div>
-               <hr style=" background-color: red; height: 1px">
-
-                <div class="contenedor">
-                    <button data-toggle="modal" data-target=".bd-example-modal-lg" class="botonF1">
-                      <span>+</span>
-                    </button>
-                </div>
-            <div class="table-responsive" style="font-size: 12px">
-                <table class="table  header-border table-hover  " id="myTable">
-                    <thead>
-                        <tr style="color: black">
-               <!--              <th scope="col">#</th> -->
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Fecha Lìmite</th>
-                            <th scope="col">Creado Por</th>
-                            <th scope="col">Responsables</th>
-                            <th scope="col">Participantes</th>
-                            <th scope="col">Observadores</th>
-                            <th scope="col" rowspan="2">Progreso</th>
-                        </tr>
-                    </thead>
-                    <tbody id="TablaTareas">
-                    </tbody>
-                </table>
-
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                      <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div  class="modal fade bd-example-modal-lg" id="ModalCrearTareas" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h3 id="TituloTareaCrear" class="modal-title"><i class='fa fa-bookmark'></i> Nueva Tarea</h3>
+                <h3 class="modal-title"><i class="fa fa-plus-square"></i> Nueva Reunión</h3>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <input id="TaskID" hidden="true">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
@@ -275,7 +136,82 @@
         </div>
     </div>
 </div>
-@include('GestionTareas.ModalTareasEditar')
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <nav class="stroke">
+            <div class="row">
+                <div class="col-md-10">
+                    <ul>
+                      <li ><a class="activado" id="Pendiente" data-value='Proceso'  href="javascript:void(0);"  onClick="TareasGenerales('Pendiente');" >Pendientes</a></li>
+                      <li ><a  id="Proceso" data-value='Proceso' href="javascript:void(0);"  onClick="TareasGenerales('Proceso');" >Proceso</a></li>
+                      <li><a id="Terminada" href="javascript:void(0);" onClick="TareasGenerales('Terminada');">Terminadas</a></li>
+                      <li><a id="Vencida" href="javascript:void(0);" onClick="TareasGenerales('Vencida');">Vencidas</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 centerDiv" >
+                   <button style="background-color: #312d79; color: white"   data-toggle="modal" data-target=".bd-example-modal-lg" type="button" class="btn" > <i class="fa fa-plus-square"></i>  Nueva Reunión</button>
+                </div>
+            </div>
+        </nav>   
+    </div>
+</div>
+<br>
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <ul>
+            <div id="EstaTar" hidden="true"></div>
+            <div class="row">
+                <div class="col-md-12">
+                       <h1 class="card-title" style="padding-top: 20px">LISTA DE REUNIONES</h1>
+                </div>
+            </div>
+               <hr style=" background-color: red; height: 1px">
+
+                <div class="contenedor">
+                    <button data-toggle="modal" data-target=".bd-example-modal-lg" class="botonF1">
+                      <span>+</span>
+                    </button>
+                </div>
+            <div class="table-responsive">
+                <table class="table  header-border table-hover  " id="myTable">
+                    <thead>
+                        <tr style="color: black">
+               <!--              <th scope="col">#</th> -->
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Fecha Lìmite</th>
+                            <th scope="col">Creado Por</th>
+                            <th scope="col">Responsables</th>
+                            <th scope="col">Participantes</th>
+                            <th scope="col">Observadores</th>
+                            <th scope="col" rowspan="2">Progreso</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TablaTareas">
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <link href="{{asset('css/Mystyle.css')}}" rel="stylesheet">
     <script type="text/javascript" src="{{asset('js/nav.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/tareas.js')}}"></script>

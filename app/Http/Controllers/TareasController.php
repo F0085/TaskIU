@@ -13,15 +13,39 @@ class TareasController extends Controller
 	public function index(){
 	
 		$Usuarios=$this->Usuarios(); 
-		$Tareas=$this->TareasEstado('Pendiente');	
-	  return view('GestionTareas.MisTareas')->with(['Usuarios'=>$Usuarios, 'Tareas'=>$Tareas]);
+		$Tareas=$this->TareasEstado('Pendiente');
+		$TipoTareas=$this->TipoTareasPerTra();	
+	  return view('GestionTareas.MisTareas')->with(['Usuarios'=>$Usuarios, 'Tareas'=>$Tareas,'TipoTareas'=>$TipoTareas]);
 	} 
 
+	//TAREAS POR ESTADO PENDIENTE TERMINADAS VENCIDAS PROCESO
 	public function TareasPorEstado($estado){
 		$Usuarios=$this->Usuarios(); 
 		$Tareas=$this->TareasEstado($estado);
-		 return view('GestionTareas.MisTareas')->with(['Usuarios'=>$Usuarios, 'Tareas'=>$Tareas]);
+		$TipoTareas=$this->TipoTareasPerTra();
+		 return view('GestionTareas.MisTareas')->with(['Usuarios'=>$Usuarios, 'Tareas'=>$Tareas,'TipoTareas'=>$TipoTareas]);
 	}
+	
+	//TAREAS POR TIPO DE TAREA PERSONAL O TRABAJO
+	public function TareasPorTipo($estado, $tipo)
+    {
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "TareasPorTipo/{$estado}/{$tipo}");
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    //TAREAS POR TIPO DE TAREA PERSONAL O TRABAJO Y ESTADO DE LA TAREA
+	public function TipoTareasPerTra()
+    {
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "TipoTareasPerTra");
+        return json_decode((string) $response->getBody(), true);
+    }
+
 
 
     public function Usuarios()
@@ -53,7 +77,13 @@ class TareasController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
-
+    public function show($id){
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "Tareas/{$id}");
+        return json_decode((string) $response->getBody(), true);
+    }
 
 
     public function store(Request $request){
@@ -78,7 +108,12 @@ class TareasController extends Controller
 		          'base_uri' => $this->servidor.'Observadores',
 		]); 
 
-
+        //PARA SABER SI CREAR UNA TAREA O SUBTAREAS
+        if($request->tareasIdTareas != null){
+          $tipTar='S';
+        }else{
+          $tipTar='T';
+        }
 
         $data = ['Id_Usuario'=>$_SESSION['id'],
                  'Estado_Tarea'=>'Pendiente',
@@ -91,7 +126,9 @@ class TareasController extends Controller
                  'FechaCreacion'=>'2019-09-06',
                  'Descripcion'=>$request->descripcion,
                  'tareaFavorita'=>'1',
-                 'tareasIdTareas'=>'']; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+                 'tareasIdTareas'=>$request->tareasIdTareas,
+                 'tip_tar'=>$tipTar]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+
 
 
         $res = $client->request('POST','',['form_params' => $data]);
@@ -123,5 +160,27 @@ class TareasController extends Controller
             return json_decode((string) $res->getBody(), true);
         }
 
+    }
+
+
+        //LISTA TAREA POR ESTADOS
+    public function MisTareasResponsables($Id_Usuario,$estado)
+    {
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "MisTareasResponsables/{$Id_Usuario}");
+        $resultado= json_decode((string) $response->getBody(), true);
+        $arrae=array();
+        foreach ($resultado as $key => $value) {
+
+          if($value['tarea']['Estado_Tarea'] == $estado){
+          $arrae[$key]= array($value['tarea']);
+          }
+       
+        }
+
+           return $arrae;
+        // if($resultado['tarea'])
     }
 }

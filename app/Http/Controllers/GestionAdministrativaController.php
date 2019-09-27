@@ -19,24 +19,24 @@ class GestionAdministrativaController extends Controller
     }
 
 
-    //PARA EXTRAER LAS AREAS CON SUS RESPETIVOS ROLES
-    public function AreasRoles()
-    {
-        $client = new Client([
-          'base_uri' => $this->servidor,
-        ]);
-        $response = $client->request('GET', "ListAreaRoles");
-        return json_decode((string) $response->getBody(), true);
-    }
-        //PARA EXTRAER LAS AREAS CON SUS RESPETIVOS ROLES
-    public function AreasRoles2()
-    {
-        $client = new Client([
-          'base_uri' => $this->servidor,
-        ]);
-        $response = $client->request('GET', "ListAreaRoles2");
-        return json_decode((string) $response->getBody(), true);
-    }
+    // //PARA EXTRAER LAS AREAS CON SUS RESPETIVOS ROLES
+    // public function AreasRoles()
+    // {
+    //     $client = new Client([
+    //       'base_uri' => $this->servidor,
+    //     ]);
+    //     $response = $client->request('GET', "ListAreaRoles");
+    //     return json_decode((string) $response->getBody(), true);
+    // }
+    //     //PARA EXTRAER LAS AREAS con subaras y  CON SUS RESPETIVOS ROLES
+    // public function RolesSubAreas()
+    // {
+    //     $client = new Client([
+    //       'base_uri' => $this->servidor,
+    //     ]);
+    //     $response = $client->request('GET', "Roles");
+    //     return json_decode((string) $response->getBody(), true);
+    // }
 
 
     //PARA TRAER LOS ROLES
@@ -57,14 +57,33 @@ class GestionAdministrativaController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
+        //PARA TRAER LOS ROLES
+    public function SubArea(){
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "SubArea");
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    public function AreaSubArea(){
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "AreaSubArea");
+        return json_decode((string) $response->getBody(), true);
+    }
+
     //LLAMADA A LA VISTA PRINCIPAL DE LA GESTION ADMINISTRATIVA
     public function index()
     {
         $Areas=$this->ListaArea();
-        $Roles=$this->ListaRoles();
-        $AreasRoles=$this->AreasRoles2();
+        // $Roles=$this->ListaRoles();
+        $AreasRoles=$this->ListaRoles();
+        $SubArea=$this->SubArea();
+        $AreaSubArea=$this->AreaSubArea();
        // $DistintAreas=$this->DistintAreas();
-        return view('GestionAdministrativa.AdministracionGeneral')->with(['Areas'=>$Areas,'Roles'=>$Roles, 'AreasRoles'=>$AreasRoles]);
+        return view('GestionAdministrativa.AdministracionGeneral')->with(['Areas'=>$Areas, 'AreasRoles'=>$AreasRoles, 'SubArea'=>$SubArea,'AreaSubArea'=>$AreaSubArea]);
     }
 
 }

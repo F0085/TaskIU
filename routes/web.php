@@ -51,6 +51,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('Tareas',  'TareasController');
 Route::resource('Reunion',  'ReunionController');
 
+route::get('RolesPorSubArea/{subarea}', 'RolesController@RolesPorSubArea');
+
  Route::get('/MisTareas/{estado}',  'TareasController@TareasPorEstado');
 Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
 route::get('TareasPorTipo/{estado}/{tipo}','TareasController@TareasPorTipo');
@@ -78,5 +80,14 @@ Route::get('UserRoles/{area}/{rol}', 'OrganigramaController@UserRoles');
 
 Route::get('/DistintAreas', 'OrganigramaController@DistintAreas');
 
+//SUBAREAS
+route::resource('SubArea', 'SubAreaController');
+route::get('AreaSubArea', 'GestionAdministrativaController@AreaSubArea');
+route::get('SubAreaPorArea/{area}', 'RolesController@SubAreaPorArea');
+
+
+Route::get('/diagra', function () {
+    return view('pruebaDiagrama');
+});
 
 

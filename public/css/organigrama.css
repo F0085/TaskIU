@@ -1,181 +1,93 @@
-/*Downloaded from https://www.codeseek.co/rctorr/organigrama-con-puro-html5css3-ii-aNKZyY */
-body {
-  background-color: #333;
+.modal .panel{
+	margin-bottom: 0px;
+}
+/*
+	Estilos para el organigrama
+	Autor: David Mares
+	Version: DEV
+*/
+.organigrama{
+	overflow: auto;
+	background: #ecf0f1;
+	padding: 50px;
+	max-height: 700px;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none; 
+}
+.organigrama  table{
+	width: 100%;
+}
+.organigrama table td{
+	text-align: center;
+	vertical-align: top;
+}
+.organigrama .nodo{
+	position: relative;
+	width: 120px;
+	border-bottom: 5px solid #34495e;
+	background: #34495e;
+	color: #ecf0f1;
+	display: inline-block;
+	padding: 20px 10px;
+	margin: 0 10px;
+	cursor: pointer;
+}
+.organigrama table td .line-down{
+	width: 2px;
+	display: inline-block;
+}
+.organigrama .line{
+	border-width: 2px;
+}
+.organigrama .line.up{
+	border-top: 2px solid #34495e !important;
+}
+.organigrama .line.right{
+	border-right: 2px solid #34495e !important;
+}
+.organigrama .line.left{
+	border-left: 2px solid #34495e !important;
+}
+.organigrama .nodo.collapsed{
+	border-bottom-color: #d35400;
+}
+.organigrama .nodo .controls{
+	display: none;
+	position: absolute;
+	top: 0;
+	right: -56px;
+	background: #ecf0f1;
+	z-index: 2;
+	padding: 6px 10px 6px 6px;
+}
+.organigrama .nodo:hover .controls{
+	display: block;
 }
 
-.organigrama * {
-  margin: 0px;
-  padding: 0px;
+.organigrama .nodo .btn-collapse{
+	position: absolute;
+	display: inline-block;
+	color: #e74c3c;
+	top: 100%;
+	left: 50%;
+	margin-top: 5px;
+	margin-left: -9px;
+	font-size: 18px;
+	background: #ecf0f1;
+}
+.organigrama .nodo .badge{
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #2c3e50;
+	background: #ecf0f1;
+}
+.organigrama .nodo .nodo-nombre{
+	font-style: italic;
+	color: #bdc3c7;
 }
 
-.organigrama ul {
-  padding-top: 20px;
-  position: relative;
-}
-
-.organigrama li {
-    float: left;
-  text-align: center;
-    list-style-type: none;
-    padding: 20px 5px 0px 5px;
-  position: relative;
-}
-
-.organigrama li::before, .organigrama li::after {
-    content: '';
-    position: absolute;
-  top: 0px;
-  right: 50%;
-    border-top: 1px solid #fff;
-    width: 50%;
-  height: 20px;
-}
-
-.organigrama li::after{
-    right: auto;
-  left: 50%;
-    border-left: 2px solid #fff;
-}
-
-.organigrama li:only-child::before, .organigrama li:only-child::after {
-    display: none;
-}
-
-.organigrama li:only-child {
-  padding-top: 0;
-}
-
-.organigrama li:first-child::before, .organigrama li:last-child::after{
-    border: 0 none;
-}
-
-.organigrama li:last-child::before{
-    border-right: 2px solid #fff;
-    -webkit-border-radius: 0 5px 0 0;
-    -moz-border-radius: 0 5px 0 0;
-    border-radius: 0 5px 0 0;
-}
-
-.organigrama li:first-child::after{
-    -webkit-border-radius: 5px 0 0 0;
-    -moz-border-radius: 5px 0 0 0;
-    border-radius: 5px 0 0 0;
-}
-
-.organigrama ul ul::before {
-    content: '';
-    position: absolute;
-  top: 0;
-  left: 50%;
-    border-left: 2px solid #fff;
-    width: 0;
-  height: 20px;
-}
-
-.organigrama li a {
-    border: 3px solid #fff;
-    padding: 1em 0.75em;
-    text-decoration: none;
-    color: #333;
-  background-color: rgba(255,255,255,0.6);
-    font-family: arial, verdana, tahoma;
-    font-size: 0.85em;
-    display: table-cell;
-  vertical-align: middle;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-  -webkit-transition: all 500ms;
-  -moz-transition: all 500ms;
-  transition: all 500ms;
-}
-
-.organigrama li:only-child > a {
-  display: inline-block;
-}
-
-.organigrama li a:hover {
-    border: 1px solid #fff;
-    color: #ddd;
-  background-color: rgba(255,128,0,0.7);
-}
-
-.organigrama > ul > li > a {
-  font-size: 1.3em;
-  font-weight: bold;
-  padding: 2em;
-}
-
-.organigrama > ul > li > ul > li > a {
-  width: 8em;
-  height: 6em;
-}
-
-/*******************
-Responsive section
-*******************/
-@media screen and (max-width:768px) {
-  body {
- /*   width: 50%;*/
-  }
-  .organigrama * {
-    margin: 0;
-    padding: 0;
-  }
-  .organigrama {
-  }
-  .organigrama ul, .organigrama ul ul {
-    padding-top: 0px;
-    left: 50%;
-    width: 160px;
-  }
-  .organigrama ul ul::before {
-    display: none;
-  }
-  .organigrama ul li {
-    float: none;
-    text-align: left;
-    padding: 10px 0px;
-    margin: 0px;
-  }
-  .organigrama ul li::before {
-    right: auto;
-    border: none;
-  }
-  .organigrama ul li:last-child::before {
-    right: auto;
-    border-right: none;
-  }
-  .organigrama ul li::after{
-    left: auto;
-    border: none;
-  }
-  .organigrama ul li ul li a {
-    display: inline-block;
-    padding: 16px;
-    margin-left: 20px;
-    width: 280px;
-    height: 46px;
-  }
-  .organigrama > ul > li > a {
-    padding: 1.5em;
-    margin-left: 20px;
-    margin-bottom: 10px;
-  }
-  .organigrama ul li::before {
-    top: -51px;
-    left: 0px;
-    border-bottom: 1px solid #f80;
-    border-left: 1px solid #f80;
-    width: 20px;
-    height: 100px;
-  }
-  .organigrama ul li:first-child::before {
-    top: -10px;
-    left: 0px;
-    border-bottom: 1px solid #f80;
-    border-left: 1px solid #f80;
-    width: 20px;
-    height: 3.6em;
-  }
-}
+https://github.com/davidmares/organigrama.git

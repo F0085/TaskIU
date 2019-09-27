@@ -4,6 +4,7 @@
 ?>
 
 <?php $__env->startSection('contenido'); ?>
+<div id="cargar"></div>
     <div class="login-form-bg h-100">
         <div class="container h-100">
             <div class="row justify-content-center h-100">
@@ -76,7 +77,7 @@
                                             </select>
                                         </div>
                                     </div>    
-                                          <div class="col-md-3">
+                                    <div class="col-md-3">
                                         
                                         <div class="form-group">
                                            <label for="" style="color: black"><b>Email</b></label>
@@ -85,12 +86,11 @@
                                     </div>      
 
                                 </div>
-                                                                <div class="row">
+                                <div class="row">
                                     <div class="col-md-3">
-                                       
                                         <div class="form-group">
                                             <label for="" style="color: black"><b>Área</b></label>
-                                            <select   onchange="RolesArea(this.value,0)" class="form-control input-default" name="Area" id="Area">}
+                                            <select   onchange="AreaSubARegisUser(this.value,'')" class="form-control input-default" name="Area" id="Area">}
                                                 <option value="0">Seleccione el Área</option>
                                                     <?php if(isset($Area)): ?>
                                                         <?php $__currentLoopData = $Area; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $valor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -103,27 +103,39 @@
                                     <div class="col-md-3">
                                         
                                         <div class="form-group">
+                                           <label for="" style="color: black"><b>SubArea</b></label>
+                                            <select onchange="SubAreaRoles(this.value)"   disabled="true"  class="form-control input-default" name="SubArea" id="SubArea">}
+                                                <option value="0">Seleccione el Rol</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                     <div class="col-md-6">
+                                        
+                                        <div class="form-group">
                                            <label for="" style="color: black"><b>Rol</b></label>
                                             <select onchange="borderInput('Rol')"   disabled="true"  class="form-control input-default" name="Rol" id="Rol">}
                                                 <option value="0">Seleccione el Rol</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
+                                    </div> 
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         
                                         <div class="form-group">
                                            <label id="passwordLabel" for="" style="color: black"><b>Contraseña</b></label>
-                                            <input onkeyup="borderInput('password')" type="password" id="password" name="password" class="form-control input-default"  placeholder="Clave" required>
+                                            <input onkeyup="validadorCampos('password')" type="password" id="password" name="password" class="form-control input-default"  placeholder="Clave" required>
                                         </div>
                                     </div>    
-                                          <div class="col-md-3">
+                                          <div class="col-md-6">
                                         
                                         <div class="form-group">
                                            <label id="passwordConfirLabel" for="" style="color: black"><b>Confirmar Contraseña</b></label>
                                             <input onkeyup="borderInput('passwordConfir')" type="password" id="passwordConfir" name="passwordConfir" class="form-control input-default"  placeholder="Confirmar Clave" required>
                                         </div>
-                                    </div>      
-
+                                    </div> 
+                                    
                                 </div>
                                
                                 <div id="IngresarUser" >

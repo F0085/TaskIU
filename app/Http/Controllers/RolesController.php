@@ -18,6 +18,23 @@ class RolesController extends Controller
     public $servidor='http://localhost:8000/';
 
 
+    //SUBAREAS POR AREAS
+    public function SubAreaPorArea($idarea){
+       $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "SubAreaPorArea/{$idarea}");
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    //ROLES POR SUBAREAS
+    public function RolesPorSubArea($subarea){
+       $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "RolesPorSubArea/{$subarea}");
+        return json_decode((string) $response->getBody(), true);
+    }
 
     public function index()
     {
@@ -70,8 +87,8 @@ class RolesController extends Controller
               'base_uri' => $this->servidor.'Roles',
             ]);
 
-            $data = ['Descripcion'=>$request->descripcion,
-                     'nivel'=>$request->nivel]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+            $data = ['Descripcion'=>$request->Descripcion,
+                     'Id_Sub_Area'=>$request->Id_Sub_Area]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
 
             $res = $client->request('POST','',['form_params' => $data]);
                    
@@ -100,10 +117,12 @@ class RolesController extends Controller
     public function edit($id)
     {
         $client = new Client([
-          'base_uri' => 'http://localhost:8000/',
+          'base_uri' => $this->servidor,
         ]);
-        $response = $client->request('GET', "Roles/{$id}");
-        return json_decode((string) $response->getBody(), true);
+        $res = $client->request('GET', "Roles/{$id}");
+        if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+         return json_decode((string) $res->getBody(), true);
+        }
     }
 
     /**
@@ -117,11 +136,12 @@ class RolesController extends Controller
     {
         $id=(int)($id);
         $client = new Client([
-          'base_uri' => 'http://localhost:8000/Roles/'.$id,
+          'base_uri' => $this->servidor.'Roles/'.$id,
         ]);
-        $data = ['Descripcion'=>$request->Descripcion, 'nivel'=>$request->Nivel]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+        $data = ['Descripcion'=>$request->Descripcion,
+                 'Id_Sub_Area'=>$request->Id_Sub_Area];       
         $res = $client->request('PUT','',['form_params' => $data]);        
-         if ($res->getStatusCode()==200){
+        if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
          return json_decode((string) $res->getBody(), true);
         }
     }
@@ -135,7 +155,7 @@ class RolesController extends Controller
     public function destroy($id)
     {
         $client = new Client([
-          'base_uri' => 'http://localhost:8000/',
+          'base_uri' => $this->servidor,
         ]);
         $res = $client->request('DELETE', "Roles/".$id);
     }

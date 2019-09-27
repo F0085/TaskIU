@@ -48,29 +48,40 @@ class UsuarioController extends Controller
         $response = $client->request('GET', "Usuarios");
         return json_decode((string) $response->getBody(), true);
     }
-
+ 
     //GUARDAR USUARIO
     public function store(Request $request)
     {
-        //CLIENTE PARA CONSUMIR LA API
-        $client = new Client([
-             'base_uri' => $this->servidor.'Usuarios',
+        $client2 = new Client([
+             'base_uri' => $this->servidor,
         ]);
-
-        $clave= base64_encode($request->Clave);
-        $tipoUser=(int)($request->TipoUser);
-        $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
-        //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
-        $res = $client->request('POST','',['form_params' => $data]);
-
-         if ($res->getStatusCode()==201 || $res->getStatusCode()==201){
-            $Usuario= json_decode((string) $res->getBody(), true);
-            $client2 = new Client([
-                 'base_uri' => $this->servidor.'UsuariosRoles',
+        $response = $client2->request('GET', "buscarUsuario/{$request->Cedula}/{$request->Email}");
+        $user= json_decode((string) $response->getBody(), true);
+      
+        if(empty($user) != false){
+            //CLIENTE PARA CONSUMIR LA API
+            $client = new Client([
+                 'base_uri' => $this->servidor.'Usuarios',
             ]);
-            $data = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol,'Id_Area'=>$request->Id_Area]; 
-            $res = $client2->request('POST','',['form_params' => $data]);
-            return $Usuario;         
+
+            $clave= base64_encode($request->Clave);
+            $tipoUser=(int)($request->TipoUser);
+            $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
+
+            //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+            $res = $client->request('POST','',['form_params' => $data]);
+
+             if ($res->getStatusCode()==201 || $res->getStatusCode()==201){
+                $Usuario= json_decode((string) $res->getBody(), true);
+                $client2 = new Client([
+                     'base_uri' => $this->servidor.'UsuariosRoles',
+                ]);
+                $data = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol,'Id_Area'=>$request->Id_Area]; 
+                $res = $client2->request('POST','',['form_params' => $data]);
+                return $Usuario;         
+            }
+        }else{
+            return $user=1;
         }
     }
 
@@ -114,10 +125,11 @@ class UsuarioController extends Controller
             $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email];
             $data2 = ['Id_Roles'=>$request->Id_Rol, 'Id_Area'=>$request->Id_Area];
         }
+  
 
         $res = $client->request('PUT','',['form_params' => $data]);  
         $res2 = $client2->request('PUT','',['form_params' => $data2]);      
-        if ($res->getStatusCode()==200){
+        if ($res->getStatusCode()==200 || $res->getStatusCode()==201){
          return json_decode((string) $res->getBody(), true);
         }
     }

@@ -25,6 +25,8 @@ class AreasRolesController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
+
+
     //REGISTRAR AREAS ROLES
     public function store(Request $request)
     {

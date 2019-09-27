@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>CARDIOCENTRO MANTA</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logocc.png">
     <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
 
     
@@ -65,7 +65,7 @@
         ***********************************-->
         <div class="nav-header" style="text-align: center">
            
-                <a href="index.html">
+                <a href="{{asset('home')}}">
                     <b class="logo-abbr"><img src="{{asset('images/logocc.png')}}" width="100%" alt=""> </b>
                     <span class="logo-compact"><img src="{{asset('./images/logocc.png')}}" width="100%" alt=""></span>
                     <span class="brand-title">
@@ -279,7 +279,7 @@
                         <ul aria-expanded="false">
                             <li><a href="{{url('/Administracion')}}"><i class="ti-bag"></i>Administración General</a></li>
                             <li><a href="{{url('/registro')}}"><i class="ti-user"></i>Registro de Usuarios</a></li>
-                            <li><a href=""><i class="ti-lock"></i>Permisos de Usuarios</a></li>
+                          <!--   <li><a href=""><i class="ti-lock"></i>Permisos de Usuarios</a></li> -->
                         </ul>
                     </li>
                     <li class="mega-menu mega-menu-sm">

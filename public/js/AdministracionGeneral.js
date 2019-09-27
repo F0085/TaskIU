@@ -38,6 +38,7 @@ function RegistrarArea(){
 
 		        },
 		        error: function () {     
+		        	$('#cargar').fadeIn(1000).html(''); 
 		            alertify.error("Ocurrió un error, contactese con el Administrador.")
 		        }
 		    }); 
@@ -108,7 +109,7 @@ function ActualizarArea(){
         </div>
     </div>`);
 
-	 var FrmData = { 
+	    var FrmData = { 
 	    	Descripcion: $("#Area").val(),
 	    	idAreas: $("#IdAr").val(),
 	    }
@@ -133,7 +134,8 @@ function ActualizarArea(){
 	        	CancelarActualizacionArea();
 	        
 	        },
-	        error: function () {     
+	        error: function () {    
+	        	$('#cargar').fadeIn(1000).html('');  
 	            alertify.error("Ocurrió un error, contactese con el Administrador.")
 	        }
 	    }); 
@@ -168,18 +170,17 @@ function EliminarArea($id){
 	        	CancelarActualizacionArea();
 	        	
 	        },
-	        error: function () {     
+	        error: function () {  
+	        	$('#cargar').fadeIn(1000).html('');   
 	            alertify.error("Ocurrió un error, contactese con el Administrador.")
 	        }
 	    }); 
 
 }
 
-
-
-function RegistrarRol(){ 
-
-	if($('#Rol').val()!='' && $("#nivelRol").val() !='' ){
+//REGISTRO DE SUBAREAS 
+function RegistrarSubArea(){ 
+	if($('#AreaSubArea').val()!=0 && $('#SubAreaInp').val() != '' ){
 	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
 	        <div class="loader"> 
 	            <svg class="circular" viewBox="25 25 50 50">
@@ -190,10 +191,109 @@ function RegistrarRol(){
 	    </div>`);
 
 		    var FrmData = { 
-		    	descripcion: $("#Rol").val(),
-	
-		        nivel: $("#nivelRol").val(),
+		    	Descripcion: $("#SubAreaInp").val(),
+		    	Id_Area: $("#AreaSubArea").val()
 
+		    }
+		    $.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+		    });
+		    $.ajax({
+		        url: 'SubArea', // Url que se envia para la solicitud esta en el web php es la ruta
+		        method: "POST", 
+
+		        data: FrmData,
+		        dataType: 'json',
+		                       // Tipo de solicitud que se enviará, llamado como método
+		        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
+		        {
+		        	ListaSubArea();
+		        	// ListaAreaRoles('F');
+		        	$('#cargar').fadeIn(1000).html(data); 
+		        	alertify.success("Registro exitoso!")
+		        	 CancelarActualizacionSubArea();	        	
+
+		        },
+		        error: function () {  
+		            $('#cargar').fadeIn(1000).html('');    
+		            alertify.error("Ocurrió un error, contactese con el Administrador.")
+		        }
+		    }); 
+		}else{
+
+		    $('#mensajeSubArea').html('');
+			$('#mensajeSubArea').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								  <strong>Atención!</strong> Faltan campos por llenar.
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div`);
+			$('#mensajeSubArea').hide();
+	        $('#mensajeSubArea').prop('hidden',false);
+	        $('#mensajeSubArea').show(500);
+
+
+		}
+
+} 
+
+//LISTAR SUBAREAS
+function ListaSubArea(){
+    $.get('AreaSubArea', function (data) {
+        $("#table_SubArea").html("");
+        $.each(data, function(i, item) { //recorre el data 
+            	$("#table_SubArea").append(` <tr align="center">
+                    <td> ${item['Area']}</td>
+                    <td> ${item['SubArea']}</td>
+                    <td><button onclick="EditarSubArea(${item['Id_Sub_Area']})"  type="button" class=" btn btn-info btn-sm">  <span class="ti-pencil-alt"></span></button> <button onclick="EliminarSubArea(${item['Id_Sub_Area']})"  type="button" class="btn btn-danger btn-sm" >  <span class="icon-trash"></span></button></td>
+                 </tr>`);
+        });      
+    });
+}
+
+//MUESTRA LOS CAMPOS A EDITAR DE LAS SUBAREAS
+function EditarSubArea(id){
+    $.get('SubArea/'+id+'/edit', function (data) {	
+    	//CancelarActualizacionArea();
+    	$("#inputIdSubArea").html('');
+    	$("#inputIdSubArea").append(` <input hidden readonly type="text" id="IdSubAr" name="IdSubAr" value="${data['Id_Sub_Area']}" >`);
+        $("#AreaSubArea").val(data['Id_Area']);
+        $("#IngresarSubArea").html("");
+        $("#SubAreaInp").val(data['Descripcion']);
+        $("#IngresarSubArea").append(`<button onclick="ActualizarSubArea()" type="button" class="btn btn-warning btn-block">Actualizar </button> <button onclick="CancelarActualizacionSubArea()" type="button" class="btn btn-primary btn-block">Cancelar </button>`);
+    	// $('#cargar').fadeIn(1000).html(data); 
+    });
+}
+
+
+//CANCELA LA ACTUALIZACIÓN
+function CancelarActualizacionSubArea(){
+	$('#mensajeSubArea').html('');
+	$("#AreaSubArea").val("0");
+	$("#SubAreaInp").val("");
+	$("#IngresarSubArea").html('');
+	$("#inputIdSubArea").html("");
+	$("#IngresarSubArea").append(`<button onclick="RegistrarSubArea()" type="button" class="btn btn-primary btn-block">Ingresar </button> `);
+
+}
+
+//ACTUALIZACION DE SUBAREAS 
+function ActualizarSubArea(){ 
+	if($('#AreaSubArea').val()!=0 && $('#SubAreaInp').val() != '' ){
+	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+	        <div class="loader"> 
+	            <svg class="circular" viewBox="25 25 50 50">
+	                <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+	            </svg>Espere...
+
+	        </div>
+	    </div>`);
+
+		    var FrmData = { 
+		    	Descripcion: $("#SubAreaInp").val(),
+		    	Id_Area: $("#AreaSubArea").val()
 		    }
 
 
@@ -203,27 +303,151 @@ function RegistrarRol(){
 		        }
 		    });
 		    $.ajax({
-		        url: 'Roles', // Url que se envia para la solicitud esta en el web php es la ruta
-		        method: "POST", 
+		        url: 'SubArea/'+$("#IdSubAr").val(), // Url que se envia para la solicitud esta en el web php es la ruta
+		        method: "PUT", 
+
 		        data: FrmData,
 		        dataType: 'json',
 		                       // Tipo de solicitud que se enviará, llamado como método
 		        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 		        {
-		        	//ListaRoles();
+		        	ListaSubArea();
+		        	// ListaAreaRoles('F');
 		        	$('#cargar').fadeIn(1000).html(data); 
-		        	ListaRoles();
-		        	ListaAreaRoles('F');
-		        	alertify.success("Registro exitoso!");	
-		        	CancelarActualizacionRol();	        	
+		        	alertify.success("Registro Actualizado!")
+		        	 CancelarActualizacionSubArea();	        	
 
 		        },
-		        error: function () {     
+		        error: function () {   
+		        $('#cargar').fadeIn(1000).html('');   
 		            alertify.error("Ocurrió un error, contactese con el Administrador.")
 		        }
 		    }); 
 		}else{
-	    	$('#mensajeRol').html('');
+
+		    $('#mensajeSubArea').html('');
+			$('#mensajeSubArea').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								  <strong>Atención!</strong> Faltan campos por llenar.
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div`);
+			$('#mensajeSubArea').hide();
+	        $('#mensajeSubArea').prop('hidden',false);
+	        $('#mensajeSubArea').show(500);
+
+
+		}
+
+} 
+
+function EliminarSubArea($id){
+	$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+        <div class="loader"> 
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>Espere...
+
+        </div>
+    </div>`);
+
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'SubArea/'+$id, // Url que se envia para la solicitud esta en el web php es la ruta
+	        method: "DELETE", 
+	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
+	        {
+		        	ListaSubArea();
+		        	$('#cargar').fadeIn(1000).html(data); 
+		        	alertify.success("Registro Eliminado!")
+		        	CancelarActualizacionSubArea();	
+	        	
+	        },
+	        error: function () {  
+	        	$('#cargar').fadeIn(1000).html('');   
+	            alertify.error("Ocurrió un error, contactese con el Administrador.")
+	        }
+	    }); 
+
+}
+
+
+//MUESTRA EL CAMPO A EDITAR DEL ROL
+function EditarRol(id){
+    $.get('Roles/'+id+'/edit', function (data) {
+
+    	$.each(data, function(i, item) {
+    		AreaSubARol(item['Id_Area'],item['Id_Sub_Area']);
+	    	$("#inputIdRol").html('');
+	    	$("#inputIdRol").append(` <input hidden readonly type="text" id="IdRol" name="IdRol" value="${item['Id_Roles']}" >`);
+	        $("#IngresarRol").html('');
+	        $("#AreaROL").val(item['Id_Area']);
+	        $("#SubArea_A_ROL").val(item['Id_Sub_Area']);
+	        $("#ROL_A_ROL").val(item['Rol']);
+	        $("#IngresarRol").append(`<button onclick="ActualizarRol()" type="button" class="btn btn-warning btn-block">Actualizar </button> <button onclick="CancelarActualizacionRol()" type="button" class="btn btn-primary btn-block">Cancelar </button>`);
+		 });
+    });
+
+}
+
+//CANCELA LA ACTUALIZACIÓN
+function CancelarActualizacionRol(){
+	$('#inputIdRol').html('');
+	$("#IngresarRol").html("");
+	$("#AreaROL").val("0");
+	$("#SubArea_A_ROL").val('0');
+	$("#SubArea_A_ROL").prop('disabled',true);
+	$("#ROL_A_ROL").val("");
+	$("#IngresarRol").append(`<button onclick="RegistrarRol()" type="button" class="btn btn-primary btn-block">Ingresar </button> `);
+
+}
+
+function IngresarRol(){
+	if($('#SubArea_A_ROL').val()!=0 && $('#ROL_A_ROL').val() != '' ){
+	  $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+        <div class="loader"> 
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>Espere...
+
+        </div>
+    </div>`);
+	 var FrmData = { 
+	    	Descripcion: $("#ROL_A_ROL").val(),
+	    	Id_Sub_Area: $("#SubArea_A_ROL").val()
+	    }
+
+
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'Roles', // Url que se envia para la solicitud esta en el web php es la ruta
+	        method: "POST", 
+	        data: FrmData,
+	                       // Tipo de solicitud que se enviará, llamado como método
+	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
+	        {
+	        	ListarRol();
+	        	// ListaAreaRoles('F');
+	        	$('#cargar').fadeIn(1000).html(data); 
+	        	alertify.success("Registro exitoso!")
+	        	CancelarActualizacionRol();
+	        
+	        },
+	        error: function () {   
+	        $('#cargar').fadeIn(1000).html('');   
+	            alertify.error("Ocurrió un error, contactese con el Administrador.")
+	        }
+	    }); 
+	}else{
+			$('#mensajeRol').html('');
 			$('#mensajeRol').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
 								  <strong>Atención!</strong> Faltan campos por llenar.
 								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -234,56 +458,26 @@ function RegistrarRol(){
 	        $('#mensajeRol').prop('hidden',false);
 	        $('#mensajeRol').show(500);
 
-		}
+	}
 
-} 
+}
 
-
-function ListaRoles(){
-    $.get('Roles', function (data) {
-        $("#table_Rol").html("");
+function ListarRol(){
+	 $.get('Roles', function (data) {
+        $("#table_Roles").html("");
         $.each(data, function(i, item) { //recorre el data 
-            	$("#table_Rol").append(` <tr align="center">
-                    <td> ${item['Descripcion']}</td>
-                    <td> ${item['nivel']}</td>
+            	$("#table_Roles").append(` <tr align="center">
+                    <td> ${item['Area']}</td>
+                    <td> ${item['Sub_Area']}</td>
+                    <td> ${item['Rol']}</td>
                     <td><button onclick="EditarRol(${item['Id_Roles']})"  type="button" class=" btn btn-info btn-sm">  <span class="ti-pencil-alt"></span></button> <button onclick="EliminarRol(${item['Id_Roles']})"  type="button" class="btn btn-danger btn-sm" >  <span class="icon-trash"></span></button></td>
                  </tr>`);
         });      
     });
 }
 
-
-//MUESTRA EL CAMPO A EDITAR DEL ROL
-function EditarRol(id){
-    $.get('Roles/'+id+'/edit', function (data) {
-    	$("#inputIdRol").html('');
-    	$("#inputIdRol").append(` <input hidden readonly type="text" id="IdRol" name="IdRol" value="${data['Id_Roles']}" >`);
-        $("#Rol").val("");
-        $("#nivelRol").html("");
-        $("#IngresarRol").html('');
-	        $("#Rol").val(data['Descripcion']);
-	        $("#nivelRol").val(data['nivel']);
-	        $("#AreaRol").val(data['Id_Area']);
-	        $("#IngresarRol").append(`<button onclick="ActualizarRol()" type="button" class="btn btn-warning btn-block">Actualizar </button> <button onclick="CancelarActualizacionRol()" type="button" class="btn btn-primary btn-block">Cancelar </button>`);
-	    	// $('#cargar').fadeIn(1000).html(data); 
-	    
-    });
-
-}
-
-//CANCELA LA ACTUALIZACIÓN
-function CancelarActualizacionRol(){
-	$('#mensajeRol').html('');
-	$("#Rol").val("");
-	$("#nivelRol").val("");
-	$("#IngresarRol").html('');
-	$("#AreaRol").val("");
-	$("#IngresarRol").append(`<button onclick="RegistrarRol()" type="button" class="btn btn-primary btn-block">Ingresar </button> `);
-
-}
-
-
 function ActualizarRol(){
+	if($('#SubArea_A_ROL').val()!=0 && $('#ROL_A_ROL').val() != '' ){
 	  $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
         <div class="loader"> 
             <svg class="circular" viewBox="25 25 50 50">
@@ -292,10 +486,9 @@ function ActualizarRol(){
 
         </div>
     </div>`);
-
 	 var FrmData = { 
-	    	Descripcion: $("#Rol").val(),
-	    	Nivel: $("#nivelRol").val(),
+	    	Descripcion: $("#ROL_A_ROL").val(),
+	    	Id_Sub_Area: $("#SubArea_A_ROL").val()
 	    }
 
 
@@ -305,23 +498,36 @@ function ActualizarRol(){
 	        }
 	    });
 	    $.ajax({
-	        url: 'Roles/'+$("#IdRol").val(), // Url que se envia para la solicitud esta en el web php es la ruta
+	        url: 'Roles/'+$('#IdRol').val(), // Url que se envia para la solicitud esta en el web php es la ruta
 	        method: "PUT", 
 	        data: FrmData,
 	                       // Tipo de solicitud que se enviará, llamado como método
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
-	        	ListaRoles();
-	        	ListaAreaRoles('F');
+	        	ListarRol();
 	        	$('#cargar').fadeIn(1000).html(data); 
 	        	alertify.success("Registro Actualizado!")
 	        	CancelarActualizacionRol();
 	        
 	        },
-	        error: function () {     
+	        error: function () {   
+	        $('#cargar').fadeIn(1000).html('');   
 	            alertify.error("Ocurrió un error, contactese con el Administrador.")
 	        }
 	    }); 
+	}else{
+			$('#mensajeRol').html('');
+			$('#mensajeRol').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								  <strong>Atención!</strong> Faltan campos por llenar.
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div`);
+			$('#mensajeRol').hide();
+	        $('#mensajeRol').prop('hidden',false);
+	        $('#mensajeRol').show(500);
+
+	}
 
 }
 
@@ -347,14 +553,15 @@ function EliminarRol($id){
 	        method: "DELETE", 
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
-	        	ListaRoles();
-	        	ListaAreaRoles('F');
+	        	// ListaRoles();
+	        	ListarRol();
 	        	$('#cargar').fadeIn(1000).html(data); 
 	        	alertify.success("Registro Eliminado!")
 	        	CancelarActualizacionRol();
 	        	
 	        },
-	        error: function () {     
+	        error: function () { 
+	        $('#cargar').fadeIn(1000).html('');     
 	            alertify.error("Ocurrió un error, contactese con el Administrador.")
 	        }
 	    }); 
@@ -365,9 +572,11 @@ function EliminarRol($id){
 function validadorCampos(val){
 	var resul=0;
 	if($('#'+val).val() == '' || $('#'+val).val() == '0' ){
+		$('#'+val).removeClass('valid');
 		$('#'+val).addClass('invalid');
 		
 	}else{
+		$('#'+val).removeClass('invalid');
 		$('#'+val).addClass('valid');
 		resul=1;
 
@@ -382,8 +591,13 @@ function borderInput(val){
 	if($('#'+val).val() == '' || $('#'+val).val() == '0' ){	
 		if($('#'+val).hasClass('valid')){
 		 $('#'+val).removeClass('valid');
+		 $('#'+val).addClass('invalid');
+		}else if($('#'+val).hasClass('invalid')){
+		 $('#'+val).removeClass('invalid');
+		 $('#'+val).addClass('valid');
+
 		}
-		$('#'+val).addClass('invalid');
+		
 	}else{
 		if($('#'+val).hasClass('valid')){
 		 $('#'+val).removeClass('valid');
@@ -420,6 +634,7 @@ function limpiarCampos(){
 	$("#password").val('');
 	$("#passwordConfir").val('');
 	$("#Area").val('0');
+	$("#SubArea").append(`<option selected value="0">Seleccion Rol...</option>`);
 	$('#MensajeAlerta').val('');
 	eliminarclaseInput('nombre');
 	eliminarclaseInput('apellido');
@@ -433,6 +648,7 @@ function limpiarCampos(){
 	eliminarclaseInput('password');
 	eliminarclaseInput('passwordConfir');
 	eliminarclaseInput('Area');
+	eliminarclaseInput('SubArea');
 }
 
 
@@ -447,11 +663,12 @@ function RegistrarUsuario(val){
 	var VRol =validadorCampos('Rol');
 	var VtipoUser =validadorCampos('tipoUser');
 	var Varea =validadorCampos('Area');
+	var VSubarea =validadorCampos('SubArea');
 	var Vsexo =validadorCampos('Sexo');
 	var Vpassword = validadorCampos('password');
 	var Vpasswordconfirm = validadorCampos('passwordConfir');
 
-	if(Vnombre==1 && Vapellido==1 && Vcedula==1  && Vdireccion==1  && VCelular==1  && VSexo==1 && Vemail==1 && VRol==1 && Vpassword==1 && Varea==1 && Vpasswordconfirm==1 && VtipoUser==1 && VRol==1 && Varea==1 && Vsexo==1){
+	if(VSubarea ==1 && Vnombre==1 && Vapellido==1 && Vcedula==1  && Vdireccion==1  && VCelular==1  && VSexo==1 && Vemail==1 && VRol==1 && Vpassword==1 && Varea==1 && Vpasswordconfirm==1 && VtipoUser==1 && VRol==1 && Varea==1 && Vsexo==1){
 	  if($("#password").val()== $("#passwordConfir").val()){
 	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
 	        <div class="loader"> 
@@ -490,21 +707,50 @@ function RegistrarUsuario(val){
 		                       // Tipo de solicitud que se enviará, llamado como método
 		        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 		        {
-		        if(val=='A'){
-		        	 ListaUsuarios();
-		        	 limpiarCampos();
-		        	
-		        	$('#cargar').fadeIn(1000).html(data); 
-		        	alertify.success("Registro exitoso!")
-		        }else if (val=='Z'){
-		        	window.location = "/login";
+		        	console.log(data);
+		        if(data!=1){
+			        if(val=='A'){
+			        	 ListaUsuarios();
+			        	 limpiarCampos();
+			        	$('#cargar').fadeIn(1000).html(data); 
+			        	alertify.success("Registro exitoso!")
+			        }else if (val=='Z'){
 
+			        	$('#contenidoRegister').html('');
+			        	$('#MensajeAlerta').html('');
+    					$('#MensajeAlerta').append(`<div align="center" style="font-size:16px " class="alert alert-info alert-dismissible fade show" role="alert">
+						  <strong>Atención!</strong> USUARIO REGISTRADO CORRECTAMENTE POR FAVOR <a href="/login"><b><u> INICIAR SESIÓN.</u> </a>
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div`);
+					    $('#cargar').fadeIn(1000).html(''); 
+
+						
+			        	// window.location = "/login";
+
+			        }
+		        }else{
+		        	$('#cargar').fadeIn(1000).html(''); 
+		        	$('#MensajeAlerta').html('');
+					$('#MensajeAlerta').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+										  <strong>Atención!</strong> El Usuario ya se encuentra registrado.
+										  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										    <span aria-hidden="true">&times;</span>
+										  </button>
+										</div`);
+					if($('#cedula').hasClass('valid')){
+					 $('#cedula').removeClass('valid');
+					 $('#cedula').addClass('invalid');
+					}
+					if($('#email').hasClass('valid')){
+					 $('#email').removeClass('valid');
+					 $('#email').addClass('invalid');
+					}
 		        }
-		        	// CancelarActualizacionArea();
-		        	// 	document.getElementById('Area').setAttribute('title','Campo Obligatorio');
-		        	// 	$('#Area').tooltip( 'hide' ); 	
 		        },
-		        error: function () {     
+		        error: function () {   
+		        	$('#cargar').fadeIn(1000).html('');   
 		            alertify.error("Ocurrió un error, contactese con el Administrador.")
 		        }
 		    });
@@ -549,7 +795,7 @@ function ListaUsuarios(){
                     <td> ${item['Nombre']} ${item['Apellido']}</td>
                     <td> ${item['Cedula']}</td>
                     <td> ${item['Direccion']}</td>
-                    <td> ${item['Id_tipo_Usuarios']}</td>
+                    <td> ${item['TipoUsuario']}</td>
                     <td> ${item['email']}</td>
                     <td><button onclick="EditarUsuarios(${item['Id_Usuario']})"  type="button" class=" btn btn-info btn-sm">  <span class="ti-pencil-alt"></span></button> <button disabled onclick="EliminarRol(${item['Id_Usuario']})"  type="button" class="btn btn-danger btn-sm" >  <span class="icon-trash"></span></button></td>
                  </tr>`);
@@ -559,9 +805,11 @@ function ListaUsuarios(){
 
 //MUESTRA EL CAMPO A EDITAR DEL USUARIO
 function EditarUsuarios(id){
-	limpiarCampos();
+	 limpiarCampos();
     $.get('Usuarios/'+id+'/edit', function (data) {
-    	RolesArea(data['Id_Area'],data['Id_Roles']);
+    	// RolesArea(data['Id_Area'],data['Id_Roles']);
+    	AreaSubARegisUser(data['Id_Area'],data['Id_Sub_Area'])
+    	SubAreaRoles(data['Id_Sub_Area'],data['Id_Roles']);
     	$("#inputIUS").html('');
     	$("#inputIUS").append(` <input hidden readonly type="text" id="IdUS" name="IdUS" value="${data['Id_Usuario']}" >`);
         $("#password").prop("hidden",true);
@@ -576,8 +824,9 @@ function EditarUsuarios(id){
         $("#direccion").val(data['Direccion']);
         $("#tipoUser").val(data['Id_Tipo_Usuario']);
         $("#Area").val(data['Id_Area']);
+        // $("#SubArea").val(data['SubArea']);
         $("#Sexo").val(data['Sexo']);
-        //$("#Rol").val(data['Id_Roles']);
+        // $("#Rol").val(data['Id_Roles']);
         $("#email").val(data['email']);
         $("#IngresarUser").append(`<div class="form-check mb-3">
                                     <label class="form-check-label">
@@ -644,6 +893,7 @@ function ActualizarUsuario(){
 	        
 	        },
 	        error: function () {     
+	        	$('#cargar').fadeIn(1000).html(''); 
 	            alertify.error("Ocurrió un error, contactese con el Administrador.")
 	        }
 	    }); 
@@ -743,6 +993,7 @@ function RegistrarAreaRol(){
 
 		        },
 		        error: function () {     
+		        	$('#cargar').fadeIn(1000).html(''); 
 		            alertify.error("Ocurrió un error, contactese con el Administrador.")
 		        }
 		    }); 
@@ -831,7 +1082,8 @@ function ActualizarAreaRol(){
 	        	
 	        
 	        },
-	        error: function () {     
+	        error: function () {  
+	            $('#cargar').fadeIn(1000).html('');    
 	            alertify.error("Ocurrió un error, contactese con el Administrador.")
 	        }
 	    }); 
@@ -852,27 +1104,22 @@ function ListaAreaRoles(tipoT){
     	</div>`);
 	}
 
-    $.get('DistintAreas', function (data1) {
-    	$.get('AreasRoles', function (data) {
-    	
+    $.get('AreasRoles', function (data) {    	
         $("#table_Area_Rol").html("");
-	        $.each(data1, function(i, item) { //recorre el data 
+	        $.each(data, function(i, item) { //recorre el data 
 	            	$("#table_Area_Rol").append(` <tr align="center">
-	                    <td id="${item['Id_Area']+'areas'}">${item['Area']}</td>
-	                    <td id="${item['Id_Area']+'roles'}"> </td>
+	                    <td>${item['Area']}</td>
+	                    <td>${item['Sub_Area']}</td>
+	                    <td>${item['Rol']}</td>
+	                    <td align="center">
+                            <div class="col-md-12">
+                                 <div  style="padding-top: 3px">
+	                                <button  type="button" class=" btn btn-info btn-sm" onclick="EditarAreaRol('${item['Id_Roles']}')">  <span class="ti-pencil-alt"></span></button>  
+	                                <button  type="button" class=" btn btn-danger btn-sm" onclick="EliminarAreaRoles('${item['Id_Roles']}')">  <span class="icon-trash"></span></button>
+                                </div>
+                            </div>
+	                    </td>
 	                 </tr>`);
-
-	            	$.each(data, function(i, item2) { //recorre el data 
-	            		if(item['Area']==item2['Area'])            		//console.log(id);
-
-	            		$("#"+item['Id_Area']+'roles').append(`<div  class="row">
-	            		 <div style="padding-top: 10px"  class="col-md-7">
-							<center>    ${item2['Rol']}</center></div>
-                              <div class="col-md-5" style="padding-top: 3px">
-                              <button  type="button" class=" btn btn-info btn-sm" onclick="EditarAreaRol(' ${item2['Id_area_roles']}')">  <span class="ti-pencil-alt"></span></button>  <button  type="button" class=" btn btn-danger btn-sm" onclick="EliminarAreaRoles('${item2['Id_area_roles']}')">  <span class="icon-trash"></span></button></div>
-                               </div> `);
-	       			 });
-
 	        });    
 	        $('#cargar').fadeIn(1000).html(data); 
 	        CancelarActualizacionAreaRol();
@@ -882,10 +1129,7 @@ function ListaAreaRoles(tipoT){
 	        	alertify.success("Registro Exitoso!")
 	        }else if(tipoT=='E'){
 	        	alertify.success("Registro Eliminado!")
-	        }
-
-
-	  });      	
+	        }   	
     });
 }
 
@@ -916,11 +1160,67 @@ function EliminarAreaRoles($id){
 	        	// alertify.success("Registro Eliminado!")
 	        	
 	        },
-	        error: function () {     
+	        error: function () {   
+	            $('#cargar').fadeIn(1000).html('');   
 	            alertify.error("Ocurrió un error, contactese con el Administrador.")
 	        }
 	    }); 
 
 }
+
+
+
+// SE CARGA EL COMBO DE LAS SUBAREAS DE ACUERDO AL AREA
+function AreaSubARol(idAr,idsubArea) {
+		$("#SubArea_A_ROL").html('');
+		$("#SubArea_A_ROL").append(`<option selected">Cargando....</option>`);
+	     $.get('SubAreaPorArea/'+idAr, function (data) {
+	     	$("#SubArea_A_ROL").html('');
+	     	$("#SubArea_A_ROL").prop("disabled",false);
+	     	$("#SubArea_A_ROL").append(`<option value="0">Seleccione el Rol</option>`);
+	     	$.each(data, function(i, item) { //recorre el data  
+	     		if(idsubArea == item['Id_Sub_Area']){
+	    			$("#SubArea_A_ROL").append(`<option selected value="${item['Id_Sub_Area']}">${item['Descripcion']}</option>`);
+	    		}else{
+	    			$("#SubArea_A_ROL").append(`<option value="${item['Id_Sub_Area']}">${item['Descripcion']}</option>`);	    		}
+	        });  	    
+	    });
+}
+
+// SE CARGA EL COMBO DE LAS SUBAREAS DE ACUERDO AL AREA
+function AreaSubARegisUser(idAr,idsubArea) {
+		$("#SubArea").html('');
+		$("#SubArea").append(`<option selected">Cargando....</option>`);
+	     $.get('SubAreaPorArea/'+idAr, function (data) {
+	     	$("#SubArea").html('');
+	     	$("#SubArea").prop("disabled",false);
+	     	$("#SubArea").append(`<option value="0">Seleccione el Rol</option>`);
+	     	$.each(data, function(i, item) { //recorre el data  
+	     		if(idsubArea == item['Id_Sub_Area']){
+	    			$("#SubArea").append(`<option selected value="${item['Id_Sub_Area']}">${item['Descripcion']}</option>`);
+	    		}else{
+	    			$("#SubArea").append(`<option value="${item['Id_Sub_Area']}">${item['Descripcion']}</option>`);	    		}
+	        });  	    
+	    });
+}
+
+// SE CARGA EL COMBO DE LAS SUBAREAS DE ACUERDO AL AREA
+function SubAreaRoles(idsubArea,rol) {
+	$("#Rol").html('');
+	$("#Rol").append(`<option selected">Cargando....</option>`);
+    borderInput('SubArea');
+	 $.get('RolesPorSubArea/'+idsubArea, function (data) {
+	 	$("#Rol").html('');
+	 	$("#Rol").prop("disabled",false);
+	 	$("#Rol").append(`<option value="0">Seleccione el Rol</option>`);
+	 	$.each(data, function(i, item) { //recorre el data  
+	 		if(rol == item['Id_Roles']){
+				$("#Rol").append(`<option selected value="${item['Id_Roles']}">${item['Descripcion']}</option>`);
+			}else{
+				$("#Rol").append(`<option value="${item['Id_Roles']}">${item['Descripcion']}</option>`);	    		}
+	    });  	    
+	});
+}
+
 
 

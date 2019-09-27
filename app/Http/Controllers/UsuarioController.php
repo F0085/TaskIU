@@ -125,7 +125,7 @@ class UsuarioController extends Controller
             $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email];
             $data2 = ['Id_Roles'=>$request->Id_Rol, 'Id_Area'=>$request->Id_Area];
         }
-  
+
 
         $res = $client->request('PUT','',['form_params' => $data]);  
         $res2 = $client2->request('PUT','',['form_params' => $data2]);      
@@ -137,5 +137,10 @@ class UsuarioController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function Perfil(){
+        return view('PerfilUsuario.Perfil');
     }
 }

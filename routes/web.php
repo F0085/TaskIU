@@ -90,4 +90,7 @@ Route::get('/diagra', function () {
     return view('pruebaDiagrama');
 });
 
+//PERFIL DE USUARIO
+route::get('Perfil', 'UsuarioController@Perfil');
+
 

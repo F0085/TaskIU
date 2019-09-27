@@ -227,7 +227,7 @@
 
                                     <ul>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Perfil</span></a>
+                                            <a href="<?php echo e(url('Perfil')); ?>"><i class="icon-user"></i> <span>Perfil</span></a>
                                         </li>
                           <!--               <li>
                                             <a href="email-inbox.html"><i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill badge-primary">3</div></a>
@@ -432,11 +432,11 @@
         <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
+<!--         <div class="footer">
             <div class="copyright">
                 <p>Copyright &copy; Designed & Developed by <a href="www.espam.edu.ec">ESPAM MFL</a> 2019</p>
             </div>
-        </div>
+        </div> -->
         <!--**********************************
             Footer end
         ***********************************-->

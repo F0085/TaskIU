@@ -125,7 +125,7 @@
                                         
                                         <div class="form-group">
                                            <label id="passwordLabel" for="" style="color: black"><b>Contraseña</b></label>
-                                            <input onkeyup="validadorCampos('password')" type="password" id="password" name="password" class="form-control input-default"  placeholder="Clave" required>
+                                            <input onkeyup="borderInput('password')" type="password" id="password" name="password" class="form-control input-default"  placeholder="Clave" required>
                                         </div>
                                     </div>    
                                           <div class="col-md-6">

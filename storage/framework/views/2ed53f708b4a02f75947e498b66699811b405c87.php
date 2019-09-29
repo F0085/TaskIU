@@ -16,41 +16,93 @@
 		document.addEventListener('DOMContentLoaded', function () {
 			var options = new primitives.orgdiagram.Config();
 
-			var items1 = [
+			var items = [
 				new primitives.orgdiagram.ItemConfig({
 					id: 0,
 					parent: null,
-					title: "Scott Aasrud",
-					description: "VP, Public Sector",
-					image: "/images/UserORG.jpg"
-				}),
-				new primitives.orgdiagram.ItemConfig({
-					id: 1,
-					parent: 0,
-					title: "Ted Lucas",
-					description: "VP, Human Resources",
-					image: "/BasicPrimitives/photos/b.png"
-				}),
-				new primitives.orgdiagram.ItemConfig({
-					id: 2,
-					parent: 0,
-					title: "Fritz Stuger",
-					description: "Business Solutions, US",
-					image: "/BasicPrimitives/photos/c.png"
+					title: "CLÍNICA",
+					description: "CARDIOCENTRO MANTA",
+					// groupTitle: "Espam",
+					// image: "/images/photos/a.png",
+					itemTitleColor: primitives.common.Colors.Blue,
+					groupTitleColor: primitives.common.Colors.LightGray
 				})
-			];
+			]; //groupTitle: "SubAdviser",
+			$.get('AreasRoles', function (data) { 
+				// console.log(data);
+	       	 	$.each(data, function(i, item) {
+	       	 		items.push(new primitives.orgdiagram.ItemConfig({
+					id: item['Id_Area'],
+					parent: 0,
+					// title: `<i class="fa fa-user"></i>`,
+					description: item['Descripcion'],
+					groupTitle: "Area",
+					itemTitleColor: primitives.common.Colors.Blue,
+					groupTitleColor: primitives.common.Colors.LightGray
 
-			 var newItem = {
-      id: 9,
-      parent: 2,
-      title: "New Title",
-      description: "New Description",
-      image: "/photos/z.png"
-    };
+					}));
+					$.each(item['sub_area'], function(i1, item1) {
+		       	 		items.push(new primitives.orgdiagram.ItemConfig({
+						id: item1['Id_Sub_Area'],
+						parent: item['Id_Area'],
+						// title: `<i class="fa fa-user"></i>`,
+						description: item1['Descripcion'],
+						groupTitle: "SubArea",
+						itemTitleColor: primitives.common.Colors.Blue,
+						groupTitleColor: primitives.common.Colors.LightGray
+
+						}));
+						$.each(item1['roles'], function(i2, item2) {
+			       	 		items.push(new primitives.orgdiagram.ItemConfig({
+							id: item2['Id_Roles'],
+							parent: item1['Id_Sub_Area'],
+							// title: `<i class="fa fa-user"></i>`,
+							description: item2['Descripcion'],
+							groupTitle: "Rol",
+							itemTitleColor: primitives.common.Colors.Blue,
+							groupTitleColor: primitives.common.Colors.LightGray
+
+							}));
+	       	 			});
+	       	 		});
+	       	 	});
+       		 });
+			// var id = 1;
+		// 	for (var index = 0; index < 2; index++) {
+		// 		items.push(new primitives.orgdiagram.ItemConfig({
+		// 			id: ++id,
+		// 			parent: 0,
+		// 			title: id.toString() + " Title",
+		// 			description: id.toString() + " Description",
+		// 			groupTitle: "Subdirección",
+		// 			itemTitleColor: primitives.common.Colors.Blue,
+		// 			groupTitleColor: primitives.common.Colors.LightGray
+		// 		})); //groupTitle: "SubAdviser",
+		// 		// continue;
+		// 		var idpadre=id;
+
+		// 		for (var index2 = 0; index2 < 2; index2++) {
+		// 		items.push(new primitives.orgdiagram.ItemConfig({
+		// 			id: ++id,
+		// 			parent: idpadre,
+		// 			title: id.toString() + " Title",
+		// 			description: id.toString() + " Description",
+		// 			groupTitle: "Areas",
+		// 			itemTitleColor: primitives.common.Colors.Blue,
+		// 			groupTitleColor: primitives.common.Colors.LightGray
+		// 		})); //groupTitle: "SubAdviser",
+
+		// 		var id2=id;
+				
+
+		// 	}
+		// }
+
+
 
 
        
-      items: [items1, newItem];
+    
    
  
 
@@ -64,7 +116,12 @@
 	</script>
 </head>
 <body>
-	<div id="basicdiagram" style="width: 640px; height: 480px; border-style: dotted; border-width: 1px;"></div>
+	<div class="row">
+		<div class="col-md-12">
+				<div id="basicdiagram" style="width: 1150px; height: 500px; "></div>
+
+		</div>
+	</div>
 </body>
 </html>
 <?php $__env->stopSection(); ?>

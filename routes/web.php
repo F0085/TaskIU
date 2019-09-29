@@ -92,5 +92,9 @@ Route::get('/diagra', function () {
 
 //PERFIL DE USUARIO
 route::get('Perfil', 'UsuarioController@Perfil');
+route::PUT('ActPerfil/{id}', 'UsuarioController@ActPerfil');
+route::put('CambiarClave', 'UsuarioController@CambiarClave');
+
+
 
 

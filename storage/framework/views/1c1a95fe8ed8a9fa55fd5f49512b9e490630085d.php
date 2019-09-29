@@ -1,59 +1,130 @@
-<?php
-  session_start(); 
-    
-?>
-
 <?php $__env->startSection('contenido'); ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>First organization diagram</title>
+
+	
+	<script type="text/javascript" src="/BasicPrimitives/min/primitives.min.js?5100"></script>
+	<link href="/BasicPrimitives/min/primitives.latest.css?5100" media="screen" rel="stylesheet" type="text/css" />
+
+	<script type='text/javascript'>
+		var control;
+		var timer = null;
+
+		document.addEventListener('DOMContentLoaded', function () {
+			var options = new primitives.orgdiagram.Config();
+
+			var items = [
+				new primitives.orgdiagram.ItemConfig({
+					id: 0,
+					parent: null,
+					title: "CLÍNICA",
+					description: "CARDIOCENTRO MANTA",
+					// groupTitle: "Espam",
+					// image: "/images/photos/a.png",
+					itemTitleColor: primitives.common.Colors.Blue,
+					groupTitleColor: primitives.common.Colors.LightGray
+				})
+			]; //groupTitle: "SubAdviser",
+			$.get('AreasRoles', function (data) { 
+				// console.log(data);
+	       	 	$.each(data, function(i, item) {
+	       	 		items.push(new primitives.orgdiagram.ItemConfig({
+					id: item['Id_Area'],
+					parent: 0,
+					// title: `<i class="fa fa-user"></i>`,
+					description: item['Descripcion'],
+					groupTitle: "Area",
+					itemTitleColor: primitives.common.Colors.Blue,
+					groupTitleColor: primitives.common.Colors.LightGray
+
+					}));
+					$.each(item['sub_area'], function(i1, item1) {
+		       	 		items.push(new primitives.orgdiagram.ItemConfig({
+						id: item1['Id_Sub_Area'],
+						parent: item['Id_Area'],
+						// title: `<i class="fa fa-user"></i>`,
+						description: item1['Descripcion'],
+						groupTitle: "SubArea",
+						itemTitleColor: primitives.common.Colors.Blue,
+						groupTitleColor: primitives.common.Colors.LightGray
+
+						}));
+						$.each(item1['roles'], function(i2, item2) {
+			       	 		items.push(new primitives.orgdiagram.ItemConfig({
+							id: item2['Id_Roles'],
+							parent: item1['Id_Sub_Area'],
+							// title: `<i class="fa fa-user"></i>`,
+							description: item2['Descripcion'],
+							groupTitle: "Rol",
+							itemTitleColor: primitives.common.Colors.Blue,
+							groupTitleColor: primitives.common.Colors.LightGray
+
+							}));
+	       	 			});
+	       	 		});
+	       	 	});
+       		 });
+			// var id = 1;
+		// 	for (var index = 0; index < 2; index++) {
+		// 		items.push(new primitives.orgdiagram.ItemConfig({
+		// 			id: ++id,
+		// 			parent: 0,
+		// 			title: id.toString() + " Title",
+		// 			description: id.toString() + " Description",
+		// 			groupTitle: "Subdirección",
+		// 			itemTitleColor: primitives.common.Colors.Blue,
+		// 			groupTitleColor: primitives.common.Colors.LightGray
+		// 		})); //groupTitle: "SubAdviser",
+		// 		// continue;
+		// 		var idpadre=id;
+
+		// 		for (var index2 = 0; index2 < 2; index2++) {
+		// 		items.push(new primitives.orgdiagram.ItemConfig({
+		// 			id: ++id,
+		// 			parent: idpadre,
+		// 			title: id.toString() + " Title",
+		// 			description: id.toString() + " Description",
+		// 			groupTitle: "Areas",
+		// 			itemTitleColor: primitives.common.Colors.Blue,
+		// 			groupTitleColor: primitives.common.Colors.LightGray
+		// 		})); //groupTitle: "SubAdviser",
+
+		// 		var id2=id;
+				
+
+		// 	}
+		// }
 
 
-         <script src="<?php echo e(asset('js/orgchart.js')); ?>"></script>
 
 
-     <style type="text/css">
-       html, body{
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin:0;
-  overflow: hidden;
-  font-family: Helvetica;
-}
-#tree{
-  width:100%;
-  height:100%;
-}
-     </style>
+       
     
-  </head>
-  <body>
-
-    <div style="width:100%; height:700px;" id="orgchart"/></div>
-
-  <?php echo $__env->make('Organigrama.modalInforOrg', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-    <script src="<?php echo e(asset('js/Organigrama.js')); ?>"></script>
-    <script type="text/javascript">
-
-        organigrama();
-
-    </script>
    
-  </body>
-
-
-
-</html>
-
-
-
-<?php $__env->stopSection(); ?>
-
-
-
  
+
+			options.items = items;
+			options.cursorItem = 0;
+			options.hasSelectorCheckbox = primitives.common.Enabled.True;
+
+			control = primitives.orgdiagram.Control(document.getElementById("basicdiagram"), options);
+		});
+
+	</script>
+</head>
+<body>
+	<div class="row">
+		<div class="col-md-12">
+				<div id="basicdiagram" style="width: 1150px; height: 500px; "></div>
+
+		</div>
+	</div>
+</body>
+</html>
+<?php $__env->stopSection(); ?>
 
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\TaskManta\resources\views/Organigrama/Organigrama.blade.php ENDPATH**/ ?>

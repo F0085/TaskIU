@@ -21,11 +21,11 @@ class LoginSController extends Controller
         ]);
         $password= base64_encode($request->password);
         $data = ['email'=>$request->email,'password'=>$password]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
-
+        
         $response = $client->request('POST','',['form_params' => $data]);
                
         $UsuariosLogin= json_decode((string) $response->getBody(), true);
-     
+
         if($UsuariosLogin !=null){
             session_start();
             $_SESSION['id']=$UsuariosLogin[0]['Id_Usuario'];
@@ -37,6 +37,7 @@ class LoginSController extends Controller
             $_SESSION['sexo']=$UsuariosLogin[0]['Sexo'];
             $_SESSION['Id_tipo_Usuarios']=$UsuariosLogin[0]['Id_tipo_Usuarios'];
             $_SESSION['email']=$UsuariosLogin[0]['email'];
+            $_SESSION['Password']=$UsuariosLogin[0]['Password'];
             return redirect('/');
         }else{
             return back()->withInput();

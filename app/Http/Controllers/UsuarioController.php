@@ -73,6 +73,7 @@ class UsuarioController extends Controller
 
              if ($res->getStatusCode()==201 || $res->getStatusCode()==201){
                 $Usuario= json_decode((string) $res->getBody(), true);
+             
                 $client2 = new Client([
                      'base_uri' => $this->servidor.'UsuariosRoles',
                 ]);
@@ -134,13 +135,99 @@ class UsuarioController extends Controller
         }
     }
 
+    //ACTUALIZAR PERFIL
+
+    public function ActPerfil(Request $request, $id)
+    {
+        $id=(int)($id); 
+        //CLIENTE API USUARIOS       
+        $client = new Client([
+          'base_uri' => $this->servidor.'Usuarios/'.$id,
+        ]);
+        $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Direccion'=>$request->Direccion, 'Celular'=>$request->Celular];     
+        $res = $client->request('PUT','',['form_params' => $data]);      
+        if ($res->getStatusCode()==200 || $res->getStatusCode()==201){
+         $this->reiniciarSesion();
+         return json_decode((string) $res->getBody(), true);
+        }
+    }
+
     public function destroy($id)
     {
         //
     }
 
 
-    public function Perfil(){
+    public function Perfil(){   
+
         return view('PerfilUsuario.Perfil');
+    }
+
+
+    //ACTUALIZAR PERFIL
+    public function CambiarClave(Request $request)
+    {
+        session_start();
+        $PasswordAct=base64_encode($request->PasswordAtc);
+        $PasswordCambio=base64_encode($request->Password);
+        if($_SESSION['Password']==$PasswordAct){
+            if($request->Password == $request->PasswordConfir){
+                //CLIENTE API USUARIOS       
+                $client = new Client([
+                  'base_uri' => $this->servidor.'Usuarios/'.$_SESSION['id'],
+                ]);
+                $data = ['Password'=>$PasswordCambio];     
+                $res = $client->request('PUT','',['form_params' => $data]);      
+                if ($res->getStatusCode()==200 || $res->getStatusCode()==201){
+
+                           // $this->reiniciarSesion();
+                 return json_decode((string) $res->getBody(), true);
+          
+                }
+            }else{
+                return $resul=1; //CONTRASEÑAS NO COINCIDEN
+            }
+
+        }else{
+            return $resul=0; // CONTRASEÑA ACTUAL NO ES LA CORRECTA
+
+        }
+        // $id=(int)($id); 
+       
+
+
+    }
+
+
+
+
+    public function reiniciarSesion(){
+        session_start();
+       $client = new Client([
+          'base_uri' => $this->servidor.'Login',
+        ]);
+
+        $data = ['email'=>$_SESSION['email'],'password'=>$_SESSION['Password']]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+      
+        $response = $client->request('POST','',['form_params' => $data]);
+               
+        $UsuariosLogin= json_decode((string) $response->getBody(), true);
+   
+         
+        if($UsuariosLogin !=null){
+            session_destroy();
+            session_start();
+            $_SESSION['id']=$UsuariosLogin[0]['Id_Usuario'];
+            $_SESSION['nombre']=$UsuariosLogin[0]['Nombre'];
+            $_SESSION['apellido']=$UsuariosLogin[0]['Apellido'];
+            $_SESSION['cedula']=$UsuariosLogin[0]['Cedula'];
+            $_SESSION['celular']=$UsuariosLogin[0]['Celular'];
+            $_SESSION['direccion']=$UsuariosLogin[0]['Direccion'];
+            $_SESSION['sexo']=$UsuariosLogin[0]['Sexo'];
+            $_SESSION['Id_tipo_Usuarios']=$UsuariosLogin[0]['Id_tipo_Usuarios'];
+            $_SESSION['email']=$UsuariosLogin[0]['email'];
+            $_SESSION['Password']=$UsuariosLogin[0]['Password'];
+           
+        }
     }
 }

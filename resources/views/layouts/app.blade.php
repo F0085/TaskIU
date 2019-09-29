@@ -10,7 +10,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/logocc.png">
     <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-
+    <script type="text/javascript" src="{{asset('js/Perfil.js')}}"></script>
     
 
     <!-- Custom Stylesheet -->
@@ -117,7 +117,7 @@
                                     <ul>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="{{asset('images/avatar/1.jpg')}}" alt="">
+                                                <img class="float-left mr-3 avatar-img" src="{{asset('images/form-user.png')}}" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Saiful Islam</div>
                                                     <div class="notification-timestamp">08 Hours ago</div>
@@ -220,7 +220,7 @@
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                              
-                                <img src="{{asset('images/user/1.png')}}" height="40" width="40" alt="">
+                                <img src="{{asset('images/form-user.png')}}" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile   dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -238,7 +238,8 @@
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li> -->
                                         @if(isset($_SESSION['id']))
-                                        <li><a href="{{ url('logout') }}" ><i class="icon-key"></i> <span>Cerrar Sesión</span></a>
+                                        <li><a href="javascript:void(0)" onclick="Cambiarclave()" ><i class="icon-key"></i> <span>Cambiar Clave</span></a>
+                                        <li><a href="{{ url('logout') }}" ><i class="icon-logout"></i> <span>Cerrar Sesión</span></a>
                                         @else
                                         <li><a href="{{ url('login') }}" ><i class="icon-key"></i> <span>Iniciar Sesión</span></a>
                                         @endif
@@ -417,7 +418,7 @@
     <!-- Default theme -->
 
 
-
+        @include('ModalCambiarClave')
 
         <div class="content-body" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
         <br>

@@ -24,9 +24,9 @@
     <?php else: ?>
         <script type="text/javascript">
         $( document ).ready(function() {
-            TareasPorUsuario('Pendiente','MisTareasResponsables',$_SESSION['id']);
+            TareasPorUsuario('Pendiente','MisTareasResponsables',<?php echo e($_SESSION['id']); ?>);
         });
-    </script>
+       </script>
 
     <?php endif; ?>
 <?php endif; ?>

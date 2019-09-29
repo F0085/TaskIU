@@ -10,7 +10,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/logocc.png">
     <script type="text/javascript" src="<?php echo e(asset('js/jquery.js')); ?>"></script>
-
+    <script type="text/javascript" src="<?php echo e(asset('js/Perfil.js')); ?>"></script>
     
 
     <!-- Custom Stylesheet -->
@@ -117,7 +117,7 @@
                                     <ul>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="<?php echo e(asset('images/avatar/1.jpg')); ?>" alt="">
+                                                <img class="float-left mr-3 avatar-img" src="<?php echo e(asset('images/form-user.png')); ?>" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Saiful Islam</div>
                                                     <div class="notification-timestamp">08 Hours ago</div>
@@ -220,7 +220,7 @@
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                              
-                                <img src="<?php echo e(asset('images/user/1.png')); ?>" height="40" width="40" alt="">
+                                <img src="<?php echo e(asset('images/form-user.png')); ?>" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile   dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -238,7 +238,8 @@
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li> -->
                                         <?php if(isset($_SESSION['id'])): ?>
-                                        <li><a href="<?php echo e(url('logout')); ?>" ><i class="icon-key"></i> <span>Cerrar Sesión</span></a>
+                                        <li><a href="javascript:void(0)" onclick="Cambiarclave()" ><i class="icon-key"></i> <span>Cambiar Clave</span></a>
+                                        <li><a href="<?php echo e(url('logout')); ?>" ><i class="icon-logout"></i> <span>Cerrar Sesión</span></a>
                                         <?php else: ?>
                                         <li><a href="<?php echo e(url('login')); ?>" ><i class="icon-key"></i> <span>Iniciar Sesión</span></a>
                                         <?php endif; ?>
@@ -417,7 +418,7 @@
     <!-- Default theme -->
 
 
-
+        <?php echo $__env->make('ModalCambiarClave', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         <div class="content-body" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
         <br>

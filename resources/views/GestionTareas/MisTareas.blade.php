@@ -24,9 +24,9 @@
     @else
         <script type="text/javascript">
         $( document ).ready(function() {
-            TareasPorUsuario('Pendiente','MisTareasResponsables',$_SESSION['id']);
+            TareasPorUsuario('Pendiente','MisTareasResponsables',{{$_SESSION['id']}});
         });
-    </script>
+       </script>
 
     @endif
 @endif

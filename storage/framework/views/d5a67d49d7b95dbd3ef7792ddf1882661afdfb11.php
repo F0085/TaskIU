@@ -1,8 +1,3 @@
-<?php
-  session_start(); 
-    
-?>
-
 <?php $__env->startSection('contenido'); ?>
 
 <!-- PARA EL DATEPICKER -->
@@ -24,7 +19,7 @@
     <?php else: ?>
         <script type="text/javascript">
         $( document ).ready(function() {
-            TareasPorUsuario('Pendiente','MisTareasResponsables',<?php echo e($_SESSION['id']); ?>);
+             TareasTipo('T','Pendiente');
         });
        </script>
 
@@ -42,10 +37,10 @@
                     <ul>
                       <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
-                            <?php if($_SESSION['Id_tipo_Usuarios']=='3'): ?>
+                            <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
                                 onClick="TareasGenerales('Pendiente','');"
                             <?php else: ?>
-                                onClick="TareasPorUsuario('Pendiente','MisTareasResponsables',<?php echo e($_SESSION['id']); ?>);"
+                                onClick="TareasTipo('T','Pendiente');"
                             <?php endif; ?>
                         <?php endif; ?>
                         >Pendientes</a></li>
@@ -54,7 +49,7 @@
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
                                 onClick="TareasGenerales('Proceso');"
                             <?php else: ?>
-                                onClick="TareasPorUsuario('Proceso','MisTareasResponsables',<?php echo e($_SESSION['id']); ?>);"
+                                onClick="TareasTipo('T','Proceso');"
                             <?php endif; ?>
                         <?php endif; ?>
                         >Proceso</a></li>
@@ -63,19 +58,25 @@
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
                                 onClick="TareasGenerales('Terminada');"
                             <?php else: ?>
-                                onClick="TareasPorUsuario('Terminada','MisTareasResponsables',<?php echo e($_SESSION['id']); ?>);"
+                                onClick="TareasTipo('T','Terminada');"
                             <?php endif; ?>
                         <?php endif; ?> 
                         >Terminadas</a></li>
                         <li><a id="Vencida" href="javascript:void(0);"
-                        <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
+                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
                                 onClick="TareasGenerales('Vencida');"
                             <?php else: ?>
-                                onClick="TareasPorUsuario('Vencida','MisTareasResponsables',<?php echo e($_SESSION['id']); ?>);"
+                               onClick="TareasTipo('T','Vencida');"]}});"
                             <?php endif; ?>
                         <?php endif; ?> 
                         >Venncidas</a></li>
+                        <!--  <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value,'filtro')" class=" input-default">
+                            <option value="T">Creadas por mi</option>
+                            <option value="T">Responsable</option>
+                            <option value="T">Participante</option>
+                            <option value="T">Observador</option>
+                         </select> -->
 
                     </ul>
                 </div>
@@ -94,14 +95,22 @@
             <ul>
             <div id="EstaTar" hidden="true"></div>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                        <h1 class="card-title" style="padding-top: 20px">LISTA DE TAREAS</h1>
                 </div>
-                <div class="col-md-8">
-            
+                <div class="col-md-6">
+                     <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
+
+                 <select id="SelecTipoUserTareas" onchange="TareasPorUsuario('',this.value,'<?php echo e($_SESSION['id']); ?>')" class="form-control input-default">
+                    <option value="CPM">Creadas por mi</option>
+                    <option value="MisTareasResponsables">Responsable</option>
+                    <option value="MisTareasParticipantes">Participante</option>
+                    <option value="MisTareasObservadores">Observador</option>
+                 </select>
+                 <?php endif; ?>
                 </div>
                 <div class="col-md-2">
-                 <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value)" class="form-control input-default">
+                 <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value,'filtro')" class="form-control input-default">
                     <option value="T">Todas</option>
                     <?php $__currentLoopData = $TipoTareas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $valores): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                          <option value="<?php echo e($valores['Id_Tipo_Tarea']); ?>"><?php echo e($valores['Descripcion']); ?></option>
@@ -175,7 +184,7 @@
                     <div class="col-md-3">
                             <label for="" style="color: black"><b>Tipo</b></label>
                             <select onchange="borderInput('tipoTarea')" class="form-control input-default" name="tipoTarea" id="tipoTarea">
-                                <option value="1">Tarea</option>
+                                <option value="5">Laboral</option>
                                 <option value="2">Proyecto</option>
                                 <option value="3">Reunión</option>
                             </select>

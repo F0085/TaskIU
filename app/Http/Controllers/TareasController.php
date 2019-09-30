@@ -29,10 +29,11 @@ class TareasController extends Controller
 	//TAREAS POR TIPO DE TAREA PERSONAL O TRABAJO
 	public function TareasPorTipo($estado, $tipo)
     {
+      session_start();
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        $response = $client->request('GET', "TareasPorTipo/{$estado}/{$tipo}");
+        $response = $client->request('GET', "TareasPorTipo/{$estado}/{$tipo}/{$_SESSION['id']}");
         return json_decode((string) $response->getBody(), true);
     }
 
@@ -66,14 +67,15 @@ class TareasController extends Controller
         $response = $client->request('GET', "Tareas");
         return json_decode((string) $response->getBody(), true);
     }
-
+      
     //LISTA TAREA POR ESTADOS
     public function TareasEstado($estado)
     {
+        session_start();
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        $response = $client->request('GET', "TareasEstado/{$estado}");
+        $response = $client->request('GET', "TareasEstado/{$estado}/{$_SESSION['id']}");
         return json_decode((string) $response->getBody(), true);
     }
 
@@ -179,8 +181,41 @@ class TareasController extends Controller
           }
        
         }
-
            return $arrae;
-        // if($resultado['tarea'])
+    }
+    public function MisTareasParticipantes($Id_Usuario,$estado)
+    {
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "MisTareasParticipantes/{$Id_Usuario}");
+        $resultado= json_decode((string) $response->getBody(), true);
+        $arrae=array();
+        foreach ($resultado as $key => $value) {
+
+          if($value['tarea']['Estado_Tarea'] == $estado){
+          $arrae[$key]= array($value['tarea']);
+          }
+       
+        }
+           return $arrae;
+    }
+
+   public function MisTareasObservadores($Id_Usuario,$estado)
+    {
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "MisTareasObservadores/{$Id_Usuario}");
+        $resultado= json_decode((string) $response->getBody(), true);
+        $arrae=array();
+        foreach ($resultado as $key => $value) {
+
+          if($value['tarea']['Estado_Tarea'] == $estado){
+          $arrae[$key]= array($value['tarea']);
+          }
+       
+        }
+           return $arrae;
     }
 }

@@ -58,7 +58,8 @@ Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
 route::get('TareasPorTipo/{estado}/{tipo}','TareasController@TareasPorTipo');
 
 route::get('MisTareasResponsables/{Id_Usuario}/{estado}', 'TareasController@MisTareasResponsables');
-
+route::get('MisTareasParticipantes/{Id_Usuario}/{estado}', 'TareasController@MisTareasParticipantes');
+route::get('MisTareasObservadores/{Id_Usuario}/{estado}', 'TareasController@MisTareasObservadores');
 
 
 Route::get('/login', 'LoginSController@index');

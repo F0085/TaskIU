@@ -1,7 +1,3 @@
-<?php
-  session_start(); 
-    
-?>
 @extends('layouts.app')
 @section('contenido')
 
@@ -24,7 +20,7 @@
     @else
         <script type="text/javascript">
         $( document ).ready(function() {
-            TareasPorUsuario('Pendiente','MisTareasResponsables',{{$_SESSION['id']}});
+             TareasTipo('T','Pendiente');
         });
        </script>
 
@@ -42,10 +38,10 @@
                     <ul>
                       <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
                         @if(isset($_SESSION['Id_tipo_Usuarios']))
-                            @if($_SESSION['Id_tipo_Usuarios']=='3')
+                            @if($_SESSION['Id_tipo_Usuarios']=='2')
                                 onClick="TareasGenerales('Pendiente','');"
                             @else
-                                onClick="TareasPorUsuario('Pendiente','MisTareasResponsables',{{$_SESSION['id']}});"
+                                onClick="TareasTipo('T','Pendiente');"
                             @endif
                         @endif
                         >Pendientes</a></li>
@@ -54,7 +50,7 @@
                             @if($_SESSION['Id_tipo_Usuarios']=='2')
                                 onClick="TareasGenerales('Proceso');"
                             @else
-                                onClick="TareasPorUsuario('Proceso','MisTareasResponsables',{{$_SESSION['id']}});"
+                                onClick="TareasTipo('T','Proceso');"
                             @endif
                         @endif
                         >Proceso</a></li>
@@ -63,19 +59,25 @@
                             @if($_SESSION['Id_tipo_Usuarios']=='2')
                                 onClick="TareasGenerales('Terminada');"
                             @else
-                                onClick="TareasPorUsuario('Terminada','MisTareasResponsables',{{$_SESSION['id']}});"
+                                onClick="TareasTipo('T','Terminada');"
                             @endif
                         @endif 
                         >Terminadas</a></li>
                         <li><a id="Vencida" href="javascript:void(0);"
-                        @if(isset($_SESSION['Id_tipo_Usuarios']))
+                         @if(isset($_SESSION['Id_tipo_Usuarios']))
                             @if($_SESSION['Id_tipo_Usuarios']=='2')
                                 onClick="TareasGenerales('Vencida');"
                             @else
-                                onClick="TareasPorUsuario('Vencida','MisTareasResponsables',{{$_SESSION['id']}});"
+                               onClick="TareasTipo('T','Vencida');"]}});"
                             @endif
                         @endif 
                         >Venncidas</a></li>
+                        <!--  <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value,'filtro')" class=" input-default">
+                            <option value="T">Creadas por mi</option>
+                            <option value="T">Responsable</option>
+                            <option value="T">Participante</option>
+                            <option value="T">Observador</option>
+                         </select> -->
 
                     </ul>
                 </div>
@@ -94,14 +96,22 @@
             <ul>
             <div id="EstaTar" hidden="true"></div>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                        <h1 class="card-title" style="padding-top: 20px">LISTA DE TAREAS</h1>
                 </div>
-                <div class="col-md-8">
-            
+                <div class="col-md-6">
+                     @if(isset($_SESSION['Id_tipo_Usuarios']))
+
+                 <select id="SelecTipoUserTareas" onchange="TareasPorUsuario('',this.value,'{{$_SESSION['id']}}')" class="form-control input-default">
+                    <option value="CPM">Creadas por mi</option>
+                    <option value="MisTareasResponsables">Responsable</option>
+                    <option value="MisTareasParticipantes">Participante</option>
+                    <option value="MisTareasObservadores">Observador</option>
+                 </select>
+                 @endif
                 </div>
                 <div class="col-md-2">
-                 <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value)" class="form-control input-default">
+                 <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value,'filtro')" class="form-control input-default">
                     <option value="T">Todas</option>
                     @foreach($TipoTareas as $valores)
                          <option value="{{$valores['Id_Tipo_Tarea']}}">{{$valores['Descripcion']}}</option>
@@ -175,7 +185,7 @@
                     <div class="col-md-3">
                             <label for="" style="color: black"><b>Tipo</b></label>
                             <select onchange="borderInput('tipoTarea')" class="form-control input-default" name="tipoTarea" id="tipoTarea">
-                                <option value="1">Tarea</option>
+                                <option value="5">Laboral</option>
                                 <option value="2">Proyecto</option>
                                 <option value="3">Reunión</option>
                             </select>

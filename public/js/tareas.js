@@ -62,6 +62,72 @@ function CrearSubtarea(Id_tarea,Nombretarea){
 	$("#ModalCrearTareas").modal("show");
 }
 
+function TerminarTarea(){
+	// var Vtarea= validadorCampos('Nombretarea'); 
+	// var Vdescripcion= validadorCampos('descripcionTarea');
+	// var Vtipo= validadorCampos('tipoTarea'); 
+	// if(Vtarea==1 && Vdescripcion==1 && Vtipo==1 ){ // && Vfinicio==1  && Vhinicio==1  && Vffin==1 && Vhfin==1 && Vresponsables==1 && Vparticipantes==1 && Vobsevadores==1 ){
+	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+	        <div class="loader"> 
+	            <svg class="circular" viewBox="25 25 50 50">
+	                <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+	            </svg>Espere...
+
+	        </div>
+	    </div>`);
+	    var FrmData = { 
+	    	// Nombre: $("#Nombretarea").val(),
+	    	// descripcion: $("#descripcionTarea").val(),
+	    	// tipoTarea: $("#tipoTarea").val(),
+	    	// FechaIn: $("#FechaInicioTarea").val(),
+	    	// HoraIn: $("#HoraInicioTarea").val(),
+	    	// FechaFin: $("#FechaLimiteTarea").val(),
+	    	// HoraFin: $("#HoraLimiteTarea").val(),
+	    	// ResponsablesTask: $("#ResponsablesTask").val(),
+	    	// ParticipantesTask: $("#ParticipantesTask").val(),
+	    	// ObservadoresTask: $("#ObservadoresTask").val(),
+	    	idtarea: $("#idTar").val(),
+	    }
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'TareasPendientesPorTareas', 
+	        method: "POST", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+	        	console.log(data);
+	        	if(data==1){
+	        		$('#mensajePendiente').html('');
+					$('#mensajePendiente').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+										  <strong>Atención!</strong> Esta tarea tiene subtareas pendientes.
+										  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										    <span aria-hidden="true">&times;</span>
+										  </button>
+										</div`);
+					$('#mensajePendiente').hide();
+			        $('#mensajePendiente').prop('hidden',false);
+			        $('#mensajePendiente').show(500);
+	        	}else{
+	        		console.log('null');
+	        	}
+	        	
+	        	// var htl=`<i class="fa fa-trash"></i>`;
+	        	$('#cargar').fadeIn(1000).html(data); 
+	        	// window.location = "/Tareas";
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	            	$('#cargar').fadeIn(1000).html(''); 
+	        }
+	    });
+	// }
+}
+
 //PARA VALIDAR LOS INPUST QUE NO SEAN VACIOS
 function validadorCampos(val){
 	var resul=0;
@@ -396,6 +462,7 @@ function observadoresTask(){
 	    	$.each(data, function(i,item){
 		    	$('#TituloTareaEditar').html("<i class='fa fa-bookmark'></i>  "+  item['Nombre']);
 		    	$('#tipoTareaEditar').val(item['Id_Tipo_Tarea']);
+		    	$('#idTar').val(item['Id_tarea']);
 		    	$('#descripcionTareaEditar').html(item['Descripcion']);
 		    	$('#FechaInicioTareaEditar').html(item['FechaInicio']+' '+item['Hora_Inicio']);
 		    	$('#FechaLimiteTareaEditar').html(item['FechaFin']+' '+item['Hora_Fin']);	   

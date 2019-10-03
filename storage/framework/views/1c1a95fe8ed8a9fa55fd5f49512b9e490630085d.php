@@ -28,7 +28,7 @@
 					groupTitleColor: primitives.common.Colors.LightGray
 				})
 			]; //groupTitle: "SubAdviser",
-			$.get('AreasRoles', function (data) { 
+			$.get('DibujarOrganigrama', function (data) { 
 				// console.log(data);
 	       	 	$.each(data, function(i, item) {
 	       	 		items.push(new primitives.orgdiagram.ItemConfig({

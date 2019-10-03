@@ -15,9 +15,7 @@
 		this.parent.innerHTML = '';
 		this.parent.className = 'organigrama';
 		this.parent.appendChild(this.tabla);
-
 		addNode(this.tabla, this.data);
-
 		createControls(this.tabla);
 	};
 

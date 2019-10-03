@@ -87,6 +87,23 @@ class TareasController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
+    public function TareasPendientesPorTareas(Request $request){
+        $idtareas=$request->idtarea;
+        // dd($idtareas);
+        session_start();
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "TareasPendientesPorTareas/{$idtareas}/{$_SESSION['id']}");
+        $resul= json_decode((string) $response->getBody(), true);
+        if(empty($resul)){
+          return 0; // NO TIENE TAREAS PENDIENTES
+        }else{
+         return 1; // TIENE TAREAS PENDIENTES
+        }
+        
+    }
+
 
     public function store(Request $request){
     	 session_start();

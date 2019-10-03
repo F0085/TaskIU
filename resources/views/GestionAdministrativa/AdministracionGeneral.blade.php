@@ -31,14 +31,7 @@
                                             <div class="basic-form">
                                                 <div class="row">
 
-                                                    @if(session()->has('rol_existe'))
-                                                         <script type="text/javascript">
-                                                            $(document).ready(function () {
-                                                                 alertify.@if(session()->has('success')) success('{{session('rol_existe')}}') @else error('{{session('rol_existe')}}') @endif;
-                                                            });
-                                                        </script>            
-                                                    @endif 
-                                                
+   
                                                     <div class="col-md-5">
                                                         <h4 align="center">Ingreso de Área</h4>
                                                         <hr style=" background-color: red; height: 1px">
@@ -220,7 +213,7 @@
                                                 <div class="col-md-8" >
                                                     <h4 align="center">Roles Registrados</h4>
                                                     <hr style=" background-color: red; height: 1px">
-                                                             <div class="table-responsive" style="overflow:scroll; height:335px; width:100%;">
+                                                             <div class="table-responsive" style="overflow:scroll;  height:335px; width:100%;">
                                                                 <table class="table table-bordered table-sm " style="color: black" >
                                                                     <thead>
                                                                         <tr align="center"  >
@@ -230,9 +223,9 @@
                                                                             <th>Acción</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody id="table_Roles">
-                                                                        @if(isset($AreasRoles))
-                                                                            @foreach($AreasRoles as $valor)
+                                                                    <tbody id="table_Roles" style="font-family: 'Arial'; font-weight: normal">
+                                                                        @if(isset($ListaRoles))
+                                                                            @foreach($ListaRoles as $valor)
                                                                                 <tr align="center">
                                                                                     <td >{{$valor['Area']}}</td>
                                                                                     <td >{{$valor['Sub_Area']}}</td>

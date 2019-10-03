@@ -420,7 +420,7 @@
 
         @include('ModalCambiarClave')
 
-        <div class="content-body" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
+        <div class="content-body stylefuente" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
         <br>
           @yield('contenido')
             <!-- #/ container -->
@@ -465,11 +465,11 @@
 
 
          <script src="{{asset('plugins/common/common.min.js')}}"></script>
-    <script src="{{ asset('js/custom.min.js')}}"></script>
+    <script src="{{asset('js/custom.min.js')}}"></script>
     <script src="{{asset('js/settings.js')}}"></script>
     <script src="{{asset('js/gleek.js')}}"></script>
     <script src="{{asset('js/styleSwitcher.js')}}"></script>
-    <script src="{{ asset('js/alertify.js') }}" defer></script>
+    <script src="{{asset('js/alertify.js') }}" defer></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('css/alertify.css')}}" />

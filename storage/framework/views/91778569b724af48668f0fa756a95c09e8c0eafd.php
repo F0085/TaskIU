@@ -31,14 +31,7 @@
                                             <div class="basic-form">
                                                 <div class="row">
 
-                                                    <?php if(session()->has('rol_existe')): ?>
-                                                         <script type="text/javascript">
-                                                            $(document).ready(function () {
-                                                                 alertify.<?php if(session()->has('success')): ?> success('<?php echo e(session('rol_existe')); ?>') <?php else: ?> error('<?php echo e(session('rol_existe')); ?>') <?php endif; ?>;
-                                                            });
-                                                        </script>            
-                                                    <?php endif; ?> 
-                                                
+   
                                                     <div class="col-md-5">
                                                         <h4 align="center">Ingreso de Área</h4>
                                                         <hr style=" background-color: red; height: 1px">
@@ -220,7 +213,7 @@
                                                 <div class="col-md-8" >
                                                     <h4 align="center">Roles Registrados</h4>
                                                     <hr style=" background-color: red; height: 1px">
-                                                             <div class="table-responsive" style="overflow:scroll; height:335px; width:100%;">
+                                                             <div class="table-responsive" style="overflow:scroll;  height:335px; width:100%;">
                                                                 <table class="table table-bordered table-sm " style="color: black" >
                                                                     <thead>
                                                                         <tr align="center"  >
@@ -230,9 +223,9 @@
                                                                             <th>Acción</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody id="table_Roles">
-                                                                        <?php if(isset($AreasRoles)): ?>
-                                                                            <?php $__currentLoopData = $AreasRoles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $valor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <tbody id="table_Roles" style="font-family: 'Arial'; font-weight: normal">
+                                                                        <?php if(isset($ListaRoles)): ?>
+                                                                            <?php $__currentLoopData = $ListaRoles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $valor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                                 <tr align="center">
                                                                                     <td ><?php echo e($valor['Area']); ?></td>
                                                                                     <td ><?php echo e($valor['Sub_Area']); ?></td>

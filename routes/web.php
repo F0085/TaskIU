@@ -27,8 +27,7 @@ Route::get('/', function () {
     Route::resource('Roles', 'RolesController');
 
 	//REGISTRO DE AREAS ROLES
-    Route::resource('AreasRoles', 'AreasRolesController');
-
+    Route::get('DibujarOrganigrama', 'OrganigramaController@DibujarOrganigrama');
 //######################FIN GESTIÓN ADMINISTRATIVA#######################
 
 
@@ -57,6 +56,8 @@ route::get('RolesPorSubArea/{subarea}', 'RolesController@RolesPorSubArea');
 Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
 route::get('TareasPorTipo/{estado}/{tipo}','TareasController@TareasPorTipo');
 
+route::POST('TareasPendientesPorTareas/','TareasController@TareasPendientesPorTareas');
+
 route::get('MisTareasResponsables/{Id_Usuario}/{estado}', 'TareasController@MisTareasResponsables');
 route::get('MisTareasParticipantes/{Id_Usuario}/{estado}', 'TareasController@MisTareasParticipantes');
 route::get('MisTareasObservadores/{Id_Usuario}/{estado}', 'TareasController@MisTareasObservadores');
@@ -79,7 +80,6 @@ Route::get('/Organigrama', 'OrganigramaController@index');
 Route::get('UserRoles/{area}/{rol}', 'OrganigramaController@UserRoles');
 
 
-Route::get('/DistintAreas', 'OrganigramaController@DistintAreas');
 
 //SUBAREAS
 route::resource('SubArea', 'SubAreaController');

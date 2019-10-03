@@ -19,25 +19,6 @@ class GestionAdministrativaController extends Controller
     }
 
 
-    // //PARA EXTRAER LAS AREAS CON SUS RESPETIVOS ROLES
-    // public function AreasRoles()
-    // {
-    //     $client = new Client([
-    //       'base_uri' => $this->servidor,
-    //     ]);
-    //     $response = $client->request('GET', "ListAreaRoles");
-    //     return json_decode((string) $response->getBody(), true);
-    // }
-    //     //PARA EXTRAER LAS AREAS con subaras y  CON SUS RESPETIVOS ROLES
-    // public function RolesSubAreas()
-    // {
-    //     $client = new Client([
-    //       'base_uri' => $this->servidor,
-    //     ]);
-    //     $response = $client->request('GET', "Roles");
-    //     return json_decode((string) $response->getBody(), true);
-    // }
-
 
     //PARA TRAER LOS ROLES
     public function ListaRoles(){
@@ -48,16 +29,7 @@ class GestionAdministrativaController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
-    //TRAE LAS AREAS DISTINTAS DE AREAROLES
-    public function DistintAreas(){
-        $client = new Client([
-          'base_uri' => $this->servidor,
-        ]);
-        $response = $client->request('GET', "disntinArea");
-        return json_decode((string) $response->getBody(), true);
-    }
 
-        //PARA TRAER LOS ROLES
     public function SubArea(){
         $client = new Client([
           'base_uri' => $this->servidor,
@@ -78,12 +50,11 @@ class GestionAdministrativaController extends Controller
     public function index()
     {
         $Areas=$this->ListaArea();
-        // $Roles=$this->ListaRoles();
-        $AreasRoles=$this->ListaRoles();
         $SubArea=$this->SubArea();
         $AreaSubArea=$this->AreaSubArea();
+        $ListaRoles=$this->ListaRoles();
        // $DistintAreas=$this->DistintAreas();
-        return view('GestionAdministrativa.AdministracionGeneral')->with(['Areas'=>$Areas, 'AreasRoles'=>$AreasRoles, 'SubArea'=>$SubArea,'AreaSubArea'=>$AreaSubArea]);
+        return view('GestionAdministrativa.AdministracionGeneral')->with(['Areas'=>$Areas, 'SubArea'=>$SubArea,'AreaSubArea'=>$AreaSubArea,'ListaRoles'=>$ListaRoles]);
     }
 
 }

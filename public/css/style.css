@@ -14711,4 +14711,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   border: 1px solid green;
 }
 
+.stylefuente{
+  font-family: 'Arial'; 
+  font-weight: normal;
+}
 /*# sourceMappingURL=style.css.map */

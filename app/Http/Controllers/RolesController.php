@@ -45,23 +45,16 @@ class RolesController extends Controller
         return json_decode((string) $response->getBody(), true);
      }
 
-    // //ROLES CON AREAS
-    // public function ListaRolesAreas(){
+
+
+    // public function ListaRolesPorAreas($idArea){
+
     //     $client = new Client([
     //       'base_uri' => $this->servidor,
     //     ]);
-    //     $response = $client->request('GET', "Roles");
+    //     $response = $client->request('GET', "RolesArId/{$idArea}");
     //     return json_decode((string) $response->getBody(), true);
     // }
-
-    public function ListaRolesPorAreas($idArea){
-
-        $client = new Client([
-          'base_uri' => $this->servidor,
-        ]);
-        $response = $client->request('GET', "RolesArId/{$idArea}");
-        return json_decode((string) $response->getBody(), true);
-    }
 
 
     /**

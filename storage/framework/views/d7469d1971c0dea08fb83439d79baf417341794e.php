@@ -1,5 +1,5 @@
 <div id="cargatareas"></div>
-<div id="ModalTareasEditar"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="ModalTareasEditar"  class="modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-
+                <input hidden="true" id="idTar">
                 <div class="row">
                    <div class="col-md-7">
                         <div class="row">
@@ -138,6 +138,7 @@
 
             </div>
             <div class="modal-footer" style="display: block">
+                <div hidden="true" id="mensajePendiente"></div>
                 <div class="row">
                     <div class="col-md-7">
                         <div class="row">
@@ -145,7 +146,7 @@
                                 <button class="btn btn-success">Iniciar Tarea</button>
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-dark">Terminar Tarea</button>
+                                <button onclick="TerminarTarea()" class="btn btn-dark">Terminar Tarea</button>
                             </div>
                             <div class="col-md-4">
                                 <div class="btn-group">

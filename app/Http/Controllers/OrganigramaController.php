@@ -36,6 +36,7 @@ class OrganigramaController extends Controller
           'base_uri' => $this->servidor,
         ]);
         $response = $client->request('GET', "Organigrama");
+      dd($response);
         return json_decode((string) $response->getBody(), true);
     }
 

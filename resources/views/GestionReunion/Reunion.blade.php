@@ -27,49 +27,31 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <label for="" style="color: black"><b>Tarea</b></label>
-                            <input onkeyup="borderInput('Nombretarea')" type="text" class="form-control input-default"  placeholder="Ingrese nombre de la tarea" id="Nombretarea" name="Nombretarea" required>
-                        </div>                    
+                    <div class="col-md-6">
+                        <label for="" style="color: black"><b>Tema</b></label>
+                        <input  onkeyup="borderInput('temaReunion')"    class="form-control input-default" id="temaReunion"  placeholder="Tema de la reunión"></input>
                     </div>
-                    <div class="col-md-3">
-                            <label for="" style="color: black"><b>Tipo</b></label>
-                            <select onchange="borderInput('tipoTarea')" class="form-control input-default" name="tipoTarea" id="tipoTarea">
-                                <option value="1">Tarea</option>
-                                <option value="2">Proyecto</option>
-                                <option value="3">Reunión</option>
-                            </select>
+                    <div class="col-md-6">
+                        <label for="" style="color: black"><b>Lugar</b></label>
+                        <input  onkeyup="borderInput('lugarReunion')"    class="form-control input-default" id="lugarReunion"  placeholder="Lugar de la reunión"></input>
                     </div>
                 </div>
-                
+                <br>
                 <div class="row">
                     <div class="col-md-12">
-                        <label for="" style="color: black"><b>Descripción</b></label>
-                        <textarea onkeyup="borderInput('descripcionTarea')" class="form-control input-default" id="descripcionTarea" rows="3" placeholder="Descripción de la tarea a realizar"></textarea>
+                        <label for="" style="color: black"><b>Orden del día</b></label>
+                        <textarea  onkeyup="borderInput('descripcionReunion')"    class="form-control input-default" id="descripcionReunion" rows="3" placeholder="Descripción de la reunión"></textarea>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="" style="color: black"><b>Fecha Inicio</b></label>
-                        <input  value="<?php echo date("Y-m-d");?>"  onkeyup="borderInput('FechaInicioTarea')"  type="date" class="form-control input-default" id="FechaInicioTarea"> 
+                        <label for="" style="color: black"><b>Fecha</b></label>
+                        <input  value="<?php echo date("Y-m-d");?>" onkeyup="borderInput('FechaReunion')"    type="date" class="form-control input-default" id="FechaReunion"> 
                     </div>
                     <div class="col-md-6">
-                        <label for="" style="color: black"><b>Hora Inicio</b></label>
-                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraInicioTarea')"  type="time" class="form-control input-default" id="HoraInicioTarea"> 
-                    </div>
-                </div>
-
-                          
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="" style="color: black"><b>Fecha Límite</b></label>
-                        <input value="<?php echo date("Y-m-d");?>" onkeyup="borderInput('FechaLimiteTarea')"   type="date" class="form-control input-default" id="FechaLimiteTarea"> 
-                    </div>
-                    <div class="col-md-6">
-                        <label for="" style="color: black"><b>Hora Límite</b></label>
-                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraLimiteTarea')"  type="time" class="form-control input-default" id="HoraLimiteTarea"> 
+                        <label for="" style="color: black"><b>Hora</b></label>
+                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraReunion')"  type="time" class="form-control input-default" id="HoraReunion"> 
                     </div>
                 </div>
                 <br>
@@ -131,7 +113,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Aceptar </button>
+                <button type="button" onclick="GuardarReunion()" class="btn btn-primary">Aceptar </button>
             </div>
         </div>
     </div>
@@ -144,10 +126,8 @@
             <div class="row">
                 <div class="col-md-10">
                     <ul>
-                      <li ><a class="activado" id="Pendiente" data-value='Proceso'  href="javascript:void(0);"  onClick="TareasGenerales('Pendiente');" >Pendientes</a></li>
-                      <li ><a  id="Proceso" data-value='Proceso' href="javascript:void(0);"  onClick="TareasGenerales('Proceso');" >Proceso</a></li>
+                      <li ><a class="activado" id="Pendiente" href="javascript:void(0);"  onClick="TareasGenerales('Pendiente');" >Pendientes</a></li>
                       <li><a id="Terminada" href="javascript:void(0);" onClick="TareasGenerales('Terminada');">Terminadas</a></li>
-                      <li><a id="Vencida" href="javascript:void(0);" onClick="TareasGenerales('Vencida');">Vencidas</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 centerDiv" >
@@ -164,8 +144,19 @@
             <ul>
             <div id="EstaTar" hidden="true"></div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                        <h1 class="card-title" style="padding-top: 20px">LISTA DE REUNIONES</h1>
+                </div>
+                <div class="col-md-6">
+                     @if(isset($_SESSION['Id_tipo_Usuarios']))
+
+                 <select id="SelecTipoUserTareas" onchange="TareasPorUsuario('',this.value,'{{$_SESSION['id']}}')" class="form-control input-default">
+                    <option value="CPM">Creadas por mi</option>
+                    <option value="MisTareasParticipantes">Responsable</option>
+                    <option value="MisTareasParticipantes">Participante</option> 
+                    <option value="MisTareasParticipantes">Observador</option> 
+                 </select>
+                 @endif
                 </div>
             </div>
                <hr style=" background-color: red; height: 1px">
@@ -180,13 +171,14 @@
                     <thead>
                         <tr style="color: black">
                <!--              <th scope="col">#</th> -->
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Fecha Lìmite</th>
+                            <th scope="col">Tema</th>
+                            <th scope="col">Orden del día</th>
+                            <th scope="col">Lugar</th>
                             <th scope="col">Creado Por</th>
                             <th scope="col">Responsables</th>
                             <th scope="col">Participantes</th>
                             <th scope="col">Observadores</th>
-                            <th scope="col" rowspan="2">Progreso</th>
+                            <th scope="col" rowspan="2">Estado</th>
                         </tr>
                     </thead>
                     <tbody id="TablaTareas">

@@ -55,10 +55,11 @@ function GuardarTarea(){
 }
 
 //MOSTRAR MDODAL CREAR SUBTAREAS
-function CrearSubtarea(Id_tarea,Nombretarea){
+function CrearSubtarea(Id_tarea,Nombretarea,tipoTarea){
 	$("#TaskID").val(Id_tarea);
+	$("#tipoTarea").val(tipoTarea);	
 	$("#TituloTareaCrear").html("<i class='fa fa-bookmark'></i>  "+ 'Nueva Subtarea de '+Nombretarea);
-	$("#ModalTareasEditar").modal("hide");
+	$("#ModalTareasSeguimiento").modal("hide");
 	$("#ModalCrearTareas").modal("show");
 }
 
@@ -87,6 +88,7 @@ function TerminarTarea(){
 	    	// ParticipantesTask: $("#ParticipantesTask").val(),
 	    	// ObservadoresTask: $("#ObservadoresTask").val(),
 	    	idtarea: $("#idTar").val(),
+	    	Observacion: $("#ObservacionTareaSeguimiento").val(),
 	    }
 	    $.ajaxSetup({
 	        headers: {
@@ -94,13 +96,12 @@ function TerminarTarea(){
 	        }
 	    });
 	    $.ajax({
-	        url: 'TareasPendientesPorTareas', 
+	        url: 'GuardarSeguimientoTarea', 
 	        method: "POST", 
 	        data: FrmData,
 	        dataType: 'json',
 	        success: function (data) 
 	        {
-	        	console.log(data);
 	        	if(data==1){
 	        		$('#mensajePendiente').html('');
 					$('#mensajePendiente').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -113,9 +114,8 @@ function TerminarTarea(){
 			        $('#mensajePendiente').prop('hidden',false);
 			        $('#mensajePendiente').show(500);
 	        	}else{
-	        		console.log('null');
-	        	}
-	        	
+	        		alert('Observacion exitosa');
+	        	}	        	
 	        	// var htl=`<i class="fa fa-trash"></i>`;
 	        	$('#cargar').fadeIn(1000).html(data); 
 	        	// window.location = "/Tareas";
@@ -283,6 +283,7 @@ function observadoresTask(){
 
 	//EXTRAE TODAS LAS TAREAS POR USUARIO EL TIPO (RESPONSABLE OBSERVADOR PARTICPANTE) Y EL ESTADO( PENDIENTE,TERMINADA,VENCIDA)
 	function TareasPorUsuario(estado,TipoUser,IdUsuario){
+		    $('#btneditar').html('');
 			$('#SelectTipoTarPerTra').prop('disabled',true);
 			$('#SelectTipoTarPerTra').val("T");
 			$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
@@ -351,7 +352,7 @@ function observadoresTask(){
 	//PARA LLENAR LA TABLA DE LAS TAREAS
 	function llenarbucle(data,sangria,col,idtabla,textoid){
 		var signo;
-		var progreso=100;
+		// var progreso=100;
 	    $.each(data, function(i1, $valores) { 
 	    	//condicionar si es nulo subtareas     	
 	    	if($valores['sub_tareas'].length!=0){
@@ -370,7 +371,6 @@ function observadoresTask(){
 	                                    </td>
 	                                    <td id='${$valores['Id_tarea']+'50'+textoid}'></td>
 	                                    <td id='${$valores['Id_tarea']+'75'+textoid}'></td>
-	                                    <td><span class="label gradient-1 btn-rounded">${progreso}%</span>
 	                                    </td>
 	                                </tr>`);
 
@@ -449,7 +449,15 @@ function observadoresTask(){
 	//PARA EL MODAL DEL SEGUIMIENTO DE LA TAREA
 	function ModalTareas(Id_tarea){
 		limpiarModalTareas();
-		$("#ModalTareasEditar").modal("show");
+
+		if($('#SelecTipoUserTareas').val()=="CPM"){
+			var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
+
+		}else{
+			var btneditar='';
+		}
+
+		$("#ModalTareasSeguimiento").modal("show");
 		$('#cargatareas').append(`<div id="preloader" style="background: #ffffff00">
 		    <div class="loader"> 
 		        <svg class="circular" viewBox="25 25 50 50">
@@ -460,42 +468,262 @@ function observadoresTask(){
 		</div>`);
 	    $.get('Tareas/'+Id_tarea, function (data) {
 	    	$.each(data, function(i,item){
-		    	$('#TituloTareaEditar').html("<i class='fa fa-bookmark'></i>  "+  item['Nombre']);
-		    	$('#tipoTareaEditar').val(item['Id_Tipo_Tarea']);
+		    	$('#TituloTareaSeguimiento').html("<i class='fa fa-bookmark'></i>  "+  item['Nombre']);
+		    
 		    	$('#idTar').val(item['Id_tarea']);
-		    	$('#descripcionTareaEditar').html(item['Descripcion']);
-		    	$('#FechaInicioTareaEditar').html(item['FechaInicio']+' '+item['Hora_Inicio']);
-		    	$('#FechaLimiteTareaEditar').html(item['FechaFin']+' '+item['Hora_Fin']);	   
-
+		    	$('#descripcionTareaSeguimiento').html(item['Descripcion']);
+		    	$('#FechaInicioTareaSeguimiento').html(item['FechaInicio']+' '+item['Hora_Inicio']);
+		    	$('#FechaLimiteTareaSeguimiento').html(item['FechaFin']+' '+item['Hora_Fin']);
 		    	$.each(item['responsables'], function(i1,item1){
-		    	   $('#ResponsablesTaskEditar').append(`<i class="fa fa-user"></i>  ${item1['usuario']['Nombre']} ${item1['usuario']['Apellido']} <br>`);
+		    	   $('#ResponsablesTaskSeguimiento').append(`<i class="fa fa-user"></i>  ${item1['usuario']['Nombre']} ${item1['usuario']['Apellido']} <br>`);
 		    	});
 		    	$.each(item['participantes'], function(i2,item2){
-		    	   $('#ParticipantesTaskEditar').append(`<i class="fa fa-user"></i>  ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} <br>`);
+		    	   $('#ParticipantesTaskSeguimiento').append(`<i class="fa fa-user"></i>  ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} <br>`);
 		    	});
 		    	$.each(item['observadores'], function(i3,item3){
-		    	   $('#ObservadoresTaskEditar').append(`<i class="fa fa-user"></i>  ${item3['usuario']['Nombre']} ${item3['usuario']['Apellido']} <br>`);
+		    	   $('#ObservadoresTaskSeguimiento').append(`<i class="fa fa-user"></i>  ${item3['usuario']['Nombre']} ${item3['usuario']['Apellido']} <br>`);
 		    	});
-				document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}')`) ;
-		    	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaEditar','Edit');	   	   
+		    	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
 	    	});
 	   	    $('#cargatareas').fadeIn(1000).html(data); 
+	   	    listaObservaciones();
 		});
+
+	}
+
+	//LIMPIAR MODAL DE TAREAS SEGUIMIENTO
+	function limpiarModalTareas(){
+		$('#divEvidenciaSeguimiento').html('');
+		$('#divObservacionSeguimiento').html('');
+		$('#TituloTareaSeguimiento').html('');
+		$('#descripcionTareaSeguimiento').html('');
+		$('#FechaInicioTareaSeguimiento').html('');
+		$('#HoraInicioTareaSeguimiento').html('');
+		$('#FechaLimiteTareaSeguimiento').html('');
+		$('#HoraLimiteTareaSeguimiento').html('');
+		$('#ResponsablesTaskSeguimiento').html('');
+		$('#ParticipantesTaskSeguimiento').html('');
+		$('#ObservadoresTaskSeguimiento').html('');
+		$('#tablaTareaSeguimiento').html('');
 	}
 
 	//LIMPIAR MODAL DE TAREAS CERAR NUEVA
-	function limpiarModalTareas(){
-		$('#TituloTareaEditar').html('');
-		$('#descripcionTareaEditar').html('');
-		$('#FechaInicioTareaEditar').html('');
-		$('#HoraInicioTareaEditar').html('');
-		$('#FechaLimiteTareaEditar').html('');
-		$('#HoraLimiteTareaEditar').html('');
-		$('#ResponsablesTaskEditar').html('');
-		$('#ParticipantesTaskEditar').html('');
-		$('#ObservadoresTaskEditar').html('');
-		$('#tablaTareaEditar').html('');
+	function limpiarModalTareasCrear(){
+	$("#ResponsablesTask option:selected").attr("selected",false)
+	$("#ParticipantesTask option:selected").attr("selected",false)
+	$("#ObservadoresTask option:selected").attr("selected",false)
+		// $('#TituloTareaCrear').html('');
+		$('#Nombretarea').val('');
+		$('#tipoTarea').val('5');
+		$('#descripcionTarea').val('');
+		$('#FechaInicioTarea').val('');
+		$('#HoraInicioTarea').val('');
+		$('#FechaLimiteTarea').val('');
+		$('#HoraLimiteTarea').val('');
+		$('#listaResponsable').html('');
+		$('#listaObservadores').html('');
+		$('#listaParticipantes').html('');
+		// $('#ResponsablesTask').attr('selected',false);
+		// $('#ParticipantesTask').val('0');
+		// $('#ObservadoresTask').val('0');
+	}
+	function TareasEditar(){
+		limpiarModalTareasCrear();
+		$("#ModalTareasSeguimiento").modal("hide");
+		$("#ModalCrearTareas").modal("show");
+		 $.get('Tareas/'+$('#idTar').val(), function (data) {
+	    	$.each(data, function(i,item){
+		    	$('#TituloTareaCrear').html("<i class='fa fa-bookmark'></i>  "+  'Modificar Tareas');
+		    	$('#Nombretarea').val(item['Nombre']);
+		    	$('#tipoTarea').val(item['Id_Tipo_Tarea']);
+		    	// $('#idTar').val(item['Id_tarea']);
+		    	$('#descripcionTarea').val(item['Descripcion']);
+		  		$('#FechaInicioTarea').val(item['FechaInicio']);
+		  		$('#HoraInicioTarea').val(item['Hora_Inicio']);
+		     	$('#FechaLimiteTarea').val(item['FechaFin']);	 
+		     	$('#HoraLimiteTarea').val(item['Hora_Fin']);	  
+
+		    	$.each(item['responsables'], function(i1,item1){
+
+		    		 $("#ResponsablesTask option[value="+ item1['Id_Usuario'] +"]").attr("selected",true);
+		    		 $('#listaResponsable').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item1['usuario']['Nombre']+' '+item1['usuario']['Apellido'] }
+                            </li>`);
+		    	});
+		    	$.each(item['participantes'], function(i2,item2){
+		    		//PARA SEGUN EL VALOR SE LE APLICA EL SELECT 
+		    		$("#ParticipantesTask option[value="+ item2['Id_Usuario'] +"]").attr("selected",true);
+		    		$('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']+' '+item2['usuario']['Apellido'] }
+                            </li>`);
+		    	});
+		    	$.each(item['observadores'], function(i3,item3){
+		    		 $("#ObservadoresTask option[value="+ item3['Id_Usuario'] +"]").attr("selected",true);
+		    		 $('#listaObservadores').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item3['usuario']['Nombre']+' '+item3['usuario']['Apellido'] }
+                            </li>`);
+		    	});
+				// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}')`) ;
+		  //   	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
+	    	});
+	   	    $('#cargatareas').fadeIn(1000).html(data); 
+		});
+
+	}
+
+	function ModalCrearTareas(){
+		limpiarModalTareasCrear();
+		$("#ModalCrearTareas").modal("show");
+
+	}
+
+	//PARA GAUARDAS LAS OBSERVACIONES O COMENTARIOS
+	function RegistrarObservacion(){
+		$('#btnRegistrarObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
+		 var FrmData = { 
+	    	idtarea: $("#idTar").val(),
+	    	Observacion: $("#ObservacionTareaSeguimiento").val(),
+	    	tipo:'C',
+	    }
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'Observacion', 
+	        method: "POST", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+
+	        	$('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
+	      		 listaObservaciones();
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+	}
+
+	//PARA LISTAR LAS OBSERVACIONES O COMENTARIOS
+	function listaObservaciones(){
+		 $.get('Observacion/'+$('#idTar').val(), function (data) {
+		 	$('#LisObserTareas').html('');
+		 	
+		 	llenarComentarios(data);
+		 	
+		 });
 	}
 
 
+	//PARA LLENAR LOS COMENTARIOS EN EL CARD
+	function llenarComentarios(data){
+			$('#cajacomentario').html('');
+		 	$.each(data, function(i,item){
+					$('#'+item['Id_Observacion']+'s').html('');
+		 			$('#cajacomentario').append(`<div class="card">
+                                        <div class="card-body">
+	                                        <div class="row">
+	                                         	<div class="col-md-6">                                         		
+	                                        		<img class="imgRedonda" src="images/user/1.png">  ${item['usuario']['Nombre']} ${item['usuario']['Apellido']}
+	                                        	</div>   
+	                                        	<div class="col-md-6 centerDiv">
+	                                        		${item['Fecha']}
+	                                        	</div>
+	                                        </div>
+                                        	<hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
+                                        	<div class="row">
+	                                         	<div class="col-md-12">  
+                            					${item['Descripcion']}
+                            					</div>
+                            				</div>
+                            				<br>
+                            				<div class="row">
+	                                         	<div class="col-md-12" align="right">  
+	                                         	<div id="${item['Id_Observacion']}btnEnviarComentario">
+                            						<button type="button" onclick="ResponderComentario('${item['Id_Observacion']}')" class="btn btn-outline-dark btn-sm"><i class="fa fa-share"></i>  Responder</button>
+                            					</div>
+                            					</div>
+                            				</div>
+                            				<br>
+                            				<div id="${item['Id_Observacion']+'c'}"></div>
+                            				<div id="${item['Id_Observacion']+'s'}"></div>
+                            				
+                                         </div>
+                                    </div>`);
 
+				   	$.each(item['sub_observaciones'], function(i2,item2){
+						$('#'+item['Id_Observacion']+'s').append(`<div class="card">
+					                                        <div class="card-body">
+						                                        <div class="row">
+						                                         	<div class="col-md-6">                                         		
+						                                        		<img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']}
+						                                        	</div>   
+						                                        	<div class="col-md-6 centerDiv">
+						                                        		${item2['Fecha']}
+						                                        	</div>
+						                                        </div>
+					                                        	<hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
+					                                        	<div class="row">
+						                                         	<div class="col-md-12">  
+					                            					${item2['Descripcion']}
+					                            					</div>
+					                            				</div>
+					                            				
+					                            				<br>
+					                            		
+					                            				
+					                                         </div>
+					                                    </div>`);
+				   	});
+		 	});			 		 	
+
+	}
+
+	//BOTON REPOSNDER COMENTARIO
+	function  ResponderComentario(id){
+		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="CerrarComentario(${id})" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>  Cerrar</button>
+		`);
+		$('#'+id+'c').html(`  <textarea class="form-control input-default" id="ObservacionRespuesta"></textarea><br>
+                                <div id="btnResponderObservacion"><button onclick="RespuestaObservacion(${id})" type="button" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button></div>`);
+	}
+
+	//BOTON CERRAR COMENTARIO
+	function  CerrarComentario(id){
+		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="ResponderComentario(${id})" class="btn btn-outline-dark btn-sm"><i class="fa fa-share"></i>  Responder</button>
+		`);
+		$('#'+id+'c').html('');
+	}
+
+
+	//GUARDAR RESPUESTA COMENTARIO
+	function RespuestaObservacion(Id_Observacion){
+		$('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
+		 var FrmData = { 
+	    	idtarea: $("#idTar").val(),
+	    	Observacion: $("#ObservacionRespuesta").val(),
+	    	Id_Observacion: Id_Observacion,
+	    	tipo: 'S',
+
+	    }
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'Observacion', 
+	        method: "POST", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+
+	        	$('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
+	      		 $('#'+Id_Observacion+'c').html('');
+	      		 listaObservaciones();
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+	}

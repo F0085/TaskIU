@@ -87,21 +87,61 @@ class TareasController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
+    // //TRAE LAS OBSERVACIONES POR EL ID TAREA 
+    // public function Observaciones($idTarea){
+    //     $client = new Client([
+    //       'base_uri' => $this->servidor,
+    //     ]);
+    //     $response = $client->request('GET', "Observaciones/{$idTarea}");
+    //     return json_decode((string) $response->getBody(), true);
+    // }
+
+
     public function TareasPendientesPorTareas(Request $request){
         $idtareas=$request->idtarea;
-        // dd($idtareas);
         session_start();
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
         $response = $client->request('GET', "TareasPendientesPorTareas/{$idtareas}/{$_SESSION['id']}");
-        $resul= json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
+
+        
+    }
+
+    public function GuardarSeguimientoTarea(Request $request){
+        $idtareas=$request->idtarea;
+   
+        $client = new Client([
+          'base_uri' => $this->servidor.'Observaciones',
+        ]);
+
+        $idtareas=(int)($idtareas); 
+        //CLIENTE API Tareas       
+        $clientTarea = new Client([
+          'base_uri' => $this->servidor.'Tareas/'.$idtareas,
+        ]);
+
+        $dataTarea = ['Estado_Tarea'=>'Terminada'];
+
+
+        $resul=$this->TareasPendientesPorTareas($request);
         if(empty($resul)){
-          return 0; // NO TIENE TAREAS PENDIENTES
+          $data = ['Id_Usuario'=>$_SESSION['id'],
+                 'Id_Tarea'=>$idtareas,
+                 'Descripcion'=>$request->Observacion];
+          $res = $client->request('POST','',['form_params' => $data]);
+         
+           if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+              $resTarea = $clientTarea->request('PUT','',['form_params' => $dataTarea]); 
+              return json_decode((string) $res->getBody(), true);
+           }
         }else{
          return 1; // TIENE TAREAS PENDIENTES
         }
         
+
+
     }
 
 

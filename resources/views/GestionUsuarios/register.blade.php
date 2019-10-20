@@ -51,7 +51,7 @@
                                        
                                         <div class="form-group">
                                             <label for="" style="color: black"><b>Cédula</b></label>
-                                            <input type="text" class="form-control input-default"  placeholder="Ingrese cédula" id="cedula" name="cedula" required>
+                                            <input onblur="ObtenerUsuariosPreparar()" type="text" class="form-control input-default"  placeholder="Ingrese cédula" id="cedula" name="cedula" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -98,8 +98,7 @@
                                         <div class="form-group">
                                             <label for="" style="color: black"><b>Tipo de Usuario</b></label>
                                             <select class="form-control input-default" name="tipoUser" id="tipoUser">
-                                                <option value="1">Empleado</option>
-                                                <option value="2">Adminsitrador</option>
+                                                <option selected="true" value="1">Empleado</option>
                                             </select>
                                         </div>
                                     </div>

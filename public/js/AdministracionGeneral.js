@@ -739,10 +739,10 @@ function RegistrarUsuario(val){
 										    <span aria-hidden="true">&times;</span>
 										  </button>
 										</div`);
-					if($('#cedula').hasClass('valid')){
-					 $('#cedula').removeClass('valid');
-					 $('#cedula').addClass('invalid');
-					}
+					// if($('#cedula').hasClass('valid')){
+					//  $('#cedula').removeClass('valid');
+					//  $('#cedula').addClass('invalid');
+					// }
 					if($('#email').hasClass('valid')){
 					 $('#email').removeClass('valid');
 					 $('#email').addClass('invalid');
@@ -1220,6 +1220,21 @@ function SubAreaRoles(idsubArea,rol) {
 				$("#Rol").append(`<option value="${item['Id_Roles']}">${item['Descripcion']}</option>`);	    		}
 	    });  	    
 	});
+}
+
+function ObtenerUsuariosPreparar(){
+	$.get('PrepararUsuario/'+$("#cedula").val(), function (data) {
+		console.log(data);
+	 	$("#nombre").html('');
+	 	$("#nombre").prop("disabled",false);
+	    $("#apellido").html('');
+	 	$("#apellido").prop("disabled",false);
+	 	  
+	 		$("#nombre").val(data['Nombre']);
+	 		$("#apellido").val(data['Apellido']);
+	 	    
+	});
+
 }
 
 

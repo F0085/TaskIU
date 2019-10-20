@@ -16,6 +16,11 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::get('Calendario', function () {
+    return view('Calendario.Calendario');
+});
+
+
 //######################GESTIÓN ADMINISTRATIVA#######################
 
 	Route::get('/Administracion', 'GestionAdministrativaController@index')->name('Administracion');
@@ -39,6 +44,9 @@ Route::get('/register', 'UsuarioController@RegistroUserNormal');
 
 Route::resource('Usuarios', 'UsuarioController');
 
+Route::get('/PrepararUsuario/{cedula}', 'UsuarioController@PrepararUsuario');
+
+
 
 // Auth::routes();
 
@@ -56,7 +64,7 @@ route::get('RolesPorSubArea/{subarea}', 'RolesController@RolesPorSubArea');
 Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
 route::get('TareasPorTipo/{estado}/{tipo}','TareasController@TareasPorTipo');
 
-route::POST('TareasPendientesPorTareas/','TareasController@TareasPendientesPorTareas');
+route::POST('GuardarSeguimientoTarea/','TareasController@GuardarSeguimientoTarea');
 
 route::get('MisTareasResponsables/{Id_Usuario}/{estado}', 'TareasController@MisTareasResponsables');
 route::get('MisTareasParticipantes/{Id_Usuario}/{estado}', 'TareasController@MisTareasParticipantes');
@@ -96,6 +104,7 @@ route::get('Perfil', 'UsuarioController@Perfil');
 route::PUT('ActPerfil/{id}', 'UsuarioController@ActPerfil');
 route::put('CambiarClave', 'UsuarioController@CambiarClave');
 
+route::resource('Observacion', 'ObservacionController');
 
 
 

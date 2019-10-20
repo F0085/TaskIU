@@ -23,7 +23,7 @@
 					title: "CLÍNICA",
 					description: "CARDIOCENTRO MANTA",
 					// groupTitle: "Espam",
-					// image: "/images/photos/a.png",
+					// image: "/images/UserORG.jpg",
 					itemTitleColor: primitives.common.Colors.Blue,
 					groupTitleColor: primitives.common.Colors.LightGray
 				})
@@ -63,6 +63,20 @@
 							groupTitleColor: primitives.common.Colors.LightGray
 
 							}));
+
+							$.each(item2['usuario_roles'], function(i3, item3) {
+			       	 		items.push(new primitives.orgdiagram.ItemConfig({
+							id: item3['Id_Usuario'],
+							parent: item2['Id_Roles'],
+							title:item3['usuarios']['Nombre']+' '+ item3['usuarios']['Apellido'],
+							description: item3['usuarios']['email']+' '+ item3['usuarios']['Direccion']+' '+ item3['usuarios']['Celular'],
+							groupTitle: "Usuarios",
+							// image: "/images/UserORG.jpg",
+							itemTitleColor: primitives.common.Colors.Orange,
+							groupTitleColor: primitives.common.Colors.LightGray
+
+							}));
+	       	 			});
 	       	 			});
 	       	 		});
 	       	 	});

@@ -55,7 +55,7 @@ class UsuarioController extends Controller
         $client2 = new Client([
              'base_uri' => $this->servidor,
         ]);
-        $response = $client2->request('GET', "buscarUsuario/{$request->Cedula}/{$request->Email}");
+        $response = $client2->request('GET', "buscarUsuario/{$request->Email}");
         $user= json_decode((string) $response->getBody(), true);
       
         if(empty($user) != false){
@@ -84,6 +84,14 @@ class UsuarioController extends Controller
         }else{
             return $user=1;
         }
+    }
+
+    public function PrepararUsuario($cedula){
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "buscarUsuarioPreparar/{$cedula}");
+        return json_decode((string) $response->getBody(), true);
     }
 
 

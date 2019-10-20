@@ -9,7 +9,7 @@ class UsuarioController extends Controller
 {
 
 
-    public $servidor='http://localhost:8000/';
+    public $servidor='http://18.188.234.88/';
 
     //LISTA DE LAS AREAS
     public function ListaAreas(){

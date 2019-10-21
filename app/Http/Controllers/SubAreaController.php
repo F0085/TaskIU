@@ -12,7 +12,7 @@ class SubAreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public $servidor='http://localhost:8000/';
+        public $servidor='http://18.188.234.88/';
     
     public function index()
     {

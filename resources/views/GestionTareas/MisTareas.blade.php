@@ -166,7 +166,7 @@
 
 @include('GestionTareas.ModalCrearTareas')
 @include('GestionTareas.ModalTareasSeguimiento')
-<link href="{{asset('css/Mystyle.css')}}" rel="stylesheet">
+<link href="/css/Mystyle.css" rel="stylesheet">
 <script type="text/javascript" src="{{asset('js/nav.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/tareas.js')}}"></script>
  

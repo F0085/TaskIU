@@ -204,7 +204,7 @@
 </div>
 
 
-    <link href="{{asset('css/Mystyle.css')}}" rel="stylesheet">
+    <link href="{{asset('css/MyStyle.css')}}" rel="stylesheet">
     <script type="text/javascript" src="{{asset('js/nav.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/tareas.js')}}"></script>
  

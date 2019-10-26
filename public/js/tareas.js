@@ -370,8 +370,7 @@ function observadoresTask(){
 					                                    </td>
 					                                    <td id='${$valores['Id_tarea']+'50'}'></td>
 					                                    <td id='${$valores['Id_tarea']+'75'}'></td>
-					                                    <td><span class="label gradient-1 btn-rounded">100%</span>
-					                                    </td>
+					                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
 					                                </tr>`);
 							    $.each($valores['responsables'], function(i, $vREs) { 
 							      $('#'+$valores['Id_tarea']+'25').append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);

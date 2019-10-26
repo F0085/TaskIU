@@ -7,8 +7,8 @@ use GuzzleHttp\Client;
 
 class TareasController extends Controller
 {
-	    //public $servidor='http://18.188.234.88/';
-          public $servidor='http://localhost:8000/';
+	    public $servidor='http://18.188.234.88/';
+          //public $servidor='http://localhost:8000/';
       //LISTA DE USUARIOS
 
 	public function index(){

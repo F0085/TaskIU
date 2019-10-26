@@ -241,7 +241,7 @@ class TareasController extends Controller
 
       //CLIENTE PARA OBSERVADORES
         $ClienteObservadores= new Client([
-              'base_uri' => $this->servidor.'Observadores/',
+              'base_uri' => $this->servidor.'Observadores',
     ]); 
 
         $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
@@ -280,10 +280,12 @@ class TareasController extends Controller
                 'base_uri' => $this->servidor,
               ]);
               $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
+
               foreach ($request->ObservadoresTask as $key => $observadores) {
                   $dataObservadores = ['Id_Usuario'=>$observadores,
                    'Id_Tarea'=>$id];
                   $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
+              
               } 
             }
             return json_decode((string) $res->getBody(), true);

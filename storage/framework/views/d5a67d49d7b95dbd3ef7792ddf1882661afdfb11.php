@@ -165,7 +165,7 @@
 
 <?php echo $__env->make('GestionTareas.ModalCrearTareas', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('GestionTareas.ModalTareasSeguimiento', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<link href="/css/Mystyle.css" rel="stylesheet">
+<link href="/css/MyStyle.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo e(asset('js/nav.js')); ?>"></script>
 <script type="text/javascript" src="<?php echo e(asset('js/tareas.js')); ?>"></script>
  

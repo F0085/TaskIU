@@ -358,6 +358,7 @@ function observadoresTask(){
 				$('#SelectTipoTarPerTra').prop('disabled',false);
 				return;
 			}
+			// console.log(estado);
 			$('#TablaTareas').html('');
 			    $.get(TipoUser+'/'+IdUsuario+'/'+estado, function (data) {
 					$.each(data, function(i2, $valore) { 
@@ -652,6 +653,8 @@ function observadoresTask(){
 						$('#EstadoObservacion').html('');
 					}
 				}
+				document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}')`) ;
+
 	   	    	listaObservaciones();
 	   	     	$('#cargatareas').fadeIn(1000).html(data); 
 	   		});
@@ -726,7 +729,6 @@ function observadoresTask(){
 		    		 $('#listaObservadores').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item3['usuario']['Nombre']+' '+item3['usuario']['Apellido'] }
                             </li>`);
 		    	});
-				// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}')`) ;
 		  //   	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
 	    	});
 	    	$('#FooterCrearTarea').html('');

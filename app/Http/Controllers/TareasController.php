@@ -243,6 +243,9 @@ class TareasController extends Controller
         $ClienteObservadores= new Client([
               'base_uri' => $this->servidor.'Observadores',
     ]); 
+    $clientServer = new Client([
+                'base_uri' => $this->servidor,
+    ]);
 
         $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
                  'Nombre'=>$request->Nombre,
@@ -259,26 +262,30 @@ class TareasController extends Controller
         $ResultadoTareas=json_decode((string) $res->getBody(), true);
            
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-          // if($request->ResponsablesTask != null){
-          //   foreach ($request->ResponsablesTask as $key => $responsables) {
-          //       $dataResponsables = ['Id_Usuario'=>$responsables,
-          //          'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
-          //         $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
-          //   }
-          // }
-          // if($request->ResponsablesTask != null){
-          //   foreach ($request->ParticipantesTask as $key => $participantes) {
-          //         $dataParticipantes = ['Id_Usuario'=>$participantes,
-          //          'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
-          //         $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
-          //     } 
-          // }
+          if($request->ResponsablesTask != null){
+             $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
+            foreach ($request->ResponsablesTask as $key => $responsables) {
+                $dataResponsables = ['Id_Usuario'=>$responsables,
+                   'Id_Tarea'=>$id];
+                  $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+            }
+          }else{
+             $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
+          }
+          if($request->ParticipantesTask != null){
+            $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
+            foreach ($request->ParticipantesTask as $key => $participantes) {
+                  $dataParticipantes = ['Id_Usuario'=>$participantes,
+                  'Id_Tarea'=>$id];
+                  $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+              } 
+          }else{
+            $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
+          }
           
             if($request->ObservadoresTask !=null){
 
-              $clientServer = new Client([
-                'base_uri' => $this->servidor,
-              ]);
+
               $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
 
               foreach ($request->ObservadoresTask as $key => $observadores) {
@@ -287,6 +294,8 @@ class TareasController extends Controller
                   $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
               
               } 
+            }else{
+              $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
             }
             return json_decode((string) $res->getBody(), true);
         }
@@ -303,12 +312,13 @@ class TareasController extends Controller
         $resultado= json_decode((string) $response->getBody(), true);
         $arrae=array();
         foreach ($resultado as $key => $value) {
-
+         
           if($value['tarea']['Estado_Tarea'] == $estado){
           $arrae[$key]= array($value['tarea']);
           }
        
         }
+
            return $arrae;
     }
     public function MisTareasParticipantes($Id_Usuario,$estado)

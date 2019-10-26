@@ -54,6 +54,56 @@ function GuardarTarea(){
 	}
 }
 
+//ACTUALIZAR TAREAS
+function ActualizarTarea(){
+	var Vtarea= validadorCampos('Nombretarea'); 
+	var Vdescripcion= validadorCampos('descripcionTarea');
+	var Vtipo= validadorCampos('tipoTarea'); 
+	if(Vtarea==1 && Vdescripcion==1 && Vtipo==1 ){ // && Vfinicio==1  && Vhinicio==1  && Vffin==1 && Vhfin==1 && Vresponsables==1 && Vparticipantes==1 && Vobsevadores==1 ){
+	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+	        <div class="loader"> 
+	            <svg class="circular" viewBox="25 25 50 50">
+	                <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+	            </svg>Espere...
+
+	        </div>
+	    </div>`);
+	   console.log($('#TaskID').val());
+	    var FrmData = { 
+	    	Nombre: $("#Nombretarea").val(),
+	    	descripcion: $("#descripcionTarea").val(),
+	    	tipoTarea: $("#tipoTarea").val(),
+	    	FechaIn: $("#FechaInicioTarea").val(),
+	    	HoraIn: $("#HoraInicioTarea").val(),
+	    	FechaFin: $("#FechaLimiteTarea").val(),
+	    	HoraFin: $("#HoraLimiteTarea").val(),
+	    	ResponsablesTask: $("#ResponsablesTask").val(),
+	    	ParticipantesTask: $("#ParticipantesTask").val(),
+	    	ObservadoresTask: $("#ObservadoresTask").val(),
+	    }
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'Tareas'+'/'+$('#TaskID').val(), 
+	        method: "PUT", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+	        	var htl=`<i class="fa fa-trash"></i>`;
+	        	$('#cargar').fadeIn(1000).html(data); 
+	        	window.location = "/Tareas";
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+	}
+}
+
 //MOSTRAR MDODAL CREAR SUBTAREAS
 function CrearSubtarea(Id_tarea,Nombretarea,tipoTarea){
 	$("#TaskID").val(Id_tarea);
@@ -371,7 +421,7 @@ function observadoresTask(){
 	                                    </td>
 	                                    <td id='${$valores['Id_tarea']+'50'+textoid}'></td>
 	                                    <td id='${$valores['Id_tarea']+'75'+textoid}'></td>
-	                                    </td>
+	                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
 	                                </tr>`);
 
 		    $.each($valores['responsables'], function(i, $vREs) { 
@@ -449,14 +499,6 @@ function observadoresTask(){
 	//PARA EL MODAL DEL SEGUIMIENTO DE LA TAREA
 	function ModalTareas(Id_tarea){
 		limpiarModalTareas();
-
-		if($('#SelecTipoUserTareas').val()=="CPM"){
-			var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
-
-		}else{
-			var btneditar='';
-		}
-
 		$("#ModalTareasSeguimiento").modal("show");
 		$('#cargatareas').append(`<div id="preloader" style="background: #ffffff00">
 		    <div class="loader"> 
@@ -466,6 +508,7 @@ function observadoresTask(){
 
 		    </div>
 		</div>`);
+
 	    $.get('Tareas/'+Id_tarea, function (data) {
 	    	$.each(data, function(i,item){
 		    	$('#TituloTareaSeguimiento').html("<i class='fa fa-bookmark'></i>  "+  item['Nombre']);
@@ -484,9 +527,135 @@ function observadoresTask(){
 		    	   $('#ObservadoresTaskSeguimiento').append(`<i class="fa fa-user"></i>  ${item3['usuario']['Nombre']} ${item3['usuario']['Apellido']} <br>`);
 		    	});
 		    	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
-	    	});
-	   	    $('#cargatareas').fadeIn(1000).html(data); 
-	   	    listaObservaciones();
+	    	
+
+			   	if($('#SelecTipoUserTareas').val()=="CPM"){
+					var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
+					$('#PanelObservacion').html('');
+					$('#PanelEvidencias').html('');	
+					$('#botoneSeguimiento').html('');
+					$('#EstadoObservacion').html('');
+					$('#botoneSeguimiento').append(`<div class="row">
+		                            <div class="col-md-6">
+		                                <div class="btn-group">
+		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                    Mas
+		                                  </button>
+		                                  <div class="dropdown-menu">
+		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		                                    <a class="dropdown-item" href="#"><i class="fa fa-star-o"></i>  Agregar a favorito</a>
+		                                    <div id="btneditar">
+		                                    ${btneditar}
+		                                   </div>
+		                                  </div>
+		                                </div>
+		                            </div>
+		                        </div> `);
+					if($('#Terminada').hasClass('activado')){
+						$('#PanelObservacion').html('');
+						$('#PanelEvidencias').html('');	
+						$('#botoneSeguimiento').html('');
+						$('#EstadoObservacion').html('');
+					}
+				}else if($('#SelecTipoUserTareas').val()=="MisTareasResponsables"){
+					$('#EstadoObservacion').html('');
+					$('#PanelObservacion').html('');
+					$('#PanelObservacion').append(`
+		                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+		                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
+		                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+		                                `);
+					$('#PanelEvidencias').html('');
+					$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+		                                    <div class="custom-file">
+		                                        <input type="file" class="custom-file-input">
+		                                        <label class="custom-file-label">Escoger Archivo</label> 
+		                                    </div><br><br>
+		                                    <button type="button" class="btn btn-success btn-sm">Registrar</button>`);
+					$('#botoneSeguimiento').html('');
+					$('#botoneSeguimiento').append(`<div class="row">
+		                            <div class="col-md-6">
+		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+		                            </div>
+		                            <div class="col-md-6">
+		                                <div class="btn-group">
+		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                    Mas
+		                                  </button>
+		                                  <div class="dropdown-menu">
+		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		                                    <a class="dropdown-item" href="#"><i class="fa fa-star-o"></i>  Agregar a favorito</a>
+		                                    <div id="btneditar">
+		                                   </div>
+		                                  </div>
+		                                </div>
+		                            </div>
+		                        </div> `);
+					if($('#Terminada').hasClass('activado')){
+						$('#PanelObservacion').html('');
+						$('#PanelEvidencias').html('');	
+						$('#botoneSeguimiento').html('');
+					}
+				}else if($('#SelecTipoUserTareas').val()=="MisTareasParticipantes"){
+					$('#EstadoObservacion').html('');
+					$('#PanelObservacion').html('');
+					$('#PanelObservacion').append(`
+		                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+		                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
+		                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+		                                `);
+					$('#PanelEvidencias').html('');
+					$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+		                                    <div class="custom-file">
+		                                        <input type="file" class="custom-file-input">
+		                                        <label class="custom-file-label">Escoger Archivo</label> 
+		                                    </div><br><br>
+		                                    <button type="button" class="btn btn-success btn-sm">Registrar</button>`);
+					$('#botoneSeguimiento').html('');
+					$('#botoneSeguimiento').append(`<div class="row">
+		                            <div class="col-md-6">
+		                                <div class="btn-group">
+		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                    Mas
+		                                  </button>
+		                                  <div class="dropdown-menu">
+		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		                                    <a class="dropdown-item" href="#"><i class="fa fa-star-o"></i>  Agregar a favorito</a>
+		                                    <div id="btneditar">
+		                                   </div>
+		                                  </div>
+		                                </div>
+		                            </div>
+		                        </div> `);
+				}else if($('#SelecTipoUserTareas').val()=="MisTareasObservadores"){
+					$('#PanelObservacion').html('');
+					$('#PanelEvidencias').html('');
+					$('#botoneSeguimiento').html('');
+					$('#EstadoObservacion').html('');
+					 $('#EstadoObservacion').append(`<div class="row"> 
+					 	<div class="col-md-12 ">   
+					      <div class="alert alert-info" role="alert">
+					        <div class="row vertical-align centerDiv">
+					          <div class="col-lg-1 text-center">
+					            <i class="fa fa-info fa-2x"></i> 
+					          </div>
+					          <div class="col-lg-11 centerDiv">
+					           <strong> Esta tarea se encuentra en estado&nbsp${item['Estado_Tarea']}.</strong>
+					          </div>
+					        </div>
+					      </div>      
+		   				</div>
+		 				 </div> `)
+					if($('#Terminada').hasClass('activado')){
+						$('#PanelObservacion').html('');
+						$('#PanelEvidencias').html('');	
+						$('#botoneSeguimiento').html('');
+						$('#EstadoObservacion').html('');
+					}
+				}
+	   	    	listaObservaciones();
+	   	     	$('#cargatareas').fadeIn(1000).html(data); 
+	   		});
 		});
 
 	}
@@ -536,15 +705,13 @@ function observadoresTask(){
 		    	$('#TituloTareaCrear').html("<i class='fa fa-bookmark'></i>  "+  'Modificar Tareas');
 		    	$('#Nombretarea').val(item['Nombre']);
 		    	$('#tipoTarea').val(item['Id_Tipo_Tarea']);
-		    	// $('#idTar').val(item['Id_tarea']);
+		    	$('#TaskID').val($('#idTar').val());
 		    	$('#descripcionTarea').val(item['Descripcion']);
 		  		$('#FechaInicioTarea').val(item['FechaInicio']);
 		  		$('#HoraInicioTarea').val(item['Hora_Inicio']);
 		     	$('#FechaLimiteTarea').val(item['FechaFin']);	 
 		     	$('#HoraLimiteTarea').val(item['Hora_Fin']);	  
-
 		    	$.each(item['responsables'], function(i1,item1){
-
 		    		 $("#ResponsablesTask option[value="+ item1['Id_Usuario'] +"]").attr("selected",true);
 		    		 $('#listaResponsable').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item1['usuario']['Nombre']+' '+item1['usuario']['Apellido'] }
                             </li>`);
@@ -563,6 +730,9 @@ function observadoresTask(){
 				// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}')`) ;
 		  //   	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
 	    	});
+	    	$('#FooterCrearTarea').html('');
+	    	$('#FooterCrearTarea').append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="ActualizarTarea()" class="btn btn-primary">Aceptar </button>`);
 	   	    $('#cargatareas').fadeIn(1000).html(data); 
 		});
 
@@ -570,6 +740,9 @@ function observadoresTask(){
 
 	function ModalCrearTareas(){
 		limpiarModalTareasCrear();
+		$('#FooterCrearTarea').html('');
+	    	$('#FooterCrearTarea').append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Aceptar </button>`);
 		$("#ModalCrearTareas").modal("show");
 
 	}

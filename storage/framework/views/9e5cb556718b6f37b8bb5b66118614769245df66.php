@@ -112,7 +112,7 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="FooterCrearTarea">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Aceptar </button>
             </div>

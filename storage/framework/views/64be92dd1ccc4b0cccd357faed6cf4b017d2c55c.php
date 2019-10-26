@@ -5,72 +5,43 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h3 id="TituloTareaSeguimiento" class="modal-title"> </h3>
+                <h3 id="TituloTareaSeguimiento" style="font-size: 20px" class="modal-title"> </h3>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <input hidden="true" id="idTar">
+                <div id="EstadoObservacion"></div>
                 <div class="row">
                    <div class="col-md-7">
-<!--                         <div class="row">
-                            <div class="col-md-12">
-                                <label for="" style="color: black"><b>Descripción:</b></label>
-                                <p style="color: black; font-size: 13px" id="descripcionTareaSeguimiento"></p>
-
-                            </div>
-                        </div>
-                        <hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem"> -->
                         <div class="row">
-                            <div class="col-md-12" > <!-- id="divObservacionSeguimiento" -->
-                                <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
-                                <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
-                                <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
-                            </div>
+                                <div class="col-md-12" id="PanelObservacion" > <!-- id="divObservacionSeguimiento" -->
+                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
+                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+                                </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12">
                                 <br>
                                 <label for="" style="color: black"><i class="fa fa-bookmark"></i>  <b>Lista de Observaciones</b></label>
                                 <div id="cajacomentario" style="font-size: 12px; overflow:scroll; height:280px; width:100%;">  
-<!--                                     <div class="card">
-                                         <div class="card-body">
-                                            hola
-                                         </div>
-                                    </div> -->
                                 </div>
-<!-- 
-                                <div class="table-responsive" style="font-size: 12px; overflow:scroll; height:180px; width:100%;">
-                                    <table class="table  header-border table-hover" >
-                                        <thead>
-                                            <tr style="color: black">
-                                                <th>Observación</th>
-                                                <th>Usuario</th>
-                                                <th>Fecha</th>                                         
-                                            </tr>
-                                        </thead>
-                                        <tbody id="LisObserTareas">
-                                            <tr>
-                                                <td>Hola</td>
-                                                <td>hjk</td>
-                                                <td>fds</td>
-                                            </tr>
-                                            
-                                        </tbody>
-
-                                        </table>
-                                 </div> -->
                             </div>
                         </div>
                         <br>
                         <hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
                         <div class="row">
-                            <div class="col-md-12" >  <!-- id="divEvidenciaSeguimiento" -->
-                                <label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input">
-                                    <label class="custom-file-label">Escoger Archivo</label> 
-                                </div><br><br>
-                                <button type="button" class="btn btn-success btn-sm">Registrar</button>
-                            </div>
+                                <div class="col-md-12" id="PanelEvidencias" >  <!-- id="divEvidenciaSeguimiento" -->
+                                    <label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input">
+                                        <label class="custom-file-label">Escoger Archivo</label> 
+                                    </div><br><br>
+                                    <button type="button" class="btn btn-success btn-sm">Registrar</button>
+                                </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12">
                                 <br>
                                 <label for="" style="color: black"><i class="fa fa-bookmark"></i>  <b>Lista de Evidencias</b></label>
@@ -194,7 +165,7 @@
                                                             <th scope="col">Responsables</th>
                                                             <th scope="col">Participantes</th>
                                                             <th scope="col">Observadores</th>
-                                                            <th scope="col" rowspan="2">Progreso</th>
+                                                            <th scope="col" rowspan="2">Tipo</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tablaTareaSeguimiento">
@@ -232,7 +203,7 @@
                             </div>
                         </div>                        
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 centerDiv">
                         <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
 <!--                         <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Aceptar </button> -->
                     </div>

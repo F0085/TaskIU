@@ -13,7 +13,8 @@ class ReunionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public $servidor='http://localhost:8000/';
+        //public $servidor='http://18.188.234.88/';
+            public $servidor='http://localhost:8000/';
     public function index()
     {
         $Usuarios=$this->Usuarios(); 

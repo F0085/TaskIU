@@ -7,7 +7,8 @@ use GuzzleHttp\Client;
 
 class TareasController extends Controller
 {
-	    public $servidor='http://18.188.234.88/';
+	    //public $servidor='http://18.188.234.88/';
+          public $servidor='http://localhost:8000/';
       //LISTA DE USUARIOS
 
 	public function index(){
@@ -210,17 +211,85 @@ class TareasController extends Controller
 	        }
 	        
             if($request->ObservadoresTask !=null){
-            foreach ($request->ObservadoresTask as $key => $observadores) {
-                $dataObservadores = ['Id_Usuario'=>$observadores,
-                 'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
-                $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
-            } 
-        }
+              foreach ($request->ObservadoresTask as $key => $observadores) {
+                  $dataObservadores = ['Id_Usuario'=>$observadores,
+                   'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
+                  $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
+              } 
+            }
             return json_decode((string) $res->getBody(), true);
         }
 
     }
 
+    public function update (Request $request , $id){
+
+      //CLIENTE PARA LAS TAREAS
+      $client = new Client([
+          'base_uri' => $this->servidor.'Tareas/'.$id,
+        ]);
+
+      //CLIENTE PARA RESPONSABLES
+        $Clienteresponsable = new Client([
+              'base_uri' => $this->servidor.'Responsables',
+    ]); 
+
+      //CLIENTE PARA PARTICIPANTES
+        $ClienteParticipantes= new Client([
+              'base_uri' => $this->servidor.'Participantes',
+    ]); 
+
+      //CLIENTE PARA OBSERVADORES
+        $ClienteObservadores= new Client([
+              'base_uri' => $this->servidor.'Observadores/',
+    ]); 
+
+        $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
+                 'Nombre'=>$request->Nombre,
+                 'FechaInicio'=>$request->FechaIn,
+                 'Hora_Inicio'=>$request->HoraIn,
+                 'Hora_Fin'=>$request->HoraFin,
+                 'FechaFin'=>$request->FechaFin,
+                 'FechaCreacion'=>'2019-09-06',
+                 'Descripcion'=>$request->descripcion]; 
+
+
+
+        $res = $client->request('PUT','',['form_params' => $data]); 
+        $ResultadoTareas=json_decode((string) $res->getBody(), true);
+           
+         if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+          // if($request->ResponsablesTask != null){
+          //   foreach ($request->ResponsablesTask as $key => $responsables) {
+          //       $dataResponsables = ['Id_Usuario'=>$responsables,
+          //          'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
+          //         $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+          //   }
+          // }
+          // if($request->ResponsablesTask != null){
+          //   foreach ($request->ParticipantesTask as $key => $participantes) {
+          //         $dataParticipantes = ['Id_Usuario'=>$participantes,
+          //          'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
+          //         $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+          //     } 
+          // }
+          
+            if($request->ObservadoresTask !=null){
+
+              $clientServer = new Client([
+                'base_uri' => $this->servidor,
+              ]);
+              $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
+              foreach ($request->ObservadoresTask as $key => $observadores) {
+                  $dataObservadores = ['Id_Usuario'=>$observadores,
+                   'Id_Tarea'=>$id];
+                  $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
+              } 
+            }
+            return json_decode((string) $res->getBody(), true);
+        }
+
+    }
 
         //LISTA TAREA POR ESTADOS
     public function MisTareasResponsables($Id_Usuario,$estado)

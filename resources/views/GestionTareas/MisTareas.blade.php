@@ -137,7 +137,7 @@
                             <th scope="col">Responsables</th>
                             <th scope="col">Participantes</th>
                             <th scope="col">Observadores</th>
-                  <!--           <th scope="col" rowspan="2">Progreso</th> -->
+                            <th scope="col" rowspan="2">Tipo</th>
                         </tr>
                     </thead>
                     <tbody id="TablaTareas">

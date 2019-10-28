@@ -1,7 +1,7 @@
 
 <div id="cargatareas"></div>
-<div id="ModalTareasSeguimiento"  class="modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div id="ModalTareasSeguimiento"  class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -13,7 +13,7 @@
                 <input hidden="true" id="idTar">
                 <div id="EstadoObservacion"></div>
                 <div class="row">
-                   <div class="col-md-7">
+                   <div class="col-md-6">
                         <div class="row">
                                 <div class="col-md-12" id="PanelObservacion" > <!-- id="divObservacionSeguimiento" -->
                                     <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
@@ -73,7 +73,7 @@
                         <hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
 
                    </div>
-                   <div class="col-md-5">
+                   <div class="col-md-6">
                        <div class="card">
                                 <div class="card-body">
 
@@ -191,11 +191,10 @@
                             <div class="col-md-6">
                                 <div class="btn-group">
                                   <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Mas
+                                    Más
                                   </button>
                                   <div class="dropdown-menu">
                                     <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-                                    <a class="dropdown-item" href="#"><i class="fa fa-star-o"></i>  Agregar a favorito</a>
                                     <div id="btneditar">
                                    </div>
                                   </div>

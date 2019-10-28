@@ -1,4 +1,4 @@
-<div  class="modal fade ModalCrearTareas" id="ModalCrearTareas" tabindex="-1" role="dialog" aria-hidden="true">
+<div  class="estilo modal fade ModalCrearTareas" id="ModalCrearTareas" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -9,6 +9,7 @@
             </div>
             <div class="modal-body">
                 <input id="TaskID" hidden="true">
+                <div id="mensajefechas"></div>
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
@@ -16,9 +17,9 @@
                             <input onkeyup="borderInput('Nombretarea')" type="text" class="form-control input-default"  placeholder="Ingrese nombre de la tarea" id="Nombretarea" name="Nombretarea" required>
                         </div>                    
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" >
                             <label for="" style="color: black"><b>Tipo</b></label>
-                            <select onchange="borderInput('tipoTarea')" class="form-control input-default" name="tipoTarea" id="tipoTarea">
+                            <select onchange="CamposPersonales()" class="form-control input-default" name="tipoTarea" id="tipoTarea">
                                 <option value="5">Laboral</option>
                                 <option value="4">Personal</option>
                                 <option value="2">Proyecto</option>
@@ -36,11 +37,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Fecha Inicio</b></label>
-                        <input  value="<?php echo date("Y-m-d");?>"  onkeyup="borderInput('FechaInicioTarea')"  type="date" class="form-control input-default" id="FechaInicioTarea"> 
+                        <input  value="<?php echo date("Y-m-d");?>"  onkeyup="borderInput('FechaInicioTarea')"  type="date" min="<?php echo date("Y-m-d");?>" class="form-control input-default" id="FechaInicioTarea"> 
                     </div>
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Hora Inicio</b></label>
-                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraInicioTarea')"  type="time" class="form-control input-default" id="HoraInicioTarea"> 
+                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraInicioTarea')"  type="time" min="<?php echo date('h:i');?>" class="form-control input-default" id="HoraInicioTarea"> 
                     </div>
                 </div>
 
@@ -48,15 +49,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Fecha Límite</b></label>
-                        <input value="<?php echo date("Y-m-d");?>" onkeyup="borderInput('FechaLimiteTarea')"   type="date" class="form-control input-default" id="FechaLimiteTarea"> 
+                        <input value="<?php echo date("Y-m-d");?>" onkeyup="borderInput('FechaLimiteTarea')"   type="date" min="<?php echo date("Y-m-d");?>" class="form-control input-default" id="FechaLimiteTarea"> 
                     </div>
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Hora Límite</b></label>
-                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraLimiteTarea')"  type="time" class="form-control input-default" id="HoraLimiteTarea"> 
+                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraLimiteTarea')"  type="time" min="<?php echo date('h:i');?>" class="form-control input-default" id="HoraLimiteTarea"> 
                     </div>
                 </div>
                 <br>
-                <div class="row">
+                <div class="row " id="Integrantes">
                     <div class="col-md-4">
                        <label for="" style="color: black"><b>Responsables</b></label>
                        <br>

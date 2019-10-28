@@ -7,6 +7,8 @@
 @section('contenido')
 <!-- <div class="card">
     <div class="card-body"> -->
+    	<!-- Button trigger modal -->
+
 		<div class="row">
 		    <div class="col-md-12" >
 		             <div class="container-fluid mt-3">

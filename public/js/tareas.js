@@ -37,20 +37,57 @@ function GuardarTarea(){
 	        }
 	    });
 	    $.ajax({
-	        url: 'Tareas', 
+	        url: 'validarFechas', 
 	        method: "POST", 
 	        data: FrmData,
 	        dataType: 'json',
 	        success: function (data) 
 	        {
-	        	var htl=`<i class="fa fa-trash"></i>`;
-	        	$('#cargar').fadeIn(1000).html(data); 
-	        	window.location = "/Tareas";
+	        	
+	        	if(data['FIN']=='1' && data['FFIN']=='1' && data['HIN']=='1' && data['HFIN']=='1'){
+		    $.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+		    });
+		    $.ajax({
+		        url: 'Tareas', 
+		        method: "POST", 
+		        data: FrmData,
+		        dataType: 'json',
+		        success: function (data) 
+		        {
+		        	var htl=`<i class="fa fa-trash"></i>`;
+		        	$('#cargar').fadeIn(1000).html(''); 
+		        	window.location = "/Tareas";
+		        },
+		        error: function () { 
+		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+		        }
+		    });
+	        	}else{
+	        		$('#cargar').fadeIn(1000).html('');
+	        		$('#mensajefechas').html('');
+					$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+										  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente (Fecha Inicio y Hora Inicio no pueden ser menor a la actual, Fecha Límite y Hora Límite no pueden ser menor a las de inicio).
+										  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										    <span aria-hidden="true">&times;</span>
+										  </button>
+										</div`);
+					$('#mensajefechas').hide();
+			        $('#mensajefechas').prop('hidden',false);
+			        $('#mensajefechas').show(500);
+	        	}
+
+	        	// $('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
+	      		 // $('#'+Id_Observacion+'c').html('');
+	      		 // listaObservaciones();
 	        },
 	        error: function () { 
 	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
 	        }
 	    });
+	    
 	}
 }
 
@@ -106,8 +143,10 @@ function ActualizarTarea(){
 
 //MOSTRAR MDODAL CREAR SUBTAREAS
 function CrearSubtarea(Id_tarea,Nombretarea,tipoTarea){
+	limpiarModalTareasCrear();
 	$("#TaskID").val(Id_tarea);
-	$("#tipoTarea").val(tipoTarea);	
+	$("#tipoTarea").val(tipoTarea);		
+	$("#tipoTarea").prop('disabled',true);	
 	$("#TituloTareaCrear").html("<i class='fa fa-bookmark'></i>  "+ 'Nueva Subtarea de '+Nombretarea);
 	$("#ModalTareasSeguimiento").modal("hide");
 	$("#ModalCrearTareas").modal("show");
@@ -363,8 +402,8 @@ function observadoresTask(){
 			    $.get(TipoUser+'/'+IdUsuario+'/'+estado, function (data) {
 					$.each(data, function(i2, $valore) { 
 							$.each($valore, function(i2, $valores) { 
-						    	$('#TablaTareas').append(`<tr id="accordion${$valores['Id_tarea']}"  tr_tareas">
-					                                    <td > <i  data-toggle="collapse" data-target="#accordion${$valores['Id_tarea']}" onclick="CambioIconoBoton(this)" class="clickable collapse-row collapsed fa fa-square-o "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
+						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
+					                                    <td > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
 					                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
 					                                    <td id='${$valores['Id_tarea']+'25'}'>   
@@ -410,10 +449,10 @@ function observadoresTask(){
 	    		signo='fa fa-plus';
 
 	    	}else{
-	    		signo='fa fa-square-o';
+	    		signo='fa fa-sticky-note';
 
 	    	}
-		    $('#'+idtabla).append(`<tr id="accordion${$valores['tareasIdTareas']}${textoid}" class="${col} tr_tareas">
+		    $('#'+idtabla).append(`<tr  id="accordion${$valores['tareasIdTareas']}${textoid}" class="${col} tr_tareas">
 	                                    <td > <i  data-toggle="collapse" data-target="#accordion${$valores['Id_tarea']}${textoid}" onclick="CambioIconoBoton(this)" class="clickable collapse-row collapsed ${signo} " style="text-indent: ${sangria+'cm'}" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 	                                     <td><b>${$valores['FechaFin']}</td>
 	                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
@@ -511,7 +550,7 @@ function observadoresTask(){
 
 	    $.get('Tareas/'+Id_tarea, function (data) {
 	    	$.each(data, function(i,item){
-		    	$('#TituloTareaSeguimiento').html("<i class='fa fa-bookmark'></i>  "+  item['Nombre']);
+		    	$('#TituloTareaSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Nombre']);
 		    
 		    	$('#idTar').val(item['Id_tarea']);
 		    	$('#descripcionTareaSeguimiento').html(item['Descripcion']);
@@ -539,11 +578,10 @@ function observadoresTask(){
 		                            <div class="col-md-6">
 		                                <div class="btn-group">
 		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                    Mas
+		                                    Más
 		                                  </button>
 		                                  <div class="dropdown-menu">
 		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-		                                    <a class="dropdown-item" href="#"><i class="fa fa-star-o"></i>  Agregar a favorito</a>
 		                                    <div id="btneditar">
 		                                    ${btneditar}
 		                                   </div>
@@ -551,6 +589,7 @@ function observadoresTask(){
 		                                </div>
 		                            </div>
 		                        </div> `);
+					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
 					if($('#Terminada').hasClass('activado')){
 						$('#PanelObservacion').html('');
 						$('#PanelEvidencias').html('');	
@@ -580,17 +619,18 @@ function observadoresTask(){
 		                            <div class="col-md-6">
 		                                <div class="btn-group">
 		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                    Mas
+		                                    Más
 		                                  </button>
 		                                  <div class="dropdown-menu">
 		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-		                                    <a class="dropdown-item" href="#"><i class="fa fa-star-o"></i>  Agregar a favorito</a>
 		                                    <div id="btneditar">
 		                                   </div>
 		                                  </div>
 		                                </div>
 		                            </div>
 		                        </div> `);
+					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+
 					if($('#Terminada').hasClass('activado')){
 						$('#PanelObservacion').html('');
 						$('#PanelEvidencias').html('');	
@@ -616,17 +656,18 @@ function observadoresTask(){
 		                            <div class="col-md-6">
 		                                <div class="btn-group">
 		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                    Mas
+		                                    Más
 		                                  </button>
 		                                  <div class="dropdown-menu">
 		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-		                                    <a class="dropdown-item" href="#"><i class="fa fa-star-o"></i>  Agregar a favorito</a>
 		                                    <div id="btneditar">
 		                                   </div>
 		                                  </div>
 		                                </div>
 		                            </div>
 		                        </div> `);
+					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+
 				}else if($('#SelecTipoUserTareas').val()=="MisTareasObservadores"){
 					$('#PanelObservacion').html('');
 					$('#PanelEvidencias').html('');
@@ -653,7 +694,6 @@ function observadoresTask(){
 						$('#EstadoObservacion').html('');
 					}
 				}
-				document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}')`) ;
 
 	   	    	listaObservaciones();
 	   	     	$('#cargatareas').fadeIn(1000).html(data); 
@@ -668,14 +708,15 @@ function observadoresTask(){
 		$('#divObservacionSeguimiento').html('');
 		$('#TituloTareaSeguimiento').html('');
 		$('#descripcionTareaSeguimiento').html('');
-		$('#FechaInicioTareaSeguimiento').html('');
-		$('#HoraInicioTareaSeguimiento').html('');
-		$('#FechaLimiteTareaSeguimiento').html('');
-		$('#HoraLimiteTareaSeguimiento').html('');
+		// $('#FechaInicioTareaSeguimiento').prop('value', '2019/08/10');
+		// $('#HoraInicioTareaSeguimiento').html('');
+		// $('#FechaLimiteTareaSeguimiento').html('');
+		// $('#HoraLimiteTareaSeguimiento').html('');
 		$('#ResponsablesTaskSeguimiento').html('');
 		$('#ParticipantesTaskSeguimiento').html('');
 		$('#ObservadoresTaskSeguimiento').html('');
 		$('#tablaTareaSeguimiento').html('');
+
 	}
 
 	//LIMPIAR MODAL DE TAREAS CERAR NUEVA
@@ -683,14 +724,16 @@ function observadoresTask(){
 	$("#ResponsablesTask option:selected").attr("selected",false)
 	$("#ParticipantesTask option:selected").attr("selected",false)
 	$("#ObservadoresTask option:selected").attr("selected",false)
-		// $('#TituloTareaCrear').html('');
+		 $.get('HoraFechaSistema', function (data) {
+			$('#FechaInicioTarea').val(data['Fecha']);
+			$('#HoraInicioTarea').val(data['Hora']);
+			$('#FechaLimiteTarea').val(data['Fecha']);
+			$('#HoraLimiteTarea').val(data['Hora']);
+		 });
 		$('#Nombretarea').val('');
 		$('#tipoTarea').val('5');
+		$('#tipoTarea').prop('disabled',false);
 		$('#descripcionTarea').val('');
-		$('#FechaInicioTarea').val('');
-		$('#HoraInicioTarea').val('');
-		$('#FechaLimiteTarea').val('');
-		$('#HoraLimiteTarea').val('');
 		$('#listaResponsable').html('');
 		$('#listaObservadores').html('');
 		$('#listaParticipantes').html('');
@@ -741,6 +784,7 @@ function observadoresTask(){
 
 	function ModalCrearTareas(){
 		limpiarModalTareasCrear();
+		$('#TituloTareaCrear').html("<i class='fa fa-bookmark'></i>  "+  'Nueva Tarea');
 		$('#FooterCrearTarea').html('');
 	    	$('#FooterCrearTarea').append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Aceptar </button>`);
@@ -770,6 +814,7 @@ function observadoresTask(){
 	        {
 
 	        	$('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
+	      		 $("#ObservacionTareaSeguimiento").val('');
 	      		 listaObservaciones();
 	        },
 	        error: function () { 
@@ -901,3 +946,47 @@ function observadoresTask(){
 	        }
 	    });
 	}
+
+function CamposPersonales(){
+	if($('select[id="tipoTarea"] option:selected').text() == 'Personal'){
+	$('#Integrantes').addClass('Visibility');
+
+	}else{
+		$('#Integrantes').removeClass('Visibility');
+
+	}
+
+}
+
+
+function validarfechas(){
+	var FrmData = { 
+	    	FechaIn: $("#FechaInicioTarea").val(),
+	    	HoraIn: $("#HoraInicioTarea").val(),
+	    	FechaFin: $("#FechaLimiteTarea").val(),
+	    	HoraFin: $("#HoraLimiteTarea").val(),
+	    	// FechaLimiteTarea: $("#ObservacionRespuesta").val(),
+	}
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'validarFechas', 
+	        method: "POST", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+	        	console.log(data);
+
+	        	// $('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
+	      		 // $('#'+Id_Observacion+'c').html('');
+	      		 // listaObservaciones();
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+}

@@ -147,6 +147,7 @@ class TareasController extends Controller
 
 
     public function store(Request $request){
+    
     	 session_start();
     	//CLIENTE PARA LAS TAREAS
 	    $client = new Client([
@@ -174,7 +175,7 @@ class TareasController extends Controller
         }else{
           $tipTar='T';
         }
-
+        $fecha=date('Y-m-j H:i:s');
         $data = ['Id_Usuario'=>$_SESSION['id'],
                  'Estado_Tarea'=>'Pendiente',
                  'Id_Tipo_Tarea'=>$request->tipoTarea,
@@ -183,7 +184,7 @@ class TareasController extends Controller
                  'Hora_Inicio'=>$request->HoraIn,
                  'Hora_Fin'=>$request->HoraFin,
                  'FechaFin'=>$request->FechaFin,
-                 'FechaCreacion'=>'2019-09-06',
+                 'FechaCreacion'=>$fecha,
                  'Descripcion'=>$request->descripcion,
                  'tareaFavorita'=>'1',
                  'tareasIdTareas'=>$request->tareasIdTareas,
@@ -253,7 +254,6 @@ class TareasController extends Controller
                  'Hora_Inicio'=>$request->HoraIn,
                  'Hora_Fin'=>$request->HoraFin,
                  'FechaFin'=>$request->FechaFin,
-                 'FechaCreacion'=>'2019-09-06',
                  'Descripcion'=>$request->descripcion]; 
 
 
@@ -356,4 +356,51 @@ class TareasController extends Controller
         }
            return $arrae;
     }
+
+
+    public function HoraFechaSistema(){
+      $arrae=array();
+      $arrae['Fecha']= array($fecha=date('Y-m-j'));
+      $arrae['Hora']= array($fecha=date('H:i:s'));
+      return $arrae;
+    }
+
+    public function validarFechas(Request $request){
+      $arrae=array();
+      $date=date('Y-m-j');
+      $hora=date('H:i');
+      $HoraActual=strtotime ($hora); 
+ 
+      $Fecha_Actual = strtotime ($date); 
+      $FechaInicio=strtotime($request->FechaIn);
+      $FechaLimite=strtotime($request->FechaFin);
+      $HoraInicio=strtotime($request->HoraIn);
+      $HoraLimite=strtotime($request->HoraFin);
+      if($Fecha_Actual>$FechaInicio){
+        $arrae['FIN']= '0';
+      }else{
+        $arrae['FIN']= '1';
+      }
+
+      if($FechaLimite<$FechaInicio){
+        $arrae['FFIN']= '0';
+      }else{
+        $arrae['FFIN']= '1';
+      }
+      if($HoraActual>$HoraInicio){
+        $arrae['HIN']= '0';
+      }else{
+        $arrae['HIN']= '1';
+      }
+
+      if($HoraLimite<$HoraInicio){
+        $arrae['HFIN']= '0';
+      }else{
+        $arrae['HFIN']= '1';
+      }
+
+      return $arrae;
+    }
+
+    
 }

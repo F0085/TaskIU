@@ -69,6 +69,9 @@ route::POST('GuardarSeguimientoTarea/','TareasController@GuardarSeguimientoTarea
 route::get('MisTareasResponsables/{Id_Usuario}/{estado}', 'TareasController@MisTareasResponsables');
 route::get('MisTareasParticipantes/{Id_Usuario}/{estado}', 'TareasController@MisTareasParticipantes');
 route::get('MisTareasObservadores/{Id_Usuario}/{estado}', 'TareasController@MisTareasObservadores');
+route::get('HoraFechaSistema', 'TareasController@HoraFechaSistema');
+route::POST('validarFechas', 'TareasController@validarFechas');
+
 
 
 Route::get('/login', 'LoginSController@index');

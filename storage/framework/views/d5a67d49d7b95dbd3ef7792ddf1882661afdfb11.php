@@ -27,13 +27,12 @@
 <?php endif; ?>
 <div id="cargar"></div>
 
-
 <div class="row">
 
     <div class="col-lg-12">
         <nav class="stroke">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-10 estilo">
                     <ul>
                       <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
@@ -121,17 +120,17 @@
                <hr style=" background-color: red; height: 1px">
 
                 <div class="contenedor">
-                    <button data-toggle="modal" data-target=".ModalCrearTareas" class="botonF1">
+                    <button style="cursor:pointer" onclick="ModalCrearTareas()" class="botonF1">
                       <span>+</span>
                     </button>
                 </div>
-            <div class="table-responsive" style="font-size: 12px">
+            <div class="table-responsive" style="font-size: 12px;">
                 <table class="table  header-border table-hover  " id="myTable">
                     <thead>
                         <tr style="color: black">
                <!--              <th scope="col">#</th> -->
                             <th scope="col">Nombre</th>
-                            <th scope="col">Fecha Lìmite</th>
+                            <th scope="col">Fecha Límite</th>
                             <th scope="col">Creado Por</th>
                             <th scope="col">Responsables</th>
                             <th scope="col">Participantes</th>

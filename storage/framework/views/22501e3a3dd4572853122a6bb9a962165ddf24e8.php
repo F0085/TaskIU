@@ -204,7 +204,7 @@
 </div>
 
 
-    <link href="<?php echo e(asset('css/Mystyle.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(asset('css/MyStyle.css')); ?>" rel="stylesheet">
     <script type="text/javascript" src="<?php echo e(asset('js/nav.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/tareas.js')); ?>"></script>
  

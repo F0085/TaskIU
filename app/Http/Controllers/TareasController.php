@@ -203,7 +203,7 @@ class TareasController extends Controller
 	                $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
 	         	}
         	}
-        	if($request->ResponsablesTask != null){
+        	if($request->ParticipantesTask != null){
 	         	foreach ($request->ParticipantesTask as $key => $participantes) {
 	                $dataParticipantes = ['Id_Usuario'=>$participantes,
 	                 'Id_Tarea'=>$ResultadoTareas['Id_tarea']];

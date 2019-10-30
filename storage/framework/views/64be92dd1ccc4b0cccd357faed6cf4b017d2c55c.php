@@ -33,12 +33,13 @@
                         <hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
                         <div class="row">
                                 <div class="col-md-12" id="PanelEvidencias" >  <!-- id="divEvidenciaSeguimiento" -->
-                                    <label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+  
+                                    <!-- label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input">
                                         <label class="custom-file-label">Escoger Archivo</label> 
                                     </div><br><br>
-                                    <button type="button" class="btn btn-success btn-sm">Registrar</button>
+                                    <button type="button" class="btn btn-success btn-sm">Registrar</button> -->
                                 </div>
                         </div>
                         <div class="row">

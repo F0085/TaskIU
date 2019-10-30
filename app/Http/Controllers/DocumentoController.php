@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class DocumentoController extends Controller
 {
@@ -11,10 +12,18 @@ class DocumentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $servidor='http://18.188.234.88/';
+    //public $servidor='http://localhost:8000/';
+    
     public function index()
     {
-        //
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "Documento");
+        return json_decode((string) $response->getBody(), true);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,8 +43,10 @@ class DocumentoController extends Controller
      */
     public function store(Request $request)
     {
-          $archivo = $request->file('filedoc');
+        $archivo = $request->Evidencia;
+       
         $ruta =  date('Ymd'). time(). "_img_" .$archivo->getClientOriginalName();// LE ASIGNO UN NOMBRE ALEATORIO
+        dd($ruta);
         $extension = pathinfo($archivo->getClientOriginalName(), PATHINFO_EXTENSION);
         \Storage::disk('Documento')->put($ruta,  \File::get($archivo));
         $public_path = public_path();

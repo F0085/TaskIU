@@ -128,15 +128,12 @@ class TareasController extends Controller
 
         $resul=$this->TareasPendientesPorTareas($request);
         if(empty($resul)){
-          $data = ['Id_Usuario'=>$_SESSION['id'],
-                 'Id_Tarea'=>$idtareas,
-                 'Descripcion'=>$request->Observacion];
-          $res = $client->request('POST','',['form_params' => $data]);
+           $resTarea = $clientTarea->request('PUT','',['form_params' => $dataTarea]); 
+           return json_decode((string) $res->getBody(), true);
          
-           if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-              $resTarea = $clientTarea->request('PUT','',['form_params' => $dataTarea]); 
-              return json_decode((string) $res->getBody(), true);
-           }
+
+
+         
         }else{
          return 1; // TIENE TAREAS PENDIENTES
         }
@@ -189,7 +186,6 @@ class TareasController extends Controller
                  'tareaFavorita'=>'1',
                  'tareasIdTareas'=>$request->tareasIdTareas,
                  'tip_tar'=>$tipTar]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
-
 
 
         $res = $client->request('POST','',['form_params' => $data]);
@@ -402,5 +398,5 @@ class TareasController extends Controller
       return $arrae;
     }
 
-    
+
 }

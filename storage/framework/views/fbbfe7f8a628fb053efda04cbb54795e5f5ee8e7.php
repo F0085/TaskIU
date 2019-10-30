@@ -8,19 +8,7 @@
 <!-- <div class="card">
     <div class="card-body"> -->
     	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">
-  Huge modal
-</button>
 
-<!-- Modal -->
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"
-     aria-labelledby="myHugeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      ...
-    </div>
-  </div>
-</div>
 		<div class="row">
 		    <div class="col-md-12" >
 		             <div class="container-fluid mt-3">

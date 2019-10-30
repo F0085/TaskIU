@@ -108,6 +108,14 @@ route::PUT('ActPerfil/{id}', 'UsuarioController@ActPerfil');
 route::put('CambiarClave', 'UsuarioController@CambiarClave');
 
 route::resource('Observacion', 'ObservacionController');
+route::resource('Documentos', 'DocumentoController');
+
+
+
+//REUNIONES
+route::get('ReunionPorEstado_User/{estado}', 'ReunionController@ReunionPorEstado_User');
+route::get('MisReunionesResponsables/{estado}', 'ReunionController@MisReunionesResponsables');
+route::get('MisReunionesParticipantes/{estado}', 'ReunionController@MisReunionesParticipantes');
 
 
 

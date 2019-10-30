@@ -30,6 +30,7 @@ function GuardarTarea(){
 	    	ParticipantesTask: $("#ParticipantesTask").val(),
 	    	ObservadoresTask: $("#ObservadoresTask").val(),
 	    	tareasIdTareas: $("#TaskID").val(),
+
 	    }
 	    $.ajaxSetup({
 	        headers: {
@@ -178,6 +179,7 @@ function TerminarTarea(){
 	    	// ObservadoresTask: $("#ObservadoresTask").val(),
 	    	idtarea: $("#idTar").val(),
 	    	Observacion: $("#ObservacionTareaSeguimiento").val(),
+	    	filedoc:$("#ObservacionTareaSeguimiento").val(),
 	    }
 	    $.ajaxSetup({
 	        headers: {
@@ -606,11 +608,10 @@ function observadoresTask(){
 		                                `);
 					$('#PanelEvidencias').html('');
 					$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-		                                    <div class="custom-file">
-		                                        <input type="file" class="custom-file-input">
-		                                        <label class="custom-file-label">Escoger Archivo</label> 
-		                                    </div><br><br>
-		                                    <button type="button" class="btn btn-success btn-sm">Registrar</button>`);
+							                                    <div class="form-group">
+					    <input  type="file" class="form-control-file" id="filedoc">
+					  </div>
+		                                    <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
 					$('#botoneSeguimiento').html('');
 					$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
@@ -823,6 +824,37 @@ function observadoresTask(){
 	    });
 	}
 
+	//PARA GAUARDAS LAS EVIDENCIAS
+	function RegistrarEvidencias(){
+		 var FrmData = { 
+	    	idtarea: $("#idTar").val(),
+	    	Evidencia: ("filedoc").files[0],
+	    }
+
+
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'Documentos', 
+	        method: "POST", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+
+	        	// $('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
+	      		 // $("#ObservacionTareaSeguimiento").val('');
+	      		 // listaObservaciones();
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+	}
+
 	//PARA LISTAR LAS OBSERVACIONES O COMENTARIOS
 	function listaObservaciones(){
 		 $.get('Observacion/'+$('#idTar').val(), function (data) {
@@ -959,34 +991,4 @@ function CamposPersonales(){
 }
 
 
-function validarfechas(){
-	var FrmData = { 
-	    	FechaIn: $("#FechaInicioTarea").val(),
-	    	HoraIn: $("#HoraInicioTarea").val(),
-	    	FechaFin: $("#FechaLimiteTarea").val(),
-	    	HoraFin: $("#HoraLimiteTarea").val(),
-	    	// FechaLimiteTarea: $("#ObservacionRespuesta").val(),
-	}
-	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-	    $.ajax({
-	        url: 'validarFechas', 
-	        method: "POST", 
-	        data: FrmData,
-	        dataType: 'json',
-	        success: function (data) 
-	        {
-	        	console.log(data);
 
-	        	// $('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
-	      		 // $('#'+Id_Observacion+'c').html('');
-	      		 // listaObservaciones();
-	        },
-	        error: function () { 
-	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-	        }
-	    });
-}

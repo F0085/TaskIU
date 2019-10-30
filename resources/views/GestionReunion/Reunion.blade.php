@@ -4,17 +4,6 @@
 ?>
 @extends('layouts.app')
 @section('contenido')
-
-<!-- PARA EL DATEPICKER -->
-<!-- <link href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
- <link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet"> -->
-<!-- <script type="text/javascript">
-     $('.selectpicker').selectpicker({
-    style: 'btn-default'
-  });
-</script> -->
-
-
 <div id="cargar"></div>
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -40,7 +29,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label for="" style="color: black"><b>Orden del día</b></label>
-                        <textarea  onkeyup="borderInput('descripcionReunion')"    class="form-control input-default" id="descripcionReunion" rows="3" placeholder="Descripción de la reunión"></textarea>
+                        <textarea  onkeyup="borderInput('ordendeldiaReunion')"    class="form-control input-default" id="ordendeldiaReunion" rows="3" placeholder="Descripción de la reunión"></textarea>
                     </div>
                 </div>
                 <br>
@@ -59,7 +48,7 @@
                     <div class="col-md-4">
                        <label for="" style="color: black"><b>Responsables</b></label>
                        <br>
-                        <select onchange="ResponsableTask()" id="ResponsablesTask" class="selectpicker show-menu-arrow" 
+                        <select onchange="ResponsablesReunion()" id="ResponsablesReunion" class="selectpicker show-menu-arrow" 
                                 data-style="form-control" 
                                 data-live-search="true" 
                                 title='<i style="color:blue" class="fa fa-plus" style="font-weight: bold"></i> <b style="color:blue"> Agregar Responsables</b> '
@@ -77,7 +66,7 @@
                     <div class="col-md-4">
                        <label for="" style="color: black"><b>Participantes</b></label>
                        <br>
-                       <select onchange="ParticipantesTask()" id="ParticipantesTask" class="selectpicker show-menu-arrow" 
+                       <select onchange="ParticipantesReunion()" id="ParticipantesReunion" class="selectpicker show-menu-arrow" 
                                 data-style="form-control" 
                                 data-live-search="true" 
                                 title='<i style="color:blue" class="fa fa-plus" style="font-weight: bold"></i> <b style="color:blue"> Agregar Participantes</b> '
@@ -91,23 +80,6 @@
                        <br>
                        <ul class="list-group scroll"  id="listaParticipantes"></ul>
                     </div>
-                    <div class="col-md-4">
-                       <label for="" style="color: black"><b>Observadores</b></label>
-                       <br>
-                       <select onchange="observadoresTask()" id="ObservadoresTask" class="selectpicker show-menu-arrow" 
-                                data-style="form-control" 
-                                data-live-search="true" 
-                                title='<i style="color:blue" class="fa fa-plus" style="font-weight: bold"></i> <b style="color:blue"> Agregar Observadores</b> '
-                                multiple="multiple">
-                                @if(isset($Usuarios))
-                                @foreach($Usuarios as $v)
-                                 <option value="{{$v['Id_Usuario']}}">{{$v['Nombre']}}</option>
-                                @endforeach
-                                @endif
-                        </select>
-                       <br>
-                       <ul class="list-group scroll" id="listaObservadores"></ul>
-                    </div>
                 </div>
 
             </div>
@@ -119,15 +91,48 @@
     </div>
 </div>
 
-<div class="row">
+@if(isset($_SESSION['Id_tipo_Usuarios']))
+    @if($_SESSION['Id_tipo_Usuarios']=='2')
 
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            ReunionPorUsuario('Pendiente');
+        });
+    </script>
+    @else
+        <script type="text/javascript">
+        $( document ).ready(function() {
+              ReunionPorUsuario('Pendiente');
+        });
+       </script>
+
+    @endif
+@endif
+
+<div class="row">
     <div class="col-lg-12">
         <nav class="stroke">
             <div class="row">
-                <div class="col-md-10">
+ <div class="col-md-10 estilo">
                     <ul>
-                      <li ><a class="activado" id="Pendiente" href="javascript:void(0);"  onClick="TareasGenerales('Pendiente');" >Pendientes</a></li>
-                      <li><a id="Terminada" href="javascript:void(0);" onClick="TareasGenerales('Terminada');">Terminadas</a></li>
+                      <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
+                        @if(isset($_SESSION['Id_tipo_Usuarios']))
+                            @if($_SESSION['Id_tipo_Usuarios']=='2')
+                                onClick="   ReunionPorUsuario('Pendiente');"
+                            @else
+                                onClick="   ReunionPorUsuario('Pendiente');"
+                            @endif
+                        @endif
+                        >Pendientes</a></li>
+                      <li><a id="Terminada" href="javascript:void(0);"
+                        @if(isset($_SESSION['Id_tipo_Usuarios']))
+                            @if($_SESSION['Id_tipo_Usuarios']=='2')
+                                onClick="   ReunionPorUsuario('Terminada');"
+                            @else
+                                onClick="   ReunionPorUsuario('Terminada');"
+                            @endif
+                        @endif 
+                        >Terminadas</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 centerDiv" >
@@ -150,11 +155,10 @@
                 <div class="col-md-6">
                      @if(isset($_SESSION['Id_tipo_Usuarios']))
 
-                 <select id="SelecTipoUserTareas" onchange="TareasPorUsuario('',this.value,'{{$_SESSION['id']}}')" class="form-control input-default">
+                 <select id="SelecTipoUserReunion" onchange="ReunionesPorRol(this.value)" class="form-control input-default">
                     <option value="CPM">Creadas por mi</option>
-                    <option value="MisTareasParticipantes">Responsable</option>
-                    <option value="MisTareasParticipantes">Participante</option> 
-                    <option value="MisTareasParticipantes">Observador</option> 
+                    <option value="MisReunionesResponsables">Responsable</option>
+                    <option value="MisReunionesParticipantes">Participante</option> 
                  </select>
                  @endif
                 </div>
@@ -174,14 +178,13 @@
                             <th scope="col">Tema</th>
                             <th scope="col">Orden del día</th>
                             <th scope="col">Lugar</th>
+                            <th scope="col">Fecha/Hora</th>
                             <th scope="col">Creado Por</th>
                             <th scope="col">Responsables</th>
                             <th scope="col">Participantes</th>
-                            <th scope="col">Observadores</th>
-                            <th scope="col" rowspan="2">Estado</th>
                         </tr>
                     </thead>
-                    <tbody id="TablaTareas">
+                    <tbody id="TablaReuniones">
                     </tbody>
                 </table>
 
@@ -206,7 +209,7 @@
 
     <link href="{{asset('css/MyStyle.css')}}" rel="stylesheet">
     <script type="text/javascript" src="{{asset('js/nav.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/tareas.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/Reunion.js')}}"></script>
  
 
 

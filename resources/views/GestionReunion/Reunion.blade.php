@@ -5,7 +5,7 @@
 @extends('layouts.app')
 @section('contenido')
 <div id="cargar"></div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="ModalCrearReunion" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -15,37 +15,38 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div id="mensajefechas"></div>
                 <div class="row">
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Tema</b></label>
-                        <input  onkeyup="borderInput('temaReunion')"    class="form-control input-default" id="temaReunion"  placeholder="Tema de la reunión"></input>
+                        <input    class="form-control input-default" id="temaReunion"  placeholder="Tema de la reunión"></input>
                     </div>
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Lugar</b></label>
-                        <input  onkeyup="borderInput('lugarReunion')"    class="form-control input-default" id="lugarReunion"  placeholder="Lugar de la reunión"></input>
+                        <input      class="form-control input-default" id="lugarReunion"  placeholder="Lugar de la reunión"></input>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-12">
                         <label for="" style="color: black"><b>Orden del día</b></label>
-                        <textarea  onkeyup="borderInput('ordendeldiaReunion')"    class="form-control input-default" id="ordendeldiaReunion" rows="3" placeholder="Descripción de la reunión"></textarea>
+                        <textarea   class="form-control input-default" id="ordendeldiaReunion" rows="3" placeholder="Descripción de la reunión"></textarea>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Fecha</b></label>
-                        <input  value="<?php echo date("Y-m-d");?>" onkeyup="borderInput('FechaReunion')"    type="date" class="form-control input-default" id="FechaReunion"> 
+                        <input  value="<?php echo date("Y-m-d");?>"     type="date" class="form-control input-default" id="FechaReunion"> 
                     </div>
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Hora</b></label>
-                        <input value="<?php echo date('h:i');?>" onkeyup="borderInput('HoraReunion')"  type="time" class="form-control input-default" id="HoraReunion"> 
+                        <input value="<?php echo date('h:i');?>"   type="time" class="form-control input-default" id="HoraReunion"> 
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4" id="nose">
                        <label for="" style="color: black"><b>Responsables</b></label>
                        <br>
                         <select onchange="ResponsablesReunion()" id="ResponsablesReunion" class="selectpicker show-menu-arrow" 
@@ -55,7 +56,7 @@
                                 multiple="multiple">
                                 @if(isset($Usuarios))
                                 @foreach($Usuarios as $v)
-                                 <option value="{{$v['Id_Usuario']}}" >{{$v['Nombre']}}</option>
+                                 <option value="{{$v['Id_Usuario']}}" >{{$v['Nombre']}} {{$v['Apellido']}}</option>
                                 @endforeach
                                 @endif
                         </select>
@@ -73,7 +74,7 @@
                                 multiple="multiple">
                                 @if(isset($Usuarios))
                                 @foreach($Usuarios as $v)
-                                 <option value="{{$v['Id_Usuario']}}">{{$v['Nombre']}}</option>
+                                 <option value="{{$v['Id_Usuario']}} ">{{$v['Nombre']}} {{$v['Apellido']}}</option>
                                 @endforeach
                                 @endif
                         </select>
@@ -136,7 +137,7 @@
                     </ul>
                 </div>
                 <div class="col-md-2 centerDiv" >
-                   <button style="background-color: #312d79; color: white"   data-toggle="modal" data-target=".bd-example-modal-lg" type="button" class="btn" > <i class="fa fa-plus-square"></i>  Nueva Reunión</button>
+                   <button style="background-color: #312d79; color: white"   onclick="ModalReunion()" type="button" class="btn" > <i class="fa fa-plus-square"></i>  Nueva Reunión</button>
                 </div>
             </div>
         </nav>   
@@ -182,6 +183,7 @@
                             <th scope="col">Creado Por</th>
                             <th scope="col">Responsables</th>
                             <th scope="col">Participantes</th>
+                            <th scope="col">Emisión</th>
                         </tr>
                     </thead>
                     <tbody id="TablaReuniones">

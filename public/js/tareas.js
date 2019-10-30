@@ -722,9 +722,12 @@ function observadoresTask(){
 
 	//LIMPIAR MODAL DE TAREAS CERAR NUEVA
 	function limpiarModalTareasCrear(){
-	$("#ResponsablesTask option:selected").attr("selected",false)
-	$("#ParticipantesTask option:selected").attr("selected",false)
-	$("#ObservadoresTask option:selected").attr("selected",false)
+	$("#ResponsablesTask option:selected").attr("selected",false);
+	$("#ParticipantesTask option:selected").attr("selected",false);
+	$("#ObservadoresTask option:selected").attr("selected",false);
+	$("#ResponsablesTask").val('');
+	$("#ParticipantesTask").val('');
+	$("#ObservadoresTask").val('');
 		 $.get('HoraFechaSistema', function (data) {
 			$('#FechaInicioTarea').val(data['Fecha']);
 			$('#HoraInicioTarea').val(data['Hora']);

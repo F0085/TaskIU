@@ -104,73 +104,50 @@ class ReunionController extends Controller
     public function store(Request $request)
     {
          session_start();
-        //CLIENTE PARA LAS TAREAS
+        //CLIENTE PARA LAS REUNIONES
         $client = new Client([
           'base_uri' => $this->servidor.'Reunion',
         ]);
 
         //CLIENTE PARA RESPONSABLES
         $Clienteresponsable = new Client([
-                  'base_uri' => $this->servidor.'Responsables',
+                  'base_uri' => $this->servidor.'Reunio_Responsable',
         ]); 
 
         //CLIENTE PARA PARTICIPANTES
         $ClienteParticipantes= new Client([
-                  'base_uri' => $this->servidor.'Participantes',
+                  'base_uri' => $this->servidor.'Reunio_Participante',
         ]); 
 
-        //CLIENTE PARA OBSERVADORES
-        $ClienteObservadores= new Client([
-                  'base_uri' => $this->servidor.'Observadores',
-        ]); 
 
-        //PARA SABER SI CREAR UNA TAREA O SUBTAREAS
-        if($request->tareasIdTareas != null){
-          $tipTar='S';
-        }else{
-          $tipTar='T';
-        }
         $fecha=date('Y-m-j H:i:s');
         $data = ['Id_Usuario'=>$_SESSION['id'],
-                 'Estado_Tarea'=>'Pendiente',
-                 'Id_Tipo_Tarea'=>$request->tipoTarea,
-                 'Nombre'=>$request->Nombre,
-                 'FechaInicio'=>$request->FechaIn,
-                 'Hora_Inicio'=>$request->HoraIn,
-                 'Hora_Fin'=>$request->HoraFin,
-                 'FechaFin'=>$request->FechaFin,
+                 'Tema'=>$request->Tema,
+                 'Orden_del_Dia'=>$request->Orden_del_Dia,
+                 'Estado'=>'Pendiente',
                  'FechaCreacion'=>$fecha,
-                 'Descripcion'=>$request->descripcion,
-                 'tareaFavorita'=>'1',
-                 'tareasIdTareas'=>$request->tareasIdTareas,
-                 'tip_tar'=>$tipTar]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+                 'Lugar'=>$request->Lugar,
+                 'FechadeReunion'=>$request->FechaIn,
+                 'HoraReunion'=>$request->HoraIn];
 
 
         $res = $client->request('POST','',['form_params' => $data]);
-        $ResultadoTareas=json_decode((string) $res->getBody(), true);
+        $ResultadoReunion=json_decode((string) $res->getBody(), true);
            
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-            if($request->ResponsablesTask != null){
-                foreach ($request->ResponsablesTask as $key => $responsables) {
+            if($request->ResponsablesReunion != null){
+                foreach ($request->ResponsablesReunion as $key => $responsables) {
                     $dataResponsables = ['Id_Usuario'=>$responsables,
-                     'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
+                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion']];
                     $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
                 }
             }
-            if($request->ParticipantesTask != null){
-                foreach ($request->ParticipantesTask as $key => $participantes) {
+            if($request->ParticipantesReunion != null){
+                foreach ($request->ParticipantesReunion as $key => $participantes) {
                     $dataParticipantes = ['Id_Usuario'=>$participantes,
-                     'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
+                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion']];
                     $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
                 } 
-            }
-            
-            if($request->ObservadoresTask !=null){
-              foreach ($request->ObservadoresTask as $key => $observadores) {
-                  $dataObservadores = ['Id_Usuario'=>$observadores,
-                   'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
-                  $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
-              } 
             }
             return json_decode((string) $res->getBody(), true);
         }

@@ -15,43 +15,44 @@ function GuardarReunion(){
 	    	Tema: $("#temaReunion").val(),
 	    	Orden_del_Dia: $("#ordendeldiaReunion").val(),
 	    	Lugar: $("#lugarReunion").val(),
-	    	FechadeReunion: $("#FechaReunion").val(),
-	    	HoraReunion: $("#HoraReunion").val(),
+	    	FechaIn: $("#FechaReunion").val(),
+	    	HoraIn: $("#HoraReunion").val(),
+	    	ResponsablesReunion: $("#ResponsablesReunion").val(),
+	    	ParticipantesReunion: $("#ParticipantesReunion").val(),
 	    }
-	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-	    $.ajax({
-	        url: 'validarFechas', 
-	        method: "POST", 
-	        data: FrmData,
-	        dataType: 'json',
-	        success: function (data) 
-	        {
-	        	
-	        if(data['FIN']=='1' && data['HIN']=='1'){
 		    $.ajaxSetup({
 		        headers: {
 		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		        }
 		    });
 		    $.ajax({
-		        url: 'Tareas', 
+		        url: 'validarFechas', 
 		        method: "POST", 
 		        data: FrmData,
 		        dataType: 'json',
 		        success: function (data) 
 		        {
-		        	var htl=`<i class="fa fa-trash"></i>`;
-		        	$('#cargar').fadeIn(1000).html(''); 
-		        	window.location = "/Tareas";
-		        },
-		        error: function () { 
-		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-		        }
-		    });
+		        	
+		        if(data['FIN']=='1' && data['HIN']=='1'){
+			    $.ajaxSetup({
+			        headers: {
+			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			        }
+			    });
+			    $.ajax({
+			        url: 'Reunion', 
+			        method: "POST", 
+			        data: FrmData,
+			        dataType: 'json',
+			        success: function (data) 
+			        {
+			        	$('#cargar').fadeIn(1000).html(''); 
+			        	window.location = "/Reunion";
+			        },
+			        error: function () { 
+			            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+			        }
+			    });
 	        	}else{
 	        		$('#cargar').fadeIn(1000).html('');
 	        		$('#mensajefechas').html('');
@@ -135,6 +136,8 @@ function GuardarReunion(){
 	                                    <td id='${$valores['Id_Reunion']+'Responsable'}'>   
 	                                    </td>
 	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
+	                                    <td>${$valores['FechaCreacion']}</td>
+
 	                                </tr>`);
 
 		    $.each($valores['responsables'], function(i, $vREs) { 
@@ -143,6 +146,7 @@ function GuardarReunion(){
 		    $.each($valores['participantes'], function(i, $vPAR) { 
 		      $('#'+$valores['Id_Reunion']+'Participantes').append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
 		    });	
+
 		}); 
 	}
 
@@ -269,7 +273,47 @@ function ParticipantesReunion(){
                     return $(this).text();
     });
    $.each(selectTextParticpantes, function(i, item) { 
-      $('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item }
+      $('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item}
                             </li>`);
     });   
 }
+
+//LIMPIAR MODAL DE REUNIONES CERAR NUEVA
+	function limpiarModalReunionCrear(){
+
+
+		//$("#ResponsablesReunion option:selected").remove();
+	//$("#ResponsablesReunion option:selected").prop("title",`jhgf`)
+	$("#ResponsablesReunion").val('');
+	$("#ParticipantesReunion").val('');
+	//  $("#ParticipantesReunion option:selected").attr("selected",false)
+	// if($("#ResponsablesReunion option:selected")){
+	// 	 $("#ResponsablesReunion").attr("selected",false)
+	// }
+
+		 $.get('HoraFechaSistema', function (data) {
+			$('#FechaReunion').val(data['Fecha']);
+			$('#HoraReunion').val(data['Hora']);
+		 });
+		$('#temaReunion').val('');
+		$('#lugarReunion').val('');
+		$('#ordendeldiaReunion').val('');
+		$('#listaResponsable').html('');
+		$('#listaParticipantes').html('');
+	}
+
+	function ModalReunion(){
+		$("#ModalCrearReunion").modal("show");
+		limpiarModalReunionCrear();
+	}
+
+	function Usuarios(){
+		$('#ResponsablesReunion').text('');
+		 $.get('Usuarios', function (data) {
+			 $.each(selectTextParticpantes, function(i, item) { 
+                $('#ResponsablesReunion').append(`<option value="${$item['Id_Usuario']}" >${$v['Nombre']} ${$item['Apellido']}</option>`);
+                $('#ParticipantesReunion').append(`<option value="${$item['Id_Usuario']}" >${$v['Nombre']} ${$item['Apellido']}</option>`);
+   				
+   			 });
+		 });
+	}

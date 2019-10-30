@@ -88,7 +88,7 @@
     </div>
 </div>
 <br>
-<div class="col-lg-12">
+<div class="col-lg-12 es">
     <div class="card">
         <div class="card-body">
             <ul>

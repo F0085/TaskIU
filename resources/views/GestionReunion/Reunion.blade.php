@@ -146,7 +146,7 @@
 <br>
 <div class="col-lg-12">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body ">
             <ul>
             <div id="EstaTar" hidden="true"></div>
             <div class="row">
@@ -172,7 +172,7 @@
                     </button>
                 </div>
             <div class="table-responsive">
-                <table class="table  header-border table-hover  " id="myTable">
+                <table class="table  header-border table-hover estilo " id="myTable">
                     <thead>
                         <tr style="color: black">
                <!--              <th scope="col">#</th> -->

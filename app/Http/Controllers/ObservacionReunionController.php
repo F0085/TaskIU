@@ -21,7 +21,7 @@ class ObservacionReunionController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        $response = $client->request('GET', "Observaciones");
+        $response = $client->request('GET', "ObservacionesReuniones");
         return json_decode((string) $response->getBody(), true);
     }
 
@@ -48,7 +48,7 @@ class ObservacionReunionController extends Controller
         session_start();
         $fecha=date('Y-m-j H:i:s');
         $client = new Client([
-          'base_uri' =>$this->servidor.'Observaciones',
+          'base_uri' =>$this->servidor.'ObservacionesReuniones',
         ]);
         $data = ['Id_Usuario'=>$_SESSION['id'],
                  'Id_Tarea'=>$request->idtarea,
@@ -74,7 +74,7 @@ class ObservacionReunionController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        $response = $client->request('GET', "Observaciones/{$id}");
+        $response = $client->request('GET', "ObservacionesReuniones/{$id}");
         return json_decode((string) $response->getBody(), true);
     }
 

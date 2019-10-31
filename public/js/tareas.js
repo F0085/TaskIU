@@ -861,7 +861,6 @@ function observadoresTask(){
 	//PARA LISTAR LAS OBSERVACIONES O COMENTARIOS
 	function listaObservaciones(){
 		 $.get('Observacion/'+$('#idTar').val(), function (data) {
-		 	$('#LisObserTareas').html('');
 		 	
 		 	llenarComentarios(data);
 		 	

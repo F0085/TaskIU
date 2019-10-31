@@ -323,7 +323,7 @@ function ParticipantesReunion(){
 
 		    	$('#TituloReunionSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Tema']);
 		    
-		    	$('#idReu').val(item['Id_Reunion']);
+		    	$('#idReun').val(item['Id_Reunion']);
 		    	$('#FechaReunionSeguimiento').html(item['FechadeReunion']+'-'+item['HoraReunion']);
 		    	$('#OrdendelDia').html(item['Orden_del_Dia']);
 		    	$.each(item['responsables'], function(i1,item1){
@@ -473,7 +473,7 @@ function ParticipantesReunion(){
 				// 	}
 				// }
 
-	   // 	    	listaObservaciones();
+	   		 	listaObservaciones();
 	   	     	$('#cargatareas').fadeIn(1000).html(data); 
 	   		});
 		});
@@ -517,3 +517,112 @@ function ParticipantesReunion(){
 
 
   }
+
+
+  //COMENTARIOS
+
+  	//PARA GAUARDAS LAS OBSERVACIONES O COMENTARIOS
+	function RegistrarObservacion(){
+		$('#btnRegistrarObservacionReunion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
+		 var FrmData = { 
+	    	idtarea: $("#idReun").val(),
+	    	Observacion: $("#ObservacionReunionSeguimiento").val(),
+	    	tipo:'C',
+	    }
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'ObservacionesReuniones', 
+	        method: "POST", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+
+	        	$('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
+	      		 $("#ObservacionTareaSeguimiento").val('');
+	      		 listaObservaciones();
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+	}
+
+  	//PARA LLENAR LOS COMENTARIOS EN EL CARD
+	function llenarComentarios(data){
+			$('#cajacomentarioReunion').html('');
+		 	$.each(data, function(i,item){
+					$('#'+item['Id_observacion_reunion']+'s').html('');
+		 			$('#cajacomentarioReunion').append(`<div class="card">
+                                        <div class="card-body">
+	                                        <div class="row">
+	                                         	<div class="col-md-6">                                         		
+	                                        		<img class="imgRedonda" src="images/user/1.png">  ${item['usuario']['Nombre']} ${item['usuario']['Apellido']}
+	                                        	</div>   
+	                                        	<div class="col-md-6 centerDiv">
+	                                        		${item['Fecha']}
+	                                        	</div>
+	                                        </div>
+                                        	<hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
+                                        	<div class="row">
+	                                         	<div class="col-md-12">  
+                            					${item['Descripcion']}
+                            					</div>
+                            				</div>
+                            				<br>
+                            				<div class="row">
+	                                         	<div class="col-md-12" align="right">  
+	                                         	<div id="${item['Id_observacion_reunion']}btnEnviarComentario">
+                            						<button type="button" onclick="ResponderComentario('${item['Id_observacion_reunion']}')" class="btn btn-outline-dark btn-sm"><i class="fa fa-share"></i>  Responder</button>
+                            					</div>
+                            					</div>
+                            				</div>
+                            				<br>
+                            				<div id="${item['Id_observacion_reunion']+'c'}"></div>
+                            				<div id="${item['Id_observacion_reunion']+'s'}"></div>
+                            				
+                                         </div>
+                                    </div>`);
+
+				   	$.each(item['sub_observaciones'], function(i2,item2){
+						$('#'+item['Id_observacion_reunion']+'s').append(`<div class="card">
+					                                        <div class="card-body">
+						                                        <div class="row">
+						                                         	<div class="col-md-6">                                         		
+						                                        		<img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']}
+						                                        	</div>   
+						                                        	<div class="col-md-6 centerDiv">
+						                                        		${item2['Fecha']}
+						                                        	</div>
+						                                        </div>
+					                                        	<hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
+					                                        	<div class="row">
+						                                         	<div class="col-md-12">  
+					                            					${item2['Descripcion']}
+					                            					</div>
+					                            				</div>
+					                            				
+					                            				<br>
+					                            		
+					                            				
+					                                         </div>
+					                                    </div>`);
+				   	});
+		 	});			 		 	
+
+	}
+
+
+	//PARA LISTAR LAS OBSERVACIONES O COMENTARIOS
+	function listaObservaciones(){
+		 $.get('ObservacionesReuniones/'+$('#idReun').val(), function (data) {
+	
+		 	
+		 	llenarComentarios(data);
+		 	
+		 });
+	}

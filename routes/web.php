@@ -119,6 +119,9 @@ route::get('MisReunionesParticipantes/{estado}', 'ReunionController@MisReuniones
 
 route::PUT('Asistencia/{id}/{Id_Usuario}', 'ReunionController@Asistencia');
 
+//PARA TRAER LAS OBSERVACIONES DE REUNIONES
+route::resource('ObservacionesReuniones', 'ObservacionReunionController');
+
 
 
 

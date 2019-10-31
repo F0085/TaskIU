@@ -117,5 +117,8 @@ route::get('ReunionPorEstado_User/{estado}', 'ReunionController@ReunionPorEstado
 route::get('MisReunionesResponsables/{estado}', 'ReunionController@MisReunionesResponsables');
 route::get('MisReunionesParticipantes/{estado}', 'ReunionController@MisReunionesParticipantes');
 
+route::PUT('Asistencia/{id}/{Id_Usuario}', 'ReunionController@Asistencia');
+
+
 
 

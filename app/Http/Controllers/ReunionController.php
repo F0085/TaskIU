@@ -145,13 +145,28 @@ class ReunionController extends Controller
             if($request->ParticipantesReunion != null){
                 foreach ($request->ParticipantesReunion as $key => $participantes) {
                     $dataParticipantes = ['Id_Usuario'=>$participantes,
-                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion']];
+                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion'],'asistencia'=>'1'];
                     $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
                 } 
             }
             return json_decode((string) $res->getBody(), true);
         }
     }
+
+    public function Asistencia(Request $request, $id, $Id_Usuario)
+    {
+        session_start();
+        $client = new Client([
+          'base_uri' => $this->servidor.'ActualizarAsistencia/'.$Id_Usuario.'/'.$id,
+        ]);
+        $data = ['asistencia'=>$request->asistencia];       
+        $res = $client->request('PUT','',['form_params' => $data]);
+
+        if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+         return 1;
+        }
+    }
+
 
     /**
      * Display the specified resource.
@@ -161,7 +176,11 @@ class ReunionController extends Controller
      */
     public function show($id)
     {
-        //
+         $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "Reunion/{$id}");
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

@@ -128,7 +128,7 @@ function GuardarReunion(){
 	    $.each(data, function(i1, $valores) { 
 
 		    $('#TablaReuniones').append(`<tr>
-	                                    <td > <i class="fa fa-bullhorn" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas()">${$valores['Tema']}</a></td>
+	                                    <td > <i class="fa fa-bullhorn" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalReunion(${$valores['Id_Reunion']})">${$valores['Tema']}</a></td>
 	                                     <td><b>${$valores['Orden_del_Dia']}</td>
 	                                     <td><b>${$valores['Lugar']}</td>
 	                                     <td><b>${$valores['FechadeReunion']} / ${$valores['HoraReunion']}</td>
@@ -179,26 +179,8 @@ function GuardarReunion(){
 			// console.log(estado);
 			$('#TablaReuniones').html('');
 			    $.get(TipoUser+'/'+estado, function (data) {
-					$.each(data, function(i2, $valore) { 
-							$.each($valore, function(i2, $valores) { 
-						    	 $('#TablaReuniones').append(`<tr>
-	                                    <td > <i class="fa fa-bullhorn" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas()">${$valores['Tema']}</a></td>
-	                                     <td><b>${$valores['Orden_del_Dia']}</td>
-	                                     <td><b>${$valores['Lugar']}</td>
-	                                     <td><b>${$valores['FechadeReunion']} / ${$valores['HoraReunion']}</td>
-	                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
-	                                    <td id='${$valores['Id_Reunion']+'Responsable'}'>   
-	                                    </td>
-	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
-	                                </tr>`);
-
-								    $.each($valores['responsables'], function(i, $vREs) { 
-								      $('#'+$valores['Id_Reunion']+'Responsable').append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);
-								    });
-								    $.each($valores['participantes'], function(i, $vPAR) { 
-								      $('#'+$valores['Id_Reunion']+'Participantes').append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
-								    });	
-						 	});
+					$.each(data, function(i1, $valore) { 
+							llenarTabla($valore);
 						}); 
 				      	$('#cargar').fadeIn(1000).html(''); 
 		   		 });
@@ -302,7 +284,7 @@ function ParticipantesReunion(){
 		$('#listaParticipantes').html('');
 	}
 
-	function ModalReunion(){
+	function ModalCrearReunion(){
 		$("#ModalCrearReunion").modal("show");
 		limpiarModalReunionCrear();
 	}
@@ -317,3 +299,221 @@ function ParticipantesReunion(){
    			 });
 		 });
 	}
+
+
+		//PARA EL MODAL DEL SEGUIMIENTO DE LA TAREA
+	function ModalReunion(Id_reunion){
+		// limpiarModalTareas();
+		$("#ModalReunionSeguimiento").modal("show");
+		$('#cargatareas').append(`<div id="preloader" style="background: #ffffff00">
+		    <div class="loader"> 
+		        <svg class="circular" viewBox="25 25 50 50">
+		            <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+		        </svg>
+
+		    </div>
+		</div>`);
+		$('#ParticipantesReunionSeguimiento').html('');
+		$('#ParticipantesReunionSeguimiento').html('');
+		$('#TituloReunionSeguimiento').html('');
+		$('#OrdendelDia').html('');
+		$('#ResponsablesReunionSeguimiento').html('');
+	    $.get('Reunion/'+Id_reunion, function (data) {
+	    	$.each(data, function(i,item){
+
+		    	$('#TituloReunionSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Tema']);
+		    
+		    	$('#idReu').val(item['Id_Reunion']);
+		    	$('#FechaReunionSeguimiento').html(item['FechadeReunion']+'-'+item['HoraReunion']);
+		    	$('#OrdendelDia').html(item['Orden_del_Dia']);
+		    	$.each(item['responsables'], function(i1,item1){
+		    	   $('#ResponsablesReunionSeguimiento').append(` <i class="fa fa-user"></i>  ${item1['usuario']['Nombre']} ${item1['usuario']['Apellido']} <br>`);
+		    	});
+		    	$.each(item['participantes'], function(i2,item2){
+					    	if(item2['asistencia']=='1'){
+				    			var estado='checked';
+				    		}else{
+				    			var estado='';
+				    		}
+							$('#ParticipantesReunionSeguimiento').append(`<tr >
+					                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
+					                                     <td  centerDiv><div class="form-check form-check-inline">
+			                                                <label class="form-check-label">
+			                                                    <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
+			                                            </div></td>
+					                          
+					                                </tr>`);
+		    	});
+		    		   
+	    	
+
+			 //   	if($('#SelecTipoUserTareas').val()=="CPM"){
+				// 	var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
+				// 	$('#PanelObservacion').html('');
+				// 	$('#PanelEvidencias').html('');	
+				// 	$('#botoneSeguimiento').html('');
+				// 	$('#EstadoObservacion').html('');
+				// 	$('#botoneSeguimiento').append(`<div class="row">
+		  //                           <div class="col-md-6">
+		  //                               <div class="btn-group">
+		  //                                 <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  //                                   Más
+		  //                                 </button>
+		  //                                 <div class="dropdown-menu">
+		  //                                   <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		  //                                   <div id="btneditar">
+		  //                                   ${btneditar}
+		  //                                  </div>
+		  //                                 </div>
+		  //                               </div>
+		  //                           </div>
+		  //                       </div> `);
+				// 	document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+				// 	if($('#Terminada').hasClass('activado')){
+				// 		$('#PanelObservacion').html('');
+				// 		$('#PanelEvidencias').html('');	
+				// 		$('#botoneSeguimiento').html('');
+				// 		$('#EstadoObservacion').html('');
+				// 	}
+				// }else if($('#SelecTipoUserTareas').val()=="MisTareasResponsables"){
+				// 	$('#EstadoObservacion').html('');
+				// 	$('#PanelObservacion').html('');
+				// 	$('#PanelObservacion').append(`
+		  //                                   <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+		  //                                   <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
+		  //                                   <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+		  //                               `);
+				// 	$('#PanelEvidencias').html('');
+				// 	$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+				// 			                                    <div class="form-group">
+				// 	    <input  type="file" class="form-control-file" id="filedoc">
+				// 	  </div>
+		  //                                   <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+				// 	$('#botoneSeguimiento').html('');
+				// 	$('#botoneSeguimiento').append(`<div class="row">
+		  //                           <div class="col-md-6">
+		  //                               <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+		  //                           </div>
+		  //                           <div class="col-md-6">
+		  //                               <div class="btn-group">
+		  //                                 <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  //                                   Más
+		  //                                 </button>
+		  //                                 <div class="dropdown-menu">
+		  //                                   <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		  //                                   <div id="btneditar">
+		  //                                  </div>
+		  //                                 </div>
+		  //                               </div>
+		  //                           </div>
+		  //                       </div> `);
+				// 	document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+
+				// 	if($('#Terminada').hasClass('activado')){
+				// 		$('#PanelObservacion').html('');
+				// 		$('#PanelEvidencias').html('');	
+				// 		$('#botoneSeguimiento').html('');
+				// 	}
+				// }else if($('#SelecTipoUserTareas').val()=="MisTareasParticipantes"){
+				// 	$('#EstadoObservacion').html('');
+				// 	$('#PanelObservacion').html('');
+				// 	$('#PanelObservacion').append(`
+		  //                                   <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+		  //                                   <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
+		  //                                   <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+		  //                               `);
+				// 	$('#PanelEvidencias').html('');
+				// 	$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+		  //                                   <div class="custom-file">
+		  //                                       <input type="file" class="custom-file-input">
+		  //                                       <label class="custom-file-label">Escoger Archivo</label> 
+		  //                                   </div><br><br>
+		  //                                   <button type="button" class="btn btn-success btn-sm">Registrar</button>`);
+				// 	$('#botoneSeguimiento').html('');
+				// 	$('#botoneSeguimiento').append(`<div class="row">
+		  //                           <div class="col-md-6">
+		  //                               <div class="btn-group">
+		  //                                 <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  //                                   Más
+		  //                                 </button>
+		  //                                 <div class="dropdown-menu">
+		  //                                   <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		  //                                   <div id="btneditar">
+		  //                                  </div>
+		  //                                 </div>
+		  //                               </div>
+		  //                           </div>
+		  //                       </div> `);
+				// 	document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+
+				// }else if($('#SelecTipoUserTareas').val()=="MisTareasObservadores"){
+				// 	$('#PanelObservacion').html('');
+				// 	$('#PanelEvidencias').html('');
+				// 	$('#botoneSeguimiento').html('');
+				// 	$('#EstadoObservacion').html('');
+				// 	 $('#EstadoObservacion').append(`<div class="row"> 
+				// 	 	<div class="col-md-12 ">   
+				// 	      <div class="alert alert-info" role="alert">
+				// 	        <div class="row vertical-align centerDiv">
+				// 	          <div class="col-lg-1 text-center">
+				// 	            <i class="fa fa-info fa-2x"></i> 
+				// 	          </div>
+				// 	          <div class="col-lg-11 centerDiv">
+				// 	           <strong> Esta tarea se encuentra en estado&nbsp${item['Estado_Tarea']}.</strong>
+				// 	          </div>
+				// 	        </div>
+				// 	      </div>      
+		  //  				</div>
+		 	// 			 </div> `)
+				// 	if($('#Terminada').hasClass('activado')){
+				// 		$('#PanelObservacion').html('');
+				// 		$('#PanelEvidencias').html('');	
+				// 		$('#botoneSeguimiento').html('');
+				// 		$('#EstadoObservacion').html('');
+				// 	}
+				// }
+
+	   // 	    	listaObservaciones();
+	   	     	$('#cargatareas').fadeIn(1000).html(data); 
+	   		});
+		});
+
+	}
+
+	//PARA EL CHECKBOX DE ACTUALIZAR CONTRASEÑA
+  function onToggle(IdReunion,Id_Usuario) {
+    // check if checkbox is checked
+    if( $('#'+Id_Usuario+'AsistenciaChek').prop('checked') ) {
+    var FrmData = { 
+	    	asistencia: '1',
+	    }
+
+    } else {
+    	var FrmData = { 
+	    	asistencia: '2',
+	    }
+    }
+ 
+
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+	});
+    $.ajax({
+        url: 'Asistencia/'+IdReunion+'/'+Id_Usuario, 
+        method: "PUT", 
+        data: FrmData,
+        dataType: 'json',
+        success: function (data) 
+        {
+        	
+        },
+        error: function () { 
+            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+        }
+	});
+
+
+  }

@@ -63,6 +63,7 @@ route::get('RolesPorSubArea/{subarea}', 'RolesController@RolesPorSubArea');
  Route::get('/MisTareas/{estado}',  'TareasController@TareasPorEstado');
 Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
 route::get('TareasPorTipo/{estado}/{tipo}','TareasController@TareasPorTipo');
+route::get('TareasPorTipoPendiente/{estado}/{tipo}','TareasController@TareasPorTipoPendiente');
 
 route::POST('GuardarSeguimientoTarea/','TareasController@GuardarSeguimientoTarea');
 
@@ -121,6 +122,18 @@ route::PUT('Asistencia/{id}/{Id_Usuario}', 'ReunionController@Asistencia');
 
 //PARA TRAER LAS OBSERVACIONES DE REUNIONES
 route::resource('ObservacionesReuniones', 'ObservacionReunionController');
+
+
+
+route::get('ComprobarTareaFecha/{idtareas}/{FechaFin}/{HoraFin}', 'TareasController@ComprobarTareaFecha');
+
+route::get('ListaTareas', 'TareasController@ListaTareas');
+route::get('tareasCPM/{estado}','TareasController@tareasCPM');
+
+//ADMINISTRADOR
+route::get('TareasAdministrador/{estado}', 'TareasController@TareasAdministrador');
+route::get('TareasEstadoAdministrador/{estado}', 'TareasController@TareasEstadoAdministrador');
+
 
 
 

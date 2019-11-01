@@ -92,7 +92,7 @@
                         <tr style="color: black">
                <!--              <th scope="col">#</th> -->
                             <th scope="col">Tema</th>
-                            <th scope="col">Orden del día</th>
+
                             <th scope="col">Lugar</th>
                             <th scope="col">Fecha/Hora</th>
                             <th scope="col">Creado Por</th>

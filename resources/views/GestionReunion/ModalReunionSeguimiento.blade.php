@@ -17,20 +17,18 @@
                    	 	<div class="row">
 		                   <div class="col-md-12"  > <!-- id="divObservacionSeguimiento" -->
 				                <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Orden del día:</b></label>  	
-		                   		<div class="card">
-		                            <div class="card-body">
+		                
 				                   		<div class="row">
-				                   			<div class="col-md-12" id="OrdendelDia">
-				                   				GF
-				                   				GDF
-				                   				GFD
-				                   				GDF
+				                   			<div class="col-md-12" >
+				                   				<textarea style="color: black" class="form-control input-default" readonly="" rows="7" id="OrdendelDia"></textarea>
 				                   			</div>
 				                        </div>
-				                    </div>
-				                </div>
+
 				            </div>  
 				        </div>
+                        <br>
+                        <hr style="height: 1px; margin-top: 0rem;margin-bottom: 0rem">
+                        <br>
                         <div class="row">
                                 <div class="col-md-12" id="PanelObservacion" > <!-- id="divObservacionSeguimiento" -->
                                     <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Comentario:</b></label>
@@ -42,19 +40,13 @@
                             <div class="col-md-12">
                                 <br>
                                 <label for="" style="color: black"><i class="fa fa-bookmark"></i>  <b>Lista de Comentarios</b></label>
-                                <div id="cajacomentarioReunion" style="font-size: 12px; overflow:scroll; height:280px; width:100%;">  
+                                <div id="cajacomentarioReunion" style="font-size: 12px; overflow:scroll; height:400px; width:100%;">  
                                 </div>
                             </div>
                         </div>
                         <br>
                         <hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
-                        <div class="row">
-                                <div class="col-md-12" id="PanelConclusiones" > <!-- id="divObservacionSeguimiento" -->
-                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Conclusión:</b></label>
-                                    <textarea class="form-control input-default" id="ConclusionReunionSeguimiento"></textarea><br>
 
-                                </div>
-                        </div>
 
  
                    </div>
@@ -136,6 +128,13 @@
 
                                 </div>
                        </div>
+                        <div class="row">
+                                <div class="col-md-12" id="PanelConclusiones" > <!-- id="divObservacionSeguimiento" -->
+                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Conclusión:</b></label>
+                                    <textarea rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento"></textarea><br>
+
+                                </div>
+                        </div>
                    </div> 
                 </div>
 
@@ -153,11 +152,7 @@
                                   <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Más
                                   </button>
-                                  <div class="dropdown-menu">
-                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-                                    <div id="btneditar">
-                                   </div>
-                                  </div>
+
                                 </div>
                             </div>
                         </div>                        

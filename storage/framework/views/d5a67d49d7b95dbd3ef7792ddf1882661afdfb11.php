@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
         $( document ).ready(function() {
-            TareasGenerales('Pendiente');
+            TareasAdmin('Pendiente');
         });
     </script>
     <?php else: ?>
@@ -37,7 +37,7 @@
                       <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                onClick="TareasGenerales('Pendiente','');"
+                                onClick="TareasAdmin('Pendiente');"
                             <?php else: ?>
                                 onClick="TareasTipo('T','Pendiente');"
                             <?php endif; ?>
@@ -55,8 +55,10 @@
                       <li><a id="Terminada" href="javascript:void(0);"
                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                onClick="TareasGenerales('Terminada');"
+                                onClick="TareasEstAdministrador('Terminada');"
                             <?php else: ?>
+                            
+
                                 onClick="TareasTipo('T','Terminada');"
                             <?php endif; ?>
                         <?php endif; ?> 
@@ -64,7 +66,7 @@
                         <li><a id="Vencida" href="javascript:void(0);"
                          <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                onClick="TareasGenerales('Vencida');"
+                                onClick="TareasEstAdministrador('Vencida');"
                             <?php else: ?>
                                onClick="TareasTipo('T','Vencida');"]}});"
                             <?php endif; ?>
@@ -95,9 +97,9 @@
             <div id="EstaTar" hidden="true"></div>
             <div class="row">
                 <div class="col-md-4">
-                       <h1 class="card-title" style="padding-top: 20px">LISTA DE TAREAS</h1>
+                       <h1 class="card-title" style="padding-top: 20px"><b>LISTA DE TAREAS</b></h1>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" id="PanelAdminRol">
                      <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
 
                  <select id="SelecTipoUserTareas" onchange="TareasPorUsuario('',this.value,'<?php echo e($_SESSION['id']); ?>')" class="form-control input-default">
@@ -108,7 +110,7 @@
                  </select>
                  <?php endif; ?>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" id="PanelAdminTipoT">
                  <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value,'filtro')" class="form-control input-default">
                     <option value="T">Todas</option>
                     <?php $__currentLoopData = $TipoTareas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $valores): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -125,17 +127,17 @@
                     </button>
                 </div>
             <div class="table-responsive" style="font-size: 12px;">
-                <table class="table  header-border table-hover  " id="myTable">
+                <table class="table  header-border table-hover sortable  " id="myTable">
                     <thead>
                         <tr style="color: black">
                <!--              <th scope="col">#</th> -->
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Fecha Límite</th>
-                            <th scope="col">Creado Por</th>
-                            <th scope="col">Responsables</th>
-                            <th scope="col">Participantes</th>
-                            <th scope="col">Observadores</th>
-                            <th scope="col" rowspan="2">Tipo</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col">Nombre</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col">Fecha Límite</th>
+                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Creado Por</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col">Responsables</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col">Participantes</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col">Observadores</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col" rowspan="2">Tipo</th>
                         </tr>
                     </thead>
                     <tbody id="TablaTareas">
@@ -167,7 +169,7 @@
 <link href="/css/MyStyle.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo e(asset('js/nav.js')); ?>"></script>
 <script type="text/javascript" src="<?php echo e(asset('js/tareas.js')); ?>"></script>
- 
+ <script type="text/javascript" src="<?php echo e(asset('js/sorttable.js')); ?>"></script>
 
 
 <!--     <script src="./plugins/moment/moment.js"></script>

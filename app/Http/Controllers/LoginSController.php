@@ -35,9 +35,14 @@ class LoginSController extends Controller
             $_SESSION['cedula']=$UsuariosLogin[0]['Cedula'];
             $_SESSION['celular']=$UsuariosLogin[0]['Celular'];
             $_SESSION['direccion']=$UsuariosLogin[0]['Direccion'];
+            $_SESSION['email']=$UsuariosLogin[0]['email'];
             $_SESSION['sexo']=$UsuariosLogin[0]['Sexo'];
             $_SESSION['Id_tipo_Usuarios']=$UsuariosLogin[0]['Id_tipo_Usuarios'];
-            $_SESSION['email']=$UsuariosLogin[0]['email'];
+            $_SESSION['Instagram']=$UsuariosLogin[0]['Instagram'];
+            $_SESSION['Facebook']=$UsuariosLogin[0]['Facebook'];
+            $_SESSION['Twitter']=$UsuariosLogin[0]['Twitter'];
+            $_SESSION['Intereses']=$UsuariosLogin[0]['Intereses'];
+            $_SESSION['Fecha_Nacimiento']=$UsuariosLogin[0]['Fecha_Nacimiento'];
             $_SESSION['Password']=$UsuariosLogin[0]['Password'];
             return redirect('/');
         }else{

@@ -29,6 +29,11 @@ function ActualizarUsuario(){
 	    	Cedula: $("#CedulaPerfil").val(),
 	    	Direccion: $("#DireccionPerfil").val(),
 	    	Celular: $("#CelularPerfil").val(),
+	    	FechaNacimiento: $("#FechaNacimientoPerfil").val(),
+	    	Instagram: $("#InstagramPerfil").val(),
+	    	Facebook: $("#FacebookPerfil").val(),
+	    	Twitter: $("#TwitterPerfil").val(),
+	    	Intereses: $("#InteresesPerfil").val(),
 	    }
 
 
@@ -153,4 +158,23 @@ function ActualizarClave(){
 	        }
 	    }); 
 	}
+}
+
+function ModalPerfilUsuario(IDus){
+	$("#ModalPerfilUsuario").modal("show");
+	$.get('Usuarios/'+IDus, function (data) {
+		console.log(data['Nombre']);
+		$('#NombreUserP').html(data['Nombre']+' '+data['Apellido']);
+		$('#TipoUserP').html(data['TipoUsuario']);
+		$('#CedulaUserP').html(`<b><i class="fa fa-address-card-o"></i>  Cédula:</b> ${data['Cedula']}`);
+		$('#EmailUserP').html(`<b><i class="fa fa-envelope"></i>    Email:</b> ${data['email']}` );
+		$('#CelularUserP').html(`<b><i class="fa fa-phone"></i>    Celular:</b> ${data['Celular']}`);
+		$('#DireccionUserP').html(`<b><i class="fa  fa-map-marker"></i>    Dirección:</b>  ${data['Direccion']}`);
+		$('#SexoUserP').html(`<b><i class="fa fa-venus-double"></i>    Sexo:</b>  ${data['Sexo']}`);
+		// $('#EdadUserP').html(data['Nombre']+' '+data['Apellido']);
+		// $('#InstagramUserP').html(data['Nombre']+' '+data['Apellido']);
+		// $('#FacebookUserP').html(data['Nombre']+' '+data['Apellido']);
+		// $('#TwitterUserP').html(data['Nombre']+' '+data['Apellido']);
+		// $('#InteresesUserP').html(data['Nombre']+' '+data['Apellido']);
+	});
 }

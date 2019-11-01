@@ -1,4 +1,5 @@
 function GuardarReunion(){
+
 	var Vtarea= validadorCampos('temaReunion'); 
 	var Vdescripcion= validadorCampos('lugarReunion');
 	var Vtipo= validadorCampos('ordendeldiaReunion'); 
@@ -129,7 +130,7 @@ function GuardarReunion(){
 
 		    $('#TablaReuniones').append(`<tr>
 	                                    <td > <i class="fa fa-bullhorn" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalReunion(${$valores['Id_Reunion']})">${$valores['Tema']}</a></td>
-	                                     <td><b>${$valores['Orden_del_Dia']}</td>
+
 	                                     <td><b>${$valores['Lugar']}</td>
 	                                     <td><b>${$valores['FechadeReunion']} / ${$valores['HoraReunion']}</td>
 	                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
@@ -301,7 +302,7 @@ function ParticipantesReunion(){
 	}
 
 
-		//PARA EL MODAL DEL SEGUIMIENTO DE LA TAREA
+		//PARA EL MODAL DEL SEGUIMIENTO DE LA REUNION
 	function ModalReunion(Id_reunion){
 		// limpiarModalTareas();
 		$("#ModalReunionSeguimiento").modal("show");
@@ -320,12 +321,13 @@ function ParticipantesReunion(){
 		$('#ResponsablesReunionSeguimiento').html('');
 	    $.get('Reunion/'+Id_reunion, function (data) {
 	    	$.each(data, function(i,item){
+	    		console.log(item['Orden_del_Dia']);
 
 		    	$('#TituloReunionSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Tema']);
 		    
 		    	$('#idReun').val(item['Id_Reunion']);
 		    	$('#FechaReunionSeguimiento').html(item['FechadeReunion']+'-'+item['HoraReunion']);
-		    	$('#OrdendelDia').html(item['Orden_del_Dia']);
+		    	$('#OrdendelDia').text(item['Orden_del_Dia']);
 		    	$.each(item['responsables'], function(i1,item1){
 		    	   $('#ResponsablesReunionSeguimiento').append(` <i class="fa fa-user"></i>  ${item1['usuario']['Nombre']} ${item1['usuario']['Apellido']} <br>`);
 		    	});
@@ -335,14 +337,55 @@ function ParticipantesReunion(){
 				    		}else{
 				    			var estado='';
 				    		}
+				    		if($('#SelecTipoUserReunion').val()=="CPM"   ){
+				    			
+				    			$('#PanelObservacion').html('');
+
+				    		}else{
+				    			$('#PanelObservacion').append(` <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Comentario:</b></label>
+                                    <textarea class="form-control input-default" id="ObservacionReunionSeguimiento"></textarea><br>
+                                    <div id="btnRegistrarObservacionReunion"><button onclick="RegistrarObservacionReunion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>`);
+				    		}
+				    		if($('#SelecTipoUserReunion').val()=="MisReunionesResponsables"   ){
 							$('#ParticipantesReunionSeguimiento').append(`<tr >
 					                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
 					                                     <td  centerDiv><div class="form-check form-check-inline">
 			                                                <label class="form-check-label">
-			                                                    <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
+			                                                <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
 			                                            </div></td>
 					                          
 					                                </tr>`);
+							$('#PanelConclusiones').html('');
+							$('#botoneSeguimiento').html('');
+							$('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Conclusión:</b></label>
+                                    <textarea rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento"></textarea><br>`)
+							$('#botoneSeguimiento').append(`<div class="row">
+									                            <div class="col-md-6">
+									                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+									                            </div>
+									                            <div class="col-md-6">
+									                                <div class="btn-group">
+									                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									                                    Más
+									                                  </button>
+
+									                                </div>
+									                            </div>
+									                        </div> `);
+							}else{
+								$('#ParticipantesReunionSeguimiento').append(`<tr >
+					                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
+					                                     <td  centerDiv><div class="form-check form-check-inline">
+			                                                <label class="form-check-label">
+		                                                    <input disabled type="checkbox" class="form-check-input " ${estado}  value=""></label>
+			                                            </div></td>
+					                          
+					                                </tr>`);
+								$('#PanelConclusiones').html('');
+								$('#botoneSeguimiento').html('');
+								$('#botoneSeguimiento').html('');
+							}
+
 		    	});
 		    		   
 	    	
@@ -522,10 +565,12 @@ function ParticipantesReunion(){
   //COMENTARIOS
 
   	//PARA GAUARDAS LAS OBSERVACIONES O COMENTARIOS
-	function RegistrarObservacion(){
+	function RegistrarObservacionReunion(){
+
+
 		$('#btnRegistrarObservacionReunion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
 		 var FrmData = { 
-	    	idtarea: $("#idReun").val(),
+	    	IdReunion: $("#idReun").val(),
 	    	Observacion: $("#ObservacionReunionSeguimiento").val(),
 	    	tipo:'C',
 	    }
@@ -542,8 +587,8 @@ function ParticipantesReunion(){
 	        success: function (data) 
 	        {
 
-	        	$('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
-	      		 $("#ObservacionTareaSeguimiento").val('');
+	        	$('#btnRegistrarObservacionReunion').html(`<button type="button" onclick="RegistrarObservacionReunion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
+	      		 $("#ObservacionReunionSeguimiento").val('');
 	      		 listaObservaciones();
 	        },
 	        error: function () { 
@@ -551,6 +596,56 @@ function ParticipantesReunion(){
 	        }
 	    });
 	}
+
+		//BOTON REPOSNDER COMENTARIO
+	function  ResponderComentario(id){
+		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="CerrarComentario(${id})" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>  Cerrar</button>
+		`);
+		$('#'+id+'c').html(`  <textarea class="form-control input-default" id="ObservacionRespuesta"></textarea><br>
+                                <div id="btnResponderObservacion"><button onclick="RespuestaObservacion(${id})" type="button" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button></div>`);
+	}
+
+	//BOTON CERRAR COMENTARIO
+	function  CerrarComentario(id){
+		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="ResponderComentario(${id})" class="btn btn-outline-dark btn-sm"><i class="fa fa-share"></i>  Responder</button>
+		`);
+		$('#'+id+'c').html('');
+	}
+
+
+	//GUARDAR RESPUESTA COMENTARIO
+	function RespuestaObservacion(Id_Observacion){
+		$('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
+		 var FrmData = { 
+	    	IdReunion: $("#idReun").val(),
+	    	Observacion: $("#ObservacionRespuesta").val(),
+	    	Id_Observacion: Id_Observacion,
+	    	tipo: 'S',
+
+	    }
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'ObservacionesReuniones', 
+	        method: "POST", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+
+	        	$('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
+	      		 $('#'+Id_Observacion+'c').html('');
+	      		 listaObservaciones();
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+	}
+
 
   	//PARA LLENAR LOS COMENTARIOS EN EL CARD
 	function llenarComentarios(data){

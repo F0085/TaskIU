@@ -45,17 +45,19 @@ class ObservacionReunionController extends Controller
 
     public function store(Request $request)
     {
+
         session_start();
         $fecha=date('Y-m-j H:i:s');
         $client = new Client([
           'base_uri' =>$this->servidor.'ObservacionesReuniones',
         ]);
         $data = ['Id_Usuario'=>$_SESSION['id'],
-                 'Id_Tarea'=>$request->idtarea,
+                 'Id_Reunion'=>$request->IdReunion,
                  'Descripcion'=>$request->Observacion,
-                 'tipo'=>$request->tipo,
-                 'ObservacionID'=>$request->Id_Observacion,
+                 'Tipo'=>$request->tipo,
+                 'Observacion_ID'=>$request->Id_Observacion,
                  'Fecha'=>$fecha];
+     
         $res = $client->request('POST','',['form_params' => $data]);
          
         if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){

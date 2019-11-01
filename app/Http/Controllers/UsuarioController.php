@@ -98,7 +98,12 @@ class UsuarioController extends Controller
 
     public function show($id)
     {
-        //
+        
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "Usuarios/{$id}");
+        return json_decode((string) $response->getBody(), true);
     }
 
     //EDITAR USUARIO
@@ -153,7 +158,8 @@ class UsuarioController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor.'Usuarios/'.$id,
         ]);
-        $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Direccion'=>$request->Direccion, 'Celular'=>$request->Celular];     
+        $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Direccion'=>$request->Direccion, 'Celular'=>$request->Celular,'Fecha_Nacimiento'=>$request->FechaNacimiento,'Intereses'=>$request->Intereses,'Instagram'=>$request->Instagram,'Facebook'=>$request->Facebook,'Twitter'=>$request->Twitter
+        ];     
         $res = $client->request('PUT','',['form_params' => $data]);      
         if ($res->getStatusCode()==200 || $res->getStatusCode()==201){
          $this->reiniciarSesion();
@@ -232,9 +238,14 @@ class UsuarioController extends Controller
             $_SESSION['cedula']=$UsuariosLogin[0]['Cedula'];
             $_SESSION['celular']=$UsuariosLogin[0]['Celular'];
             $_SESSION['direccion']=$UsuariosLogin[0]['Direccion'];
+            $_SESSION['email']=$UsuariosLogin[0]['email'];
             $_SESSION['sexo']=$UsuariosLogin[0]['Sexo'];
             $_SESSION['Id_tipo_Usuarios']=$UsuariosLogin[0]['Id_tipo_Usuarios'];
-            $_SESSION['email']=$UsuariosLogin[0]['email'];
+            $_SESSION['Instagram']=$UsuariosLogin[0]['Instagram'];
+            $_SESSION['Facebook']=$UsuariosLogin[0]['Facebook'];
+            $_SESSION['Twitter']=$UsuariosLogin[0]['Twitter'];
+            $_SESSION['Intereses']=$UsuariosLogin[0]['Intereses'];
+            $_SESSION['Fecha_Nacimiento']=$UsuariosLogin[0]['Fecha_Nacimiento'];
             $_SESSION['Password']=$UsuariosLogin[0]['Password'];
            
         }

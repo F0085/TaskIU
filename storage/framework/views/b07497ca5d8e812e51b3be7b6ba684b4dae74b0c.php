@@ -6,6 +6,7 @@
 <?php $__env->startSection('contenido'); ?>
 <div id="cargar"></div>
 <div class="col-lg-12" id="cardPefil">
+	<button onclick="ModalPerfilUsuario(116)">abre</button>
 	    <div class="card">
 	        <div class="card-body">
 	            <div class="media align-items-center mb-4">
@@ -33,11 +34,12 @@
 	                    <div class="card  text-left" style="padding-top: 20px">
 	                    	<div class="col-lg-12">
 		                        <span class="mb-1 text-warning"></span>
-		                         <p style="color: black"><b><i class="fa fa-birthday-cake"></i>    Cumpleaños:</b> </p>
+		                       <!--   <p style="color: black"><b><i class="fa fa-birthday-cake"></i>    Cumpleaños:</b> </p> -->
 		                        <p style="color: black"><b><i class="fa fa-child"></i>    Edad:</b>  </p>
-		                        <p style="color: black"><b><i class="fa fa-ajust"></i>    Color Favorito:</b>  </p>
-		                        <p style="color: black"><b><i class="fa  fa-utensils"></i>    Comida Favorita:</b> </p>
-		                        <p style="color: black"><b><i class="fa fa-heart"></i>    Intereses:</b> </p>
+		                        <p style="color: black"><b><i class="fa fa-instagram"></i>    Instagram:</b> <?php if(isset($_SESSION['Instagram'])): ?><?php echo e($_SESSION['Instagram']); ?><?php endif; ?></p>
+		                        <p style="color: black"><b><i class="fa  fa-facebook"></i>    Facebook:</b> <?php if(isset($_SESSION['Facebook'])): ?><?php echo e($_SESSION['Facebook']); ?><?php endif; ?></p>
+		                         <p style="color: black"><b><i class="fa  fa-twitter"></i>    Twitter:</b> <?php if(isset($_SESSION['Twitter'])): ?><?php echo e($_SESSION['Twitter']); ?><?php endif; ?></p>
+		                        <p style="color: black"><b><i class="fa fa-heart"></i>    Intereses:</b> <?php if(isset($_SESSION['Intereses'])): ?><?php echo e($_SESSION['Intereses']); ?><?php endif; ?></p>
 	                   		 </div>
 	                    </div>
 	                </div>
@@ -55,6 +57,7 @@
 	        </div>
 	    </div>
 </div>
+
 
 <div hidden="true" class="col-lg-12" id="editPerfil">
 
@@ -122,20 +125,25 @@
 								
 							</div>
 	                    	<div class="row col-lg-12">
+
 		                		<div class="col-md-6">
 		                			<label >Fecha Nacimiento:</label>
-		                			<input type="date" style="height: 30px;" name="FechaNacimientoPerfil" id="FechaNacimientoPerfil" class="form-control input-default">
+		                			<input type="date" style="height: 30px;" value="<?php echo e($_SESSION['Fecha_Nacimiento']); ?>" name="FechaNacimientoPerfil" id="FechaNacimientoPerfil" class="form-control input-default">
 		                		</div>
 		                		<div class="col-md-6">
-		                			<label>Color Favorito:</label>
-		                			<input type="text" style="height: 30px;" name="ColorFavoritoPerfil" id="ColorFavoritoPerfil" class="form-control input-default">
+		                			<label>Instagram:</label>
+		                			<input type="text" style="height: 30px;" value="<?php if(isset($_SESSION['Instagram'])): ?> <?php echo e($_SESSION['Instagram']); ?> <?php endif; ?>" name="InstagramPerfil" id="InstagramPerfil" class="form-control input-default">
 		                		</div>
 		                	</div>
 		                	<br>
 		                	<div class="row col-lg-12">
-		                		<div class="col-md-12">
-		                			<label>Comida Favorita:</label>
-		                			<input  type="text" style="height: 30px;" name="ComidaFavoritaPerfil" id="ComidaFavoritaPerfil" class="form-control input-default">
+		                		<div class="col-md-6">
+		                			<label>Facebook:</label>
+		                			<input value="<?php if(isset($_SESSION['Facebook'])): ?> <?php echo e($_SESSION['Facebook']); ?> <?php endif; ?>"  type="text" style="height: 30px;" name="FacebookPerfil" id="FacebookPerfil" class="form-control input-default">
+		                		</div>
+		                		<div class="col-md-6">
+		                			<label>Twitter:</label>
+		                			<input value="<?php if(isset($_SESSION['Twitter'])): ?> <?php echo e($_SESSION['Twitter']); ?> <?php endif; ?>"  type="text" style="height: 30px;" name="TwitterPerfil" id="TwitterPerfil" class="form-control input-default">
 		                		</div>
 
 		                	</div>
@@ -143,7 +151,7 @@
 		                	<div class="row col-lg-12">
 		                		<div class="col-md-12">
 		                			<label>Intereses:</label>
-		                			<input  type="text" style="height: 30px;" name="InteresesPerfil" id="InteresesPerfil" class="form-control input-default">
+		                			<input value="<?php if(isset($_SESSION['Intereses'])): ?> <?php echo e($_SESSION['Intereses']); ?> <?php endif; ?>"  type="text"  type="text" style="height: 30px;" name="InteresesPerfil" id="InteresesPerfil" class="form-control input-default">
 		                		</div>
 		                	</div>
 

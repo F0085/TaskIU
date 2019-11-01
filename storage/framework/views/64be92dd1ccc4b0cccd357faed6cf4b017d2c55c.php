@@ -1,4 +1,7 @@
+<script type="text/javascript">
 
+
+</script>
 <div id="cargatareas"></div>
 <div id="ModalTareasSeguimiento"  class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -6,7 +9,7 @@
 
             <div class="modal-header">
                 <h3 id="TituloTareaSeguimiento" style="font-size: 20px" class="modal-title"> </h3>
-                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                <button type="button" onclick="cerrarIntervalo()" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -156,17 +159,17 @@
                                         <div class="col-md-12">
                                             <label for="" style="color: black"><i class="fa fa-bookmark"></i>  <b>SubTareas</b></label>
                                             <div class="table-responsive" style="font-size: 12px; overflow:scroll; height:180px; width:100%;">
-                                                <table class="table  header-border table-hover  " id="myTable">
+                                                <table class="table  header-border table-hover sortable  " id="myTable">
                                                     <thead>
                                                         <tr style="color: black">
                                                <!--              <th scope="col">#</th> -->
-                                                            <th scope="col">Nombre</th>
-                                                            <th scope="col">Fecha Lìmite</th>
-                                                            <th scope="col">Creado Por</th>
-                                                            <th scope="col">Responsables</th>
-                                                            <th scope="col">Participantes</th>
-                                                            <th scope="col">Observadores</th>
-                                                            <th scope="col" rowspan="2">Tipo</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Nombre</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Fecha Lìmite</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Creado Por</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Responsables</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Participantes</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Observadores</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col" rowspan="2">Tipo</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tablaTareaSeguimiento">
@@ -204,7 +207,7 @@
                         </div>                        
                     </div>
                     <div class="col-md-5 centerDiv">
-                        <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="cerrarIntervalo()" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
 <!--                         <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Aceptar </button> -->
                     </div>
                 </div>

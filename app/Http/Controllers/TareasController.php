@@ -28,7 +28,18 @@ class TareasController extends Controller
 	}
 	
 	//TAREAS POR TIPO DE TAREA PERSONAL O TRABAJO
-	public function TareasPorTipo($estado, $tipo)
+	public function TareasPorTipoPendiente($estado, $tipo)
+    {
+      session_start();
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "TareasPorTipoPendiente/{$estado}/{$tipo}/{$_SESSION['id']}");
+        return json_decode((string) $response->getBody(), true);
+    }
+
+      //TAREAS POR TIPO DE TAREA PERSONAL O TRABAJO
+  public function TareasPorTipo($estado, $tipo)
     {
       session_start();
         $client = new Client([
@@ -59,6 +70,36 @@ class TareasController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
+    
+    //LISTA TAREA CPM
+    public function TareasAdministrador($estado)
+    {
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+
+        if($estado == 'Pendiente'){
+          $response = $client->request('GET', "TareasAdministrador/{$estado}");
+          $resultado= json_decode((string) $response->getBody(), true);
+          foreach ($resultado as $key => $value) {
+
+            $this->ComprobarTareaFecha($value['Id_tarea'],$value['FechaFin'],$value['Hora_Fin']);
+          }
+        } 
+        $response = $client->request('GET', "TareasAdministrador/{$estado}");
+        return json_decode((string) $response->getBody(), true);
+    }
+
+   //LISTA TAREA CPM
+    public function tareasCPM($estado)
+    {
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "tareasCPM/{$estado}");
+        return json_decode((string) $response->getBody(), true);
+    }
+
     //LISTA TAREA TODAS
     public function ListaTareas()
     {
@@ -76,9 +117,29 @@ class TareasController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
+        if($estado == 'Pendiente'){
+        $response = $client->request('GET', "TareasEstado/{$estado}/{$_SESSION['id']}");
+        $resultado= json_decode((string) $response->getBody(), true);
+        foreach ($resultado as $key => $value) {
+
+          $this->ComprobarTareaFecha($value['Id_tarea'],$value['FechaFin'],$value['Hora_Fin']);
+        }
+        } 
         $response = $client->request('GET', "TareasEstado/{$estado}/{$_SESSION['id']}");
         return json_decode((string) $response->getBody(), true);
     }
+
+     public function TareasEstadoAdministrador($estado)
+    {
+        session_start();
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "TareasEstadoAdministrador/{$estado}");
+        return json_decode((string) $response->getBody(), true);
+    }
+
+
 
     public function show($id){
         $client = new Client([
@@ -129,7 +190,7 @@ class TareasController extends Controller
         $resul=$this->TareasPendientesPorTareas($request);
         if(empty($resul)){
            $resTarea = $clientTarea->request('PUT','',['form_params' => $dataTarea]); 
-           return json_decode((string) $res->getBody(), true);
+           return 0;
          
 
 
@@ -137,9 +198,49 @@ class TareasController extends Controller
         }else{
          return 1; // TIENE TAREAS PENDIENTES
         }
+    }
+
+        public function ComprobarTareaFecha($idtareas,$FechaFin,$HoraFin){
+          // 2019-10-30 00:00:00
+          $FechaFin=$FechaFin.' '.$HoraFin;
+          $FechaFin=strtotime ($FechaFin); 
+          
+          $fechaactual=date('Y-m-j H:i:s');
+          $fechaactual=strtotime ($fechaactual); 
         
+          if($FechaFin < $fechaactual){
+
+            $client = new Client([
+                'base_uri' => $this->servidor.'Tareas/'.$idtareas,
+            ]);
+            $data = ['Estado_Tarea'=>"Vencida"]; 
+            $res = $client->request('PUT','',['form_params' => $data]); 
+            return json_decode((string) $res->getBody(), true);
+          }
+        // $client = new Client([
+        //   'base_uri' => $this->servidor.'Observaciones',
+        // ]);
+
+        // $idtareas=(int)($idtareas); 
+        // //CLIENTE API Tareas       
+        // $clientTarea = new Client([
+        //   'base_uri' => $this->servidor.'Tareas/'.$idtareas,
+        // ]);
+
+        // $dataTarea = ['Estado_Tarea'=>'Terminada'];
 
 
+        // $resul=$this->TareasPendientesPorTareas($request);
+        // if(empty($resul)){
+        //    $resTarea = $clientTarea->request('PUT','',['form_params' => $dataTarea]); 
+        //    return 0;
+         
+
+
+         
+        // }else{
+        //  return 1; // TIENE TAREAS PENDIENTES
+        // }
     }
 
 
@@ -356,14 +457,14 @@ class TareasController extends Controller
 
     public function HoraFechaSistema(){
       $arrae=array();
-      $arrae['Fecha']= array($fecha=date('Y-m-j'));
+      $arrae['Fecha']= array($fecha=date('Y-m-d'));
       $arrae['Hora']= array($fecha=date('H:i:s'));
       return $arrae;
     }
 
     public function validarFechas(Request $request){
       $arrae=array();
-      $date=date('Y-m-j');
+      $date=date('Y-m-d');
       $hora=date('H:i');
       $HoraActual=strtotime ($hora); 
  

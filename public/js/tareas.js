@@ -1,9 +1,92 @@
 
 
+function TareasAdmin(estado){
+	$('#PanelAdminRol').html('');
+	$('#PanelAdminTipoT').html('');
+	
+	$('#TablaTareas').html('');
+		if(estado=='Pendiente'){
+	    	$('#Proceso').removeClass('activado');
+	    	$('#Pendiente').addClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }else if(estado=='Terminada'){
+	    	$('#Proceso').removeClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').addClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }
+	    else if(estado=='Vencida'){
+	    	$('#Proceso').removeClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').addClass('activado');
+	    }
+	 $.get('TareasAdministrador/'+estado, function (data) {
+	    	  llenarbucle(data,'0','collapse show','TablaTareas','');			 
+		      $('#cargar').fadeIn(1000).html(data); 
+		})
+}
+
+
+function TareasEstAdministrador(estado){
+	$('#PanelAdminRol').html('');
+	$('#PanelAdminTipoT').html('');
+	 if(estado=='Proceso'){
+	    	$('#Proceso').addClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }else if(estado=='Pendiente'){
+	    	$('#Proceso').removeClass('activado');
+	    	$('#Pendiente').addClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }else if(estado=='Terminada'){
+	    	$('#Proceso').removeClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').addClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }
+	    else if(estado=='Vencida'){
+	    	$('#Proceso').removeClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').addClass('activado');
+	    }
+		$('#TablaTareas').html('');
+	    $.get('TareasEstadoAdministrador/'+estado, function (data) {
+					$.each(data, function(i2, $valores) { 
+				    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
+			                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
+			                                     <td><b>${$valores['FechaFin']}</td>
+			                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
+			                                    <td id='${$valores['Id_tarea']+'25'}'>   
+			                                    </td>
+			                                    <td id='${$valores['Id_tarea']+'50'}'></td>
+			                                    <td id='${$valores['Id_tarea']+'75'}'></td>
+												<td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
+			                                  
+			                                </tr>`);
+					    $.each($valores['responsables'], function(i, $vREs) { 
+					      $('#'+$valores['Id_tarea']+'25').append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);
+					    });
+					    $.each($valores['participantes'], function(i, $vPAR) { 
+					      $('#'+$valores['Id_tarea']+'50').append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
+					    });
+					    $.each($valores['observadores'], function(i, $vOBSE) { 
+					      $('#'+$valores['Id_tarea']+'75').append(`<i class="fa fa-user"></i>  ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']} <br><br>`);
+					    });		
+				 	});
+				}); 
+		      	$('#cargar').fadeIn(1000).html(''); 
+}
+
 //PARA GUARDA LA TAREA
 //###################################################################################
 //########## GESTION TAREAS ###########################################
 //###################################################################################
+
 
 function GuardarTarea(){
 	var Vtarea= validadorCampos('Nombretarea'); 
@@ -106,7 +189,7 @@ function ActualizarTarea(){
 
 	        </div>
 	    </div>`);
-	   console.log($('#TaskID').val());
+
 	    var FrmData = { 
 	    	Nombre: $("#Nombretarea").val(),
 	    	descripcion: $("#descripcionTarea").val(),
@@ -205,11 +288,11 @@ function TerminarTarea(){
 			        $('#mensajePendiente').prop('hidden',false);
 			        $('#mensajePendiente').show(500);
 	        	}else{
-	        		alert('Observacion exitosa');
+	        		window.location = "/Tareas";
 	        	}	        	
 	        	// var htl=`<i class="fa fa-trash"></i>`;
 	        	$('#cargar').fadeIn(1000).html(data); 
-	        	// window.location = "/Tareas";
+	        	 
 	        },
 	        error: function () { 
 	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
@@ -333,6 +416,7 @@ function observadoresTask(){
 
 	//TODAS LAS TAREAS PARA EL ADMINISTRADOR O LA PERSONA QUE LAS CREA
 	function TareasGenerales(estado){
+
 		$('#SelectTipoTarPerTra').val('T');
 		$('#SelecTipoUserTareas').val('CPM');
 		$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
@@ -365,11 +449,42 @@ function observadoresTask(){
 	    	$('#Terminada').removeClass('activado');
 	    	$('#Vencida').addClass('activado');
 	    }
+	  
 		$('#TablaTareas').html('');
 	    $.get('TareasEstado/'+estado, function (data) {
 	    	  llenarbucle(data,'0','collapse show','TablaTareas','');			 
 		      	$('#cargar').fadeIn(1000).html(data); 
-			 });
+		});
+	}
+
+	function TareasCPM(estado){
+			$('#TablaTareas').html('');
+			    $.get('tareasCPM/'+estado, function (data) {
+							$.each(data, function(i2, $valores) { 
+						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
+					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
+					                                     <td><b>${$valores['FechaFin']}</td>
+					                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
+					                                    <td id='${$valores['Id_tarea']+'25'}'>   
+					                                    </td>
+					                                    <td id='${$valores['Id_tarea']+'50'}'></td>
+					                                    <td id='${$valores['Id_tarea']+'75'}'></td>
+ 													<td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
+					                                  
+					                                </tr>`);
+							    $.each($valores['responsables'], function(i, $vREs) { 
+							      $('#'+$valores['Id_tarea']+'25').append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);
+							    });
+							    $.each($valores['participantes'], function(i, $vPAR) { 
+							      $('#'+$valores['Id_tarea']+'50').append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
+							    });
+							    $.each($valores['observadores'], function(i, $vOBSE) { 
+							      $('#'+$valores['Id_tarea']+'75').append(`<i class="fa fa-user"></i>  ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']} <br><br>`);
+							    });		
+						 	});
+						}); 
+				      	$('#cargar').fadeIn(1000).html(''); 
+		   	
 	}
 
 	//EXTRAE TODAS LAS TAREAS POR USUARIO EL TIPO (RESPONSABLE OBSERVADOR PARTICPANTE) Y EL ESTADO( PENDIENTE,TERMINADA,VENCIDA)
@@ -405,7 +520,7 @@ function observadoresTask(){
 					$.each(data, function(i2, $valore) { 
 							$.each($valore, function(i2, $valores) { 
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
-					                                    <td > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
+					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
 					                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
 					                                    <td id='${$valores['Id_tarea']+'25'}'>   
@@ -443,6 +558,15 @@ function observadoresTask(){
 	//PARA LLENAR LA TABLA DE LAS TAREAS
 	function llenarbucle(data,sangria,col,idtabla,textoid){
 		var signo;
+		if($('#Proceso').hasClass('activado')){
+				estado='Proceso';
+			}else if($('#Pendiente').hasClass('activado')){
+				estado='Pendiente';
+			}else if($('#Terminada').hasClass('activado')){
+				estado='Terminada';
+			}else if($('#Vencida').hasClass('activado')){
+				estado='Vencida';
+			}
 		// var progreso=100;
 	    $.each(data, function(i1, $valores) { 
 	    	//condicionar si es nulo subtareas     	
@@ -454,10 +578,12 @@ function observadoresTask(){
 	    		signo='fa fa-sticky-note';
 
 	    	}
+		
+	    	if($valores['Estado_Tarea'] == estado){
 		    $('#'+idtabla).append(`<tr  id="accordion${$valores['tareasIdTareas']}${textoid}" class="${col} tr_tareas">
-	                                    <td > <i  data-toggle="collapse" data-target="#accordion${$valores['Id_tarea']}${textoid}" onclick="CambioIconoBoton(this)" class="clickable collapse-row collapsed ${signo} " style="text-indent: ${sangria+'cm'}" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
-	                                     <td><b>${$valores['FechaFin']}</td>
-	                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
+	                                    <td title="Abrir Tarea"> <i  data-toggle="collapse" data-target="#accordion${$valores['Id_tarea']}${textoid}" onclick="CambioIconoBoton(this)" class="clickable collapse-row collapsed ${signo} " style="text-indent: ${sangria+'cm'}" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
+	                                     <td ><b>${$valores['FechaFin']}</td>
+	                                    <td><a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$valores['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</a></td>
 	                                    <td id='${$valores['Id_tarea']+'25'+textoid}'>   
 	                                    </td>
 	                                    <td id='${$valores['Id_tarea']+'50'+textoid}'></td>
@@ -466,15 +592,16 @@ function observadoresTask(){
 	                                </tr>`);
 
 		    $.each($valores['responsables'], function(i, $vREs) { 
-		      $('#'+$valores['Id_tarea']+'25'+textoid).append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);
+		      $('#'+$valores['Id_tarea']+'25'+textoid).append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vREs['usuario']['Id_Usuario']})"><i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']}</a> <br><br>`);
 		    });
 		    $.each($valores['participantes'], function(i, $vPAR) { 
-		      $('#'+$valores['Id_tarea']+'50'+textoid).append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
+		      $('#'+$valores['Id_tarea']+'50'+textoid).append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vPAR['usuario']['Id_Usuario']})"><i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']}</a> <br><br>`);
 		    });
 		    $.each($valores['observadores'], function(i, $vOBSE) { 
-		      $('#'+$valores['Id_tarea']+'75'+textoid).append(`<i class="fa fa-user"></i>  ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']} <br><br>`);
+		      $('#'+$valores['Id_tarea']+'75'+textoid).append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vOBSE['usuario']['Id_Usuario']})"><i class="fa fa-user"></i>  ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']}</a> <br><br>`);
 		    });
-		    llenarbucle($valores['sub_tareas'],(parseFloat(sangria)+0.5),'collapse',idtabla,textoid);		
+		    llenarbucle($valores['sub_tareas'],(parseFloat(sangria)+0.5),'collapse',idtabla,textoid);	
+		    }	
 		}); 
 		progreso=0;
 	    sangria=parseFloat(sangria)-0.5;
@@ -482,6 +609,9 @@ function observadoresTask(){
 
 	//PARA OBETENER LAS TAREAS POR EL TIPO (PERSONAL O LABORAL)
 	function TareasTipo(tipo,estado){
+		$('#SelecTipoUserTareas').val('CPM');
+		$('#SelectTipoTarPerTra').val('T');
+		$('#SelectTipoTarPerTra').prop('disabled',false);
 		$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
 		    <div class="loader"> 
 		        <svg class="circular" viewBox="25 25 50 50">
@@ -489,7 +619,7 @@ function observadoresTask(){
 		        </svg>
 		    </div>
 		</div>`);
-		if(estado=='filtro'){
+		if(estado=='filtro' && ($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')) ){
 			if($('#Proceso').hasClass('activado')){
 				estado='Proceso';
 			}else if($('#Pendiente').hasClass('activado')){
@@ -499,11 +629,57 @@ function observadoresTask(){
 			}else if($('#Vencida').hasClass('activado')){
 				estado='Vencida';
 			}
+
+			if(tipo =='T'){
+				TareasCPM(estado);
+				return;
+			}
+
+		  $('#TablaTareas').html('');
+		    $.get('TareasPorTipo/'+estado+'/'+tipo, function (data) {
+		    	 $('#TablaTareas').html('');
+			
+							$.each(data, function(i2, $valores) { 
+						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
+					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
+					                                     <td><b>${$valores['FechaFin']}</td>
+					                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
+					                                    <td id='${$valores['Id_tarea']+'25'}'>   
+					                                    </td>
+					                                    <td id='${$valores['Id_tarea']+'50'}'></td>
+					                                    <td id='${$valores['Id_tarea']+'75'}'></td>
+					                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
+					                                </tr>`);
+							    $.each($valores['responsables'], function(i, $vREs) { 
+							      $('#'+$valores['Id_tarea']+'25').append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);
+							    });
+							    $.each($valores['participantes'], function(i, $vPAR) { 
+							      $('#'+$valores['Id_tarea']+'50').append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
+							    });
+							    $.each($valores['observadores'], function(i, $vOBSE) { 
+							      $('#'+$valores['Id_tarea']+'75').append(`<i class="fa fa-user"></i>  ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']} <br><br>`);
+							    });		
+						 	});
+						 
+				      	$('#cargar').fadeIn(1000).html(''); 
+	   		});
+	   		return;
 		}
-		if(tipo=='T'){
+
+		if(estado=='filtro' && $('#Pendiente').hasClass('activado')){
+			if(tipo=='T'){
+				TareasGenerales('Pendiente');
+				return;
+			}
+		}
+		if(estado=='Pendiente'){
+			
 			TareasGenerales(estado);
-		}else{
-		    if(estado=='Proceso'){
+			return;
+			
+		}
+		if(tipo=='T' && (estado=='Terminada' || estado=='Vencida') ){
+			 if(estado=='Proceso'){
 		    	$('#Proceso').addClass('activado');
 		    	$('#Pendiente').removeClass('activado');
 		    	$('#Terminada').removeClass('activado');
@@ -525,11 +701,28 @@ function observadoresTask(){
 		    	$('#Terminada').removeClass('activado');
 		    	$('#Vencida').addClass('activado');
 		    }
-			$('#TablaTareas').html('');
-		    $.get('TareasPorTipo/'+estado+'/'+tipo, function (data) {
-		    	  llenarbucle(data,'0','collapse show','TablaTareas','');
-			      	$('#cargar').fadeIn(1000).html(data); 
+			TareasCPM(estado);
+		}else{
+					
+			if($('#Proceso').hasClass('activado')){
+				estado='Proceso';
+			}else if($('#Pendiente').hasClass('activado')){
+				estado='Pendiente';
+			}else if($('#Terminada').hasClass('activado')){
+				estado='Terminada';
+			}else if($('#Vencida').hasClass('activado')){
+				estado='Vencida';
+			}
+
+		  
+		    $.get('TareasPorTipoPendiente/'+estado+'/'+tipo, function (data) {
+		    	
+		    	
+			  $('#TablaTareas').html('');
+							llenarbucle(data,'0','collapse show','TablaTareas','');	
+				      	$('#cargar').fadeIn(1000).html(''); 
 	   		});
+		
 		}
 	}
 
@@ -537,10 +730,39 @@ function observadoresTask(){
 //########## FIN OBETENER DATOS POR PARAMETROS###########################################
 //###################################################################################
 
+function EjecucionListaobservaciones(valor){
+ if(valor == 1){
+ 	$("#ModalTareasSeguimiento").modal("show");
+		$( document ).ready(function() {
+		    //console.log("ejecutandore");
+		    window.setInterval(listaObservaciones,5000);
+		      
+		});
+	}else{
+
+	}
+}
+
+//PARA CERRAR EL TIEMPO DE EJECUCION DE LA LISTA DE OBSERVACIONES
+	function cerrarIntervalo(){
+		window.clearInterval(intervalId);
+	}
+
+ 	var intervalId; //PARA CONTROLAR EL TIMEPO DE EJECUCION DE LA LISTA DE OBSERVACIONES
+	
 	//PARA EL MODAL DEL SEGUIMIENTO DE LA TAREA
+	
 	function ModalTareas(Id_tarea){
+		$('#cajacomentario').html('');
 		limpiarModalTareas();
 		$("#ModalTareasSeguimiento").modal("show");
+		$( document ).ready(function() {
+		    //console.log("ejecutandore");
+	
+		     intervalId=window.setInterval(listaObservaciones,5000);;
+		      
+		});
+
 		$('#cargatareas').append(`<div id="preloader" style="background: #ffffff00">
 		    <div class="loader"> 
 		        <svg class="circular" viewBox="25 25 50 50">
@@ -592,7 +814,7 @@ function observadoresTask(){
 		                            </div>
 		                        </div> `);
 					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
-					if($('#Terminada').hasClass('activado')){
+					if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado') ){
 						$('#PanelObservacion').html('');
 						$('#PanelEvidencias').html('');	
 						$('#botoneSeguimiento').html('');
@@ -694,6 +916,50 @@ function observadoresTask(){
 						$('#botoneSeguimiento').html('');
 						$('#EstadoObservacion').html('');
 					}
+				}else{
+					var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
+					$('#botoneSeguimiento').html('');
+					$('#botoneSeguimiento').append(`<div class="row">
+		                            <div class="col-md-6">
+		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+		                            </div>
+		                            <div class="col-md-6">
+		                                <div class="btn-group">
+		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                    Más
+		                                  </button>
+		                                  <div class="dropdown-menu">
+		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		                                    <div id="btneditar">
+		                                    ${btneditar}
+		                                   </div>
+		                                  </div>
+		                                </div>
+		                            </div>
+		                        </div> `);
+					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						$('#botoneSeguimiento').html('');
+						// $('#botoneSeguimiento').append(`<div class="row">
+		    //                         <div class="col-md-6">
+		    //                             <div class="btn-group">
+		    //                               <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    //                                 Más
+		    //                               </button>
+		    //                               <div class="dropdown-menu">
+		     
+		    //                                 <div id="btneditar">
+		    //                                 ${btneditar}
+		    //                                </div>
+		    //                               </div>
+		    //                             </div>
+		    //                         </div>
+		    //                     </div> `);
+						$('#PanelObservacion').html('');
+						$('#PanelEvidencias').html('');	
+					
+						$('#EstadoObservacion').html('');
+					}
 				}
 
 	   	    	listaObservaciones();
@@ -729,6 +995,7 @@ function observadoresTask(){
 	$("#ParticipantesTask").val('');
 	$("#ObservadoresTask").val('');
 		 $.get('HoraFechaSistema', function (data) {
+
 			$('#FechaInicioTarea').val(data['Fecha']);
 			$('#HoraInicioTarea').val(data['Hora']);
 			$('#FechaLimiteTarea').val(data['Fecha']);
@@ -861,8 +1128,10 @@ function observadoresTask(){
 	//PARA LISTAR LAS OBSERVACIONES O COMENTARIOS
 	function listaObservaciones(){
 		 $.get('Observacion/'+$('#idTar').val(), function (data) {
-		 	
-		 	llenarComentarios(data);
+
+		 	if(data.length != 0){
+		 		llenarComentarios(data);
+		 	}
 		 	
 		 });
 	}
@@ -870,6 +1139,8 @@ function observadoresTask(){
 
 	//PARA LLENAR LOS COMENTARIOS EN EL CARD
 	function llenarComentarios(data){
+		
+
 			$('#cajacomentario').html('');
 		 	$.each(data, function(i,item){
 					$('#'+item['Id_Observacion']+'s').html('');
@@ -981,6 +1252,7 @@ function observadoresTask(){
 	    });
 	}
 
+//PARA MOSTRAR LOS CAMPOS CUANDO LA TAREA ES PERSONAL
 function CamposPersonales(){
 	if($('select[id="tipoTarea"] option:selected').text() == 'Personal'){
 	$('#Integrantes').addClass('Visibility');

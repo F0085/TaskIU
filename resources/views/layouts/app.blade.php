@@ -40,6 +40,9 @@
 
 <body onload="TiempoActividad()">
 
+
+
+
     <!--*******************
         Preloader start
     ********************-->
@@ -226,18 +229,10 @@
                                 <div class="dropdown-content-body">
 
                                     <ul>
+                                        @if(isset($_SESSION['id']))
                                         <li>
                                             <a href="{{url('Perfil')}}"><i class="icon-user"></i> <span>Perfil</span></a>
                                         </li>
-                          <!--               <li>
-                                            <a href="email-inbox.html"><i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill badge-primary">3</div></a>
-                                        </li>
-                                        
-                                        <hr class="my-2">
-                                        <li>
-                                            <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li> -->
-                                        @if(isset($_SESSION['id']))
                                         <li><a href="javascript:void(0)" onclick="Cambiarclave()" ><i class="icon-key"></i> <span>Cambiar Clave</span></a>
                                         <li><a href="{{ url('logout') }}" ><i class="icon-logout"></i> <span>Cerrar Sesión</span></a>
                                         @else
@@ -263,6 +258,7 @@
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">BIENVENIDO</li>
+
                     <li class="mega-menu mega-menu-sm">
                         <a href="{{url('/Tareas')}}" class="" href="javascript:void()" aria-expanded="false">
                             <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Tareas</span>
@@ -273,16 +269,21 @@
                             <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Reunión</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gestión Administrativa</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{url('/Administracion')}}"><i class="ti-bag"></i>Administración General</a></li>
-                            <li><a href="{{url('/registro')}}"><i class="ti-user"></i>Registro de Usuarios</a></li>
-                          <!--   <li><a href=""><i class="ti-lock"></i>Permisos de Usuarios</a></li> -->
-                        </ul>
-                    </li>
+                    @if(isset($_SESSION['id']))
+                        @if($_SESSION['Id_tipo_Usuarios']=='2')                      
+                        <li>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gestión Administrativa</span>
+                            </a>
+                            <ul aria-expanded="false">
+                                <li><a href="{{url('/Administracion')}}"><i class="ti-bag"></i>Administración General</a></li>
+                                <li><a href="{{url('/registro')}}"><i class="ti-user"></i>Registro de Usuarios</a></li>
+                              <!--   <li><a href=""><i class="ti-lock"></i>Permisos de Usuarios</a></li> -->
+                            </ul>
+                        </li>
+ 
+                          @endif
+                    @endif
                     <li class="mega-menu mega-menu-sm">
                         <a href="{{url('/Organigrama')}}" class="" href="javascript:void()" aria-expanded="false">
                             <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Organigrama Institucional</span>
@@ -384,24 +385,19 @@
                             <li><a href="./table-datatable.html" aria-expanded="false">Data Table</a></li>
                         </ul>
                     </li> -->
-                    <li class="nav-label">Pages</li>
+
+             
+                    <li class="nav-label">Configuración</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Pages</span>
+                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Cuenta</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./page-login.html">Login</a></li>
-                            <li><a href="./page-register.html">Register</a></li>
-                            <li><a href="./page-lock.html">Lock Screen</a></li>
-                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Error</a>
-                                <ul aria-expanded="false">
-                                    <li><a href="./page-error-404.html">Error 404</a></li>
-                                    <li><a href="./page-error-403.html">Error 403</a></li>
-                                    <li><a href="./page-error-400.html">Error 400</a></li>
-                                    <li><a href="./page-error-500.html">Error 500</a></li>
-                                    <li><a href="./page-error-503.html">Error 503</a></li>
-                                </ul>
-                            </li>
+                            @if(isset($_SESSION['id']))
+                                <li> <a href="{{url('Perfil')}}"><i class="icon-user"></i> <span>Perfil</span></a></li>
+                                <li><a href="javascript:void(0)" onclick="Cambiarclave()" ><i class="icon-key"></i> <span>Cambiar Clave</span></a></li>
+                                <li><a href="{{ url('logout') }}" ><i class="icon-logout"></i> <span>Cerrar Sesión</span></a></li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
@@ -417,7 +413,7 @@
    
     <!-- Default theme -->
 
-
+    @include('PerfilUsuario.ModalPerfil')
         @include('ModalCambiarClave')
 
         <div class="content-body stylefuente" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->

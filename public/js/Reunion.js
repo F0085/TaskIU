@@ -321,8 +321,6 @@ function ParticipantesReunion(){
 		$('#ResponsablesReunionSeguimiento').html('');
 	    $.get('Reunion/'+Id_reunion, function (data) {
 	    	$.each(data, function(i,item){
-	    		console.log(item['Orden_del_Dia']);
-
 		    	$('#TituloReunionSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Tema']);
 		    
 		    	$('#idReun').val(item['Id_Reunion']);
@@ -342,6 +340,7 @@ function ParticipantesReunion(){
 				    			$('#PanelObservacion').html('');
 
 				    		}else{
+				    				$('#PanelObservacion').html('');
 				    			$('#PanelObservacion').append(` <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Comentario:</b></label>
                                     <textarea class="form-control input-default" id="ObservacionReunionSeguimiento"></textarea><br>
                                     <div id="btnRegistrarObservacionReunion"><button onclick="RegistrarObservacionReunion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>`);

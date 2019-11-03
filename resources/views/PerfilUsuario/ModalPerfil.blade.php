@@ -1,5 +1,5 @@
 <div id="ModalPerfilUsuario"  class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -16,7 +16,7 @@
 	                <img class="mr-3" src="images/form-user.png" width="80" height="80" alt="">
 	                <div class="media-body">
 	                    <h3 class="mb-0" id="NombreUserP"></h3>
-	                    <p class="text-muted mb-0" id="TipoUserP">@if(isset($_SESSION['Id_tipo_Usuarios'])) @if($_SESSION['Id_tipo_Usuarios'] == 1) Empleado @elseif($_SESSION['Id_tipo_Usuarios'] == 2) Administrador @endif @endif</p>
+	                    <p class="text-muted mb-0" id="TipoUserP"></p>
 	                </div>
 	            </div>
 	            

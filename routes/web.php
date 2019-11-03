@@ -110,6 +110,9 @@ route::put('CambiarClave', 'UsuarioController@CambiarClave');
 
 route::resource('Observacion', 'ObservacionController');
 route::resource('Documentos', 'DocumentoController');
+route::POST('guardarDocumento', 'DocumentoController@guardarDocumento');
+
+
 
 
 

@@ -41,15 +41,37 @@ class DocumentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function guardarDocumento(Request $request){
+
+        dd($request);
+    }
+
     public function store(Request $request)
     {
-        $archivo = $request->Evidencia;
-       
-        $ruta =  date('Ymd'). time(). "_img_" .$archivo->getClientOriginalName();// LE ASIGNO UN NOMBRE ALEATORIO
-        dd($ruta);
-        $extension = pathinfo($archivo->getClientOriginalName(), PATHINFO_EXTENSION);
-        \Storage::disk('Documento')->put($ruta,  \File::get($archivo));
-        $public_path = public_path();
+        $Ruta = $request->archivo;
+        $Nombre = basename($Ruta);
+        
+        session_start();
+        $fechaactual=date('Y-m-j H:i:s');
+
+        $client = new Client([
+          'base_uri' => $this->servidor.'Documento',
+        ]);
+        $data = ['Descripcion'=>$request->Descripcion,
+                 'Ruta'=>$Nombre,
+                 'Id_Tarea'=>$request->Id_Tarea,
+                 'Id_Usuario'=>$_SESSION['id'],
+                 'Fecha'=>$fechaactual]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+
+        $res = $client->request('POST','',['form_params' => $data]);
+               
+         if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+            $ext = pathinfo($Ruta, PATHINFO_EXTENSION);
+            \Storage::disk('Documento')->put($Nombre,  \File::get($Ruta));
+            $public_path = public_path();
+             return json_decode((string) $res->getBody(), true);
+        }        
+   
     }
 
     /**
@@ -60,7 +82,11 @@ class DocumentoController extends Controller
      */
     public function show($id)
     {
-        //
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "Documento/{$id}");
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

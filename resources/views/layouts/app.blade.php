@@ -413,12 +413,13 @@
    
     <!-- Default theme -->
 
-    @include('PerfilUsuario.ModalPerfil')
+
         @include('ModalCambiarClave')
 
         <div class="content-body stylefuente" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
         <br>
-          @yield('contenido')
+          @yield('contenido') 
+          @include('PerfilUsuario.ModalPerfil')
             <!-- #/ container -->
         </div>
         <!--**********************************

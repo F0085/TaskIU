@@ -464,15 +464,18 @@ class TareasController extends Controller
 
     public function validarFechas(Request $request){
       $arrae=array();
-      $date=date('Y-m-d');
-      $hora=date('H:i');
-      $HoraActual=strtotime ($hora); 
- 
+      $date=date('Y-m-d H:i:s');
+      // $hora=date('H:i');
+      // $HoraActual=strtotime ($hora); 
+      $FechaInicio=$request->FechaIn.' '.$request->HoraIn;
+      $FechaLimite=$request->FechaFin.' '.$request->HoraFin;
+
       $Fecha_Actual = strtotime ($date); 
-      $FechaInicio=strtotime($request->FechaIn);
-      $FechaLimite=strtotime($request->FechaFin);
-      $HoraInicio=strtotime($request->HoraIn);
-      $HoraLimite=strtotime($request->HoraFin);
+      $FechaInicio=strtotime($FechaInicio);
+      $FechaLimite=strtotime($FechaLimite);
+
+      
+
       if($Fecha_Actual>$FechaInicio){
         $arrae['FIN']= '0';
       }else{
@@ -484,17 +487,7 @@ class TareasController extends Controller
       }else{
         $arrae['FFIN']= '1';
       }
-      if($HoraActual>$HoraInicio){
-        $arrae['HIN']= '0';
-      }else{
-        $arrae['HIN']= '1';
-      }
 
-      if($HoraLimite<$HoraInicio){
-        $arrae['HFIN']= '0';
-      }else{
-        $arrae['HFIN']= '1';
-      }
 
       return $arrae;
     }

@@ -3,6 +3,7 @@
 
 </script>
 <div id="cargatareas"></div>
+
 <div id="ModalTareasSeguimiento"  class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -59,7 +60,7 @@
                                                 <th>Acción</th>                                      
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="listaEvidencias">
                                             <tr>
                                                 <td>Hola</td>
                                                 <td>hjk</td>

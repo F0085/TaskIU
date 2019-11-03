@@ -6,7 +6,7 @@
 <?php $__env->startSection('contenido'); ?>
 <div id="cargar"></div>
 <div class="col-lg-12" id="cardPefil">
-	<button onclick="ModalPerfilUsuario(116)">abre</button>
+
 	    <div class="card">
 	        <div class="card-body">
 	            <div class="media align-items-center mb-4">

@@ -128,7 +128,7 @@ function GuardarTarea(){
 	        success: function (data) 
 	        {
 	        	
-	        	if(data['FIN']=='1' && data['FFIN']=='1' && data['HIN']=='1' && data['HFIN']=='1'){
+	        	if(data['FIN']=='1' && data['FFIN']=='1' ){
 		    $.ajaxSetup({
 		        headers: {
 		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -464,23 +464,22 @@ function observadoresTask(){
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
-					                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
+	                                    				 <td><a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$valores['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</a></td>   
 					                                    <td id='${$valores['Id_tarea']+'25'}'>   
 					                                    </td>
 					                                    <td id='${$valores['Id_tarea']+'50'}'></td>
 					                                    <td id='${$valores['Id_tarea']+'75'}'></td>
- 													<td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
-					                                  
+					                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
 					                                </tr>`);
 							    $.each($valores['responsables'], function(i, $vREs) { 
-							      $('#'+$valores['Id_tarea']+'25').append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);
+							      $('#'+$valores['Id_tarea']+'25').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vREs['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']}</a> <br><br>`);
 							    });
 							    $.each($valores['participantes'], function(i, $vPAR) { 
-							      $('#'+$valores['Id_tarea']+'50').append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
+							      $('#'+$valores['Id_tarea']+'50').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vPAR['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']}</a> <br><br>`);
 							    });
 							    $.each($valores['observadores'], function(i, $vOBSE) { 
-							      $('#'+$valores['Id_tarea']+'75').append(`<i class="fa fa-user"></i>  ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']} <br><br>`);
-							    });		
+							      $('#'+$valores['Id_tarea']+'75').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vOBSE['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']}</a> <br><br>`);
+							    });			
 						 	});
 						}); 
 				      	$('#cargar').fadeIn(1000).html(''); 
@@ -522,7 +521,7 @@ function observadoresTask(){
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
-					                                    <td><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</td>
+	                                    				 <td><a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$valores['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</a></td>   
 					                                    <td id='${$valores['Id_tarea']+'25'}'>   
 					                                    </td>
 					                                    <td id='${$valores['Id_tarea']+'50'}'></td>
@@ -530,13 +529,13 @@ function observadoresTask(){
 					                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
 					                                </tr>`);
 							    $.each($valores['responsables'], function(i, $vREs) { 
-							      $('#'+$valores['Id_tarea']+'25').append(`<i class="fa fa-user"></i>  ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']} <br><br>`);
+							      $('#'+$valores['Id_tarea']+'25').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vREs['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']}</a> <br><br>`);
 							    });
 							    $.each($valores['participantes'], function(i, $vPAR) { 
-							      $('#'+$valores['Id_tarea']+'50').append(`<i class="fa fa-user"></i>  ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']} <br><br>`);
+							      $('#'+$valores['Id_tarea']+'50').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vPAR['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vPAR['usuario']['Nombre']} ${$vPAR['usuario']['Apellido']}</a> <br><br>`);
 							    });
 							    $.each($valores['observadores'], function(i, $vOBSE) { 
-							      $('#'+$valores['Id_tarea']+'75').append(`<i class="fa fa-user"></i>  ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']} <br><br>`);
+							      $('#'+$valores['Id_tarea']+'75').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vOBSE['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']}</a> <br><br>`);
 							    });		
 						 	});
 						}); 
@@ -830,10 +829,9 @@ function EjecucionListaobservaciones(valor){
 		                                `);
 					$('#PanelEvidencias').html('');
 					$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-							                                    <div class="form-group">
-					    <input  type="file" class="form-control-file" id="filedoc">
-					  </div>
-		                                    <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+						<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+						<input  type="file" class="form-control input-default" id="filedoc"><br>
+				        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
 					$('#botoneSeguimiento').html('');
 					$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
@@ -869,11 +867,9 @@ function EjecucionListaobservaciones(valor){
 		                                `);
 					$('#PanelEvidencias').html('');
 					$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-		                                    <div class="custom-file">
-		                                        <input type="file" class="custom-file-input">
-		                                        <label class="custom-file-label">Escoger Archivo</label> 
-		                                    </div><br><br>
-		                                    <button type="button" class="btn btn-success btn-sm">Registrar</button>`);
+						<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+						<input  type="file" class="form-control input-default" id="filedoc"><br>
+				        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
 					$('#botoneSeguimiento').html('');
 					$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
@@ -963,6 +959,7 @@ function EjecucionListaobservaciones(valor){
 				}
 
 	   	    	listaObservaciones();
+	   	    	ListaEvidencia();
 	   	     	$('#cargatareas').fadeIn(1000).html(data); 
 	   		});
 		});
@@ -1096,9 +1093,11 @@ function EjecucionListaobservaciones(valor){
 
 	//PARA GAUARDAS LAS EVIDENCIAS
 	function RegistrarEvidencias(){
+
 		 var FrmData = { 
-	    	idtarea: $("#idTar").val(),
-	    	Evidencia: ("filedoc").files[0],
+	    	Id_Tarea: $("#idTar").val(),
+	    	archivo: $('#filedoc').val(),
+	    	Descripcion: $('#DescripcionEvidencia').val(),
 	    }
 
 
@@ -1114,6 +1113,7 @@ function EjecucionListaobservaciones(valor){
 	        dataType: 'json',
 	        success: function (data) 
 	        {
+	        	ListaEvidencia();
 
 	        	// $('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
 	      		 // $("#ObservacionTareaSeguimiento").val('');
@@ -1124,6 +1124,27 @@ function EjecucionListaobservaciones(valor){
 	        }
 	    });
 	}
+
+	//PARA LISTAR LAS EVIDENCIAS
+	function ListaEvidencia(){
+		$.get('Documentos/'+$("#idTar").val(), function (data) {
+				$('#listaEvidencias').html('');
+		 	 	$.each(data, function(i,$valores){
+		 	 		$('#listaEvidencias').append(`<tr>
+	                                    <td> ${$valores['Descripcion']}</td>
+	                                    <td><a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$valores['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</a></td>
+	                                    <td>${$valores['Fecha']}</td>
+	                                    <td><a target="_blank" href="/Documento/${$valores['Ruta']}" type="button" class="btn btn-sm input-default btn-primary"><i class="fa fa-eye"></i>  Ver</td>
+	                                  
+	                                </tr>`);
+
+		 	 	});
+		 });
+		
+
+	}
+	
+
 
 	//PARA LISTAR LAS OBSERVACIONES O COMENTARIOS
 	function listaObservaciones(){
@@ -1205,6 +1226,7 @@ function EjecucionListaobservaciones(valor){
 
 	//BOTON REPOSNDER COMENTARIO
 	function  ResponderComentario(id){
+		cerrarIntervalo();
 		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="CerrarComentario(${id})" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>  Cerrar</button>
 		`);
 		$('#'+id+'c').html(`  <textarea class="form-control input-default" id="ObservacionRespuesta"></textarea><br>
@@ -1213,6 +1235,7 @@ function EjecucionListaobservaciones(valor){
 
 	//BOTON CERRAR COMENTARIO
 	function  CerrarComentario(id){
+		intervalId=window.setInterval(listaObservaciones,5000);
 		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="ResponderComentario(${id})" class="btn btn-outline-dark btn-sm"><i class="fa fa-share"></i>  Responder</button>
 		`);
 		$('#'+id+'c').html('');
@@ -1221,6 +1244,8 @@ function EjecucionListaobservaciones(valor){
 
 	//GUARDAR RESPUESTA COMENTARIO
 	function RespuestaObservacion(Id_Observacion){
+		intervalId=window.setInterval(listaObservaciones,5000);
+
 		$('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
 		 var FrmData = { 
 	    	idtarea: $("#idTar").val(),
@@ -1266,3 +1291,38 @@ function CamposPersonales(){
 
 
 
+$(function(){
+        $("#formuploadajax").on("submit", function(e){
+            e.preventDefault();
+            //Obtengo el fichero que va a ser subido
+    var dato_archivo = $('#archivo1').prop("files")[0];
+    //Creo un dato de formulario para pasarlo en el ajax
+    var form_data = new FormData();
+    //Añado los datos del fichero que voy a subir
+    //En el lado del servidor puede obtener el archivo a traves de $_FILES["file"]
+    form_data.append("file", dato_archivo);
+    //Realizo el ajax
+	    
+	   	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+         $.ajax({
+	        url: 'Documentos', 
+	        method: "POST", 
+	        data: form_data,
+	     
+	        success: function (data) 
+	        {
+
+	        	$("#mensaje").html("Respuesta: " + data);
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+});
+       
+    });
+   

@@ -128,7 +128,7 @@ function GuardarTarea(){
 	        success: function (data) 
 	        {
 	        	
-	        	if(data['FIN']=='1' && data['FFIN']=='1' ){
+	        if(data['FIN']=='1' && data['FFIN']=='1' ){
 		    $.ajaxSetup({
 		        headers: {
 		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -753,6 +753,10 @@ function EjecucionListaobservaciones(valor){
 	
 	function ModalTareas(Id_tarea){
 		$('#cajacomentario').html('');
+		$('#EstadoObservacion').html('');
+		$('#listaEvidencias').html('');
+		$('#mensajefechas').html('');
+		
 		limpiarModalTareas();
 		$("#ModalTareasSeguimiento").modal("show");
 		$( document ).ready(function() {
@@ -957,6 +961,15 @@ function EjecucionListaobservaciones(valor){
 						$('#EstadoObservacion').html('');
 					}
 				}
+
+				if(item['tipo_tareas']['0']['Descripcion']=="Personal" &&  $('#Pendiente').hasClass('activado')){
+
+					$('#botoneSeguimiento').html('');
+					$('#botoneSeguimiento').append(`<div class="row">
+		                            <div class="col-md-6">
+		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+		                            </div>`);
+		         }
 
 	   	    	listaObservaciones();
 	   	    	ListaEvidencia();

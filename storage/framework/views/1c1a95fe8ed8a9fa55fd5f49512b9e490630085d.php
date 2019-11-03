@@ -69,7 +69,7 @@
 							id: item3['Id_Usuario'],
 							parent: item2['Id_Roles'],
 							title:item3['usuarios']['Nombre']+' '+ item3['usuarios']['Apellido'],
-							description: item3['usuarios']['email']+' '+ item3['usuarios']['Direccion']+' '+ item3['usuarios']['Celular'],
+							description: '<a href="hola">aquida </a>'+ item3['usuarios']['email']+' '+ item3['usuarios']['Direccion']+' '+ item3['usuarios']['Celular'],
 							groupTitle: "Usuarios",
 							// image: "/images/UserORG.jpg",
 							itemTitleColor: primitives.common.Colors.Orange,

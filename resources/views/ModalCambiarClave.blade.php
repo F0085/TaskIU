@@ -1,4 +1,4 @@
-<div id="Cambio_Contraseña_Modal" class="modal">
+<div id="Cambio_Contraseña_Modal" data-backdrop="static" data-keyboard="false" class="modal">
   <div class="modal-dialog" >
     <div class="modal-content">
 	    <div class="modal-header">

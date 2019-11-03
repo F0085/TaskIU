@@ -4,7 +4,7 @@
 </script>
 <div id="cargatareas"></div>
 
-<div id="ModalTareasSeguimiento"  class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="ModalTareasSeguimiento" data-backdrop="static" data-keyboard="false" class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
@@ -61,12 +61,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="listaEvidencias">
-                                            <tr>
-                                                <td>Hola</td>
-                                                <td>hjk</td>
-                                                <td>fds</td>
-                                                <td>Ver</td>
-                                            </tr>
+                                            
                                             
                                         </tbody>
 
@@ -165,7 +160,7 @@
                                                         <tr style="color: black">
                                                <!--              <th scope="col">#</th> -->
                                                             <th style="cursor: pointer;" title="Ordenar"  scope="col">Nombre</th>
-                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Fecha Lìmite</th>
+                                                            <th style="cursor: pointer;" title="Ordenar"  scope="col">Fecha Límite</th>
                                                             <th style="cursor: pointer;" title="Ordenar"  scope="col">Creado Por</th>
                                                             <th style="cursor: pointer;" title="Ordenar"  scope="col">Responsables</th>
                                                             <th style="cursor: pointer;" title="Ordenar"  scope="col">Participantes</th>

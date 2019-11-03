@@ -1,6 +1,6 @@
 
 <div id="cargatareas"></div>
-<div id="ModalReunionSeguimiento"  class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="ModalReunionSeguimiento" data-backdrop="static" data-keyboard="false"  class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
@@ -145,7 +145,7 @@
                     <div class="col-md-7" id="botoneSeguimiento">
                         <div class="row">
                             <div class="col-md-6">
-                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+                                <button style="cursor: pointer" onclick="TerminarReunion()" class="btn btn-success btn-block">Terminar Reunión</button>
                             </div>
                             <div class="col-md-6">
                                 <div class="btn-group">

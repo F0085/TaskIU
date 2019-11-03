@@ -203,7 +203,14 @@ class ReunionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+          //CLIENTE PARA LAS REUNION
+        $client = new Client([
+          'base_uri' => $this->servidor.'Reunion/'.$id,
+        ]);
+        $data = ['Conclusion'=>$request->Conclusion,
+             'Estado'=>'Terminada'];
+        $res = $client->request('PUT','',['form_params' => $data]); 
+        return json_decode((string) $res->getBody(), true);
     }
 
     /**

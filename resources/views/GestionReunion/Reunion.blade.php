@@ -82,7 +82,7 @@
                <hr style=" background-color: red; height: 1px">
 
                 <div class="contenedor">
-                    <button data-toggle="modal" data-target=".bd-example-modal-lg" class="botonF1">
+                    <button style="cursor: pointer;" onclick="ModalCrearReunion();" class="botonF1">
                       <span>+</span>
                     </button>
                 </div>

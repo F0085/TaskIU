@@ -26,6 +26,7 @@ class OrganigramaController extends Controller
     //MUESTRA LA VISTA DEL ORGANIGRAMA
     public function index()
     {  
+        session_start();
       return view('Organigrama.Organigrama');
     }
 

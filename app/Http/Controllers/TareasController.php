@@ -418,6 +418,18 @@ class TareasController extends Controller
 
            return $arrae;
     }
+
+
+
+    public function TotalTareasResponsables(){
+      session_start();
+
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "TotalTareasResponsables/{$_SESSION['id']}");
+        return json_decode((string) $response->getBody(), true);
+    }
     public function MisTareasParticipantes($Id_Usuario,$estado)
     {
         $client = new Client([

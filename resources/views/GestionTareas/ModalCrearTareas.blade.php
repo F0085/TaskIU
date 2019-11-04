@@ -22,7 +22,7 @@
                             <select onchange="CamposPersonales()" class="form-control input-default" name="tipoTarea" id="tipoTarea">
                                 <option value="5">Laboral</option>
                                 <option value="4">Personal</option>
-                                <option value="2">Proyecto</option>
+<!--                                 <option value="2">Proyecto</option> -->
                             </select>
                     </div>
                 </div>

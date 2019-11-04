@@ -138,6 +138,11 @@ route::get('TareasAdministrador/{estado}', 'TareasController@TareasAdministrador
 route::get('TareasEstadoAdministrador/{estado}', 'TareasController@TareasEstadoAdministrador');
 
 
+//DASHBOARD
+route::get('TotalTareasResponsables', 'TareasController@TotalTareasResponsables');
+
+
+
 
 
 

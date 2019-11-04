@@ -416,6 +416,7 @@
 
         <?php echo $__env->make('ModalCambiarClave', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
+
         <div class="content-body stylefuente" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
         <br>
           <?php echo $__env->yieldContent('contenido'); ?> 
@@ -466,7 +467,7 @@
     <script src="<?php echo e(asset('js/settings.js')); ?>"></script>
     <script src="<?php echo e(asset('js/gleek.js')); ?>"></script>
     <script src="<?php echo e(asset('js/styleSwitcher.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/alertify.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('js/alertify.js')); ?>"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo e(asset('css/alertify.css')); ?>" />

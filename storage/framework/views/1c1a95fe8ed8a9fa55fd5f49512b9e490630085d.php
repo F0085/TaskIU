@@ -1,9 +1,4 @@
 <?php $__env->startSection('contenido'); ?>
-<!DOCTYPE html> 
-<html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>First organization diagram</title>
 
 	
 	<script type="text/javascript" src="/BasicPrimitives/min/primitives.min.js?5100"></script>
@@ -69,7 +64,7 @@
 							id: item3['Id_Usuario'],
 							parent: item2['Id_Roles'],
 							title:item3['usuarios']['Nombre']+' '+ item3['usuarios']['Apellido'],
-							description: '<a href="hola">aquida </a>'+ item3['usuarios']['email']+' '+ item3['usuarios']['Direccion']+' '+ item3['usuarios']['Celular'],
+							description:  item3['usuarios']['email'],
 							groupTitle: "Usuarios",
 							// image: "/images/UserORG.jpg",
 							itemTitleColor: primitives.common.Colors.Orange,
@@ -80,43 +75,7 @@
 	       	 			});
 	       	 		});
 	       	 	});
-       		 });
-			// var id = 1;
-		// 	for (var index = 0; index < 2; index++) {
-		// 		items.push(new primitives.orgdiagram.ItemConfig({
-		// 			id: ++id,
-		// 			parent: 0,
-		// 			title: id.toString() + " Title",
-		// 			description: id.toString() + " Description",
-		// 			groupTitle: "Subdirección",
-		// 			itemTitleColor: primitives.common.Colors.Blue,
-		// 			groupTitleColor: primitives.common.Colors.LightGray
-		// 		})); //groupTitle: "SubAdviser",
-		// 		// continue;
-		// 		var idpadre=id;
-
-		// 		for (var index2 = 0; index2 < 2; index2++) {
-		// 		items.push(new primitives.orgdiagram.ItemConfig({
-		// 			id: ++id,
-		// 			parent: idpadre,
-		// 			title: id.toString() + " Title",
-		// 			description: id.toString() + " Description",
-		// 			groupTitle: "Areas",
-		// 			itemTitleColor: primitives.common.Colors.Blue,
-		// 			groupTitleColor: primitives.common.Colors.LightGray
-		// 		})); //groupTitle: "SubAdviser",
-
-		// 		var id2=id;
-				
-
-		// 	}
-		// }
-
-
-
-
-       
-    
+       		 });  
    
  
 
@@ -128,16 +87,14 @@
 		});
 
 	</script>
-</head>
-<body>
+
 	<div class="row">
 		<div class="col-md-12">
 				<div id="basicdiagram" style="width: 1150px; height: 500px; "></div>
 
 		</div>
 	</div>
-</body>
-</html>
+
 <?php $__env->stopSection(); ?>
 
 

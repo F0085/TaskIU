@@ -416,6 +416,7 @@
 
         @include('ModalCambiarClave')
 
+
         <div class="content-body stylefuente" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
         <br>
           @yield('contenido') 
@@ -466,7 +467,7 @@
     <script src="{{asset('js/settings.js')}}"></script>
     <script src="{{asset('js/gleek.js')}}"></script>
     <script src="{{asset('js/styleSwitcher.js')}}"></script>
-    <script src="{{asset('js/alertify.js') }}" defer></script>
+    <script src="{{asset('js/alertify.js') }}"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('css/alertify.css')}}" />

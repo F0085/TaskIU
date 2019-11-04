@@ -273,6 +273,8 @@ class TareasController extends Controller
         }else{
           $tipTar='T';
         }
+
+
         $fecha=date('Y-m-j H:i:s');
         $data = ['Id_Usuario'=>$_SESSION['id'],
                  'Estado_Tarea'=>'Pendiente',
@@ -291,7 +293,11 @@ class TareasController extends Controller
 
         $res = $client->request('POST','',['form_params' => $data]);
         $ResultadoTareas=json_decode((string) $res->getBody(), true);
-           
+        if($request->tipoTarea=="4"){
+          $dataResponsables = ['Id_Usuario'=>$_SESSION['id'],
+                   'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
+                  $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+        }
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
          	if($request->ResponsablesTask != null){
 	         	foreach ($request->ResponsablesTask as $key => $responsables) {

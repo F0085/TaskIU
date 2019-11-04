@@ -113,6 +113,7 @@ function GuardarTarea(){
 	    	ParticipantesTask: $("#ParticipantesTask").val(),
 	    	ObservadoresTask: $("#ObservadoresTask").val(),
 	    	tareasIdTareas: $("#TaskID").val(),
+	    	
 
 	    }
 	    $.ajaxSetup({

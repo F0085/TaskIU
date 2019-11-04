@@ -22,7 +22,7 @@
 		                            <div class="card-body">
 		                                <h3 class="card-title text-white">Tareas Laborales</h3>
 		                                <div class="d-inline-block">
-		                                    <h2 class="text-white ">10</h2>
+		                                    <h2 class="text-white " id="TaskLaborales"></h2>
 		                               <!--      <p class="text-white mb-0"><a href="/Tareas">Accede a Tareas</a></p> -->
 		                                </div>
 		                                <span class="float-right display-5 opacity-5"><i class="fa fa-sticky-note"></i></span>
@@ -32,9 +32,9 @@
 		                    <div class="col-lg-4 col-sm-6">
 		                        <div class="card gradient-2">
 		                            <div class="card-body">
-		                                <h3 class="card-title text-white">Tareas Personales</h3>
+		                                <h3 class="card-title text-white" >Tareas Personales</h3>
 		                                <div class="d-inline-block">
-		                                    <h2 class="text-white">2</h2>
+		                                    <h2 class="text-white" id="TAskPersonales"></h2>
 		                                    <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
 		                                </div>
 		                                <span class="float-right display-5 opacity-5"><i class="fa fa-pencil-square-o"></i></span>
@@ -46,7 +46,7 @@
 		                            <div class="card-body">
 		                                <h3 class="card-title text-white">Reuniones</h3>
 		                                <div class="d-inline-block">
-		                                    <h2 class="text-white">5</h2>
+		                                    <h2 class="text-white" id="ReunionesDAsbor">3</h2>
 		                                <!--     <p class="text-white mb-0">Jan - March 2019</p> -->
 		                                </div>
 		                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>

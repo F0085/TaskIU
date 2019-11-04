@@ -4,6 +4,9 @@
 function home(){
 
 	$.get('TotalTareasResponsables', function (res) {
+
+		$('#TaskLaborales').html(res['Laboral']);
+		$('#TAskPersonales').html(res['Personal']);
 			 var graficogeneral ={
 					type:"doughnut",//seleccionamos el tipo de grafico, en este caso es un grafico estilo pie, en esta parte podemos cambiar el tipo de grafico por el que deseamos
 					data:{

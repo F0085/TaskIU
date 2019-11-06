@@ -69,7 +69,7 @@ class DocumentoController extends Controller
           'base_uri' => $this->servidorArchivos,
         ]);
         $data = ['Descripcion'=>$request->Descripcion,
-                 'Ruta'=>$Nombre,
+                 'Ruta'=>'subiendo',
                  'Id_Tarea'=>$request->Id_Tarea,
                  'Id_Usuario'=>$_SESSION['id'],
                  'Fecha'=>$fechaactual]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX

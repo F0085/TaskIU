@@ -14,7 +14,7 @@ class DocumentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public $servidor='http://18.188.234.88/';
-    //public $servidor='http://localhost:8000/';
+    public $servidorArchivos='http://http://18.218.182.41//';
     
     public function index()
     {

@@ -48,7 +48,7 @@ class DocumentoController extends Controller
 
     public function store(Request $request)
     {
-        $Ruta = $request->archivo;
+        $Ruta = "C:\Users\José Sabando\Desktop\IMPLEMENTACION TESIS\ifth belen\PERIODO ACADEMICO.pdf";
         $Nombre = basename($Ruta);
         
         session_start();

@@ -129,10 +129,11 @@ class ReunionController extends Controller
                  'Lugar'=>$request->Lugar,
                  'FechadeReunion'=>$request->FechaIn,
                  'HoraReunion'=>$request->HoraIn];
-
+ 
 
         $res = $client->request('POST','',['form_params' => $data]);
         $ResultadoReunion=json_decode((string) $res->getBody(), true);
+        dd($ResultadoReunion);
            
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
             if($request->ResponsablesReunion != null){

@@ -51,6 +51,7 @@ function GuardarReunion(){
 			        	window.location = "/Reunion";
 			        },
 			        error: function () { 
+			        	$('#cargar').fadeIn(1000).html(''); 
 			            alertify.error(" Ocurrió un error, contactese con el Administrador.")
 			        }
 			    });

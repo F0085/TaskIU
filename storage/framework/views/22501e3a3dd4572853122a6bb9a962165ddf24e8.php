@@ -29,7 +29,7 @@
     <div class="col-lg-12">
         <nav class="stroke">
             <div class="row">
- <div class="col-md-10 estilo">
+                 <div class="col-md-10 estilo">
                     <ul>
                       <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>

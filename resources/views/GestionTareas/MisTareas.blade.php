@@ -30,6 +30,15 @@
 
 <div class="row">
 
+                    <form method="POST" action="{{url('Documentos')}}" accept-charset="UTF-8" enctype="multipart/form-data" id="frm_subirImg">       
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                      <div class="form-group ">
+                        <input  class="btn btn-secondary  text-secondary btn-block bg-light"  type="file" name="file"  lang="es">
+                      </div>
+                      <button type="submit">subir</button>            
+                     </form>
+
     <div class="col-lg-12">
         <nav class="stroke">
             <div class="row">

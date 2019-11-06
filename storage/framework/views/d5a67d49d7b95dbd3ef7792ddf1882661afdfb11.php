@@ -29,6 +29,14 @@
 
 <div class="row">
 
+    <form method="POST" action="<?php echo e(url('storage/create')); ?>" accept-charset="UTF-8" enctype="multipart/form-data" id="frm_subirImg">       
+                      <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+
+                      <div class="form-group ">
+                        <input  class="btn btn-secondary  text-secondary btn-block bg-light"  type="file" name="file"  lang="es">
+                      </div>            
+                  </form>
+
     <div class="col-lg-12">
         <nav class="stroke">
             <div class="row">

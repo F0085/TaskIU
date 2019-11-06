@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentoController extends Controller
 {
@@ -48,14 +49,24 @@ class DocumentoController extends Controller
 
     public function store(Request $request)
     {
-        $Ruta = "C:\Users\José Sabando\Desktop\IMPLEMENTACION TESIS\ifth belen\PERIODO ACADEMICO.pdf";
-        $Nombre = basename($Ruta);
-        
+
+        // $nomrearchivo=$file->getClientOriginalName(); // OBTENGO EL NOMBRE DEL ARCHIVO 
+        //         $extension = pathinfo($nombrearchivo, PATHINFO_EXTENSION); //OBTENGO LA EXTENSION DEL ARCHIVO
+        //          $ruta = date('Ymd'). time(). "_" . "img"  . "." . $extension; // LE ASIGNO UN NOMBRE ALEATORIO
+        // $Ruta = "C:\Users\José Sabando\Desktop\IMPLEMENTACION TESIS\ifth belen\PERIODO ACADEMICO.pdf";
+        // \Storage::disk('local')->put($ruta,  \File::get($file));
+        //         $public_path = public_path();
+
+        // $Nombre = basename($Ruta);
+        $file = $request->file('file');
         session_start();
         $fechaactual=date('Y-m-j H:i:s');
 
         $client = new Client([
           'base_uri' => $this->servidor.'Documento',
+        ]);
+         $clientArchivos = new Client([
+          'base_uri' => $this->servidorArchivos,
         ]);
         $data = ['Descripcion'=>$request->Descripcion,
                  'Ruta'=>$Nombre,
@@ -66,9 +77,11 @@ class DocumentoController extends Controller
         $res = $client->request('POST','',['form_params' => $data]);
                
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-            $ext = pathinfo($Ruta, PATHINFO_EXTENSION);
-            \Storage::disk('Documento')->put($Nombre,  \File::get($Ruta));
-            $public_path = public_path();
+           $dataArchivos = ['file'=>$file]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+
+            $clientArchivos->request('POST','',['form_params' => $dataArchivos]);
+
+            
              return json_decode((string) $res->getBody(), true);
         }        
    

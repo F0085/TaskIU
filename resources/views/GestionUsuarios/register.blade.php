@@ -129,7 +129,7 @@
                                         <div class="form-group">
                                            <label for="" style="color: black"><b>SubArea</b></label>
                                             <select onchange="SubAreaRoles(this.value)"   disabled="true"  class="form-control input-default" name="SubArea" id="SubArea">}
-                                                <option value="0">Seleccione el Rol</option>
+                                                <option value="0">Seleccione la SubArea</option>
                                             </select>
                                         </div>
                                     </div>

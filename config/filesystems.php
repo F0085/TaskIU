@@ -69,6 +69,15 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        'ServidorFTP' => [
+            'driver' => 'ftp',
+            'host' => '18.218.182.41',
+            'username' =>'jose',
+            'password' =>'jose1995',
+        ],
+
+
+
 
     ],
 

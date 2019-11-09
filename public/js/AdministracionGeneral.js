@@ -690,7 +690,6 @@ function RegistrarUsuario(val){
 		    	Email: $("#email").val(),
 		    	Rol: $("#Rol").val(),
 		    	Clave: $("#password").val(),
-		        Id_Area: $("#Area").val()
 		    }
 
 
@@ -866,7 +865,6 @@ function ActualizarUsuario(){
 	    	Cedula: $("#cedula").val(),
 	    	Direccion: $("#direccion").val(),
 	    	TipoUser: $("#tipoUser").val(),
-	    	Id_Area:$("#Area").val(),
 	    	Id_Rol:$("#Rol").val(),
 	    	Email: $("#email").val(),
 	    	Clave: $("#password").val(),

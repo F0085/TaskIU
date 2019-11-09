@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Storage;
 
 class DocumentoController extends Controller
 {
@@ -14,7 +13,7 @@ class DocumentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public $servidor='http://18.188.234.88/';
-    public $servidorArchivos='http://http://18.218.182.41//';
+    public $servidorA='http://localhost:8000/';
     
     public function index()
     {
@@ -47,43 +46,70 @@ class DocumentoController extends Controller
         dd($request);
     }
 
+    // public function store(Request $request)
+    // {
+    //     $Ruta = "C:\Users\José Sabando\Desktop\IMPLEMENTACION TESIS\ifth belen\PERIODO ACADEMICO.pdf";
+    //     $Nombre = basename($Ruta);
+    //     // dd($Nombre);
+        
+    //     session_start();
+    //     $fechaactual=date('Y-m-j H:i:s');
+
+    //     $client = new Client([
+    //       'base_uri' => $this->servidor.'Documento',
+    //     ]);
+    //     $data = ['Descripcion'=>$request->Descripcion,
+    //              'Ruta'=>$Nombre,
+    //              'Id_Tarea'=>$request->Id_Tarea,
+    //              'Id_Usuario'=>$_SESSION['id'],
+    //              'Fecha'=>$fechaactual]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+
+    //     $res = $client->request('POST','',['form_params' => $data]);
+               
+    //      if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){  
+    //         $ext = pathinfo($Ruta, PATHINFO_EXTENSION);
+    //         \Storage::disk('Documento')->put($Nombre,  \File::get($Ruta));
+    //         $public_path = public_path();
+    //          return json_decode((string) $res->getBody(), true);
+    //     }        
+   
+    // }
+
+
     public function store(Request $request)
     {
-
-        // $nomrearchivo=$file->getClientOriginalName(); // OBTENGO EL NOMBRE DEL ARCHIVO 
-        //         $extension = pathinfo($nombrearchivo, PATHINFO_EXTENSION); //OBTENGO LA EXTENSION DEL ARCHIVO
-        //          $ruta = date('Ymd'). time(). "_" . "img"  . "." . $extension; // LE ASIGNO UN NOMBRE ALEATORIO
-        // $Ruta = "C:\Users\José Sabando\Desktop\IMPLEMENTACION TESIS\ifth belen\PERIODO ACADEMICO.pdf";
-        // \Storage::disk('local')->put($ruta,  \File::get($file));
-        //         $public_path = public_path();
-
-        // $Nombre = basename($Ruta);
-        $file = $request->file('file');
-        session_start();
-        $fechaactual=date('Y-m-j H:i:s');
-
-        $client = new Client([
-          'base_uri' => $this->servidor.'Documento',
+        $file=$request->file('file');
+        $clientA = new Client([
+              'base_uri' => $this->servidorA,
         ]);
-         $clientArchivos = new Client([
-          'base_uri' => $this->servidorArchivos,
-        ]);
-        $data = ['Descripcion'=>$request->Descripcion,
-                 'Ruta'=>'subiendo',
-                 'Id_Tarea'=>$request->Id_Tarea,
-                 'Id_Usuario'=>$_SESSION['id'],
-                 'Fecha'=>$fechaactual]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+        $dataA = ['file'=>$file]; //EL data para enviar a la API
+        $clientA->request('POST','',['form_params' => $dataA]);
 
-        $res = $client->request('POST','',['form_params' => $data]);
-               
-         if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-           $dataArchivos = ['file'=>$file]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
 
-            $clientArchivos->request('POST','',['form_params' => $dataArchivos]);
 
-            
-             return json_decode((string) $res->getBody(), true);
-        }        
+             // return json_decode((string) $res->getBody(), true);
+
+
+        // session_start();
+        // $fechaactual=date('Y-m-j H:i:s');
+
+        // $client = new Client([
+        //   'base_uri' => $this->servidor.'Documento',
+        // ]);
+        // $data = ['Descripcion'=>$request->Descripcion,
+        //          'Ruta'=>'prueba',
+        //          'Id_Tarea'=>$request->Id_Tarea,
+        //          'Id_Usuario'=>$_SESSION['id'],
+        //          'Fecha'=>$fechaactual]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+
+        // $res = $client->request('POST','',['form_params' => $data]);
+                   
+        //      if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+        //          $dataA = ['file'=>$file]; //EL 
+
+        //         $clientA->request('POST','',['form_params' => $dataA]);
+        //      return json_decode((string) $res->getBody(), true);
+        //     }
    
     }
 

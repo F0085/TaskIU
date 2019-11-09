@@ -110,7 +110,11 @@ route::put('CambiarClave', 'UsuarioController@CambiarClave');
 
 route::resource('Observacion', 'ObservacionController');
 route::resource('Documentos', 'DocumentoController');
-route::POST('guardarDocumento', 'DocumentoController@guardarDocumento');
+route::POST('GuardarArchivos', 'DocumentoController@GuardarArchivos');
+
+
+
+
 
 
 
@@ -140,6 +144,11 @@ route::get('TareasEstadoAdministrador/{estado}', 'TareasController@TareasEstadoA
 
 //DASHBOARD
 route::get('TotalTareasResponsables', 'TareasController@TotalTareasResponsables');
+
+
+//VALIDAR FECHA INICIO
+route::get('validarinicioTarea/{FechaIn}/{HoraIn}', 'TareasController@validarinicioTarea');
+
 
 
 

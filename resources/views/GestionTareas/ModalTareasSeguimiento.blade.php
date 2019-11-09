@@ -86,6 +86,18 @@
                                     </div>
                                      <hr style="height: 1px; margin-top: 0rem;margin-bottom: 0rem">
                                      <br>
+                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <p style="color: black; font-size: 13px"><b>Fecha Creación:</b></p>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <p style="color: black; font-size: 13px"  id="FechaCreacionTareaSeguimiento"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="row">
@@ -106,6 +118,18 @@
                                                 </div>
                                                 <div class="col-md-7">
                                                     <p style="color: black; font-size: 13px" class="badge badge-warning" id="FechaLimiteTareaSeguimiento"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="DivFechaEntregaTarea">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <p style="color: black; font-size: 13px"><b>Fecha Entrega:</b></p>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <p style="color: black; font-size: 13px" class="badge badge-success" id="FechaEntregaTareaSeguimiento"></p>
                                                 </div>
                                             </div>
                                         </div>

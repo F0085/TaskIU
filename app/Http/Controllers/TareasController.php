@@ -117,16 +117,34 @@ class TareasController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        if($estado == 'Pendiente'){
-        $response = $client->request('GET', "TareasEstado/{$estado}/{$_SESSION['id']}");
-        $resultado= json_decode((string) $response->getBody(), true);
-        foreach ($resultado as $key => $value) {
+        $this->ActualizarEstadosPorfechasTodasTareas('Pendiente');
+        // if($estado == 'Pendiente'){
+        // $response = $client->request('GET', "TareasEstado/{$estado}/{$_SESSION['id']}");
+        // $resultado= json_decode((string) $response->getBody(), true);
+        //   foreach ($resultado as $key => $value) {
+        //     dd($value);
 
-          $this->ComprobarTareaFecha($value['Id_tarea'],$value['FechaFin'],$value['Hora_Fin']);
-        }
-        } 
+        //     $this->ComprobarTareaFecha($value['Id_tarea'],$value['FechaFin'],$value['Hora_Fin']);
+        //   }
+        // } 
+          $this->ActualizarEstadosPorfechasTodasTareas('Pendiente');
         $response = $client->request('GET', "TareasEstado/{$estado}/{$_SESSION['id']}");
         return json_decode((string) $response->getBody(), true);
+    }
+
+      public function ActualizarEstadosPorfechasTodasTareas($estado)
+    {
+
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        if($estado == 'Pendiente'){
+          $response = $client->request('GET', "TareasEstadoAdministrador/{$estado}");
+          $resultado= json_decode((string) $response->getBody(), true);
+            foreach ($resultado as $key => $value) {
+              $this->ComprobarTareaFecha($value['Id_tarea'],$value['FechaFin'],$value['Hora_Fin']);
+            }
+          }        
     }
 
      public function TareasEstadoAdministrador($estado)
@@ -135,8 +153,16 @@ class TareasController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
+        if($estado == 'Pendiente'){
+          $response = $client->request('GET', "TareasEstadoAdministrador/{$estado}");
+          $resultado= json_decode((string) $response->getBody(), true);
+            foreach ($resultado as $key => $value) {
+              $this->ComprobarTareaFecha($value['Id_tarea'],$value['FechaFin'],$value['Hora_Fin']);
+            }
+          }
         $response = $client->request('GET', "TareasEstadoAdministrador/{$estado}");
         return json_decode((string) $response->getBody(), true);
+        
     }
 
 
@@ -326,83 +352,218 @@ class TareasController extends Controller
 
     }
 
+    public function validarFechasActualizar($FechaInSub, $FechaFinSub, $FechaIn,$FechaFin,$FechaCreacion){
+      $arrae=array();
+      $FechaInSub = strtotime ($FechaInSub); 
+      $FechaFinSub=strtotime($FechaFinSub);
+      $FechaIn=strtotime($FechaIn);
+      $FechaFin=strtotime($FechaFin);
+      $FechaCreacion=strtotime($FechaCreacion);
+
+      
+      //CUANDO TENGA SUBTAREAS
+      if($FechaIn>=$FechaInSub){
+        $arrae['FIN']= '1';
+      }else{
+        $arrae['FIN']= '0'; //CORRRECTO
+      }
+
+      if(($FechaFin>=$FechaIn) && $FechaFin<=$FechaFinSub) {
+        $arrae['FFIN']= '1';
+      }else{
+        $arrae['FFIN']= '0'; // CORRECTO
+      }
+      //SIN SUBTAERAS
+      if($FechaIn<=$FechaFin){
+        $arrae['FINSINSUBTAREA']= '1';
+      }else{
+        $arrae['FINSINSUBTAREA']= '0';
+      }
+      if($FechaIn>=$FechaCreacion){
+        $arrae['FCreacion']= '1';
+      }else{
+        $arrae['FCreacion']= '0';
+      }
+      return $arrae;
+     
+    }
+
+
     public function update (Request $request , $id){
+      $FechaInicioEdit=$request->FechaIn.' '.$request->HoraIn;
+      $FechaFinEdit=$request->FechaFin.' '.$request->HoraFin;
+      if($request->RecursiveTask != null){
+        $resultado =$this->show($request->RecursiveTask);
+        foreach ($resultado as $key => $value) {
+            $FechaInSub=$value['FechaInicio'].' '.$value['Hora_Inicio'];
+            $FechaFinSub=$value['FechaFin'].' '.$value['Hora_Fin'];
+            $FechaCreacion=$value['FechaCreacion'];
 
-      //CLIENTE PARA LAS TAREAS
-      $client = new Client([
-          'base_uri' => $this->servidor.'Tareas/'.$id,
-        ]);
+            $ResulVal=$this->validarFechasActualizar($FechaInSub,$FechaFinSub,$FechaInicioEdit,$FechaFinEdit,$request->FechaCreacion);
 
-      //CLIENTE PARA RESPONSABLES
-        $Clienteresponsable = new Client([
-              'base_uri' => $this->servidor.'Responsables',
-    ]); 
+            if($ResulVal['FIN']=='1'&& $ResulVal['FFIN'] == '1'){
+               //CLIENTE PARA LAS TAREAS
+                $client = new Client([
+                      'base_uri' => $this->servidor.'Tareas/'.$id,
+                    ]);
 
-      //CLIENTE PARA PARTICIPANTES
-        $ClienteParticipantes= new Client([
-              'base_uri' => $this->servidor.'Participantes',
-    ]); 
+                  //CLIENTE PARA RESPONSABLES
+                    $Clienteresponsable = new Client([
+                          'base_uri' => $this->servidor.'Responsables',
+                ]); 
 
-      //CLIENTE PARA OBSERVADORES
-        $ClienteObservadores= new Client([
-              'base_uri' => $this->servidor.'Observadores',
-    ]); 
-    $clientServer = new Client([
-                'base_uri' => $this->servidor,
-    ]);
+                  //CLIENTE PARA PARTICIPANTES
+                    $ClienteParticipantes= new Client([
+                          'base_uri' => $this->servidor.'Participantes',
+                ]); 
 
-        $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
-                 'Nombre'=>$request->Nombre,
-                 'FechaInicio'=>$request->FechaIn,
-                 'Hora_Inicio'=>$request->HoraIn,
-                 'Hora_Fin'=>$request->HoraFin,
-                 'FechaFin'=>$request->FechaFin,
-                 'Descripcion'=>$request->descripcion]; 
+                  //CLIENTE PARA OBSERVADORES
+                $ClienteObservadores= new Client([
+                          'base_uri' => $this->servidor.'Observadores',
+                ]); 
+                $clientServer = new Client([
+                            'base_uri' => $this->servidor,
+                ]);
 
-
-
-        $res = $client->request('PUT','',['form_params' => $data]); 
-        $ResultadoTareas=json_decode((string) $res->getBody(), true);
-           
-         if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-          if($request->ResponsablesTask != null){
-             $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
-            foreach ($request->ResponsablesTask as $key => $responsables) {
-                $dataResponsables = ['Id_Usuario'=>$responsables,
-                   'Id_Tarea'=>$id];
-                  $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
-            }
-          }else{
-             $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
-          }
-          if($request->ParticipantesTask != null){
-            $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
-            foreach ($request->ParticipantesTask as $key => $participantes) {
-                  $dataParticipantes = ['Id_Usuario'=>$participantes,
-                  'Id_Tarea'=>$id];
-                  $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
-              } 
-          }else{
-            $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
-          }
-          
-            if($request->ObservadoresTask !=null){
+                    $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
+                             'Nombre'=>$request->Nombre,
+                             'FechaInicio'=>$request->FechaIn,
+                             'Hora_Inicio'=>$request->HoraIn,
+                             'Hora_Fin'=>$request->HoraFin,
+                             'FechaFin'=>$request->FechaFin,
+                             'Descripcion'=>$request->descripcion]; 
 
 
-              $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
 
-              foreach ($request->ObservadoresTask as $key => $observadores) {
-                  $dataObservadores = ['Id_Usuario'=>$observadores,
-                   'Id_Tarea'=>$id];
-                  $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
-              
-              } 
+                    $res = $client->request('PUT','',['form_params' => $data]); 
+                    $ResultadoTareas=json_decode((string) $res->getBody(), true);
+                       
+                    if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+                        if($request->ResponsablesTask != null){
+                           $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
+                            foreach ($request->ResponsablesTask as $key => $responsables) {
+                                $dataResponsables = ['Id_Usuario'=>$responsables,
+                                   'Id_Tarea'=>$id];
+                                  $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+                            }
+                        }else{
+                           $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
+                        }
+                        if($request->ParticipantesTask != null){
+                          $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
+                          foreach ($request->ParticipantesTask as $key => $participantes) {
+                                $dataParticipantes = ['Id_Usuario'=>$participantes,
+                                'Id_Tarea'=>$id];
+                                $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+                            } 
+                        }else{
+                          $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
+                        }
+                      
+                        if($request->ObservadoresTask !=null){
+
+
+                          $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
+
+                          foreach ($request->ObservadoresTask as $key => $observadores) {
+                              $dataObservadores = ['Id_Usuario'=>$observadores,
+                               'Id_Tarea'=>$id];
+                              $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
+                          
+                          } 
+                        }else{
+                          $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
+                        }
+                        return json_decode((string) $res->getBody(), true);
+                    }
             }else{
-              $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
+              $arreglo= array();
+              return $arreglo['NoCumple']='0';
             }
-            return json_decode((string) $res->getBody(), true);
         }
 
+      }else{
+         $ResulVal=$this->validarFechasActualizar('','',$FechaInicioEdit,$FechaFinEdit,$request->FechaCreacion);
+        
+        if($ResulVal['FINSINSUBTAREA']=='1' && $ResulVal['FCreacion'] == '1'){
+           $client = new Client([
+                  'base_uri' => $this->servidor.'Tareas/'.$id,
+                ]);
+
+              //CLIENTE PARA RESPONSABLES
+                $Clienteresponsable = new Client([
+                      'base_uri' => $this->servidor.'Responsables',
+            ]); 
+
+              //CLIENTE PARA PARTICIPANTES
+                $ClienteParticipantes= new Client([
+                      'base_uri' => $this->servidor.'Participantes',
+            ]); 
+
+              //CLIENTE PARA OBSERVADORES
+            $ClienteObservadores= new Client([
+                      'base_uri' => $this->servidor.'Observadores',
+            ]); 
+            $clientServer = new Client([
+                        'base_uri' => $this->servidor,
+            ]);
+
+                $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
+                         'Nombre'=>$request->Nombre,
+                         'FechaInicio'=>$request->FechaIn,
+                         'Hora_Inicio'=>$request->HoraIn,
+                         'Hora_Fin'=>$request->HoraFin,
+                         'FechaFin'=>$request->FechaFin,
+                         'Descripcion'=>$request->descripcion]; 
+
+
+
+                $res = $client->request('PUT','',['form_params' => $data]); 
+                $ResultadoTareas=json_decode((string) $res->getBody(), true);
+                   
+                if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+                    if($request->ResponsablesTask != null){
+                       $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
+                        foreach ($request->ResponsablesTask as $key => $responsables) {
+                            $dataResponsables = ['Id_Usuario'=>$responsables,
+                               'Id_Tarea'=>$id];
+                              $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+                        }
+                    }else{
+                       $resDeletePa = $clientServer->request('DELETE', "Responsables/".$id);
+                    }
+                    if($request->ParticipantesTask != null){
+                      $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
+                      foreach ($request->ParticipantesTask as $key => $participantes) {
+                            $dataParticipantes = ['Id_Usuario'=>$participantes,
+                            'Id_Tarea'=>$id];
+                            $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+                        } 
+                    }else{
+                      $resDeleteRe = $clientServer->request('DELETE', "Participantes/".$id);
+                    }
+                  
+                    if($request->ObservadoresTask !=null){
+
+
+                      $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
+
+                      foreach ($request->ObservadoresTask as $key => $observadores) {
+                          $dataObservadores = ['Id_Usuario'=>$observadores,
+                           'Id_Tarea'=>$id];
+                          $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
+                      
+                      } 
+                    }else{
+                      $resDelete = $clientServer->request('DELETE', "Observadores/".$id);
+                    }
+                    return json_decode((string) $res->getBody(), true);
+                }
+            }else{
+              $arreglo= array();
+              return $arreglo['NoCumple']='0';
+            }
+      }  
     }
 
         //LISTA TAREA POR ESTADOS
@@ -411,6 +572,17 @@ class TareasController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
+
+        //SI EL ESTADO ES PENDIENTE COMPRUEBO SI AUN SIGUEN VIGENTE CASO CONTRARIO SE PONE VENCIDA
+        if($estado == 'Pendiente'){
+          $response = $client->request('GET', "MisTareasResponsables/{$Id_Usuario}");
+          $resultado= json_decode((string) $response->getBody(), true);
+          foreach ($resultado as $key => $value) {
+            if($value['tarea']['Estado_Tarea'] == $estado){
+             $this->ComprobarTareaFecha($value['Id_Tarea'],$value['tarea']['FechaFin'],$value['tarea']['Hora_Fin']);
+             }
+          }
+        } 
         $response = $client->request('GET', "MisTareasResponsables/{$Id_Usuario}");
         $resultado= json_decode((string) $response->getBody(), true);
         $arrae=array();
@@ -428,30 +600,40 @@ class TareasController extends Controller
 
 
     public function TotalTareasResponsables(){
-      session_start();
-
+       session_start();
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
         $response = $client->request('GET', "TotalTareasResponsables/{$_SESSION['id']}");
         return json_decode((string) $response->getBody(), true);
+
     }
     public function MisTareasParticipantes($Id_Usuario,$estado)
     {
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
+        //SI EL ESTADO ES PENDIENTE COMPRUEBO SI AUN SIGUEN VIGENTE CASO CONTRARIO SE PONE VENCIDA
+        if($estado == 'Pendiente'){
+          $response = $client->request('GET', "MisTareasParticipantes/{$Id_Usuario}");
+          $resultado= json_decode((string) $response->getBody(), true);
+          foreach ($resultado as $key => $value) {
+            if($value['tarea']['Estado_Tarea'] == $estado){
+             $this->ComprobarTareaFecha($value['Id_Tarea'],$value['tarea']['FechaFin'],$value['tarea']['Hora_Fin']);
+             }
+          }
+        } 
+        //VUELVO A CONSULTAR YA CON EL DATO ACTUALIZADO
         $response = $client->request('GET', "MisTareasParticipantes/{$Id_Usuario}");
         $resultado= json_decode((string) $response->getBody(), true);
         $arrae=array();
         foreach ($resultado as $key => $value) {
-
           if($value['tarea']['Estado_Tarea'] == $estado){
           $arrae[$key]= array($value['tarea']);
           }
        
         }
-           return $arrae;
+         return $arrae;
     }
 
    public function MisTareasObservadores($Id_Usuario,$estado)
@@ -461,7 +643,19 @@ class TareasController extends Controller
         ]);
         $response = $client->request('GET', "MisTareasObservadores/{$Id_Usuario}");
         $resultado= json_decode((string) $response->getBody(), true);
+             //SI EL ESTADO ES PENDIENTE COMPRUEBO SI AUN SIGUEN VIGENTE CASO CONTRARIO SE PONE VENCIDA
+        if($estado == 'Pendiente'){
+          $response = $client->request('GET', "MisTareasObservadores/{$Id_Usuario}");
+          $resultado= json_decode((string) $response->getBody(), true);
+          foreach ($resultado as $key => $value) {
+            if($value['tarea']['Estado_Tarea'] == $estado){
+             $this->ComprobarTareaFecha($value['Id_Tarea'],$value['tarea']['FechaFin'],$value['tarea']['Hora_Fin']);
+             }
+          }
+        } 
         $arrae=array();
+        $response = $client->request('GET', "MisTareasObservadores/{$Id_Usuario}");
+        $resultado= json_decode((string) $response->getBody(), true);
         foreach ($resultado as $key => $value) {
 
           if($value['tarea']['Estado_Tarea'] == $estado){
@@ -487,26 +681,53 @@ class TareasController extends Controller
       // $HoraActual=strtotime ($hora); 
       $FechaInicio=$request->FechaIn.' '.$request->HoraIn;
       $FechaLimite=$request->FechaFin.' '.$request->HoraFin;
+      $FechaFinHoraFinValidar=$request->FF.' '.$request->HF;
+      
 
       $Fecha_Actual = strtotime ($date); 
       $FechaInicio=strtotime($FechaInicio);
       $FechaLimite=strtotime($FechaLimite);
+      $FechaFinHoraFinValidar=strtotime($FechaFinHoraFinValidar);
 
       
 
       if($Fecha_Actual>$FechaInicio){
         $arrae['FIN']= '0';
       }else{
-        $arrae['FIN']= '1';
+        $arrae['FIN']= '1'; //CORRRECTO
       }
 
       if($FechaLimite<$FechaInicio){
         $arrae['FFIN']= '0';
       }else{
-        $arrae['FFIN']= '1';
+        $arrae['FFIN']= '1'; // CORRECTO
       }
 
+      if($request->FF != null && $request->HF != null ){
+         if($FechaLimite>$FechaFinHoraFinValidar){
+            $arrae['FFINHFIN']= '0';
+         }else{
+          $arrae['FFINHFIN']= '1';
+         }
+       
+      }
 
+      return $arrae;
+     
+    }
+
+    public function validarinicioTarea($FechaIn,$HoraIn){
+      $date=date('Y-m-d H:i:s');
+      $FechaInicio=$FechaIn.' '.$HoraIn;
+      $FechaInicio = strtotime ($FechaInicio); 
+      $Fecha_Actual = strtotime ($date);     
+      $arrae=array();  
+
+      if($FechaInicio<=$Fecha_Actual){
+        $arrae['Inicia']= '1'; //Inicia Tarea 
+      }else{
+        $arrae['NoInicia']= '0'; //NO INICIA TAREA
+      }
       return $arrae;
     }
 

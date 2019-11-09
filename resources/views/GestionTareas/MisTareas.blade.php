@@ -30,14 +30,14 @@
 
 <div class="row">
 
-                    <form method="POST" action="{{url('Documentos')}}" accept-charset="UTF-8" enctype="multipart/form-data" id="frm_subirImg">       
+<!--                     <form method="POST" action="{{url('Documentos')}}" accept-charset="UTF-8" enctype="multipart/form-data" id="frm_subirImg" name="frm_subirImg">       
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                       <div class="form-group ">
                         <input  class="btn btn-secondary  text-secondary btn-block bg-light"  type="file" name="file"  lang="es">
                       </div>
                       <button type="submit">subir</button>            
-                     </form>
+                     </form> -->
 
     <div class="col-lg-12">
         <nav class="stroke">
@@ -53,15 +53,15 @@
                             @endif
                         @endif
                         >Pendientes</a></li>
-                     <!--  <li ><a  id="Proceso" data-value='Proceso' href="javascript:void(0);" 
+    <!--                   <li ><a  id="Suspendidas"  href="javascript:void(0);" 
                         @if(isset($_SESSION['Id_tipo_Usuarios']))
                             @if($_SESSION['Id_tipo_Usuarios']=='2')
-                                onClick="TareasGenerales('Proceso');"
+                                onClick="TareasAdmin('Suspendida');"
                             @else
-                                onClick="TareasTipo('T','Proceso');"
+                                onClick="TareasTipo('T','Suspendida');"
                             @endif
                         @endif
-                        >Proceso</a></li> -->
+                        >Suspendidas</a></li> -->
                       <li><a id="Terminada" href="javascript:void(0);"
                         @if(isset($_SESSION['Id_tipo_Usuarios']))
                             @if($_SESSION['Id_tipo_Usuarios']=='2')

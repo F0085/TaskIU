@@ -8,8 +8,12 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div id="mensajefechas" hidden="true"></div>
                 <input id="TaskID" hidden="true">
-                <div id="mensajefechas"></div>
+                <input id="FF" hidden="true">
+                <input id="HF" hidden="true">
+                <input id="RecursiveTask" hidden="true">
+                <input id="FechaCreacion" hidden="true">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
@@ -57,7 +61,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="row " id="Integrantes">
+                <div class="row " hidden="true" id="Integrantes">
                     <div class="col-md-4">
                        <label for="" style="color: black"><b>Responsables</b></label>
                        <br>

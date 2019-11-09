@@ -29,13 +29,14 @@
 
 <div class="row">
 
-    <form method="POST" action="<?php echo e(url('storage/create')); ?>" accept-charset="UTF-8" enctype="multipart/form-data" id="frm_subirImg">       
+<!--                     <form method="POST" action="<?php echo e(url('Documentos')); ?>" accept-charset="UTF-8" enctype="multipart/form-data" id="frm_subirImg" name="frm_subirImg">       
                       <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
 
                       <div class="form-group ">
                         <input  class="btn btn-secondary  text-secondary btn-block bg-light"  type="file" name="file"  lang="es">
-                      </div>            
-                  </form>
+                      </div>
+                      <button type="submit">subir</button>            
+                     </form> -->
 
     <div class="col-lg-12">
         <nav class="stroke">
@@ -51,15 +52,15 @@
                             <?php endif; ?>
                         <?php endif; ?>
                         >Pendientes</a></li>
-                     <!--  <li ><a  id="Proceso" data-value='Proceso' href="javascript:void(0);" 
+    <!--                   <li ><a  id="Suspendidas"  href="javascript:void(0);" 
                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                onClick="TareasGenerales('Proceso');"
+                                onClick="TareasAdmin('Suspendida');"
                             <?php else: ?>
-                                onClick="TareasTipo('T','Proceso');"
+                                onClick="TareasTipo('T','Suspendida');"
                             <?php endif; ?>
                         <?php endif; ?>
-                        >Proceso</a></li> -->
+                        >Suspendidas</a></li> -->
                       <li><a id="Terminada" href="javascript:void(0);"
                         <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                             <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>

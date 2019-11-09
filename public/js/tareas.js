@@ -113,7 +113,9 @@ function GuardarTarea(){
 	    	ParticipantesTask: $("#ParticipantesTask").val(),
 	    	ObservadoresTask: $("#ObservadoresTask").val(),
 	    	tareasIdTareas: $("#TaskID").val(),
-	    	
+	    	HF: $("#HF").val(),
+	    	FF: $("#FF").val(),
+
 
 	    }
 	    $.ajaxSetup({
@@ -128,45 +130,46 @@ function GuardarTarea(){
 	        dataType: 'json',
 	        success: function (data) 
 	        {
+	        	console.log(data);
 	        	
-	        if(data['FIN']=='1' && data['FFIN']=='1' ){
-		    $.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
-		    });
-		    $.ajax({
-		        url: 'Tareas', 
-		        method: "POST", 
-		        data: FrmData,
-		        dataType: 'json',
-		        success: function (data) 
-		        {
-		        	var htl=`<i class="fa fa-trash"></i>`;
-		        	$('#cargar').fadeIn(1000).html(''); 
-		        	window.location = "/Tareas";
-		        },
-		        error: function () { 
-		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-		        }
-		    });
-	        	}else{
-	        		$('#cargar').fadeIn(1000).html('');
-	        		$('#mensajefechas').html('');
-					$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
-										  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente (Fecha Inicio y Hora Inicio no pueden ser menor a la actual, Fecha Límite y Hora Límite no pueden ser menor a las de inicio).
-										  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										    <span aria-hidden="true">&times;</span>
-										  </button>
-										</div`);
-					$('#mensajefechas').hide();
-			        $('#mensajefechas').prop('hidden',false);
-			        $('#mensajefechas').show(500);
-	        	}
+	        if((data['FIN']=='1' && data['FFIN']=='1') && data['FFINHFIN']=='1'  ){
+				    $.ajaxSetup({
+				        headers: {
+				            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				        }
+				    });
+				    $.ajax({
+				        url: 'Tareas', 
+				        method: "POST", 
+				        data: FrmData,
+				        dataType: 'json',
+				        success: function (data) 
+				        {
+				        	var htl=`<i class="fa fa-trash"></i>`;
+				        	$('#cargar').fadeIn(1000).html(''); 
+				        	window.location = "/Tareas";
+				        },
+				        error: function () { 
+				            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+				        }
+				    });
+        	}else{
+        		$('#cargar').fadeIn(1000).html('');
+        		$('#mensajefechas').html('');
+				$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente (Fecha Inicio y Hora Inicio no pueden ser menor a la actual, Fecha Límite y Hora Límite no pueden ser menor a las de inicio).
+									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									    <span aria-hidden="true">&times;</span>
+									  </button>
+									</div`);
+				$('#mensajefechas').hide();
+		        $('#mensajefechas').prop('hidden',false);
+		        $('#mensajefechas').show(500);
+        	}
 
-	        	// $('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
-	      		 // $('#'+Id_Observacion+'c').html('');
-	      		 // listaObservaciones();
+	        	$('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
+	      		 $('#'+Id_Observacion+'c').html('');
+	      		 listaObservaciones();
 	        },
 	        error: function () { 
 	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
@@ -202,33 +205,71 @@ function ActualizarTarea(){
 	    	ResponsablesTask: $("#ResponsablesTask").val(),
 	    	ParticipantesTask: $("#ParticipantesTask").val(),
 	    	ObservadoresTask: $("#ObservadoresTask").val(),
+	    	RecursiveTask:$("#RecursiveTask").val(),
+	    	FechaCreacion:$("#FechaCreacion").val(),
 	    }
-	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-	    $.ajax({
-	        url: 'Tareas'+'/'+$('#TaskID').val(), 
-	        method: "PUT", 
-	        data: FrmData,
-	        dataType: 'json',
-	        success: function (data) 
-	        {
-	        	var htl=`<i class="fa fa-trash"></i>`;
-	        	$('#cargar').fadeIn(1000).html(data); 
-	        	window.location = "/Tareas";
-	        },
-	        error: function () { 
-	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-	        }
-	    });
+				    $.ajaxSetup({
+				        headers: {
+				            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				        }
+				    });
+				    $.ajax({
+				        url: 'Tareas'+'/'+$('#TaskID').val(), 
+				        method: "PUT", 
+				        data: FrmData,
+				        dataType: 'json',
+				        success: function (data) 
+				        {
+
+				        	if(data=='0'){
+				        		$('#mensajefechas').html('');
+								$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+													  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente.<br>
+													  <strong>*<strong>  Fecha y hora de inicio deben ser mayor o igual a la fecha de creación de la tarea<br>
+													  <strong>*<strong> Fecha y hora límite deben ser mayor o igual a la fecha de inicio<br>
+													  <strong>*<strong> En caso de ser Subtarea la Fecha límite debe ser menor a la fecha límite de la tarea principal y la fecha de inicio debe ser mayor o igual a la fecha de inicio de la tarea principal
+													  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+													    <span aria-hidden="true">&times;</span>
+													  </button>
+													</div`);
+								$('#mensajefechas').hide();
+						        $('#mensajefechas').prop('hidden',false);
+						        $('#mensajefechas').show(500);
+						        $('#cargar').fadeIn(1000).html(data);
+				        	}else{
+					        	var htl=`<i class="fa fa-trash"></i>`;
+					        	$('#cargar').fadeIn(1000).html(data); 
+					        	window.location = "/Tareas";
+				        	}
+				        },
+				        error: function () { 
+				            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+				        }
+				    });
+				// }else{
+	   //      		$('#cargar').fadeIn(1000).html('');
+	   //      		$('#mensajefechas').html('');
+				// 	$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				// 						  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente (Fecha Inicio y Hora Inicio no pueden ser menor a la actual, Fecha Límite y Hora Límite no pueden ser menor a las de inicio).
+				// 						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				// 						    <span aria-hidden="true">&times;</span>
+				// 						  </button>
+				// 						</div`);
+				// 	$('#mensajefechas').hide();
+			 //        $('#mensajefechas').prop('hidden',false);
+			 //        $('#mensajefechas').show(500);
+    //     		}
+
 	}
 }
 
 //MOSTRAR MDODAL CREAR SUBTAREAS
-function CrearSubtarea(Id_tarea,Nombretarea,tipoTarea){
+function CrearSubtarea(Id_tarea,Nombretarea,tipoTarea,FechaLimite,Horalimite){
 	limpiarModalTareasCrear();
+	document.getElementById("FechaLimiteTarea").max = FechaLimite;
+	document.getElementById("HoraLimiteTarea").max = Horalimite;
+	$("#FF").val(FechaLimite);
+	$("#HF").val(Horalimite);	
 	$("#TaskID").val(Id_tarea);
 	$("#tipoTarea").val(tipoTarea);		
 	$("#tipoTarea").prop('disabled',true);	
@@ -757,12 +798,11 @@ function EjecucionListaobservaciones(valor){
 		$('#EstadoObservacion').html('');
 		$('#listaEvidencias').html('');
 		$('#mensajefechas').html('');
+		var btnEntregar='';
 		
 		limpiarModalTareas();
 		$("#ModalTareasSeguimiento").modal("show");
-		$( document ).ready(function() {
-		    //console.log("ejecutandore");
-	
+		$( document ).ready(function() {	
 		     intervalId=window.setInterval(listaObservaciones,5000);;
 		      
 		});
@@ -779,11 +819,12 @@ function EjecucionListaobservaciones(valor){
 	    $.get('Tareas/'+Id_tarea, function (data) {
 	    	$.each(data, function(i,item){
 		    	$('#TituloTareaSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Nombre']);
-		    
 		    	$('#idTar').val(item['Id_tarea']);
 		    	$('#descripcionTareaSeguimiento').html(item['Descripcion']);
 		    	$('#FechaInicioTareaSeguimiento').html(item['FechaInicio']+' '+item['Hora_Inicio']);
 		    	$('#FechaLimiteTareaSeguimiento').html(item['FechaFin']+' '+item['Hora_Fin']);
+		    	$('#FechaCreacionTareaSeguimiento').html(item['FechaCreacion']);
+		    	
 		    	$.each(item['responsables'], function(i1,item1){
 		    	   $('#ResponsablesTaskSeguimiento').append(`<i class="fa fa-user"></i>  ${item1['usuario']['Nombre']} ${item1['usuario']['Apellido']} <br>`);
 		    	});
@@ -795,50 +836,122 @@ function EjecucionListaobservaciones(valor){
 		    	});
 		    	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
 	    	
-
+		    	//SI SELECCIONA LAS TAREAS QUE SON CREADAS POR MI
 			   	if($('#SelecTipoUserTareas').val()=="CPM"){
 					var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
 					$('#PanelObservacion').html('');
 					$('#PanelEvidencias').html('');	
 					$('#botoneSeguimiento').html('');
 					$('#EstadoObservacion').html('');
-					$('#botoneSeguimiento').append(`<div class="row">
-		                            <div class="col-md-6">
-		                                <div class="btn-group">
-		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                    Más
-		                                  </button>
-		                                  <div class="dropdown-menu">
-		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-		                                    <div id="btneditar">
-		                                    ${btneditar}
-		                                   </div>
-		                                  </div>
-		                                </div>
-		                            </div>
-		                        </div> `);
-					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
-					if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado') ){
-						$('#PanelObservacion').html('');
-						$('#PanelEvidencias').html('');	
-						$('#botoneSeguimiento').html('');
-						$('#EstadoObservacion').html('');
-					}
+					//SI LA TAREA ES PERSONAL Y PENDIENTE AGREGAMOS EL BOTON ENTREGAR TAREA
+					// if(item['tipo_tareas'][0]['Descripcion'] == 'Personal' && $('#Pendiente').hasClass('activado')){
+					// 	//PERMITIR AGREGAR OBSERVACIONES Y EVIDENCIAS 
+					// 	$('#PanelObservacion').html('');
+						
+					// }
+					$.get('validarinicioTarea/'+item['FechaInicio']+'/'+item['Hora_Inicio'], function (data) {
+						if(data['Inicia']=='1'){
+					 if(item['tipo_tareas'][0]['Descripcion'] == 'Personal' && $('#Pendiente').hasClass('activado')){
+					// // 	//PERMITIR AGREGAR OBSERVACIONES Y EVIDENCIAS 
+					// // 	$('#PanelObservacion').html('');
+						
+				
+							$('#PanelObservacion').append(`
+				                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+				                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
+				                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+				                                `);
+							$('#PanelEvidencias').html('');
+							$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+							<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+							<input  type="file" class="form-control input-default" id="filedoc"><br>
+					        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+
+							btnEntregar=`<div class="col-md-6">
+			                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+			                            </div>`;
+			                $('#botoneSeguimiento').append(`<div class="row">
+										${btnEntregar}
+			                            <div class="col-md-6">
+			                                <div class="btn-group">
+			                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                                    Más
+			                                  </button>
+			                                  <div class="dropdown-menu">
+			                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+			                                    <div id="btneditar">
+			                                    ${btneditar}
+			                                   </div>
+			                                  </div>
+			                                </div>
+			                            </div>
+			                        </div> `);
+						  document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+						}
+						}else{
+							$('#EstadoObservacion').html('');
+							$('#EstadoObservacion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> ESTA TAREA AÚN NO INICIA.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `);
+							$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').append(`<div class="row">
+			                            <div class="col-md-6">
+			                                <div class="btn-group">
+			                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                                    Más
+			                                  </button>
+			                                  <div class="dropdown-menu">
+			                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+			                                    <div id="btneditar">
+			                                    ${btneditar}
+			                                   </div>
+			                                  </div>
+			                                </div>
+			                            </div>
+			                        </div> `);
+						  document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
+						}
+												//SI EL TAG ES TERMINADA O VENCIDA OCULATAMOS BOTON ENTREGAR 
+						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado') ){
+							$('#botoneSeguimiento').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
+						}
+					});
+					
+
 				}else if($('#SelecTipoUserTareas').val()=="MisTareasResponsables"){
 					$('#EstadoObservacion').html('');
 					$('#PanelObservacion').html('');
-					$('#PanelObservacion').append(`
+					$('#botoneSeguimiento').html('');
+					$.get('validarinicioTarea/'+item['FechaInicio']+'/'+item['Hora_Inicio'], function (data) {
+						if(data['Inicia']=='1'){
+							$('#PanelObservacion').append(`
 		                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
 		                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
 		                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
 		                                `);
-					$('#PanelEvidencias').html('');
-					$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-						<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
-						<input  type="file" class="form-control input-default" id="filedoc"><br>
-				        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
-					$('#botoneSeguimiento').html('');
-					$('#botoneSeguimiento').append(`<div class="row">
+							$('#PanelEvidencias').html('');
+							$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+								<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+								<input  type="file" class="form-control input-default" id="filedoc"><br>
+						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+							$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
 		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
 		                            </div>
@@ -855,137 +968,214 @@ function EjecucionListaobservaciones(valor){
 		                                </div>
 		                            </div>
 		                        </div> `);
-					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+						document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+						}else{
+							$('#EstadoObservacion').html('');
+							$('#EstadoObservacion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> ESTA TAREA AÚN NO INICIA.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `)
+							$('#PanelObservacion').html('');
+							$('#botoneSeguimiento').html('');
+							$('#PanelEvidencias').html('');
+						}
+					});
 
 					if($('#Terminada').hasClass('activado')){
 						$('#PanelObservacion').html('');
 						$('#PanelEvidencias').html('');	
 						$('#botoneSeguimiento').html('');
 					}
+					
 				}else if($('#SelecTipoUserTareas').val()=="MisTareasParticipantes"){
 					$('#EstadoObservacion').html('');
 					$('#PanelObservacion').html('');
-					$('#PanelObservacion').append(`
-		                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
-		                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
-		                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
-		                                `);
-					$('#PanelEvidencias').html('');
-					$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-						<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
-						<input  type="file" class="form-control input-default" id="filedoc"><br>
-				        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
-					$('#botoneSeguimiento').html('');
-					$('#botoneSeguimiento').append(`<div class="row">
-		                            <div class="col-md-6">
-		                                <div class="btn-group">
-		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                    Más
-		                                  </button>
-		                                  <div class="dropdown-menu">
-		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-		                                    <div id="btneditar">
-		                                   </div>
-		                                  </div>
-		                                </div>
-		                            </div>
-		                        </div> `);
-					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
+					$.get('validarinicioTarea/'+item['FechaInicio']+'/'+item['Hora_Inicio'], function (data) {
+						if(data['Inicia']=='1'){
+							$('#PanelObservacion').append(`
+				                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+				                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
+				                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+				                                `);
+							$('#PanelEvidencias').html('');
+							$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+								<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+								<input  type="file" class="form-control input-default" id="filedoc"><br>
+						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+							$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').append(`<div class="row">
+				                            <div class="col-md-6">
+				                                <div class="btn-group">
+				                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				                                    Más
+				                                  </button>
+				                                  <div class="dropdown-menu">
+				                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+				                                    <div id="btneditar">
+				                                   </div>
+				                                  </div>
+				                                </div>
+				                            </div>
+				                        </div> `);
+							document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+						}else{
+							$('#EstadoObservacion').html('');
+							$('#EstadoObservacion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> ESTA TAREA AÚN NO INICIA.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `)
+							$('#PanelObservacion').html('');
+							$('#botoneSeguimiento').html('');
+							$('#PanelEvidencias').html('');
+						}
+					});
 
 				}else if($('#SelecTipoUserTareas').val()=="MisTareasObservadores"){
 					$('#PanelObservacion').html('');
 					$('#PanelEvidencias').html('');
 					$('#botoneSeguimiento').html('');
 					$('#EstadoObservacion').html('');
-					 $('#EstadoObservacion').append(`<div class="row"> 
-					 	<div class="col-md-12 ">   
-					      <div class="alert alert-info" role="alert">
-					        <div class="row vertical-align centerDiv">
-					          <div class="col-lg-1 text-center">
-					            <i class="fa fa-info fa-2x"></i> 
-					          </div>
-					          <div class="col-lg-11 centerDiv">
-					           <strong> Esta tarea se encuentra en estado&nbsp${item['Estado_Tarea']}.</strong>
-					          </div>
-					        </div>
-					      </div>      
-		   				</div>
-		 				 </div> `)
-					if($('#Terminada').hasClass('activado')){
-						$('#PanelObservacion').html('');
-						$('#PanelEvidencias').html('');	
-						$('#botoneSeguimiento').html('');
-						$('#EstadoObservacion').html('');
-					}
+					$.get('validarinicioTarea/'+item['FechaInicio']+'/'+item['Hora_Inicio'], function (data) {
+						if(data['Inicia']=='1'){
+							 $('#EstadoObservacion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> Esta tarea se encuentra en estado&nbsp${item['Estado_Tarea']}.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `)
+							if($('#Terminada').hasClass('activado')){
+								$('#PanelObservacion').html('');
+								$('#PanelEvidencias').html('');	
+								$('#botoneSeguimiento').html('');
+								$('#EstadoObservacion').html('');
+							}
+						}else{
+							$('#EstadoObservacion').html('');
+							$('#EstadoObservacion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> ESTA TAREA AÚN NO INICIA.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `)
+							$('#PanelObservacion').html('');
+							$('#botoneSeguimiento').html('');
+							$('#PanelEvidencias').html('');
+						}
+					});
 				}else{
-					var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
 					$('#botoneSeguimiento').html('');
-					$('#botoneSeguimiento').append(`<div class="row">
-		                            <div class="col-md-6">
-		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
-		                            </div>
-		                            <div class="col-md-6">
-		                                <div class="btn-group">
-		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                    Más
-		                                  </button>
-		                                  <div class="dropdown-menu">
-		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
-		                                    <div id="btneditar">
-		                                    ${btneditar}
-		                                   </div>
-		                                  </div>
-		                                </div>
-		                            </div>
-		                        </div> `);
-					document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}')`) ;
-						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+
+					// var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
+					// $('#botoneSeguimiento').html('');
+					// $('#botoneSeguimiento').append(`<div class="row">
+		   //                          <div class="col-md-6">
+		   //                              <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+		   //                          </div>
+		   //                          <div class="col-md-6">
+		   //                              <div class="btn-group">
+		   //                                <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		   //                                  Más
+		   //                                </button>
+		   //                                <div class="dropdown-menu">
+		   //                                  <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		   //                                  <div id="btneditar">
+		   //                                  ${btneditar}
+		   //                                 </div>
+		   //                                </div>
+		   //                              </div>
+		   //                          </div>
+		   //                      </div> `);
+					// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+					if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
 						$('#botoneSeguimiento').html('');
-						// $('#botoneSeguimiento').append(`<div class="row">
-		    //                         <div class="col-md-6">
-		    //                             <div class="btn-group">
-		    //                               <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    //                                 Más
-		    //                               </button>
-		    //                               <div class="dropdown-menu">
-		     
-		    //                                 <div id="btneditar">
-		    //                                 ${btneditar}
-		    //                                </div>
-		    //                               </div>
-		    //                             </div>
-		    //                         </div>
-		    //                     </div> `);
 						$('#PanelObservacion').html('');
-						$('#PanelEvidencias').html('');	
-					
+						$('#PanelEvidencias').html('');						
 						$('#EstadoObservacion').html('');
 					}
 				}
+				if($('#Terminada').hasClass('activado')) {
+						$('#DivFechaEntregaTarea').html('');
+						$('#DivFechaEntregaTarea').append(`<div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <p style="color: black; font-size: 13px"><b>Fecha Entrega:</b></p>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <p style="color: black; font-size: 13px" class="badge badge-success" id="FechaEntregaTareaSeguimiento">${item['FechaEntrega']}</p>
+                                                </div>
+                                            </div>
+                                        </div>`);
+				}
 
-				if(item['tipo_tareas']['0']['Descripcion']=="Personal" &&  $('#Pendiente').hasClass('activado')){
+				// if(item['tipo_tareas']['0']['Descripcion']=="Personal" &&  $('#Pendiente').hasClass('activado')){
 
-					$('#botoneSeguimiento').html('');
-					$('#botoneSeguimiento').append(`<div class="row">
-		                            <div class="col-md-6">
-		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
-		                            </div>`);
-		         }
+				// 	$('#botoneSeguimiento').html('');
+				// 	$('#botoneSeguimiento').append(`<div class="row">
+		  //                           <div class="col-md-6">
+		  //                               <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+		  //                           </div>`);
+		  //        }
+
 
 	   	    	listaObservaciones();
 	   	    	ListaEvidencia();
 	   	     	$('#cargatareas').fadeIn(1000).html(data); 
 	   		});
+		  			if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						$('#botoneSeguimiento').html('');
+						$('#PanelObservacion').html('');
+						$('#PanelEvidencias').html('');						
+						$('#EstadoObservacion').html('');
+					}
 		});
 
 	}
 
 	//LIMPIAR MODAL DE TAREAS SEGUIMIENTO
 	function limpiarModalTareas(){
+		
+		$('#FechaCreacionTareaSeguimiento').html('');
 		$('#divEvidenciaSeguimiento').html('');
 		$('#divObservacionSeguimiento').html('');
 		$('#TituloTareaSeguimiento').html('');
 		$('#descripcionTareaSeguimiento').html('');
+		$('#DivFechaEntregaTarea').html('');
 		// $('#FechaInicioTareaSeguimiento').prop('value', '2019/08/10');
 		// $('#HoraInicioTareaSeguimiento').html('');
 		// $('#FechaLimiteTareaSeguimiento').html('');
@@ -1037,23 +1227,38 @@ function EjecucionListaobservaciones(valor){
 		  		$('#FechaInicioTarea').val(item['FechaInicio']);
 		  		$('#HoraInicioTarea').val(item['Hora_Inicio']);
 		     	$('#FechaLimiteTarea').val(item['FechaFin']);	 
-		     	$('#HoraLimiteTarea').val(item['Hora_Fin']);	  
-		    	$.each(item['responsables'], function(i1,item1){
-		    		 $("#ResponsablesTask option[value="+ item1['Id_Usuario'] +"]").attr("selected",true);
-		    		 $('#listaResponsable').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item1['usuario']['Nombre']+' '+item1['usuario']['Apellido'] }
-                            </li>`);
-		    	});
-		    	$.each(item['participantes'], function(i2,item2){
-		    		//PARA SEGUN EL VALOR SE LE APLICA EL SELECT 
-		    		$("#ParticipantesTask option[value="+ item2['Id_Usuario'] +"]").attr("selected",true);
-		    		$('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']+' '+item2['usuario']['Apellido'] }
-                            </li>`);
-		    	});
-		    	$.each(item['observadores'], function(i3,item3){
-		    		 $("#ObservadoresTask option[value="+ item3['Id_Usuario'] +"]").attr("selected",true);
-		    		 $('#listaObservadores').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item3['usuario']['Nombre']+' '+item3['usuario']['Apellido'] }
-                            </li>`);
-		    	});
+		     	$('#HoraLimiteTarea').val(item['Hora_Fin']);
+		     	$('#RecursiveTask').val(item['tareasIdTareas']);
+		     	$('#FechaCreacion').val(item['FechaCreacion']);
+		     	if(item['tareasIdTareas'] != null){
+		     		if(item['tipo_tareas']['0']['Descripcion']=='Personal'){
+		     				$("#tipoTarea").val('4');		
+							$("#tipoTarea").prop('disabled',true);
+		     		}else if(item['tipo_tareas']['0']['Descripcion']=='Laboral'){
+		     				$("#tipoTarea").val('5');		
+							$("#tipoTarea").prop('disabled',true);
+		     		}
+		     	}
+		        if(item['tipo_tareas']['0']['Descripcion']!= 'Personal'){
+			    	$.each(item['responsables'], function(i1,item1){
+			    		 $("#ResponsablesTask option[value="+ item1['Id_Usuario'] +"]").attr("selected",true);
+			    		 $('#listaResponsable').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item1['usuario']['Nombre']+' '+item1['usuario']['Apellido'] }
+	                            </li>`);
+			    	});
+			    	$.each(item['participantes'], function(i2,item2){
+			    		//PARA SEGUN EL VALOR SE LE APLICA EL SELECT 
+			    		$("#ParticipantesTask option[value="+ item2['Id_Usuario'] +"]").attr("selected",true);
+			    		$('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']+' '+item2['usuario']['Apellido'] }
+	                            </li>`);
+			    	});
+			    	$.each(item['observadores'], function(i3,item3){
+			    		 $("#ObservadoresTask option[value="+ item3['Id_Usuario'] +"]").attr("selected",true);
+			    		 $('#listaObservadores').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item3['usuario']['Nombre']+' '+item3['usuario']['Apellido'] }
+	                            </li>`);
+			    	});
+		    	}else{
+		    		$('#Integrantes').prop('hidden',true);
+		    	}
 		  //   	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
 	    	});
 	    	$('#FooterCrearTarea').html('');
@@ -1065,12 +1270,15 @@ function EjecucionListaobservaciones(valor){
 	}
 
 	function ModalCrearTareas(){
+		$("#ModalCrearTareas").modal("show");
 		limpiarModalTareasCrear();
+
+		$('#Integrantes').prop('hidden',false);
 		$('#TituloTareaCrear').html("<i class='fa fa-bookmark'></i>  "+  'Nueva Tarea');
 		$('#FooterCrearTarea').html('');
 	    	$('#FooterCrearTarea').append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Aceptar </button>`);
-		$("#ModalCrearTareas").modal("show");
+
 
 	}
 
@@ -1108,9 +1316,10 @@ function EjecucionListaobservaciones(valor){
 	//PARA GAUARDAS LAS EVIDENCIAS
 	function RegistrarEvidencias(){
 
+
 		 var FrmData = { 
 	    	Id_Tarea: $("#idTar").val(),
-	    	archivo: $('#filedoc').val(),
+	    	file: $('#filedoc').val(),
 	    	Descripcion: $('#DescripcionEvidencia').val(),
 	    }
 
@@ -1174,11 +1383,12 @@ function EjecucionListaobservaciones(valor){
 
 	//PARA LLENAR LOS COMENTARIOS EN EL CARD
 	function llenarComentarios(data){
-		
+
 
 			$('#cajacomentario').html('');
 		 	$.each(data, function(i,item){
 					$('#'+item['Id_Observacion']+'s').html('');
+
 		 			$('#cajacomentario').append(`<div class="card">
                                         <div class="card-body">
 	                                        <div class="row">
@@ -1209,7 +1419,9 @@ function EjecucionListaobservaciones(valor){
                             				
                                          </div>
                                     </div>`);
-
+		 			if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						$('#'+item['Id_Observacion']+'btnEnviarComentario').html('');
+					}
 				   	$.each(item['sub_observaciones'], function(i2,item2){
 						$('#'+item['Id_Observacion']+'s').append(`<div class="card">
 					                                        <div class="card-body">

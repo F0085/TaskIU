@@ -53,6 +53,7 @@ class UsuarioController extends Controller
     //GUARDAR USUARIO
     public function store(Request $request)
     {
+
         $client2 = new Client([
              'base_uri' => $this->servidor,
         ]);
@@ -68,6 +69,7 @@ class UsuarioController extends Controller
             $clave= base64_encode($request->Clave);
             $tipoUser=(int)($request->TipoUser);
             $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
+         
 
             //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
             $res = $client->request('POST','',['form_params' => $data]);
@@ -78,8 +80,8 @@ class UsuarioController extends Controller
                 $client2 = new Client([
                      'base_uri' => $this->servidor.'UsuariosRoles',
                 ]);
-                $data = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol,'Id_Area'=>$request->Id_Area]; 
-                $res = $client2->request('POST','',['form_params' => $data]);
+                $dataUsRol = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol,]; 
+                $client2->request('POST','',['form_params' => $dataUsRol]);
                 return $Usuario;         
             }
         }else{
@@ -133,12 +135,12 @@ class UsuarioController extends Controller
             $clave= base64_encode($request->Clave);
             $tipoUser=(int)($request->TipoUser);
             $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email, 'Password'=>$clave]; 
-            $data2 = ['Id_Roles'=>$request->Rol, 'Id_Area'=>$request->Id_Area];
+            $data2 = ['Id_Roles'=>$request->Id_Rol];
 
         }else if( $request->ActClaveCHE == 0 ){
             $tipoUser=(int)($request->TipoUser);
             $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'email'=>$request->Email];
-            $data2 = ['Id_Roles'=>$request->Id_Rol, 'Id_Area'=>$request->Id_Area];
+            $data2 = ['Id_Roles'=>$request->Id_Rol];
         }
 
 

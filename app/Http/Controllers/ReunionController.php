@@ -133,8 +133,7 @@ class ReunionController extends Controller
 
         $res = $client->request('POST','',['form_params' => $data]);
         $ResultadoReunion=json_decode((string) $res->getBody(), true);
-        dd($ResultadoReunion);
-           
+    
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
             if($request->ResponsablesReunion != null){
                 foreach ($request->ResponsablesReunion as $key => $responsables) {

@@ -57,11 +57,17 @@ class UsuarioController extends Controller
         $client2 = new Client([
              'base_uri' => $this->servidor,
         ]);
-        $response = $client2->request('GET', "buscarUsuario/{$request->Email}");
+        $response = $client2->request('GET', "buscarUsuario/{$request->Email}"); //  POR EMAIL
         $user= json_decode((string) $response->getBody(), true);
+        $userCedula=$this->PrepararUsuario($request->Cedula);
+         // dd($user);
       
-        if(empty($user) != false){
-            //CLIENTE PARA CONSUMIR LA API
+
+        //VALIDO SI EL USUARIO SE ECNUENTRA REGISTRADO CON SU EMAIL
+        if(empty($user) == false  || $userCedula['email'] != null ){
+            return $user=1;           
+        }else{
+             //CLIENTE PARA CONSUMIR LA API
             $client = new Client([
                  'base_uri' => $this->servidor.'Usuarios',
             ]);
@@ -84,8 +90,6 @@ class UsuarioController extends Controller
                 $client2->request('POST','',['form_params' => $dataUsRol]);
                 return $Usuario;         
             }
-        }else{
-            return $user=1;
         }
     }
 

@@ -1223,13 +1223,18 @@ function SubAreaRoles(idsubArea,rol) {
 function ObtenerUsuariosPreparar(){
 	$.get('PrepararUsuario/'+$("#cedula").val(), function (data) {
 		console.log(data);
-	 	$("#nombre").html('');
-	 	$("#nombre").prop("disabled",false);
-	    $("#apellido").html('');
-	 	$("#apellido").prop("disabled",false);
+	 	$("#nombre").val(data['Nombre']);
+	 	$("#apellido").val(data['Apellido']);
+	 	// $("#direccion").val(data['Nombre']);
+	 	$("#Celular").val(data['Celular']);
+	 	// $("#nombre").val(data['Nombre']);
+
+	 	// $("#nombre").prop("disabled",false);
+	  //   $("#apellido").html('');
+	 	// $("#apellido").prop("disabled",false);
 	 	  
-	 		$("#nombre").val(data['Nombre']);
-	 		$("#apellido").val(data['Apellido']);
+	 	// 	$("#nombre").val(data['Nombre']);
+	 	// 	$("#apellido").val(data['Apellido']);
 	 	    
 	});
 

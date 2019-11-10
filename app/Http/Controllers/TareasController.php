@@ -93,10 +93,11 @@ class TareasController extends Controller
    //LISTA TAREA CPM
     public function tareasCPM($estado)
     {
+      session_start();
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        $response = $client->request('GET', "tareasCPM/{$estado}");
+        $response = $client->request('GET', "tareasCPM/{$estado}/{$_SESSION['id']}");
         return json_decode((string) $response->getBody(), true);
     }
 
@@ -710,6 +711,8 @@ class TareasController extends Controller
           $arrae['FFINHFIN']= '1';
          }
        
+      }else{
+        $arrae['FFINHFIN']= '1';
       }
 
       return $arrae;

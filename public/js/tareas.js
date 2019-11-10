@@ -891,6 +891,25 @@ function EjecucionListaobservaciones(valor){
 					                            </div>
 					                        </div> `);
 								  document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+								}else{
+									$('#botoneSeguimiento').html('');
+									$('#botoneSeguimiento').append(`<div class="row">
+					                            <div class="col-md-6">
+					                                <div class="btn-group">
+					                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					                                    Más
+					                                  </button>
+					                                  <div class="dropdown-menu">
+					                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+					                                    <div id="btneditar">
+					                                    ${btneditar}
+					                                   </div>
+					                                  </div>
+					                                </div>
+					                            </div>
+					                        </div> `);
+								  document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+
 								}
 						}else{
 							$('#EstadoObservacion').html('');
@@ -912,8 +931,7 @@ function EjecucionListaobservaciones(valor){
 
 							$('#PanelObservacion').html('');
 							$('#PanelEvidencias').html('');
-						}
-						$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').html('');
 							$('#botoneSeguimiento').append(`<div class="row">
 			                            <div class="col-md-6">
 			                                <div class="btn-group">
@@ -930,6 +948,8 @@ function EjecucionListaobservaciones(valor){
 			                            </div>
 			                        </div> `);
 						  document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+						}
+						
 												//SI EL TAG ES TERMINADA O VENCIDA OCULATAMOS BOTON ENTREGAR 
 						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado') ){
 							$('#botoneSeguimiento').html('');

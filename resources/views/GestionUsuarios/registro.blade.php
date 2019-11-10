@@ -22,7 +22,7 @@
                                     <div class="col-md-3"> 
                                         <div class="form-group">
                                             <label for="" style="color: black"><b>Cédula</b></label>
-                                            <input type="text" onkeyup="borderInput('cedula')"  class="form-control input-default"  placeholder="Ingrese cédula" id="cedula" name="cedula" required>
+                                            <input onblur="ObtenerUsuariosPreparar()" type="number" onkeyup="borderInput('cedula')"  class="form-control input-default"  placeholder="Ingrese cédula" id="cedula" name="cedula" required>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -52,7 +52,7 @@
                                        
                                         <div class="form-group">
                                             <label for="" style="color: black"><b>Celular</b></label>
-                                            <input onkeyup="borderInput('Celular')" type="text" class="form-control input-default"  placeholder="Ingrese celular" id="Celular" name="Celular" required>
+                                            <input onkeyup="borderInput('Celular')" type="number" class="form-control input-default"  placeholder="Ingrese celular" id="Celular" name="Celular" required>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -105,7 +105,7 @@
                                         <div class="form-group">
                                            <label for="" style="color: black"><b>SubArea</b></label>
                                             <select onchange="SubAreaRoles(this.value)"   disabled="true"  class="form-control input-default" name="SubArea" id="SubArea">}
-                                                <option value="0">Seleccione el Rol</option>
+                                                <option value="0">Seleccione la subarea</option>
                                             </select>
                                         </div>
                                     </div>

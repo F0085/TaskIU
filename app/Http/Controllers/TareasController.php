@@ -200,6 +200,7 @@ class TareasController extends Controller
 
     public function GuardarSeguimientoTarea(Request $request){
         $idtareas=$request->idtarea;
+         $fechaactual=date('Y-m-j H:i:s');
    
         $client = new Client([
           'base_uri' => $this->servidor.'Observaciones',
@@ -211,7 +212,7 @@ class TareasController extends Controller
           'base_uri' => $this->servidor.'Tareas/'.$idtareas,
         ]);
 
-        $dataTarea = ['Estado_Tarea'=>'Terminada'];
+        $dataTarea = ['Estado_Tarea'=>'Terminada','FechaEntrega'=>$fechaactual];
 
 
         $resul=$this->TareasPendientesPorTareas($request);
@@ -320,6 +321,7 @@ class TareasController extends Controller
 
         $res = $client->request('POST','',['form_params' => $data]);
         $ResultadoTareas=json_decode((string) $res->getBody(), true);
+  
         if($request->tipoTarea=="4"){
           $dataResponsables = ['Id_Usuario'=>$_SESSION['id'],
                    'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
@@ -425,14 +427,30 @@ class TareasController extends Controller
                 $clientServer = new Client([
                             'base_uri' => $this->servidor,
                 ]);
+                   $date=date('Y-m-d H:i:s');
+                  $Fecha_Actual = strtotime ($date); 
+                  $FechaFin=strtotime($FechaFinEdit);
 
-                    $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
+                  if($FechaFin>=$Fecha_Actual){
+                     $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
+                             'Nombre'=>$request->Nombre,
+                             'FechaInicio'=>$request->FechaIn,
+                             'Hora_Inicio'=>$request->HoraIn,
+                             'Hora_Fin'=>$request->HoraFin,
+                             'FechaFin'=>$request->FechaFin,
+                             'Descripcion'=>$request->descripcion,
+                             'Estado_Tarea'=>'Pendiente']; 
+                  }else{                    
+                              $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
                              'Nombre'=>$request->Nombre,
                              'FechaInicio'=>$request->FechaIn,
                              'Hora_Inicio'=>$request->HoraIn,
                              'Hora_Fin'=>$request->HoraFin,
                              'FechaFin'=>$request->FechaFin,
                              'Descripcion'=>$request->descripcion]; 
+
+                  }
+
 
 
 
@@ -508,15 +526,28 @@ class TareasController extends Controller
             $clientServer = new Client([
                         'base_uri' => $this->servidor,
             ]);
+                  $date=date('Y-m-d H:i:s');
+                  $Fecha_Actual = strtotime ($date); 
+                  $FechaFin=strtotime($FechaFinEdit);
+               if($FechaFin>=$Fecha_Actual){
+                     $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
+                             'Nombre'=>$request->Nombre,
+                             'FechaInicio'=>$request->FechaIn,
+                             'Hora_Inicio'=>$request->HoraIn,
+                             'Hora_Fin'=>$request->HoraFin,
+                             'FechaFin'=>$request->FechaFin,
+                             'Descripcion'=>$request->descripcion,
+                             'Estado_Tarea'=>'Pendiente']; 
+                  }else{                    
+                              $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
+                             'Nombre'=>$request->Nombre,
+                             'FechaInicio'=>$request->FechaIn,
+                             'Hora_Inicio'=>$request->HoraIn,
+                             'Hora_Fin'=>$request->HoraFin,
+                             'FechaFin'=>$request->FechaFin,
+                             'Descripcion'=>$request->descripcion]; 
 
-                $data = ['Id_Tipo_Tarea'=>$request->tipoTarea,
-                         'Nombre'=>$request->Nombre,
-                         'FechaInicio'=>$request->FechaIn,
-                         'Hora_Inicio'=>$request->HoraIn,
-                         'Hora_Fin'=>$request->HoraFin,
-                         'FechaFin'=>$request->FechaFin,
-                         'Descripcion'=>$request->descripcion]; 
-
+                  }
 
 
                 $res = $client->request('PUT','',['form_params' => $data]); 

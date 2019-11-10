@@ -690,6 +690,7 @@ function RegistrarUsuario(val){
 		    	Email: $("#email").val(),
 		    	Rol: $("#Rol").val(),
 		    	Clave: $("#password").val(),
+		    	ValorAdmin: val,
 		    }
 
 
@@ -706,47 +707,56 @@ function RegistrarUsuario(val){
 		                       // Tipo de solicitud que se enviará, llamado como método
 		        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 		        {
-		        	console.log(data);
-		        if(data!=1){
-			        if(val=='A'){
-			        	 ListaUsuarios();
-			        	 limpiarCampos();
-			        	$('#cargar').fadeIn(1000).html(data); 
-			        	alertify.success("Registro exitoso!")
-			        }else if (val=='Z'){
+			        	console.log(data);
+			        if(data=='2'){
+				        if(val=='A'){
+				        	 ListaUsuarios();
+				        	 limpiarCampos();
+				        	$('#cargar').fadeIn(1000).html(data); 
+				        	alertify.success("Registro exitoso!")
+				        }else if (val=='Z'){
 
-			        	$('#contenidoRegister').html('');
+				        	$('#contenidoRegister').html('');
+				        	$('#MensajeAlerta').html('');
+	    					$('#MensajeAlerta').append(`<div align="center" style="font-size:16px " class="alert alert-info alert-dismissible fade show" role="alert">
+							  <strong>Atención!</strong> USUARIO REGISTRADO CORRECTAMENTE POR FAVOR <a href="/login"><b><u> INICIAR SESIÓN.</u> </a>
+							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							    <span aria-hidden="true">&times;</span>
+							  </button>
+							</div`);
+						    $('#cargar').fadeIn(1000).html(''); 
+
+							
+				        	// window.location = "/login";
+
+				        }
+			        }else if(data=='1'){
+			        	$('#cargar').fadeIn(1000).html(''); 
 			        	$('#MensajeAlerta').html('');
-    					$('#MensajeAlerta').append(`<div align="center" style="font-size:16px " class="alert alert-info alert-dismissible fade show" role="alert">
-						  <strong>Atención!</strong> USUARIO REGISTRADO CORRECTAMENTE POR FAVOR <a href="/login"><b><u> INICIAR SESIÓN.</u> </a>
-						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						    <span aria-hidden="true">&times;</span>
-						  </button>
-						</div`);
-					    $('#cargar').fadeIn(1000).html(''); 
-
-						
-			        	// window.location = "/login";
-
+						$('#MensajeAlerta').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+											  <strong>Atención!</strong> El Usuario ya se encuentra registrado (Cédula o email ya registados).
+											  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											    <span aria-hidden="true">&times;</span>
+											  </button>
+											</div`);
+						if($('#cedula').hasClass('valid')){
+						 $('#cedula').removeClass('valid');
+						 $('#cedula').addClass('invalid');
+						}
+						if($('#email').hasClass('valid')){
+						 $('#email').removeClass('valid');
+						 $('#email').addClass('invalid');
+						}
+			        }else if(data=='3'){
+			        	$('#cargar').fadeIn(1000).html(''); 
+			        	$('#MensajeAlerta').html('');
+						$('#MensajeAlerta').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+											  <strong>Atención!</strong> El Usuario no se encuentra registrado en la base de datos por favor comuniquese con el administrador.
+											  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											    <span aria-hidden="true">&times;</span>
+											  </button>
+											</div`);
 			        }
-		        }else{
-		        	$('#cargar').fadeIn(1000).html(''); 
-		        	$('#MensajeAlerta').html('');
-					$('#MensajeAlerta').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
-										  <strong>Atención!</strong> El Usuario ya se encuentra registrado.
-										  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										    <span aria-hidden="true">&times;</span>
-										  </button>
-										</div`);
-					// if($('#cedula').hasClass('valid')){
-					//  $('#cedula').removeClass('valid');
-					//  $('#cedula').addClass('invalid');
-					// }
-					if($('#email').hasClass('valid')){
-					 $('#email').removeClass('valid');
-					 $('#email').addClass('invalid');
-					}
-		        }
 		        },
 		        error: function () {   
 		        	$('#cargar').fadeIn(1000).html('');   

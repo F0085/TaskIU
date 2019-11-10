@@ -52,14 +52,13 @@ class ReunionController extends Controller
         $response = $client->request('GET', "MisReunionesResponsables/{$_SESSION['id']}");
         $resultado= json_decode((string) $response->getBody(), true);
         $arrae=array();
-
+        //COMPARO QUE EL ESTADO DE LA REUNION DE  ACUERDO AL PARAMETRO Y CREO UN ARREGLO SEGUN EL ESTADO
         foreach ($resultado as $key => $value) {
           if($value['reunion']['Estado'] == $estado){
           $arrae[$key]= array($value['reunion']);
           }
        
         }
-
            return $arrae;
     }
 

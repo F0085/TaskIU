@@ -62,35 +62,91 @@ class UsuarioController extends Controller
         $userCedula=$this->PrepararUsuario($request->Cedula);
          // dd($user);
       
-
-        //VALIDO SI EL USUARIO SE ECNUENTRA REGISTRADO CON SU EMAIL
-        if(empty($user) == false  || $userCedula['email'] != null ){
-            return $user=1;           
-        }else{
-             //CLIENTE PARA CONSUMIR LA API
-            $client = new Client([
-                 'base_uri' => $this->servidor.'Usuarios',
-            ]);
-
-            $clave= base64_encode($request->Clave);
-            $tipoUser=(int)($request->TipoUser);
-            $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
-         
-
-            //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
-            $res = $client->request('POST','',['form_params' => $data]);
-
-             if ($res->getStatusCode()==201 || $res->getStatusCode()==201){
-                $Usuario= json_decode((string) $res->getBody(), true);
-             
-                $client2 = new Client([
-                     'base_uri' => $this->servidor.'UsuariosRoles',
+        if($request->ValorAdmin=='Z'){
+            //VALIDO SI EL USUARIO SE ECNUENTRA REGISTRADO CON SU EMAIL
+            if(empty($user) == false  || $userCedula['email'] != null ){
+                return $user='1'; //USUARIO SE ENCUENTRA REGISTRADO CORRECTAMENTE           
+            }else if(empty($userCedula) == false ){ // SE ENCUENTRA EL USUARIO PERTENECIENTE A LA BASE DE DATOS
+                //CLIENTE PARA CONSUMIR LA API
+                $client = new Client([
+                    'base_uri' => $this->servidor.'Usuarios/'.$userCedula['Id_Usuario'],
                 ]);
-                $dataUsRol = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol,]; 
-                $client2->request('POST','',['form_params' => $dataUsRol]);
-                return $Usuario;         
+
+                $clave= base64_encode($request->Clave);
+                $tipoUser=(int)($request->TipoUser);
+                $data = ['Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
+             
+
+                //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+                $res = $client->request('PUT','',['form_params' => $data]);  
+
+                 if ($res->getStatusCode()==200 || $res->getStatusCode()==201){             
+                    $client2 = new Client([
+                         'base_uri' => $this->servidor.'UsuariosRoles',
+                    ]);
+                    $dataUsRol = ['Id_Usuario'=>$userCedula['Id_Usuario'], 'Id_Roles'=>$request->Rol,]; 
+                    $client2->request('POST','',['form_params' => $dataUsRol]);
+                    return $user='2';         
+                }
+            }else{
+              return $user='3';  //NO SE ENCUENTRA REGISTRADO EN LA BASE DE DATOS DEL SISTEMA POR FAVOR CONTACTESE CON EL ADMINISTRADOR
             }
+                 
         }
+
+        if($request->ValorAdmin=='A'){
+            //VALIDO SI EL USUARIO SE ECNUENTRA REGISTRADO CON SU EMAIL
+            if(empty($user) == false  || $userCedula['email'] != null ){
+                return $user='1'; //USUARIO SE ENCUENTRA REGISTRADO CORRECTAMENTE           
+            }else if(empty($userCedula) == false ){ // SE ENCUENTRA EL USUARIO PERTENECIENTE A LA BASE DE DATOS
+                //CLIENTE PARA CONSUMIR LA API
+                $client = new Client([
+                    'base_uri' => $this->servidor.'Usuarios/'.$userCedula['Id_Usuario'],
+                ]);
+
+                $clave= base64_encode($request->Clave);
+                $tipoUser=(int)($request->TipoUser);
+                $data = ['Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
+             
+
+                //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+                $res = $client->request('PUT','',['form_params' => $data]);  
+
+                if ($res->getStatusCode()==200 || $res->getStatusCode()==201){             
+                    $client2 = new Client([
+                         'base_uri' => $this->servidor.'UsuariosRoles',
+                    ]);
+                    $dataUsRol = ['Id_Usuario'=>$userCedula['Id_Usuario'], 'Id_Roles'=>$request->Rol,]; 
+                    $client2->request('POST','',['form_params' => $dataUsRol]);
+                    return $user='2';         
+                }
+            }else{
+               //CLIENTE PARA CONSUMIR LA API
+                $client = new Client([
+                     'base_uri' => $this->servidor.'Usuarios',
+                ]);
+
+                $clave= base64_encode($request->Clave);
+                $tipoUser=(int)($request->TipoUser);
+                $data = ['Nombre'=>$request->Nombres, 'Apellido'=>$request->Apellidos, 'Sexo'=>$request->Sexo, 'Cedula'=>$request->Cedula, 'Direccion'=>$request->Direccion, 'Id_tipo_Usuarios'=>$tipoUser, 'Celular'=>$request->Celular, 'email'=>$request->Email, 'Password'=>$clave]; 
+             
+
+                //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+                $res = $client->request('POST','',['form_params' => $data]);
+
+                 if ($res->getStatusCode()==200 || $res->getStatusCode()==201){
+                    $Usuario= json_decode((string) $res->getBody(), true);
+                    $client2 = new Client([
+                         'base_uri' => $this->servidor.'UsuariosRoles',
+                    ]);
+                    $dataUsRol = ['Id_Usuario'=>$Usuario['Id_Usuario'], 'Id_Roles'=>$request->Rol,]; 
+                    $client2->request('POST','',['form_params' => $dataUsRol]);
+                    return $user='2';
+                }  
+            }
+                 
+        }
+        
     }
 
     public function PrepararUsuario($cedula){

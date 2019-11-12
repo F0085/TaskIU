@@ -86,56 +86,30 @@ function GuardarReunion(){
 		$("#ModalReunionSeguimiento").modal("hide");
 		$("#ModalCrearReunion").modal("show");
 		 $.get('Reunion/'+$('#idReun').val(), function (data) {
-		 	console.log(data);
-	   //  	$.each(data, function(i,item){
-		  //   	$('#TituloTareaCrear').html("<i class='fa fa-bookmark'></i>  "+  'Modificar Tareas');
-		  //   	$('#Nombretarea').val(item['Nombre']);
-		  //   	$('#tipoTarea').val(item['Id_Tipo_Tarea']);
-		  //   	$('#TaskID').val($('#idTar').val());
-		  //   	$('#descripcionTarea').val(item['Descripcion']);
-		  // 		$('#FechaInicioTarea').val(item['FechaInicio']);
-		  // 		$('#HoraInicioTarea').val(item['Hora_Inicio']);
-		  //    	$('#FechaLimiteTarea').val(item['FechaFin']);	 
-		  //    	$('#HoraLimiteTarea').val(item['Hora_Fin']);
-		  //    	$('#RecursiveTask').val(item['tareasIdTareas']);
-		  //    	$('#FechaCreacion').val(item['FechaCreacion']);
-		  //    	if(item['tareasIdTareas'] != null){
-		  //    		if(item['tipo_tareas']['0']['Descripcion']=='Personal'){
-		  //    				$("#tipoTarea").val('4');		
-				// 			$("#tipoTarea").prop('disabled',true);
-		  //    		}else if(item['tipo_tareas']['0']['Descripcion']=='Laboral'){
-		  //    				$("#tipoTarea").val('5');		
-				// 			$("#tipoTarea").prop('disabled',true);
-		  //    		}
-		  //    	}
-		  //       if(item['tipo_tareas']['0']['Descripcion'] != 'Personal'){
-		  //       	$('#Integrantes').prop('hidden',false);
-
-			 //    	$.each(item['responsables'], function(i1,item1){
-			 //    		 $("#ResponsablesTask option[value="+ item1['Id_Usuario'] +"]").attr("selected",true);
-			 //    		 $('#listaResponsable').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item1['usuario']['Nombre']+' '+item1['usuario']['Apellido'] }
-	   //                          </li>`);
-			 //    	});
-			 //    	$.each(item['participantes'], function(i2,item2){
-			 //    		//PARA SEGUN EL VALOR SE LE APLICA EL SELECT 
-			 //    		$("#ParticipantesTask option[value="+ item2['Id_Usuario'] +"]").attr("selected",true);
-			 //    		$('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']+' '+item2['usuario']['Apellido'] }
-	   //                          </li>`);
-			 //    	});
-			 //    	$.each(item['observadores'], function(i3,item3){
-			 //    		 $("#ObservadoresTask option[value="+ item3['Id_Usuario'] +"]").attr("selected",true);
-			 //    		 $('#listaObservadores').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item3['usuario']['Nombre']+' '+item3['usuario']['Apellido'] }
-	   //                          </li>`);
-			 //    	});
-		  //   	}else{
-		  //   		$('#Integrantes').prop('hidden',true);
-		  //   	}
-		  // //   	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
-	   //  	});
-	   //  	$('#FooterCrearTarea').html('');
-	   //  	$('#FooterCrearTarea').append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-    //             <button type="button" onclick="ActualizarTarea()" class="btn btn-primary">Aceptar </button>`);
-	   // 	    $('#cargatareas').fadeIn(1000).html(data); 
+	    	$.each(data, function(i,item){
+		    	$('#tituloreunion').html("<i class='fa fa-bookmark'></i>  "+  'Modificar Reunión');
+		    	$('#temaReunion').val(item['Tema']);
+		    	$('#lugarReunion').val(item['Lugar']);
+		    	$('#ordendeldiaReunion').text(item['Orden_del_Dia']);
+		    	$('#FechaReunion').val(item['FechadeReunion']);
+		  		$('#HoraReunion').val(item['HoraReunion']);
+		    	$.each(item['responsables'], function(i1,item1){
+		    		 $("#ResponsablesReunion option[value="+ item1['Id_Usuario'] +"]").attr("selected",true);
+		    		 $('#listaResponsable').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item1['usuario']['Nombre']+' '+item1['usuario']['Apellido'] }
+                            </li>`);
+		    	});
+		    	$.each(item['participantes'], function(i2,item2){
+		    		console.log(item2['Id_Usuario']);
+		    		//PARA SEGUN EL VALOR SE LE APLICA EL SELECT 
+		    		$("#ParticipantesReunion option[value="+ item2['Id_Usuario'] +"]").attr("selected",true);
+		    		$('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']+' '+item2['usuario']['Apellido'] }
+                            </li>`);
+		    	});	   	   
+	    	});
+	    	$('#footerCrearReunion').html('');
+	    	$('#footerCrearReunion').append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="ActualizarReunion()" class="btn btn-primary">Aceptar </button>`);
+	   	    // $('#cargatareas').fadeIn(1000).html(data); 
 		});
 
 	}
@@ -254,37 +228,37 @@ function TerminarReunion(){
 
 	//EXTRAE TODAS LAS REUNIONES POR USUARIO EL TIPO (RESPONSABLE  PARTICPANTE) Y EL ESTADO( PENDIENTE,TERMINADA)
 	function ReunionesPorRol(TipoUser){
-		    // $('#btneditar').html('');
-		    var estado;
-			$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
-			    <div class="loader"> 
-			        <svg class="circular" viewBox="25 25 50 50">
-			            <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-			        </svg>
+	    // $('#btneditar').html('');
+	    var estado;
+		$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+		    <div class="loader"> 
+		        <svg class="circular" viewBox="25 25 50 50">
+		            <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+		        </svg>
 
-			    </div>
-			</div>`);
-			if($('#Suspendida').hasClass('activado')){
-				estado='Suspendida';
-			}else if($('#Pendiente').hasClass('activado')){
-				estado='Pendiente';
-			}else if($('#Terminada').hasClass('activado')){
-				estado='Terminada';
-			}else if($('#Vencida').hasClass('activado')){
-				estado='Vencida';
-			}
-			if(TipoUser=="CPM"){
-				ReunionPorUsuario(estado);
-				return;
-			}
-			// console.log(estado);
-			$('#TablaReuniones').html('');
-			    $.get(TipoUser+'/'+estado, function (data) {
-					$.each(data, function(i1, $valore) { 
-							llenarTabla($valore);
-						}); 
-				      	$('#cargar').fadeIn(1000).html(''); 
-		   		 });
+		    </div>
+		</div>`);
+		if($('#Suspendida').hasClass('activado')){
+			estado='Suspendida';
+		}else if($('#Pendiente').hasClass('activado')){
+			estado='Pendiente';
+		}else if($('#Terminada').hasClass('activado')){
+			estado='Terminada';
+		}else if($('#Vencida').hasClass('activado')){
+			estado='Vencida';
+		}
+		if(TipoUser=="CPM"){
+			ReunionPorUsuario(estado);
+			return;
+		}
+		// console.log(estado);
+		$('#TablaReuniones').html('');
+		    $.get(TipoUser+'/'+estado, function (data) {
+				$.each(data, function(i1, $valore) { 
+						llenarTabla($valore);
+					}); 
+			      	$('#cargar').fadeIn(1000).html(''); 
+	   	});
 	}
 
 
@@ -363,39 +337,33 @@ function ParticipantesReunion(){
 
 //LIMPIAR MODAL DE REUNIONES CERAR NUEVA
 	function limpiarModalReunionCrear(){
-
-
-		//$("#ResponsablesReunion option:selected").remove();
-	//$("#ResponsablesReunion option:selected").prop("title",`jhgf`)
+	$("#ResponsablesReunion option:selected").attr("selected",false);
+	$("#ParticipantesReunion option:selected").attr("selected",false);
 	$("#ResponsablesReunion").val('');
 	$("#ParticipantesReunion").val('');
-	//  $("#ParticipantesReunion option:selected").attr("selected",false)
-	// if($("#ResponsablesReunion option:selected")){
-	// 	 $("#ResponsablesReunion").attr("selected",false)
-	// }
-
-		 $.get('HoraFechaSistema', function (data) {
-			$('#FechaReunion').val(data['Fecha']);
-			$('#HoraReunion').val(data['Hora']);
-		 });
-		$('#temaReunion').val('');
-		$('#lugarReunion').val('');
-		$('#ordendeldiaReunion').val('');
-		$('#listaResponsable').html('');
-		$('#listaParticipantes').html('');
+	 $.get('HoraFechaSistema', function (data) {
+		$('#FechaReunion').val(data['Fecha']);
+		$('#HoraReunion').val(data['Hora']);
+	 });
+	$('#temaReunion').val('');
+	$('#lugarReunion').val('');
+	$('#ordendeldiaReunion').val('');
+	$('#listaResponsable').html('');
+	$('#listaParticipantes').html('');
 	}
 
 	function ModalCrearReunion(){
 		$("#ModalCrearReunion").modal("show");
 		limpiarModalReunionCrear();
+		Usuarios();
 	}
 
 	function Usuarios(){
 		$('#ResponsablesReunion').text('');
 		 $.get('Usuarios', function (data) {
-			 $.each(selectTextParticpantes, function(i, item) { 
-                $('#ResponsablesReunion').append(`<option value="${$item['Id_Usuario']}" >${$v['Nombre']} ${$item['Apellido']}</option>`);
-                $('#ParticipantesReunion').append(`<option value="${$item['Id_Usuario']}" >${$v['Nombre']} ${$item['Apellido']}</option>`);
+			 $.each(data, function(i, $item) { 
+                $('#ResponsablesReunion').append(`<option value="${$item['Id_Usuario']}" >${$item['Nombre']} ${$item['Apellido']}</option>`);
+                $('#ParticipantesReunion').append(`<option value="${$item['Id_Usuario']}" >${$item['Nombre']} ${$item['Apellido']}</option>`);
    				
    			 });
 		 });
@@ -405,7 +373,7 @@ function ParticipantesReunion(){
 
 //PARA EL MODAL DEL SEGUIMIENTO DE LA REUNION
 	function ModalReunion(Id_reunion){
-		// limpiarModalTareas();
+		 limpiarModalReunionCrear();
 		$('#mensajefechas').html('');
 		$("#ModalReunionSeguimiento").modal("show");
 		$('#cargatareas').append(`<div id="preloader" style="background: #ffffff00">
@@ -439,24 +407,24 @@ function ParticipantesReunion(){
 				    		}
 				    		if($('#SelecTipoUserReunion').val()=="MisReunionesResponsables"){
 								$('#ParticipantesReunionSeguimiento').append(`<tr >
-						                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
-						                                     <td  centerDiv><div class="form-check form-check-inline">
-				                                                <label class="form-check-label">
-				                                                <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
-				                                            </div></td>
-						                                </tr>`);
+                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
+                                     <td  centerDiv><div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                        <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
+                                    </div></td>
+                                </tr>`);
 							}else{
 								$('#ParticipantesReunionSeguimiento').append(`<tr >
-					                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
-					                                     <td  centerDiv><div class="form-check form-check-inline">
-			                                                <label class="form-check-label">
-		                                                    <input disabled type="checkbox" class="form-check-input " ${estado}  value=""></label>
-			                                            </div></td>
-					                          
-					                                </tr>`);
+                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
+                                     <td  centerDiv><div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                        <input disabled type="checkbox" class="form-check-input " ${estado}  value=""></label>
+                                    </div></td>
+                          
+                                </tr>`);
 							}
 		    	});	  
-		    	//SI SELECCIONA LAS TAREAS QUE SON CREADAS POR MI
+		    	//SI SELECCIONA LAS REUNIONES QUE SON CREADAS POR MI
 			   	if($('#SelecTipoUserReunion').val()=="CPM"){
 					var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="ReunionEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Reunión</a>`;
 					$('#PanelObservacion').html('');
@@ -783,49 +751,27 @@ function ParticipantesReunion(){
 	}
 
 function SuspenderReunion(){
-				var FrmData = { 
-				    	Suspender: 'Suspender',
-				}
-				    $.ajaxSetup({
-				        headers: {
-				            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				        }
-				    });
-				    $.ajax({
-				        url: 'Reunion'+'/'+$('#idReun').val(), 
-				        method: "PUT", 
-				        data: FrmData,
-				        dataType: 'json',
-				        success: function (data) 
-				        {
-				        	console.log(data);
-
-				    //     	if(data=='0'){
-				    //     		$('#mensajefechas').html('');
-								// $('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								// 					  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente.<br>
-								// 					  <strong>*<strong>  Fecha y hora de inicio deben ser mayor o igual a la fecha de creación de la tarea<br>
-								// 					  <strong>*<strong> Fecha y hora límite deben ser mayor o igual a la fecha de inicio<br>
-								// 					  <strong>*<strong> En caso de ser Subtarea la Fecha límite debe ser menor a la fecha límite de la tarea principal y la fecha de inicio debe ser mayor o igual a la fecha de inicio de la tarea principal
-								// 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								// 					    <span aria-hidden="true">&times;</span>
-								// 					  </button>
-								// 					</div`);
-								// $('#mensajefechas').hide();
-						  //       $('#mensajefechas').prop('hidden',false);
-						  //       $('#mensajefechas').show(500);
-						  //       $('#cargar').fadeIn(1000).html(data);
-				    //     	}else{
-					   //      	$('#cargar').fadeIn(1000).html(data); 
-					   //      	window.location = "/Reunion";
-				    //     	}
-				    		    // ('#cargar').fadeIn(1000).html(data); 
-					        	window.location = "/Reunion";
-				        },
-				        error: function () { 
-				            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-				        }
-				    });
+	var FrmData = { 
+	    	Suspender: 'Suspender',
+	}
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'Reunion'+'/'+$('#idReun').val(), 
+	        method: "PUT", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+		        	window.location = "/Reunion";
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
 
 }
 
@@ -852,59 +798,58 @@ function ActualizarReunion(){
 	    	HoraIn: $("#HoraReunion").val(),
 	    	ResponsablesReunion: $("#ResponsablesReunion").val(),
 	    	ParticipantesReunion: $("#ParticipantesReunion").val(),
-	    	Suspender: Suspender,
 	    }
-				    $.ajaxSetup({
-				        headers: {
-				            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				        }
-				    });
-				    $.ajax({
-				        url: 'Reunion'+'/'+$('#idReun').val(), 
-				        method: "PUT", 
-				        data: FrmData,
-				        dataType: 'json',
-				        success: function (data) 
-				        {
-				        	console.log(data);
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+	    $.ajax({
+	        url: 'Reunion'+'/'+$('#idReun').val(), 
+	        method: "PUT", 
+	        data: FrmData,
+	        dataType: 'json',
+	        success: function (data) 
+	        {
+	        	console.log(data);
 
-				    //     	if(data=='0'){
-				    //     		$('#mensajefechas').html('');
-								// $('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								// 					  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente.<br>
-								// 					  <strong>*<strong>  Fecha y hora de inicio deben ser mayor o igual a la fecha de creación de la tarea<br>
-								// 					  <strong>*<strong> Fecha y hora límite deben ser mayor o igual a la fecha de inicio<br>
-								// 					  <strong>*<strong> En caso de ser Subtarea la Fecha límite debe ser menor a la fecha límite de la tarea principal y la fecha de inicio debe ser mayor o igual a la fecha de inicio de la tarea principal
-								// 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								// 					    <span aria-hidden="true">&times;</span>
-								// 					  </button>
-								// 					</div`);
-								// $('#mensajefechas').hide();
-						  //       $('#mensajefechas').prop('hidden',false);
-						  //       $('#mensajefechas').show(500);
-						  //       $('#cargar').fadeIn(1000).html(data);
-				    //     	}else{
-					   //      	$('#cargar').fadeIn(1000).html(data); 
-					   //      	window.location = "/Reunion";
-				    //     	}
-				        },
-				        error: function () { 
-				            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-				        }
-				    });
-				// }else{
-	   //      		$('#cargar').fadeIn(1000).html('');
-	   //      		$('#mensajefechas').html('');
-				// 	$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
-				// 						  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente (Fecha Inicio y Hora Inicio no pueden ser menor a la actual, Fecha Límite y Hora Límite no pueden ser menor a las de inicio).
-				// 						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				// 						    <span aria-hidden="true">&times;</span>
-				// 						  </button>
-				// 						</div`);
-				// 	$('#mensajefechas').hide();
-			 //        $('#mensajefechas').prop('hidden',false);
-			 //        $('#mensajefechas').show(500);
-    //     		}
+	    //     	if(data=='0'){
+	    //     		$('#mensajefechas').html('');
+					// $('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					// 					  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente.<br>
+					// 					  <strong>*<strong>  Fecha y hora de inicio deben ser mayor o igual a la fecha de creación de la tarea<br>
+					// 					  <strong>*<strong> Fecha y hora límite deben ser mayor o igual a la fecha de inicio<br>
+					// 					  <strong>*<strong> En caso de ser Subtarea la Fecha límite debe ser menor a la fecha límite de la tarea principal y la fecha de inicio debe ser mayor o igual a la fecha de inicio de la tarea principal
+					// 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					// 					    <span aria-hidden="true">&times;</span>
+					// 					  </button>
+					// 					</div`);
+					// $('#mensajefechas').hide();
+			  //       $('#mensajefechas').prop('hidden',false);
+			  //       $('#mensajefechas').show(500);
+			  //       $('#cargar').fadeIn(1000).html(data);
+	    //     	}else{
+		   //      	$('#cargar').fadeIn(1000).html(data); 
+		   //      	window.location = "/Reunion";
+	    //     	}
+	        },
+	        error: function () { 
+	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+	        }
+	    });
+	// }else{
+//      		$('#cargar').fadeIn(1000).html('');
+//      		$('#mensajefechas').html('');
+	// 	$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+	// 						  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente (Fecha Inicio y Hora Inicio no pueden ser menor a la actual, Fecha Límite y Hora Límite no pueden ser menor a las de inicio).
+	// 						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	// 						    <span aria-hidden="true">&times;</span>
+	// 						  </button>
+	// 						</div`);
+	// 	$('#mensajefechas').hide();
+ //        $('#mensajefechas').prop('hidden',false);
+ //        $('#mensajefechas').show(500);
+//     		}
 
 	}
 }

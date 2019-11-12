@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h3 class="modal-title"><i class="fa fa-plus-square"></i> Nueva Reunión</h3>
+                <h3 class="modal-title" id="tituloreunion"><i class="fa fa-plus-square"></i> Nueva Reunión</h3>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
@@ -39,7 +39,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-4" id="nose">
+                    <div class="col-md-4" >
                        <label for="" style="color: black"><b>Responsables</b></label>
                        <br>
                         <select onchange="ResponsablesReunion()" id="ResponsablesReunion" class="selectpicker show-menu-arrow" 
@@ -57,27 +57,29 @@
                        <ul id="listaResponsable" class="list-group scroll">
                         </ul>
                     </div>
-                    <div class="col-md-4">
-                       <label for="" style="color: black"><b>Participantes</b></label>
+                    <div class="col-md-4" >
+                       <label for="" style="color: black"><b>Responsables</b></label>
                        <br>
-                       <select onchange="ParticipantesReunion()" id="ParticipantesReunion" class="selectpicker show-menu-arrow" 
+                        <select onchange="ParticipantesReunion()" id="ParticipantesReunion" class="selectpicker show-menu-arrow" 
                                 data-style="form-control" 
                                 data-live-search="true" 
-                                title='<i style="color:blue" class="fa fa-plus" style="font-weight: bold"></i> <b style="color:blue"> Agregar Participantes</b> '
+                                title='<i style="color:blue" class="fa fa-plus" style="font-weight: bold"></i> <b style="color:blue"> Agregar Responsables</b> '
                                 multiple="multiple">
                                 <?php if(isset($Usuarios)): ?>
                                 <?php $__currentLoopData = $Usuarios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                 <option value="<?php echo e($v['Id_Usuario']); ?> "><?php echo e($v['Nombre']); ?> <?php echo e($v['Apellido']); ?></option>
+                                 <option value="<?php echo e($v['Id_Usuario']); ?>" ><?php echo e($v['Nombre']); ?> <?php echo e($v['Apellido']); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
                         </select>
                        <br>
-                       <ul class="list-group scroll"  id="listaParticipantes"></ul>
+                       <ul id="listaParticipantes" class="list-group scroll">
+                        </ul>
                     </div>
+
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="footerCrearReunion">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" onclick="GuardarReunion()" class="btn btn-primary">Aceptar </button>
             </div>

@@ -15,7 +15,7 @@
 		<div class="row">
     		<div  align="center" class="col-md-12">
     				<div class="title m-b-md col-md-12">
-					   {!!QrCode::size(300)->generate("www.espam.edu.ec") !!}
+					   {!!QrCode::size(300)->generate("http://3.134.116.54/AppMovil/CardiocentroManta.Apk") !!}
 					</div>
 					<div align="center"><h3>Descarga la versión movil</h3></div>
     		</div>

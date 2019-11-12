@@ -219,6 +219,24 @@ class ReunionController extends Controller
         return json_decode((string) $res->getBody(), true);
     }
 
+    public function ModificarReunion(Request $request, $id)
+    {
+          //CLIENTE PARA LAS REUNION
+        $client = new Client([
+          'base_uri' => $this->servidor.'Reunion/'.$id,
+        ]);
+        if($request->Suspender=='Suspender'){
+             $data = ['Conclusion'=>$request->Conclusion,
+            'Estado'=>'Suspendida'];
+        }else{
+            $data = ['Conclusion'=>$request->Conclusion,
+               'Estado'=>'Terminada'];
+        }
+ 
+        $res = $client->request('PUT','',['form_params' => $data]); 
+        return json_decode((string) $res->getBody(), true);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

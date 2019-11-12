@@ -102,6 +102,7 @@ class ReunionController extends Controller
      */
     public function store(Request $request)
     {
+       
          session_start();
         //CLIENTE PARA LAS REUNIONES
         $client = new Client([
@@ -206,8 +207,14 @@ class ReunionController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor.'Reunion/'.$id,
         ]);
-        $data = ['Conclusion'=>$request->Conclusion,
-             'Estado'=>'Terminada'];
+        if($request->Suspender=='Suspender'){
+             $data = ['Conclusion'=>$request->Conclusion,
+            'Estado'=>'Suspendida'];
+        }else{
+            $data = ['Conclusion'=>$request->Conclusion,
+               'Estado'=>'Terminada'];
+        }
+ 
         $res = $client->request('PUT','',['form_params' => $data]); 
         return json_decode((string) $res->getBody(), true);
     }

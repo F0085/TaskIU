@@ -12,7 +12,15 @@
 <!-- <div class="card">
     <div class="card-body"> -->
     	<!-- Button trigger modal -->
+		<div class="row">
+    		<div  align="center" class="col-md-12">
+    				<div class="title m-b-md col-md-12">
+					   <?php echo QrCode::size(300)->generate("www.espam.edu.ec"); ?>
 
+					</div>
+					<div align="center"><h3>Descarga la versión movil</h3></div>
+    		</div>
+    	</div>
 		<div class="row">
 		    <div class="col-md-12" >
 				<div class="container-fluid mt-3">
@@ -69,6 +77,8 @@
 			</div>
 
 		</div>
+
+	
     <!-- <div class="row">
       <div class="col-md-12">
         <div id="chart_div" style="width: 400px; height: 120px;"></div>

@@ -80,6 +80,65 @@ function GuardarReunion(){
 	    
 	}
 }
+//EDITAR REUNION SOLO PARA EL ADMINISTRADOR Y EL QUE LA CREA
+	function ReunionEditar(){
+		// limpiarModalTareasCrear();
+		$("#ModalReunionSeguimiento").modal("hide");
+		$("#ModalCrearReunion").modal("show");
+		 $.get('Reunion/'+$('#idReun').val(), function (data) {
+		 	console.log(data);
+	   //  	$.each(data, function(i,item){
+		  //   	$('#TituloTareaCrear').html("<i class='fa fa-bookmark'></i>  "+  'Modificar Tareas');
+		  //   	$('#Nombretarea').val(item['Nombre']);
+		  //   	$('#tipoTarea').val(item['Id_Tipo_Tarea']);
+		  //   	$('#TaskID').val($('#idTar').val());
+		  //   	$('#descripcionTarea').val(item['Descripcion']);
+		  // 		$('#FechaInicioTarea').val(item['FechaInicio']);
+		  // 		$('#HoraInicioTarea').val(item['Hora_Inicio']);
+		  //    	$('#FechaLimiteTarea').val(item['FechaFin']);	 
+		  //    	$('#HoraLimiteTarea').val(item['Hora_Fin']);
+		  //    	$('#RecursiveTask').val(item['tareasIdTareas']);
+		  //    	$('#FechaCreacion').val(item['FechaCreacion']);
+		  //    	if(item['tareasIdTareas'] != null){
+		  //    		if(item['tipo_tareas']['0']['Descripcion']=='Personal'){
+		  //    				$("#tipoTarea").val('4');		
+				// 			$("#tipoTarea").prop('disabled',true);
+		  //    		}else if(item['tipo_tareas']['0']['Descripcion']=='Laboral'){
+		  //    				$("#tipoTarea").val('5');		
+				// 			$("#tipoTarea").prop('disabled',true);
+		  //    		}
+		  //    	}
+		  //       if(item['tipo_tareas']['0']['Descripcion'] != 'Personal'){
+		  //       	$('#Integrantes').prop('hidden',false);
+
+			 //    	$.each(item['responsables'], function(i1,item1){
+			 //    		 $("#ResponsablesTask option[value="+ item1['Id_Usuario'] +"]").attr("selected",true);
+			 //    		 $('#listaResponsable').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item1['usuario']['Nombre']+' '+item1['usuario']['Apellido'] }
+	   //                          </li>`);
+			 //    	});
+			 //    	$.each(item['participantes'], function(i2,item2){
+			 //    		//PARA SEGUN EL VALOR SE LE APLICA EL SELECT 
+			 //    		$("#ParticipantesTask option[value="+ item2['Id_Usuario'] +"]").attr("selected",true);
+			 //    		$('#listaParticipantes').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item2['usuario']['Nombre']+' '+item2['usuario']['Apellido'] }
+	   //                          </li>`);
+			 //    	});
+			 //    	$.each(item['observadores'], function(i3,item3){
+			 //    		 $("#ObservadoresTask option[value="+ item3['Id_Usuario'] +"]").attr("selected",true);
+			 //    		 $('#listaObservadores').append(`<li class="list-group-item"><img class="imgRedonda" src="images/user/1.png">  ${item3['usuario']['Nombre']+' '+item3['usuario']['Apellido'] }
+	   //                          </li>`);
+			 //    	});
+		  //   	}else{
+		  //   		$('#Integrantes').prop('hidden',true);
+		  //   	}
+		  // //   	llenarbucle(item['sub_tareas'],'0','collapse show','tablaTareaSeguimiento','Edit');	   	   
+	   //  	});
+	   //  	$('#FooterCrearTarea').html('');
+	   //  	$('#FooterCrearTarea').append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    //             <button type="button" onclick="ActualizarTarea()" class="btn btn-primary">Aceptar </button>`);
+	   // 	    $('#cargatareas').fadeIn(1000).html(data); 
+		});
+
+	}
 
 
 //ACTUALIZAR REUNION
@@ -124,8 +183,7 @@ function TerminarReunion(){
 
 //TODAS LAS REUNIONES PARA EL ADMINISTRADOR O LA PERSONA QUE LAS CREA
 	function ReunionPorUsuario(estado){
-		// $('#SelectTipoTarPerTra').val('T');
-		// $('#SelecTipoUserTareas').val('CPM');
+		$('#SelecTipoUserReunion').val('CPM');
 		$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
 		    <div class="loader"> 
 		        <svg class="circular" viewBox="25 25 50 50">
@@ -134,27 +192,28 @@ function TerminarReunion(){
 
 		    </div>
 		</div>`);
-	    if(estado=='Proceso'){
-	    	$('#Proceso').addClass('activado');
-	    	$('#Pendiente').removeClass('activado');
-	    	$('#Terminada').removeClass('activado');
-	    	$('#Vencida').removeClass('activado');
-	    }else if(estado=='Pendiente'){
-	    	$('#Proceso').removeClass('activado');
+		if(estado=='Pendiente'){
+	    	$('#Suspendida').removeClass('activado');
 	    	$('#Pendiente').addClass('activado');
 	    	$('#Terminada').removeClass('activado');
 	    	$('#Vencida').removeClass('activado');
 	    }else if(estado=='Terminada'){
-	    	$('#Proceso').removeClass('activado');
+	    	$('#Suspendida').removeClass('activado');
 	    	$('#Pendiente').removeClass('activado');
 	    	$('#Terminada').addClass('activado');
 	    	$('#Vencida').removeClass('activado');
 	    }
 	    else if(estado=='Vencida'){
-	    	$('#Proceso').removeClass('activado');
+	    	$('#Suspendida').removeClass('activado');
 	    	$('#Pendiente').removeClass('activado');
 	    	$('#Terminada').removeClass('activado');
 	    	$('#Vencida').addClass('activado');
+	    }
+	     else if(estado=='Suspendida'){
+	    	$('#Suspendida').addClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').removeClass('activado');
 	    }
 		$('#TablaReuniones').html('');
 	    $.get('ReunionPorEstado_User/'+estado, function (data) {
@@ -205,8 +264,8 @@ function TerminarReunion(){
 
 			    </div>
 			</div>`);
-			if($('#Proceso').hasClass('activado')){
-				estado='Proceso';
+			if($('#Suspendida').hasClass('activado')){
+				estado='Suspendida';
 			}else if($('#Pendiente').hasClass('activado')){
 				estado='Pendiente';
 			}else if($('#Terminada').hasClass('activado')){
@@ -344,7 +403,7 @@ function ParticipantesReunion(){
 
 
 
-		//PARA EL MODAL DEL SEGUIMIENTO DE LA REUNION
+//PARA EL MODAL DEL SEGUIMIENTO DE LA REUNION
 	function ModalReunion(Id_reunion){
 		// limpiarModalTareas();
 		$('#mensajefechas').html('');
@@ -358,64 +417,34 @@ function ParticipantesReunion(){
 		    </div>
 		</div>`);
 		$('#ParticipantesReunionSeguimiento').html('');
-		$('#ParticipantesReunionSeguimiento').html('');
-		$('#ConclusionReunionSeguimiento').html('');
 		$('#ConclusionReunionSeguimiento').html('');
 		$('#OrdendelDia').html('');
 		$('#ResponsablesReunionSeguimiento').html('');
 	    $.get('Reunion/'+Id_reunion, function (data) {
 	    	$.each(data, function(i,item){
-	    		
 		    	$('#TituloReunionSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Tema']);
-		    
 		    	$('#idReun').val(item['Id_Reunion']);
 		    	$('#FechaReunionSeguimiento').html(item['FechadeReunion']+'-'+item['HoraReunion']);
 		    	$('#OrdendelDia').text(item['Orden_del_Dia']);
 		    	$.each(item['responsables'], function(i1,item1){
 		    	   $('#ResponsablesReunionSeguimiento').append(` <i class="fa fa-user"></i>  ${item1['usuario']['Nombre']} ${item1['usuario']['Apellido']} <br>`);
 		    	});
+		    	$('#ParticipantesReunionSeguimiento').html('');
 		    	$.each(item['participantes'], function(i2,item2){
+		    				
 					    	if(item2['asistencia']=='1'){
 				    			var estado='checked';
 				    		}else{
 				    			var estado='';
 				    		}
-				    		if($('#SelecTipoUserReunion').val()=="CPM"   ){
-				    			
-				    			$('#PanelObservacion').html('');
-
-				    		}else{
-				    				$('#PanelObservacion').html('');
-				    			$('#PanelObservacion').append(` <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Comentario:</b></label>
-                                    <textarea class="form-control input-default" id="ObservacionReunionSeguimiento"></textarea><br>
-                                    <div id="btnRegistrarObservacionReunion"><button onclick="RegistrarObservacionReunion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>`);
-				    		}
-				    		if($('#SelecTipoUserReunion').val()=="MisReunionesResponsables"   ){
-							$('#ParticipantesReunionSeguimiento').append(`<tr >
-					                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
-					                                     <td  centerDiv><div class="form-check form-check-inline">
-			                                                <label class="form-check-label">
-			                                                <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
-			                                            </div></td>
-					                          
-					                                </tr>`);
-							$('#PanelConclusiones').html('');
-							$('#botoneSeguimiento').html('');
-							$('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Conclusión:</b></label>
-                                    <textarea rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento"></textarea><br>`);
-							$('#botoneSeguimiento').append(`<div class="row">
-									                            <div class="col-md-6">
-									                                <button onclick="TerminarReunion()" class="btn btn-success btn-block">Terminar Reunión</button>
-									                            </div>
-									                            <div class="col-md-6">
-									                                <div class="btn-group">
-									                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									                                    Más
-									                                  </button>
-
-									                                </div>
-									                            </div>
-									                        </div> `);
+				    		if($('#SelecTipoUserReunion').val()=="MisReunionesResponsables"){
+								$('#ParticipantesReunionSeguimiento').append(`<tr >
+						                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
+						                                     <td  centerDiv><div class="form-check form-check-inline">
+				                                                <label class="form-check-label">
+				                                                <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
+				                                            </div></td>
+						                                </tr>`);
 							}else{
 								$('#ParticipantesReunionSeguimiento').append(`<tr >
 					                                    <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
@@ -425,22 +454,460 @@ function ParticipantesReunion(){
 			                                            </div></td>
 					                          
 					                                </tr>`);
-								$('#PanelConclusiones').html('');
-								$('#botoneSeguimiento').html('');
-								$('#botoneSeguimiento').html('');
 							}
-							if($('#Terminada').addClass('activado')){
-	    							$('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Conclusión:</b></label>
-                                    <textarea rows="10" class="form-control input-default" readonly  id="ConclusionReunionSeguimiento">${item['Conclusion']}</textarea><br>`);
-	    					}
+		    	});	  
+		    	//SI SELECCIONA LAS TAREAS QUE SON CREADAS POR MI
+			   	if($('#SelecTipoUserReunion').val()=="CPM"){
+					var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="ReunionEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Reunión</a>`;
+					$('#PanelObservacion').html('');
+					$('#PanelEvidencias').html('');	
+					$('#botoneSeguimiento').html('');
+					$('#EstadoObservacionReunion').html('');
+					$('#PanelConclusiones').html('');
+					$.get('validarinicioTarea/'+item['FechadeReunion']+'/'+item['HoraReunion'], function (data) {
+						if(data['Inicia']=='1'){
+								$('#botoneSeguimiento').html('');
+								$('#PanelObservacion').html('');
+								$('#botoneSeguimiento').append(`<div class="row">
+				                            <div class="col-md-6">
+				                                <div class="btn-group">
+				                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				                                    Más
+				                                  </button>
+				                                  <div class="dropdown-menu">
+				                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+				                                    <div id="btneditar">
+				                                    ${btneditar}
+				                                   </div>
+				                                  </div>
+				                                </div>
+				                            </div>
+				                        </div> `);
+								// $('#PanelObservacion').append(`
+		      //                               <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+		      //                               <textarea class="form-control input-default" id="ObservacionReunionSeguimiento"></textarea><br>
+		      //                               <div id="btnRegistrarObservacionReunion"><button onclick="RegistrarObservacionReunion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+		      //               	`);
+		       
+							  	// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;								
+						}else{
+							$('#EstadoObservacionReunion').html('');
+							$('#EstadoObservacionReunion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> ESTA REUNIÓN AÚN NO INICIA.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `);
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
+							$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').append(`<div class="row">
+			                            <div class="col-md-6">
+			                                <div class="btn-group">
+			                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                                    Más
+			                                  </button>
+			                                  <div class="dropdown-menu">
+			                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+			                                    <div id="btneditar">
+			                                    ${btneditar}
+			                                   </div>
+			                                  </div>
+			                                </div>
+			                            </div>
+			                        </div> `);
+						  // document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+						}
+						if($('#Terminada').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelConclusiones').html('');
+		                    $('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Conclusión:</b></label>
+                                    <textarea readonly rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento">${item['Conclusion']}</textarea><br>`);
+						}else if($('#Vencida').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelConclusiones').html('');
+						}
+						
+						// //SI EL TAG ES TERMINADA O VENCIDA OCULATAMOS BOTON ENTREGAR 
+						// if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						// 	$('#botoneSeguimiento').html('');
+						// 	$('#EstadoObservacionReunion').html('');
+						// 	$('#PanelObservacion').html('');
+						// 	$('#PanelEvidencias').html('');
+						// }
+					});		
+				}else if($('#SelecTipoUserReunion').val()=="MisReunionesResponsables"){
+					$('#EstadoObservacionReunion').html('');
+					$('#PanelObservacion').html('');
+					$('#botoneSeguimiento').html('');
+					$('#PanelEvidencias').html('');
+					$('#PanelConclusiones').html('');
+					$.get('validarinicioTarea/'+item['FechadeReunion']+'/'+item['HoraReunion'], function (data) {
+						
+						if(data['Inicia']=='1'){
 
-		    	});	    		   
+							$('#PanelObservacion').append(`
+		                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+		                                    <textarea class="form-control input-default" id="ObservacionReunionSeguimiento"></textarea><br>
+		                                    <div id="btnRegistrarObservacionReunion"><button onclick="RegistrarObservacionReunion()" type="button" class="btn btn-success btn-sm">
+		                                    <i class="fa fa-save"></i>  Registrar</button></div>
+		                    `);
+		                    	$('#PanelConclusiones').html('');
+		                    	$('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Conclusión:</b></label>
+                                    <textarea rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento"></textarea><br>`);
+		                    		                 
+							// $('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+							// 	<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+							// 	<input  type="file" class="form-control input-default" id="filedoc"><br>
+						 //        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+							$('#botoneSeguimiento').append(`<div class="row">
+		                            <div class="col-md-6">
+		                                <button onclick="TerminarRreunion()" class="btn btn-success btn-block"><i class="fa fa-paper-plane-o"></i>   Entregar Reunión</button>
+		                            </div>
+		                            <div class="col-md-6">
+		                                <div class="btn-group">
+		                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                    Más
+		                                  </button>
+		                                  <div class="dropdown-menu">
+		                                    <a id="SuspenderReunion" class="dropdown-item"  href="javascript:void(0);" ><i style="color:red" class="fa fa-pause"></i>  Suspender</a>
+		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+		                                  </div>
+		                                </div>
+		                            </div>
+		                        </div> `);
+						// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+						document.getElementById('SuspenderReunion').setAttribute('onclick',`SuspenderReunion()`) ;
+						
+						}else{
+							$('#EstadoObservacionReunion').html('');
+							$('#EstadoObservacionReunion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> ESTA REUNIÓN AÚN NO INICIA.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `)
+							$('#PanelObservacion').html('');
+							$('#botoneSeguimiento').html('');
+							$('#PanelEvidencias').html('');
+							$('#PanelConclusiones').html('');
+						}
+
+						if($('#Terminada').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');						
+							$('#EstadoObservacion').html('');
+							$('#PanelConclusiones').html('');
+		                    $('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Conclusión:</b></label>
+                                    <textarea readonly rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento">${item['Conclusion']}</textarea><br>`);
+						}else if($('#Vencida').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelConclusiones').html('');
+						}
+					
+
+					});
+
+				}else if($('#SelecTipoUserReunion').val()=="MisReunionesParticipantes"){
+					$('#EstadoObservacionReunion').html('');
+					$('#PanelObservacion').html('');
+					$('#botoneSeguimiento').html('');
+					$('#PanelEvidencias').html('');
+					$('#PanelConclusiones').html('');
+					$.get('validarinicioTarea/'+item['FechadeReunion']+'/'+item['HoraReunion'], function (data) {
+						if(data['Inicia']=='1'){
+							$('#PanelObservacion').append(`
+				                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+				                                    <textarea class="form-control input-default" id="ObservacionReunionSeguimiento"></textarea><br>
+				                                    <div id="btnRegistrarObservacionReunion"><button onclick="RegistrarObservacionReunion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>
+				                                `);
+							// $('#PanelEvidencias').html('');
+							// $('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+							// 	<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+							// 	<input  type="file" class="form-control input-default" id="filedoc"><br>
+						 //        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+							// $('#botoneSeguimiento').html('');
+							// $('#botoneSeguimiento').append(`<div class="row">
+				   //                          <div class="col-md-6">
+				   //                              <div class="btn-group">
+				   //                                <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				   //                                  Más
+				   //                                </button>
+				   //                                <div class="dropdown-menu">
+				   //                                  <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+				   //                                  <div id="btneditar">
+				   //                                 </div>
+				   //                                </div>
+				   //                              </div>
+				   //                          </div>
+				   //                      </div> `);
+							// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+						}else{
+							$('#EstadoObservacion').html('');
+							$('#EstadoObservacionReunion').append(`<div class="row"> 
+							 	<div class="col-md-12 ">   
+							      <div class="alert alert-info" role="alert">
+							        <div class="row vertical-align centerDiv">
+							          <div class="col-lg-1 text-center">
+							            <i class="fa fa-info fa-2x"></i> 
+							          </div>
+							          <div class="col-lg-11 centerDiv">
+							           <strong> ESTA TAREA AÚN NO INICIA.</strong>
+							          </div>
+							        </div>
+							      </div>      
+				   				</div>
+				 				 </div> `)
+							$('#PanelObservacion').html('');
+							$('#botoneSeguimiento').html('');
+							$('#PanelEvidencias').html('');
+							$('#PanelConclusiones').html('');
+						}
+						if($('#Terminada').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelConclusiones').html('');
+		                    $('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Conclusión:</b></label>
+                                    <textarea readonly rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento">${item['Conclusion']}</textarea><br>`);
+						}else if($('#Vencida').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelConclusiones').html('');
+						}
+					});
+
+				}else{
+					$('#botoneSeguimiento').html('');
+						$('#PanelObservacion').html('');
+						$('#PanelEvidencias').html('');						
+						$('#EstadoObservacionReunion').html('');
+						$('#PanelConclusiones').html('');
+					if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado') ){
+						var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
+						$('#botoneSeguimiento').html('');
+						$('#botoneSeguimiento').append(`<div class="row">
+			    
+			                            <div class="col-md-6">
+			                                <div class="btn-group">
+			                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                                    Más
+			                                  </button>
+			                                  <div class="dropdown-menu">
+			                                    <div id="btneditar">
+			                                    ${btneditar}
+			                                   </div>
+			                                  </div>
+			                                </div>
+			                            </div>
+			                        </div> `);
+					}else{
+						var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
+						$('#botoneSeguimiento').html('');
+						$('#botoneSeguimiento').append(`<div class="row">
+			    
+			                            <div class="col-md-6">
+			                                <div class="btn-group">
+			                                  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                                    Más
+			                                  </button>
+			                                  <div class="dropdown-menu">
+			                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
+			                                    <div id="btneditar">
+			                                    ${btneditar}
+			                                   </div>
+			                                  </div>
+			                                </div>
+			                            </div>
+			                        </div> `);
+						// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
+
+					}
+				}
+
+				// if($('#Terminada').hasClass('activado')) {
+				// 	$('#PanelConclusiones').html('');
+				// 		$('#PanelConclusiones').append(`<label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Conclusión:</b></label>
+    //                                 <textarea readonly  rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento">${data['0']['Conclusion']}</textarea><br>`);
+
+				// 		// $('#DivFechaEntregaTarea').html('');
+				// 		// $('#DivFechaEntregaTarea').append(`<div class="col-md-12">
+    //   //                                       <div class="row">
+    //   //                                           <div class="col-md-5">
+    //   //                                               <p style="color: black; font-size: 13px"><b>Fecha Entrega:</b></p>
+    //   //                                           </div>
+    //   //                                           <div class="col-md-7">
+    //   //                                               <p style="color: black; font-size: 13px" class="badge badge-success" id="FechaEntregaTareaSeguimiento">${item['FechaEntrega']}</p>
+    //   //                                           </div>
+    //   //                                       </div>
+    //   //                                   </div>`);
+				// 			$('#botoneSeguimiento').html('');
+				// }
+
+
+
+
+
 	   		 	listaObservaciones();
 	   	     	$('#cargatareas').fadeIn(1000).html(data); 
+
+
 	   		});
+
 		});
 
 	}
+
+function SuspenderReunion(){
+				var FrmData = { 
+				    	Suspender: 'Suspender',
+				}
+				    $.ajaxSetup({
+				        headers: {
+				            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				        }
+				    });
+				    $.ajax({
+				        url: 'Reunion'+'/'+$('#idReun').val(), 
+				        method: "PUT", 
+				        data: FrmData,
+				        dataType: 'json',
+				        success: function (data) 
+				        {
+				        	console.log(data);
+
+				    //     	if(data=='0'){
+				    //     		$('#mensajefechas').html('');
+								// $('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								// 					  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente.<br>
+								// 					  <strong>*<strong>  Fecha y hora de inicio deben ser mayor o igual a la fecha de creación de la tarea<br>
+								// 					  <strong>*<strong> Fecha y hora límite deben ser mayor o igual a la fecha de inicio<br>
+								// 					  <strong>*<strong> En caso de ser Subtarea la Fecha límite debe ser menor a la fecha límite de la tarea principal y la fecha de inicio debe ser mayor o igual a la fecha de inicio de la tarea principal
+								// 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								// 					    <span aria-hidden="true">&times;</span>
+								// 					  </button>
+								// 					</div`);
+								// $('#mensajefechas').hide();
+						  //       $('#mensajefechas').prop('hidden',false);
+						  //       $('#mensajefechas').show(500);
+						  //       $('#cargar').fadeIn(1000).html(data);
+				    //     	}else{
+					   //      	$('#cargar').fadeIn(1000).html(data); 
+					   //      	window.location = "/Reunion";
+				    //     	}
+				    		    // ('#cargar').fadeIn(1000).html(data); 
+					        	window.location = "/Reunion";
+				        },
+				        error: function () { 
+				            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+				        }
+				    });
+
+}
+
+//ACTUALIZAR REUNION
+function ActualizarReunion(){
+	var Vtema= validadorCampos('temaReunion'); 
+	var Vlugar= validadorCampos('lugarReunion');
+	var VOrden= validadorCampos('ordendeldiaReunion'); 
+	if(Vtema==1 && Vlugar==1 && VOrden==1 ){ // && Vfinicio==1  && Vhinicio==1  && Vffin==1 && Vhfin==1 && Vresponsables==1 && Vparticipantes==1 && Vobsevadores==1 ){
+	   $('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+	        <div class="loader"> 
+	            <svg class="circular" viewBox="25 25 50 50">
+	                <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+	            </svg>Espere...
+
+	        </div>
+	    </div>`);
+
+	    var FrmData = { 
+	    	Tema: $("#temaReunion").val(),
+	    	Orden_del_Dia: $("#ordendeldiaReunion").val(),
+	    	Lugar: $("#lugarReunion").val(),
+	    	FechaIn: $("#FechaReunion").val(),
+	    	HoraIn: $("#HoraReunion").val(),
+	    	ResponsablesReunion: $("#ResponsablesReunion").val(),
+	    	ParticipantesReunion: $("#ParticipantesReunion").val(),
+	    	Suspender: Suspender,
+	    }
+				    $.ajaxSetup({
+				        headers: {
+				            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				        }
+				    });
+				    $.ajax({
+				        url: 'Reunion'+'/'+$('#idReun').val(), 
+				        method: "PUT", 
+				        data: FrmData,
+				        dataType: 'json',
+				        success: function (data) 
+				        {
+				        	console.log(data);
+
+				    //     	if(data=='0'){
+				    //     		$('#mensajefechas').html('');
+								// $('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								// 					  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente.<br>
+								// 					  <strong>*<strong>  Fecha y hora de inicio deben ser mayor o igual a la fecha de creación de la tarea<br>
+								// 					  <strong>*<strong> Fecha y hora límite deben ser mayor o igual a la fecha de inicio<br>
+								// 					  <strong>*<strong> En caso de ser Subtarea la Fecha límite debe ser menor a la fecha límite de la tarea principal y la fecha de inicio debe ser mayor o igual a la fecha de inicio de la tarea principal
+								// 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								// 					    <span aria-hidden="true">&times;</span>
+								// 					  </button>
+								// 					</div`);
+								// $('#mensajefechas').hide();
+						  //       $('#mensajefechas').prop('hidden',false);
+						  //       $('#mensajefechas').show(500);
+						  //       $('#cargar').fadeIn(1000).html(data);
+				    //     	}else{
+					   //      	$('#cargar').fadeIn(1000).html(data); 
+					   //      	window.location = "/Reunion";
+				    //     	}
+				        },
+				        error: function () { 
+				            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+				        }
+				    });
+				// }else{
+	   //      		$('#cargar').fadeIn(1000).html('');
+	   //      		$('#mensajefechas').html('');
+				// 	$('#mensajefechas').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				// 						  <strong>Atención!</strong> Verifique que las fechas y horas esten ingresadas correctamente (Fecha Inicio y Hora Inicio no pueden ser menor a la actual, Fecha Límite y Hora Límite no pueden ser menor a las de inicio).
+				// 						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				// 						    <span aria-hidden="true">&times;</span>
+				// 						  </button>
+				// 						</div`);
+				// 	$('#mensajefechas').hide();
+			 //        $('#mensajefechas').prop('hidden',false);
+			 //        $('#mensajefechas').show(500);
+    //     		}
+
+	}
+}
 
 	//PARA EL CHECKBOX DE ACTUALIZAR CONTRASEÑA
   function onToggle(IdReunion,Id_Usuario) {
@@ -601,6 +1068,9 @@ function ParticipantesReunion(){
                             				
                                          </div>
                                     </div>`);
+		 			if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						$('#'+item['Id_observacion_reunion']+'btnEnviarComentario').html('');
+					}
 
 				   	$.each(item['sub_observaciones'], function(i2,item2){
 						$('#'+item['Id_observacion_reunion']+'s').append(`<div class="card">
@@ -618,11 +1088,8 @@ function ParticipantesReunion(){
 						                                         	<div class="col-md-12">  
 					                            					${item2['Descripcion']}
 					                            					</div>
-					                            				</div>
-					                            				
+					                            				</div>	
 					                            				<br>
-					                            		
-					                            				
 					                                         </div>
 					                                    </div>`);
 				   	});

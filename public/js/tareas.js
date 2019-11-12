@@ -780,18 +780,7 @@ function observadoresTask(){
 //########## FIN OBETENER DATOS POR PARAMETROS###########################################
 //###################################################################################
 
-function EjecucionListaobservaciones(valor){
- if(valor == 1){
- 	$("#ModalTareasSeguimiento").modal("show");
-		$( document ).ready(function() {
-		    //console.log("ejecutandore");
-		    window.setInterval(listaObservaciones,5000);
-		      
-		});
-	}else{
 
-	}
-}
 
 //PARA CERRAR EL TIEMPO DE EJECUCION DE LA LISTA DE OBSERVACIONES
 	function cerrarIntervalo(){
@@ -804,7 +793,6 @@ function EjecucionListaobservaciones(valor){
 	
 	function ModalTareas(Id_tarea){
 		$('#cajacomentario').html('');
-		$('#EstadoObservacion').html('');
 		$('#listaEvidencias').html('');
 		$('#mensajefechas').html('');
 		var btnEntregar='';
@@ -868,13 +856,13 @@ function EjecucionListaobservaciones(valor){
 									$('#PanelObservacion').append(`
 						                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
 						                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
-						                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+						                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>
 						                                `);
 									$('#PanelEvidencias').html('');
 									$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
 									<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
 									<input  type="file" class="form-control input-default" id="filedoc"><br>
-							        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+							        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>Registrar</button>`);
 
 									btnEntregar=`<div class="col-md-6">
 					                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
@@ -974,13 +962,13 @@ function EjecucionListaobservaciones(valor){
 							$('#PanelObservacion').append(`
 		                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
 		                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
-		                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+		                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>
 		                                `);
 							$('#PanelEvidencias').html('');
 							$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
 								<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
 								<input  type="file" class="form-control input-default" id="filedoc"><br>
-						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>`);
 							$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
 		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
@@ -1019,14 +1007,15 @@ function EjecucionListaobservaciones(valor){
 							$('#botoneSeguimiento').html('');
 							$('#PanelEvidencias').html('');
 						}
+						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');						
+							$('#EstadoObservacion').html('');
+						}
 					});
 
-					if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
-						$('#botoneSeguimiento').html('');
-						$('#PanelObservacion').html('');
-						$('#PanelEvidencias').html('');						
-						$('#EstadoObservacion').html('');
-					}
+					
 					
 				}else if($('#SelecTipoUserTareas').val()=="MisTareasParticipantes"){
 					$('#EstadoObservacion').html('');
@@ -1036,13 +1025,13 @@ function EjecucionListaobservaciones(valor){
 							$('#PanelObservacion').append(`
 				                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
 				                                    <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
-				                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+				                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>
 				                                `);
 							$('#PanelEvidencias').html('');
 							$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
 								<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
 								<input  type="file" class="form-control input-default" id="filedoc"><br>
-						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
+						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm"><i class=" fa fa-save"></i>  Registrar</button>`);
 							$('#botoneSeguimiento').html('');
 							$('#botoneSeguimiento').append(`<div class="row">
 				                            <div class="col-md-6">
@@ -1079,13 +1068,14 @@ function EjecucionListaobservaciones(valor){
 							$('#botoneSeguimiento').html('');
 							$('#PanelEvidencias').html('');
 						}
+						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');						
+							$('#EstadoObservacion').html('');
+						}
+
 					});
-					if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
-						$('#botoneSeguimiento').html('');
-						$('#PanelObservacion').html('');
-						$('#PanelEvidencias').html('');						
-						$('#EstadoObservacion').html('');
-					}
 
 				}else if($('#SelecTipoUserTareas').val()=="MisTareasObservadores"){
 					$('#PanelObservacion').html('');
@@ -1133,14 +1123,15 @@ function EjecucionListaobservaciones(valor){
 							$('#PanelObservacion').html('');
 							$('#botoneSeguimiento').html('');
 							$('#PanelEvidencias').html('');
+						}	
+						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+							$('#botoneSeguimiento').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');						
+							$('#EstadoObservacion').html('');
 						}
 					});
-					if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
-						$('#botoneSeguimiento').html('');
-						$('#PanelObservacion').html('');
-						$('#PanelEvidencias').html('');						
-						$('#EstadoObservacion').html('');
-					}
+				
 				}else{
 					$('#botoneSeguimiento').html('');
 						$('#PanelObservacion').html('');
@@ -1375,33 +1366,37 @@ function EjecucionListaobservaciones(valor){
 
 	//PARA GAUARDAS LAS OBSERVACIONES O COMENTARIOS
 	function RegistrarObservacion(){
-		$('#btnRegistrarObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
-		 var FrmData = { 
-	    	idtarea: $("#idTar").val(),
-	    	Observacion: $("#ObservacionTareaSeguimiento").val(),
-	    	tipo:'C',
-	    }
-	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-	    $.ajax({
-	        url: 'Observacion', 
-	        method: "POST", 
-	        data: FrmData,
-	        dataType: 'json',
-	        success: function (data) 
-	        {
-
-	        	$('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
-	      		 $("#ObservacionTareaSeguimiento").val('');
-	      		 listaObservaciones();
-	        },
-	        error: function () { 
-	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-	        }
-	    });
+		if($('#ObservacionTareaSeguimiento').val()==''){
+			borderInput('ObservacionTareaSeguimiento');
+		}else{
+			$('#btnRegistrarObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
+			 var FrmData = { 
+		    	idtarea: $("#idTar").val(),
+		    	Observacion: $("#ObservacionTareaSeguimiento").val(),
+		    	tipo:'C',
+		    }
+		    $.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+		    });
+		    $.ajax({
+		        url: 'Observacion', 
+		        method: "POST", 
+		        data: FrmData,
+		        dataType: 'json',
+		        success: function (data) 
+		        {
+		        	eliminarclaseInput('ObservacionTareaSeguimiento');
+		        	$('#btnRegistrarObservacion').html(`<button type="button" onclick="RegistrarObservacion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
+		      		 $("#ObservacionTareaSeguimiento").val('');
+		      		 listaObservaciones();
+		        },
+		        error: function () { 
+		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+		        }
+		    });
+		}
 	}
 
 	//PARA GAUARDAS LAS EVIDENCIAS
@@ -1562,36 +1557,40 @@ function EjecucionListaobservaciones(valor){
 	//GUARDAR RESPUESTA COMENTARIO
 	function RespuestaObservacion(Id_Observacion){
 		intervalId=window.setInterval(listaObservaciones,5000);
+		 if($("#ObservacionRespuesta").val()==''){
+		 	borderInput('ObservacionRespuesta');
+		 }else{
+			 $('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
+			 var FrmData = { 
+		    	idtarea: $("#idTar").val(),
+		    	Observacion: $("#ObservacionRespuesta").val(),
+		    	Id_Observacion: Id_Observacion,
+		    	tipo: 'S',
 
-		$('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
-		 var FrmData = { 
-	    	idtarea: $("#idTar").val(),
-	    	Observacion: $("#ObservacionRespuesta").val(),
-	    	Id_Observacion: Id_Observacion,
-	    	tipo: 'S',
-
-	    }
-	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-	    $.ajax({
-	        url: 'Observacion', 
-	        method: "POST", 
-	        data: FrmData,
-	        dataType: 'json',
-	        success: function (data) 
-	        {
-
-	        	$('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
-	      		 $('#'+Id_Observacion+'c').html('');
-	      		 listaObservaciones();
-	        },
-	        error: function () { 
-	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-	        }
-	    });
+		    }
+		    $.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+		    });
+		    $.ajax({
+		        url: 'Observacion', 
+		        method: "POST", 
+		        data: FrmData,
+		        dataType: 'json',
+		        success: function (data) 
+		        {
+		        	eliminarclaseInput('ObservacionRespuesta');
+		        	$('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
+		      		 $('#'+Id_Observacion+'c').html('');
+		      		 listaObservaciones();
+		        },
+		        error: function () { 
+		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+		        }
+		    });
+		 }
+		
 	}
 
 //PARA MOSTRAR LOS CAMPOS CUANDO LA TAREA ES PERSONAL

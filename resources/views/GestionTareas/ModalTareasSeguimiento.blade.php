@@ -20,9 +20,9 @@
                    <div class="col-md-6">
                         <div class="row">
                                 <div class="col-md-12" id="PanelObservacion" > <!-- id="divObservacionSeguimiento" -->
-                                    <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
+                                    <!-- <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Observación:</b></label>
                                     <textarea class="form-control input-default" id="ObservacionTareaSeguimiento"></textarea><br>
-                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm">Registrar</button></div>
+                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div> -->
                                 </div>
                         </div>
                         <div class="row">

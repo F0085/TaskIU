@@ -31,24 +31,42 @@
             <div class="row">
                  <div class="col-md-10 estilo">
                     <ul>
-                      <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
-                        <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
-                            <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                onClick="   ReunionPorUsuario('Pendiente');"
-                            <?php else: ?>
-                                onClick="   ReunionPorUsuario('Pendiente');"
-                            <?php endif; ?>
-                        <?php endif; ?>
-                        >Pendientes</a></li>
-                      <li><a id="Terminada" href="javascript:void(0);"
-                        <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
-                            <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                onClick="   ReunionPorUsuario('Terminada');"
-                            <?php else: ?>
-                                onClick="   ReunionPorUsuario('Terminada');"
-                            <?php endif; ?>
-                        <?php endif; ?> 
-                        >Terminadas</a></li>
+                         <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
+                            <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
+                                <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
+                                    onClick="   ReunionPorUsuario('Pendiente');"
+                                <?php else: ?>
+                                    onClick="   ReunionPorUsuario('Pendiente');"
+                                <?php endif; ?>
+                            <?php endif; ?>>Pendientes</a>
+                        </li>
+                         <li><a id="Terminada" href="javascript:void(0);"
+                            <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
+                                <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
+                                    onClick="   ReunionPorUsuario('Terminada');"
+                                <?php else: ?>
+                                    onClick="   ReunionPorUsuario('Terminada');"
+                                <?php endif; ?>
+                            <?php endif; ?>>Terminadas</a>
+                        </li>
+                        <li><a id="Suspendida" href="javascript:void(0);"
+                            <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
+                                <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
+                                    onClick="   ReunionPorUsuario('Suspendida');"
+                                <?php else: ?>
+                                    onClick="   ReunionPorUsuario('Suspendida');"
+                                <?php endif; ?>
+                            <?php endif; ?>>Suspendidas</a>
+                        </li>
+                        <li><a id="Vencida" href="javascript:void(0);"
+                            <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
+                                <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
+                                    onClick="   ReunionPorUsuario('Vencida');"
+                                <?php else: ?>
+                                    onClick="   ReunionPorUsuario('Vencida');"
+                                <?php endif; ?>
+                            <?php endif; ?>>Vencidas</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-2 centerDiv" >
@@ -64,6 +82,7 @@
         <div class="card-body ">
             <ul>
             <div id="EstaTar" hidden="true"></div>
+            <input id="EstadoObservacion" hidden="true">            
             <div class="row">
                 <div class="col-md-6">
                        <h1 class="card-title" style="padding-top: 20px"><b>LISTA DE REUNIONES</b></h1>

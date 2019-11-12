@@ -11,13 +11,13 @@
             </div>
             <div class="modal-body">
                 <input hidden="true" id="idReun">
-                <div id="EstadoReunion"></div>
+                <div id="EstadoObservacionReunion"></div>
+              <!--   <div id="EstadoReunion"></div> -->
                 <div class="row">
                    <div class="col-md-6">
                    	 	<div class="row">
 		                   <div class="col-md-12"  > <!-- id="divObservacionSeguimiento" -->
 				                <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Orden del día:</b></label>  	
-		                
 				                   		<div class="row">
 				                   			<div class="col-md-12" >
 				                   				<textarea style="color: black" class="form-control input-default" readonly="" rows="7" id="OrdendelDia"></textarea>
@@ -132,7 +132,6 @@
                                 <div class="col-md-12" id="PanelConclusiones" > <!-- id="divObservacionSeguimiento" -->
                                     <label for="" style="color: black"><i class="fa fa-comment-o"></i>  <b>Ingrese Conclusión:</b></label>
                                     <textarea rows="10" class="form-control input-default" id="ConclusionReunionSeguimiento"></textarea><br>
-
                                 </div>
                         </div>
                    </div> 

@@ -31,24 +31,42 @@
             <div class="row">
                  <div class="col-md-10 estilo">
                     <ul>
-                      <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
-                        @if(isset($_SESSION['Id_tipo_Usuarios']))
-                            @if($_SESSION['Id_tipo_Usuarios']=='2')
-                                onClick="   ReunionPorUsuario('Pendiente');"
-                            @else
-                                onClick="   ReunionPorUsuario('Pendiente');"
-                            @endif
-                        @endif
-                        >Pendientes</a></li>
-                      <li><a id="Terminada" href="javascript:void(0);"
-                        @if(isset($_SESSION['Id_tipo_Usuarios']))
-                            @if($_SESSION['Id_tipo_Usuarios']=='2')
-                                onClick="   ReunionPorUsuario('Terminada');"
-                            @else
-                                onClick="   ReunionPorUsuario('Terminada');"
-                            @endif
-                        @endif 
-                        >Terminadas</a></li>
+                         <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
+                            @if(isset($_SESSION['Id_tipo_Usuarios']))
+                                @if($_SESSION['Id_tipo_Usuarios']=='2')
+                                    onClick="   ReunionPorUsuario('Pendiente');"
+                                @else
+                                    onClick="   ReunionPorUsuario('Pendiente');"
+                                @endif
+                            @endif>Pendientes</a>
+                        </li>
+                         <li><a id="Terminada" href="javascript:void(0);"
+                            @if(isset($_SESSION['Id_tipo_Usuarios']))
+                                @if($_SESSION['Id_tipo_Usuarios']=='2')
+                                    onClick="   ReunionPorUsuario('Terminada');"
+                                @else
+                                    onClick="   ReunionPorUsuario('Terminada');"
+                                @endif
+                            @endif>Terminadas</a>
+                        </li>
+                        <li><a id="Suspendida" href="javascript:void(0);"
+                            @if(isset($_SESSION['Id_tipo_Usuarios']))
+                                @if($_SESSION['Id_tipo_Usuarios']=='2')
+                                    onClick="   ReunionPorUsuario('Suspendida');"
+                                @else
+                                    onClick="   ReunionPorUsuario('Suspendida');"
+                                @endif
+                            @endif>Suspendidas</a>
+                        </li>
+                        <li><a id="Vencida" href="javascript:void(0);"
+                            @if(isset($_SESSION['Id_tipo_Usuarios']))
+                                @if($_SESSION['Id_tipo_Usuarios']=='2')
+                                    onClick="   ReunionPorUsuario('Vencida');"
+                                @else
+                                    onClick="   ReunionPorUsuario('Vencida');"
+                                @endif
+                            @endif>Vencidas</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-2 centerDiv" >
@@ -64,6 +82,7 @@
         <div class="card-body ">
             <ul>
             <div id="EstaTar" hidden="true"></div>
+            <input id="EstadoObservacion" hidden="true">            
             <div class="row">
                 <div class="col-md-6">
                        <h1 class="card-title" style="padding-top: 20px"><b>LISTA DE REUNIONES</b></h1>

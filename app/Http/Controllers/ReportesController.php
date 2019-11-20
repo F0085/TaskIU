@@ -30,7 +30,7 @@ class ReportesController extends Controller
        
         $Tareas=json_decode((string) $response->getBody(), true);
      
-         return view('Reportes.Reportetarea')->with(['Tareas'=> $Tareas]);
+         return view('Reportes.ReporteTarea')->with(['Tareas'=> $Tareas]);
     }
 
     public $pdf; 

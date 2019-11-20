@@ -53,7 +53,8 @@ class ReportesController extends Controller
 
        $this->generarPDF($tarea,$idtarea);
         
-    $this->pdf= $this->pdf->merge('stream', "mergedpdf.pdf");
+    $this->pdf= $this->pdf->merge('download', "mergedpdf.pdf");
+    //stream
 
     foreach ($this->arraypdf as $key => $doc) {
         Storage::disk('Documento')->delete($doc);

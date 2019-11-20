@@ -58,12 +58,12 @@
                         </ul>
                     </div>
                     <div class="col-md-4" >
-                       <label for="" style="color: black"><b>Responsables</b></label>
+                       <label for="" style="color: black"><b>Partipantes</b></label>
                        <br>
                         <select onchange="ParticipantesReunion()" id="ParticipantesReunion" class="selectpicker show-menu-arrow" 
                                 data-style="form-control" 
                                 data-live-search="true" 
-                                title='<i style="color:blue" class="fa fa-plus" style="font-weight: bold"></i> <b style="color:blue"> Agregar Responsables</b> '
+                                title='<i style="color:blue" class="fa fa-plus" style="font-weight: bold"></i> <b style="color:blue"> Agregar Particiapntes</b> '
                                 multiple="multiple">
                                 @if(isset($Usuarios))
                                 @foreach($Usuarios as $v)

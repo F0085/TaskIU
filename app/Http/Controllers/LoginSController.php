@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 class LoginSController extends Controller
 {
-   public $servidor='http://18.188.234.88/';
-      // public $servidor='http://localhost:8000/';
-   //  public $servidor='http://172.172.174.180:8000/';
+    public $servidor;
+    public function __construct()
+    {
+        $this->servidor=servidor();
+    }
     
 
     public function index(){

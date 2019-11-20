@@ -289,6 +289,11 @@
                             <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Organigrama Institucional</span>
                         </a>
                     </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a href="{{url('/Reportes')}}" class="" href="javascript:void()" aria-expanded="false">
+                            <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Reportes</span>
+                        </a>
+                    </li>
 <!--                     <li class="nav-label">Apps</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">

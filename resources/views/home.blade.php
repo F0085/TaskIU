@@ -12,14 +12,14 @@
 <!-- <div class="card">
     <div class="card-body"> -->
     	<!-- Button trigger modal -->
-		<div class="row">
+		<!-- <div class="row">
     		<div  align="center" class="col-md-12">
     				<div class="title m-b-md col-md-12">
 					   {!!QrCode::size(300)->generate("http://3.134.116.54/AppMovil/CardiocentroManta.apk") !!}
 					</div>
 					<div align="center"><h3>Descarga la versión movil</h3></div>
     		</div>
-    	</div>
+    	</div> -->
 		<div class="row">
 		    <div class="col-md-12" >
 				<div class="container-fluid mt-3">

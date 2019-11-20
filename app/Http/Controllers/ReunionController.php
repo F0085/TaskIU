@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Mail;
 
 class ReunionController extends Controller
 {
@@ -12,9 +13,12 @@ class ReunionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $servidor;
+    public function __construct()
+    {
+        $this->servidor=servidor();
+    }
 
-        public $servidor='http://18.188.234.88/';
-            //public $servidor='http://localhost:8000/';
 
     public function Usuarios()
     {
@@ -102,12 +106,28 @@ class ReunionController extends Controller
      */
     public function store(Request $request)
     {
+       //  $data = ['Tema' => $request->Tema,
+       //           'Fecha' => $request->FechaIn,
+       //          'Hora' => $request->HoraIn,
+       //          'Tipo' => 'Participante'];
+       //          // dd($data);
+       //  // dd($data);
+       // Mail::send('GestionReunion.Email.email', $data, function ($m){
+       //       $m->to('leonardosabando@gmail.com')
+       //      ->subject('INVITACIÓN A REUNIÓN');
+       //      // ->attach('documentoCertificados/'.$ruta);
+       //  });
        
          session_start();
         //CLIENTE PARA LAS REUNIONES
         $client = new Client([
           'base_uri' => $this->servidor.'Reunion',
         ]);
+                //CLIENTE PARA LAS REUNIONES
+        $clienUser = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+
 
         //CLIENTE PARA RESPONSABLES
         $Clienteresponsable = new Client([
@@ -140,13 +160,38 @@ class ReunionController extends Controller
                     $dataResponsables = ['Id_Usuario'=>$responsables,
                      'Id_Reunion'=>$ResultadoReunion['Id_Reunion']];
                     $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+                     //BUSCAR EL CORREO DEL PARTICIPANTE
+                    $responseRespo = $clienUser->request('GET', "Usuarios/{$responsables}");
+                    $resultRespo= json_decode((string) $responseRespo->getBody(), true);
+                    $dataEmail = ['Tema' => $request->Tema,
+                                  'Fecha' => $request->FechaIn,
+                                  'Hora' => $request->HoraIn,
+                                  'Tipo' => 'Responsable'];
+                    Mail::send('GestionReunion.Email.email', $dataEmail, function ($m) Use($resultRespo){
+                         $m->to($resultRespo['email'])
+                        ->subject('INVITACIÓN A REUNIÓN');
+                        // ->attach('documentoCertificados/'.$ruta); //ADJUNTAR UN ARCHIVO
+                    });
                 }
             }
             if($request->ParticipantesReunion != null){
                 foreach ($request->ParticipantesReunion as $key => $participantes) {
+                   //PARA GUARDAR EL PARTICIPANTES
                     $dataParticipantes = ['Id_Usuario'=>$participantes,
                      'Id_Reunion'=>$ResultadoReunion['Id_Reunion'],'asistencia'=>'1'];
                     $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+                    //BUSCAR EL CORREO DEL PARTICIPANTE
+                    $responseParti = $clienUser->request('GET', "Usuarios/{$participantes}");
+                    $resultPar= json_decode((string) $responseParti->getBody(), true);
+                    $dataEmail = ['Tema' => $request->Tema,
+                                  'Fecha' => $request->FechaIn,
+                                  'Hora' => $request->HoraIn,
+                                  'Tipo' => 'Participante'];
+                    Mail::send('GestionReunion.Email.email', $dataEmail, function ($m) Use($resultPar){
+                         $m->to($resultPar['email'])
+                        ->subject('INVITACIÓN A REUNIÓN');
+                        // ->attach('documentoCertificados/'.$ruta); //ADJUNTAR UN ARCHIVO
+                    });
                 } 
             }
             return json_decode((string) $res->getBody(), true);
@@ -217,6 +262,7 @@ class ReunionController extends Controller
  
         $res = $client->request('PUT','',['form_params' => $data]); 
         return json_decode((string) $res->getBody(), true);
+
     }
 
     public function ModificarReunion(Request $request, $id)
@@ -225,16 +271,42 @@ class ReunionController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor.'Reunion/'.$id,
         ]);
-        if($request->Suspender=='Suspender'){
-             $data = ['Conclusion'=>$request->Conclusion,
-            'Estado'=>'Suspendida'];
-        }else{
-            $data = ['Conclusion'=>$request->Conclusion,
-               'Estado'=>'Terminada'];
-        }
+                //CLIENTE PARA RESPONSABLES
+        $Clienteresponsable = new Client([
+                  'base_uri' => $this->servidor.'Reunio_Responsable',
+        ]); 
+
+        //CLIENTE PARA PARTICIPANTES
+        $ClienteParticipantes= new Client([
+                  'base_uri' => $this->servidor.'Reunio_Participante',
+        ]); 
+
+        $data = ['Tema'=>$request->Tema,
+                 'Orden_del_Dia'=>$request->Orden_del_Dia,
+                 'Lugar'=>$request->Lugar,
+                 'FechadeReunion'=>$request->FechaIn,
+                 'HoraReunion'=>$request->HoraIn];
  
         $res = $client->request('PUT','',['form_params' => $data]); 
-        return json_decode((string) $res->getBody(), true);
+        $ResultadoReunion =json_decode((string) $res->getBody(), true);
+    
+         if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+            if($request->ResponsablesReunion != null){
+                foreach ($request->ResponsablesReunion as $key => $responsables) {
+                    $dataResponsables = ['Id_Usuario'=>$responsables,
+                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion']];
+                    $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+                }
+            }
+            if($request->ParticipantesReunion != null){
+                foreach ($request->ParticipantesReunion as $key => $participantes) {
+                    $dataParticipantes = ['Id_Usuario'=>$participantes,
+                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion'],'asistencia'=>'1'];
+                    $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+                } 
+            }
+            return json_decode((string) $res->getBody(), true);
+        }
     }
 
     /**

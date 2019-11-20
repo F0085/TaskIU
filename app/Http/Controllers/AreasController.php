@@ -15,8 +15,11 @@ class AreasController extends Controller
 {
 
     //ESTA VARIABLE ES EL SERVIDOR QUE CONTIENE LAS APIS
-    public $servidor='http://18.188.234.88/';
-    //public $servidor='http://localhost:8000/';
+    public $servidor;
+    public function __construct()
+    {
+        $this->servidor=servidor();
+    }
 
     //LLAMADA A LA VISTA DE AREAS
     public function index()

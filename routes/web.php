@@ -60,7 +60,7 @@ Route::resource('Reunion',  'ReunionController');
 
 route::get('RolesPorSubArea/{subarea}', 'RolesController@RolesPorSubArea');
 
- Route::get('/MisTareas/{estado}',  'TareasController@TareasPorEstado');
+Route::get('/MisTareas/{estado}',  'TareasController@TareasPorEstado');
 Route::get('/TareasEstado/{estado}',  'TareasController@TareasEstado');
 route::get('TareasPorTipo/{estado}/{tipo}','TareasController@TareasPorTipo');
 route::get('TareasPorTipoPendiente/{estado}/{tipo}','TareasController@TareasPorTipoPendiente');
@@ -125,6 +125,9 @@ route::get('ReunionPorEstado_User/{estado}', 'ReunionController@ReunionPorEstado
 route::get('MisReunionesResponsables/{estado}', 'ReunionController@MisReunionesResponsables');
 route::get('MisReunionesParticipantes/{estado}', 'ReunionController@MisReunionesParticipantes');
 
+route::PUT('ModificarReunion/{id}', 'ReunionController@ModificarReunion');
+
+
 route::PUT('Asistencia/{id}/{Id_Usuario}', 'ReunionController@Asistencia');
 
 //PARA TRAER LAS OBSERVACIONES DE REUNIONES
@@ -148,6 +151,11 @@ route::get('TotalTareasResponsables', 'TareasController@TotalTareasResponsables'
 
 //VALIDAR FECHA INICIO
 route::get('validarinicioTarea/{FechaIn}/{HoraIn}', 'TareasController@validarinicioTarea');
+
+
+///REPORTES
+route::get('Reportes', 'ReportesController@Reportes');
+route::get('GenerarReporte/{idtarea}', 'ReportesController@GenerarReporte');
 
 
 

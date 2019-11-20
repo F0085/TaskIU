@@ -15,7 +15,11 @@ class AsistenciaController extends Controller
     {
         //
     }
-   public $servidor='http://18.188.234.88/';
+    public $servidor;
+    public function __construct()
+    {
+        $this->servidor=servidor();
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -90,7 +90,7 @@ function GuardarReunion(){
 		    	$('#tituloreunion').html("<i class='fa fa-bookmark'></i>  "+  'Modificar Reunión');
 		    	$('#temaReunion').val(item['Tema']);
 		    	$('#lugarReunion').val(item['Lugar']);
-		    	$('#ordendeldiaReunion').text(item['Orden_del_Dia']);
+		    	$('#ordendeldiaReunion').val(item['Orden_del_Dia']);
 		    	$('#FechaReunion').val(item['FechadeReunion']);
 		  		$('#HoraReunion').val(item['HoraReunion']);
 		    	$.each(item['responsables'], function(i1,item1){
@@ -805,12 +805,13 @@ function ActualizarReunion(){
 	        }
 	    });
 	    $.ajax({
-	        url: 'Reunion'+'/'+$('#idReun').val(), 
+	        url: 'ModificarReunion'+'/'+$('#idReun').val(), 
 	        method: "PUT", 
 	        data: FrmData,
 	        dataType: 'json',
 	        success: function (data) 
 	        {
+
 	        	console.log(data);
 
 	    //     	if(data=='0'){
@@ -829,8 +830,8 @@ function ActualizarReunion(){
 			  //       $('#mensajefechas').show(500);
 			  //       $('#cargar').fadeIn(1000).html(data);
 	    //     	}else{
-		   //      	$('#cargar').fadeIn(1000).html(data); 
-		   //      	window.location = "/Reunion";
+		        	$('#cargar').fadeIn(1000).html(data); 
+		        	window.location = "/Reunion";
 	    //     	}
 	        },
 	        error: function () { 

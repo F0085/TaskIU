@@ -12,8 +12,11 @@ class DocumentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public $servidor='http://18.188.234.88/';
-    public $servidorA='http://localhost:8000/';
+    public $servidor;
+    public function __construct()
+    {
+        $this->servidor=servidor();
+    }
     
     public function index()
     {
@@ -80,7 +83,7 @@ class DocumentoController extends Controller
     {
         $file=$request->file('file');
         $clientA = new Client([
-              'base_uri' => $this->servidorA,
+              'base_uri' => $this->servidor,
         ]);
         $dataA = ['file'=>$file]; //EL data para enviar a la API
         $clientA->request('POST','',['form_params' => $dataA]);

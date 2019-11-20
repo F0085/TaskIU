@@ -8,9 +8,11 @@ use GuzzleHttp\Client;
 class OrganigramaController extends Controller
 {
 
-   // public $servidor='http://localhost:8000/';
-    public $servidor='http://18.188.234.88/';
-    //public $servidor='http://localhost:8000/';
+    public $servidor;
+    public function __construct()
+    {
+        $this->servidor=servidor();
+    }
 
     //TRAE LOS USUARIOS QUE PERTENECEN A UNA AREA Y ROL ESPECIFICO
     public function UserRoles($area,$rol){

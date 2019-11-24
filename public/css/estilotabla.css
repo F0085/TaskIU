@@ -1,0 +1,14 @@
+.ltable
+{
+    border-collapse: collapse;
+}
+td, th /* Asigna un borde a las etiquetas td Y th */
+{
+    border: 1px solid black;
+}
+
+.sinbordeencabezado /* Asigna un borde a las etiquetas td Y th */
+{
+    border: 0px solid black;
+    background-color: red;
+}

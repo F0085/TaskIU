@@ -2,9 +2,9 @@
   session_start(); 
     
 ?>
-@extends('layouts.app')
+
 	
-@section('contenido')
+<?php $__env->startSection('contenido'); ?>
 <div class="col-lg-12 es">
     <div class="card">
         <div class="card-body">
@@ -30,16 +30,16 @@
 			                        </tr>
 			                    </thead>
 			                    <tbody id="TablaTareasReporte">
-			                    	@if(isset($Tareas))
-				                    	@foreach($Tareas as $val)
+			                    	<?php if(isset($Tareas)): ?>
+				                    	<?php $__currentLoopData = $Tareas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 				                    	<tr>
-				                    		<td>{{$val['Nombre']}}</td>
-				                    		<td align="center">{{$val['FechaCreacion']}}</td>
+				                    		<td><?php echo e($val['Nombre']); ?></td>
+				                    		<td align="center"><?php echo e($val['FechaCreacion']); ?></td>
 				                    		<td align="center">Laboral</td>
-				                    		<td align="center" ><a style="font-size: 12px" href="GenerarReporte/{{$val['Id_tarea']}}" class="btn btn-success btn-sm"><span class="fa fa-download"></span> Descargar Reporte</a></td>
+				                    		<td align="center" ><a style="font-size: 12px" href="GenerarReporte/<?php echo e($val['Id_tarea']); ?>" class="btn btn-success btn-sm"><span class="fa fa-download"></span> Descargar Reporte</a></td>
 				                    	</tr>
-				                    	@endforeach
-			                    	@endif
+				                    	<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+			                    	<?php endif; ?>
 
 			                    </tbody>
 			                </table>
@@ -52,8 +52,10 @@
     </div>
 </div>
 	
- <script type="text/javascript" src="{{asset('js/sorttable.js')}}"></script>		
- <script type="text/javascript" src="{{asset('js/Reporte.js')}}"></script>	
+ <script type="text/javascript" src="<?php echo e(asset('js/sorttable.js')); ?>"></script>		
+ <script type="text/javascript" src="<?php echo e(asset('js/Reporte.js')); ?>"></script>	
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\TaskManta\resources\views/Reportes/ReporteTarea.blade.php ENDPATH**/ ?>

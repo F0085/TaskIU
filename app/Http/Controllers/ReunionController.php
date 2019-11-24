@@ -267,6 +267,10 @@ class ReunionController extends Controller
 
     public function ModificarReunion(Request $request, $id)
     {
+                  //CLIENTE PARA LAS REUNION
+        $clientServer = new Client([
+          'base_uri' => $this->servidor,
+        ]);
           //CLIENTE PARA LAS REUNION
         $client = new Client([
           'base_uri' => $this->servidor.'Reunion/'.$id,
@@ -292,6 +296,7 @@ class ReunionController extends Controller
     
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
             if($request->ResponsablesReunion != null){
+                $resDeleteRes= $clientServer->request('DELETE', "Reunio_Responsable/".$id); 
                 foreach ($request->ResponsablesReunion as $key => $responsables) {
                     $dataResponsables = ['Id_Usuario'=>$responsables,
                      'Id_Reunion'=>$ResultadoReunion['Id_Reunion']];
@@ -299,6 +304,7 @@ class ReunionController extends Controller
                 }
             }
             if($request->ParticipantesReunion != null){
+                $resDeletePa = $clientServer->request('DELETE', "Reunio_Participante/".$id);
                 foreach ($request->ParticipantesReunion as $key => $participantes) {
                     $dataParticipantes = ['Id_Usuario'=>$participantes,
                      'Id_Reunion'=>$ResultadoReunion['Id_Reunion'],'asistencia'=>'1'];

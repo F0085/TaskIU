@@ -157,6 +157,31 @@ route::get('validarinicioTarea/{FechaIn}/{HoraIn}', 'TareasController@validarini
 route::get('Reportes', 'ReportesController@Reportes');
 route::get('GenerarReporte/{idtarea}', 'ReportesController@GenerarReporte');
 
+route::get('ReportesEstado/{estado}', 'ReportesController@ReportesEstado');
+
+route::get('EfectividadPorMeses/{Anio}/{Mes}', 'DashboardController@EfectividadPorMeses');
+route::get('EfectividadPorMesesPersonales/{Anio}/{Mes}', 'DashboardController@EfectividadPorMesesPersonales');
+route::get('TotalTareasResponsablesLaboral/{Anio}/{Mes}', 'DashboardController@TotalTareasResponsablesLaboral');
+route::get('TotalTareasResponsablesPersonal/{Anio}/{Mes}', 'DashboardController@TotalTareasResponsablesPersonal');
+
+route::get('TotalTareasResponsablesLaboralAdmin/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@TotalTareasResponsablesLaboralAdmin');
+route::get('TotalTareasResponsablesPersonalAdmin/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@TotalTareasResponsablesPersonalAdmin');
+
+//PARA LA ESTADIDISTICA DEL ADMINISTRADOR
+route::get('EfectividadLaboral/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@EfectividadLaboral');
+route::get('EfectividadPersonal/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@EfectividadPersonal');
+
+route::resource('EstadisticaAdmin', 'EstadisticaAdminController');
+
+//para mostrar el total general como va la empresa
+route::get('TotalEstadisticaAdmin', 'EstadisticaAdminController@TotalEstadisticaAdmin');
+
+//PARA MOSTRAR EL ESTADO GENERAL POR EL USUARIO SIN MESES NI AÑO
+route::get('TotalEstadisticaUsuario/{Id_Usuario}', 'EstadisticaAdminController@TotalEstadisticaUsuario');
+
+
+
+
 
 
 

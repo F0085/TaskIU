@@ -99,7 +99,7 @@
     </div>
 </div>
 <br>
-<div class="col-lg-12 es">
+<div class="col-lg-12">
     <div class="card">
         <div class="card-body">
             <ul>
@@ -135,8 +135,8 @@
                       <span>+</span>
                     </button>
                 </div>
-            <div class="table-responsive" style="font-size: 12px;">
-                <table class="table  header-border table-hover sortable  " id="myTable">
+            <div class="table-responsive" style="font-size: 12px; overflow:scroll; height:500px; width:100%">
+                <table class="table  header-border table-hover sortable">
                     <thead>
                         <tr style="color: black">
                <!--              <th scope="col">#</th> -->
@@ -153,7 +153,7 @@
                     </tbody>
                 </table>
 
-                <nav aria-label="Page navigation example">
+<!--                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
                     <li class="page-item disabled">
                       <a class="page-link" href="#" tabindex="-1">Previous</a>
@@ -165,7 +165,7 @@
                       <a class="page-link" href="#">Next</a>
                     </li>
                   </ul>
-                </nav>
+                </nav> -->
             </div>
         </div>
     </div>

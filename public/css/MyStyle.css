@@ -437,3 +437,10 @@ span{
   font-family: Calibri; 
 }
 
+#area-chart,
+#line-chart,
+#bar-chart,
+#stacked,
+#pie-chart{
+  min-height: 250px;
+}

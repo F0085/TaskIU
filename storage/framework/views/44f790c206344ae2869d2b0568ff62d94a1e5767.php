@@ -92,7 +92,7 @@
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
                     </div>
                 </div>
-                <div class="header-left">
+   <!--              <div class="header-left">
                     <div class="input-group icons">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
@@ -104,7 +104,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="header-right">
                     <ul class="clearfix">
                         <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
@@ -261,12 +261,12 @@
 
                     <li class="mega-menu mega-menu-sm">
                         <a href="<?php echo e(url('/Tareas')); ?>" class="" href="javascript:void()" aria-expanded="false">
-                            <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Tareas</span>
+                            <i class="fa fa-sticky-note"></i><span class="nav-text">Tareas</span>
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
                         <a href="<?php echo e(url('/Reunion')); ?>" class="" href="javascript:void()" aria-expanded="false">
-                            <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Reunión</span>
+                            <i class="fa fa-bullhorn"></i><span class="nav-text">Reunión</span>
                         </a>
                     </li>
                     <?php if(isset($_SESSION['id'])): ?>
@@ -281,6 +281,11 @@
                               <!--   <li><a href=""><i class="ti-lock"></i>Permisos de Usuarios</a></li> -->
                             </ul>
                         </li>
+                        <li class="mega-menu mega-menu-sm">
+                            <a href="<?php echo e(url('/EstadisticaAdmin')); ?>" class="" href="javascript:void()" aria-expanded="false">
+                                <i class="fa fa-pie-chart"></i><span class="nav-text">Estadística</span>
+                            </a>
+                        </li>
  
                           <?php endif; ?>
                     <?php endif; ?>
@@ -291,9 +296,18 @@
                     </li>
                     <li class="mega-menu mega-menu-sm">
                         <a href="<?php echo e(url('/Reportes')); ?>" class="" href="javascript:void()" aria-expanded="false">
-                            <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Reportes</span>
+                            <i class="fa fa-file-text-o"></i><span class="nav-text">Reportes de Tareas</span>
                         </a>
                     </li>
+                      <?php if(isset($_SESSION['id'])): ?>
+                        <?php if($_SESSION['Id_tipo_Usuarios']=='1'): ?>  
+                            <li class="mega-menu mega-menu-sm">
+                                <a href="<?php echo e(url('/home')); ?>" class="" href="javascript:void()" aria-expanded="false">
+                                    <i class="fa fa-pie-chart"></i><span class="nav-text">Estadística</span>
+                                </a>
+                            </li>
+                         <?php endif; ?>
+                    <?php endif; ?>
 <!--                     <li class="nav-label">Apps</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -391,7 +405,7 @@
                         </ul>
                     </li> -->
 
-             
+                    
                     <li class="nav-label">Configuración</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -422,6 +436,7 @@
 
         <?php echo $__env->make('ModalCambiarClave', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
+   
 
         <div class="content-body stylefuente" >    <!-- style=" background-image: url('images/cardiocentro.jpg'); background-repeat: no-repeat; height: 100%; background-size: 100%"  > -->
         <br>
@@ -478,6 +493,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo e(asset('css/alertify.css')); ?>" />
     <script type="text/javascript" src="<?php echo e(asset('js/jquery.orgchart.js')); ?>"></script>
+    <script src="js/jquery.circliful.js"></script>
 </body>
 
 </html><?php /**PATH C:\xampp\htdocs\TaskManta\resources\views/layouts/app.blade.php ENDPATH**/ ?>

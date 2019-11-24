@@ -105,7 +105,7 @@
                       <span>+</span>
                     </button>
                 </div>
-            <div class="table-responsive">
+            <div class="table-responsive" style="font-size: 12px; overflow:scroll; height:500px; width:100%">
                 <table class="table  header-border table-hover estilo " id="myTable">
                     <thead>
                         <tr style="color: black">
@@ -124,7 +124,7 @@
                     </tbody>
                 </table>
 
-                <nav aria-label="Page navigation example">
+<!--                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
                     <li class="page-item disabled">
                       <a class="page-link" href="#" tabindex="-1">Previous</a>
@@ -136,7 +136,7 @@
                       <a class="page-link" href="#">Next</a>
                     </li>
                   </ul>
-                </nav>
+                </nav> -->
             </div>
         </div>
     </div>

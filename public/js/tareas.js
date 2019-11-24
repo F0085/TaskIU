@@ -1609,37 +1609,39 @@ function CamposPersonales(){
 
 
 $(function(){
-        $("#formuploadajax").on("submit", function(e){
+    $("#formuploadajax").on("submit", function(e){
             e.preventDefault();
             //Obtengo el fichero que va a ser subido
-    var dato_archivo = $('#archivo1').prop("files")[0];
-    //Creo un dato de formulario para pasarlo en el ajax
-    var form_data = new FormData();
-    //Añado los datos del fichero que voy a subir
-    //En el lado del servidor puede obtener el archivo a traves de $_FILES["file"]
-    form_data.append("file", dato_archivo);
-    //Realizo el ajax
-	    
-	   	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-         $.ajax({
-	        url: 'Documentos', 
-	        method: "POST", 
-	        data: form_data,
-	     
-	        success: function (data) 
-	        {
+	    var dato_archivo = $('#archivo1').prop("files")[0];
+	    //Creo un dato de formulario para pasarlo en el ajax
+	    var form_data = new FormData();
+	    //Añado los datos del fichero que voy a subir
+	    //En el lado del servidor puede obtener el archivo a traves de $_FILES["file"]
+	    form_data.append("file", dato_archivo);
+	    //Realizo el ajax
+		    
+		   	    $.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+		    });
+	         $.ajax({
+		        url: 'Documentos', 
+		        method: "POST", 
+		        data: form_data,
+		     
+		        success: function (data) 
+		        {
 
-	        	$("#mensaje").html("Respuesta: " + data);
-	        },
-	        error: function () { 
-	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-	        }
-	    });
-});
+		        	$("#mensaje").html("Respuesta: " + data);
+		        },
+		        error: function () { 
+		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+		        }
+		    });
+	});
        
-    });
-   
+ });
+
+
+

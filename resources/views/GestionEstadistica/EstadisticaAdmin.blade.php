@@ -54,7 +54,7 @@
 				                        <div class="card gradient-3">
 				                        	<a style="cursor: pointer" href="/Reunion">
 					                            <div class="card-body">
-					                                <h3 style="font-size: 14px" class="card-title text-white"><b>Reunión - Responsable</b></h3>
+					                                <h3 style="font-size: 14px" class="card-title text-white"><b>Reuniones</b></h3>
 					                                <div class="d-inline-block">
 					                                    @if(isset($TotalTareasAdmin))<h2 class="text-white" id="ReunionesResponsable">{{$TotalTareasAdmin['ReunionPendientes']}}</h2>@endif
 					                                </div>
@@ -340,7 +340,9 @@
     	</div>
   	</div>
  </div>
+ <h1>ESTO LO ESTOY PROGRAMANDO AUN</h1>
 	<div id="graph"></div>
+
 		<pre id="code" class="prettyprint linenums">
 
 @endsection

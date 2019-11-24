@@ -286,7 +286,11 @@
                                 <i class="fa fa-pie-chart"></i><span class="nav-text">Estadística</span>
                             </a>
                         </li>
- 
+                        <li class="mega-menu mega-menu-sm">
+                            <a href="{{url('/Reportes')}}" class="" href="javascript:void()" aria-expanded="false">
+                                <i class="fa fa-file-text-o"></i><span class="nav-text">Reportes de Tareas</span>
+                            </a>
+                        </li>
                           @endif
                     @endif
                     <li class="mega-menu mega-menu-sm">
@@ -294,11 +298,7 @@
                             <i class="ti-layers-alt menu-icon"></i><span class="nav-text">Organigrama Institucional</span>
                         </a>
                     </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="{{url('/Reportes')}}" class="" href="javascript:void()" aria-expanded="false">
-                            <i class="fa fa-file-text-o"></i><span class="nav-text">Reportes de Tareas</span>
-                        </a>
-                    </li>
+
                       @if(isset($_SESSION['id']))
                         @if($_SESSION['Id_tipo_Usuarios']=='1')  
                             <li class="mega-menu mega-menu-sm">

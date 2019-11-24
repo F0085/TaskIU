@@ -24,6 +24,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        session_start();
+        if($_SESSION['Id_tipo_Usuarios']=='2'){
+            
+            return redirect('EstadisticaAdmin');
+        }else{
+            return view('home');
+        }
+
+        
     }
 }

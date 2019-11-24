@@ -1,9 +1,3 @@
-<?php
-  session_start(); 
-    
-?>
-
-
 <?php $__env->startSection('contenido'); ?>
 
 

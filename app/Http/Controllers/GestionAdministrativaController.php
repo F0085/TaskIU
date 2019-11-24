@@ -53,12 +53,14 @@ class GestionAdministrativaController extends Controller
     //LLAMADA A LA VISTA PRINCIPAL DE LA GESTION ADMINISTRATIVA
     public function index()
     {
-        $Areas=$this->ListaArea();
-        $SubArea=$this->SubArea();
-        $AreaSubArea=$this->AreaSubArea();
-        $ListaRoles=$this->ListaRoles();
-       // $DistintAreas=$this->DistintAreas();
-        return view('GestionAdministrativa.AdministracionGeneral')->with(['Areas'=>$Areas, 'SubArea'=>$SubArea,'AreaSubArea'=>$AreaSubArea,'ListaRoles'=>$ListaRoles]);
+   
+            $Areas=$this->ListaArea();
+            $SubArea=$this->SubArea();
+            $AreaSubArea=$this->AreaSubArea();
+            $ListaRoles=$this->ListaRoles();
+           // $DistintAreas=$this->DistintAreas();
+            return view('GestionAdministrativa.AdministracionGeneral')->with(['Areas'=>$Areas, 'SubArea'=>$SubArea,'AreaSubArea'=>$AreaSubArea,'ListaRoles'=>$ListaRoles]);
+
     }
 
 }

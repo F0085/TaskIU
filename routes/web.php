@@ -20,24 +20,56 @@ Route::get('Calendario', function () {
     return view('Calendario.Calendario');
 });
 
+Route::group([
+    'middleware' => 'admin',
+    // 'prefix' => 'admin',
+    // 'namespace' => 'Admin'
+], function () {
+    Route::get('/Administracion', 'GestionAdministrativaController@index')->name('Admin');
+    //REGISTRO DE AREAS
+	Route::resource('Area', 'AreasController');
+	//REGISTRO DE ROLES
+	Route::resource('Roles', 'RolesController');
+	//VISTA DE REGISTRO DEL ADMINISTRADOR
+    Route::get('/registro', 'UsuarioController@RegistroAdmin');
+    ///REPORTES
+	route::get('Reportes', 'ReportesController@Reportes');
+	route::get('GenerarReporte/{idtarea}', 'ReportesController@GenerarReporte');
+	route::get('ReportesEstado/{estado}', 'ReportesController@ReportesEstado');
+	//ADMINISTRADOR
+	route::get('TareasAdministrador/{estado}', 'TareasController@TareasAdministrador');
+	route::get('TareasEstadoAdministrador/{estado}', 'TareasController@TareasEstadoAdministrador');
+	//PARA LA ESTADIDISTICA DEL ADMINISTRADOR
+	route::get('EfectividadLaboral/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@EfectividadLaboral');
+	route::get('EfectividadPersonal/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@EfectividadPersonal');
+
+	route::resource('EstadisticaAdmin', 'EstadisticaAdminController');
+
+	//para mostrar el total general como va la empresa
+	route::get('TotalEstadisticaAdmin', 'EstadisticaAdminController@TotalEstadisticaAdmin');
+
+	//PARA MOSTRAR EL ESTADO GENERAL POR EL USUARIO SIN MESES NI AÑO
+	route::get('TotalEstadisticaUsuario/{Id_Usuario}', 'EstadisticaAdminController@TotalEstadisticaUsuario');
+
+
+});
+
 
 //######################GESTIÓN ADMINISTRATIVA#######################
 
-	Route::get('/Administracion', 'GestionAdministrativaController@index')->name('Administracion');
+	// Route::get('/Administracion', 'GestionAdministrativaController@index')->name('Administracion');
 
-	//REGISTRO DE AREAS
-	Route::resource('Area', 'AreasController');
+	
 
-	//REGISTRO DE ROLES
-    Route::resource('Roles', 'RolesController');
+	
+   
 
-	//REGISTRO DE AREAS ROLES
+//REGISTRO DE AREAS ROLES
     Route::get('DibujarOrganigrama', 'OrganigramaController@DibujarOrganigrama');
 //######################FIN GESTIÓN ADMINISTRATIVA#######################
 
 
-//VISTA DE REGISTRO DEL ADMINISTRADOR
-Route::get('/registro', 'UsuarioController@RegistroAdmin');
+
 
 //VISTA REGISTRO DEL USUARIO NORMAL
 Route::get('/register', 'UsuarioController@RegistroUserNormal');
@@ -140,9 +172,7 @@ route::get('ComprobarTareaFecha/{idtareas}/{FechaFin}/{HoraFin}', 'TareasControl
 route::get('ListaTareas', 'TareasController@ListaTareas');
 route::get('tareasCPM/{estado}','TareasController@tareasCPM');
 
-//ADMINISTRADOR
-route::get('TareasAdministrador/{estado}', 'TareasController@TareasAdministrador');
-route::get('TareasEstadoAdministrador/{estado}', 'TareasController@TareasEstadoAdministrador');
+
 
 
 //DASHBOARD
@@ -153,11 +183,7 @@ route::get('TotalTareasResponsables', 'TareasController@TotalTareasResponsables'
 route::get('validarinicioTarea/{FechaIn}/{HoraIn}', 'TareasController@validarinicioTarea');
 
 
-///REPORTES
-route::get('Reportes', 'ReportesController@Reportes');
-route::get('GenerarReporte/{idtarea}', 'ReportesController@GenerarReporte');
 
-route::get('ReportesEstado/{estado}', 'ReportesController@ReportesEstado');
 
 route::get('EfectividadPorMeses/{Anio}/{Mes}', 'DashboardController@EfectividadPorMeses');
 route::get('EfectividadPorMesesPersonales/{Anio}/{Mes}', 'DashboardController@EfectividadPorMesesPersonales');
@@ -167,17 +193,6 @@ route::get('TotalTareasResponsablesPersonal/{Anio}/{Mes}', 'DashboardController@
 route::get('TotalTareasResponsablesLaboralAdmin/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@TotalTareasResponsablesLaboralAdmin');
 route::get('TotalTareasResponsablesPersonalAdmin/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@TotalTareasResponsablesPersonalAdmin');
 
-//PARA LA ESTADIDISTICA DEL ADMINISTRADOR
-route::get('EfectividadLaboral/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@EfectividadLaboral');
-route::get('EfectividadPersonal/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@EfectividadPersonal');
-
-route::resource('EstadisticaAdmin', 'EstadisticaAdminController');
-
-//para mostrar el total general como va la empresa
-route::get('TotalEstadisticaAdmin', 'EstadisticaAdminController@TotalEstadisticaAdmin');
-
-//PARA MOSTRAR EL ESTADO GENERAL POR EL USUARIO SIN MESES NI AÑO
-route::get('TotalEstadisticaUsuario/{Id_Usuario}', 'EstadisticaAdminController@TotalEstadisticaUsuario');
 
 
 

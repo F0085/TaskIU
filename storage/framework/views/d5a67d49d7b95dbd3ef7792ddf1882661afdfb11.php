@@ -16,7 +16,16 @@
             TareasAdmin('Pendiente');
         });
     </script>
-    <?php else: ?>
+    <?php elseif(session()->has('Id_Tarea')): ?>
+      <script type="text/javascript">
+      $( document ).ready(function() {
+      $('#SelecTipoUserTareas').val('MisTareasResponsables');
+      TareasPorUsuario('','MisTareasResponsables','120');
+      ModalTareas('<?php echo e(session('Id_Tarea')); ?>');
+      // $('#SelecTipoUserTareas').val('CPM');     
+      });
+      </script>
+      <?php else: ?>
         <script type="text/javascript">
         $( document ).ready(function() {
              TareasTipo('T','Pendiente');
@@ -25,6 +34,12 @@
 
     <?php endif; ?>
 <?php endif; ?>
+
+
+
+
+
+
 <div id="cargar"></div>
 
 <div class="row">
@@ -109,13 +124,37 @@
                        <h1 class="card-title" style="padding-top: 20px"><b>LISTA DE TAREAS</b></h1>
                 </div>
                 <div class="col-md-6" id="PanelAdminRol">
-                     <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
+                <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
 
                  <select id="SelecTipoUserTareas" onchange="TareasPorUsuario('',this.value,'<?php echo e($_SESSION['id']); ?>')" class="form-control input-default">
-                    <option value="CPM">Creadas por mi</option>
-                    <option value="MisTareasResponsables">Responsable</option>
-                    <option value="MisTareasParticipantes">Participante</option>
-                    <option value="MisTareasObservadores">Observador</option>
+                  <?php if(session()->has('TipoUsuario')): ?>
+                    <?php if(session('TipoUsuario')=='CPM'): ?>
+                      <option selected="true" value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                    <?php elseif(session('TipoUsuario')=='MisTareasResponsables'): ?>
+                      <option value="CPM">Creadas por mi</option>
+                      <option selected="true" value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                    <?php elseif(session('TipoUsuario')=='MisTareasParticipantes'): ?>
+                      <option value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option selected="true" value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                    <?php elseif(session('TipoUsuario')=='MisTareasObservadores'): ?>
+                      <option value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option selected="true" value="MisTareasObservadores">Observador</option>
+                    <?php endif; ?>
+                  <?php else: ?>
+                      <option value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                  <?php endif; ?>
                  </select>
                  <?php endif; ?>
                 </div>

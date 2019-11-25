@@ -1,7 +1,6 @@
-<script type="text/javascript">
 
 
-</script>
+
 <div id="cargatareas"></div>
 
 <div id="ModalTareasSeguimiento" data-backdrop="static" data-keyboard="false" class=" estilo modal fade bd-example-modal-lg stylefuente" tabindex="-1" role="dialog" aria-hidden="true">
@@ -14,7 +13,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input hidden="true" id="idTar">
+                <input hidden="true" id="idTarea">
                 <div id="EstadoObservacion"></div>
                 <div class="row">
                    <div class="col-md-6">
@@ -36,14 +35,16 @@
                         <br>
                         <hr style="height: 1px; margin-top: 0rem;margin-bottom: 1rem">
                         <div class="row">
-                                <div class="col-md-12" id="PanelEvidencias" >  <!-- id="divEvidenciaSeguimiento" -->
+                                <div class="col-md-12" >  <!-- id="divEvidenciaSeguimiento" -->
   
-                                    <!-- label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input">
-                                        <label class="custom-file-label">Escoger Archivo</label> 
-                                    </div><br><br>
-                                    <button type="button" class="btn btn-success btn-sm">Registrar</button> -->
+                                <form id="PanelEvidencias"    enctype="multipart/form-data" class="form-horizontal  " method="POST" action="<?php echo e(url('Documentos')); ?>">
+                                <?php echo e(csrf_field()); ?>
+
+                                <label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+                                <input required name="DescripcionEvidencia" type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+                                <input  type="file" class="form-control input-default" id="filedoc"><br>
+                                <button  type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>
+                                </form>
                                 </div>
                         </div>
                         <div class="row">

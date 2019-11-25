@@ -309,7 +309,7 @@ function TerminarTarea(){
 	    	// ResponsablesTask: $("#ResponsablesTask").val(),
 	    	// ParticipantesTask: $("#ParticipantesTask").val(),
 	    	// ObservadoresTask: $("#ObservadoresTask").val(),
-	    	idtarea: $("#idTar").val(),
+	    	idtarea: $("#idTarea").val(),
 	    	Observacion: $("#ObservacionTareaSeguimiento").val(),
 	    	filedoc:$("#ObservacionTareaSeguimiento").val(),
 	    }
@@ -537,6 +537,7 @@ function observadoresTask(){
 
 	//EXTRAE TODAS LAS TAREAS POR USUARIO EL TIPO (RESPONSABLE OBSERVADOR PARTICPANTE) Y EL ESTADO( PENDIENTE,TERMINADA,VENCIDA)
 	function TareasPorUsuario(estado,TipoUser,IdUsuario){
+		$('#TablaTareas').html('');
 		    $('#btneditar').html('');
 			$('#SelectTipoTarPerTra').prop('disabled',true);
 			$('#SelectTipoTarPerTra').val("T");
@@ -558,6 +559,7 @@ function observadoresTask(){
 				estado='Vencida';
 			}
 			if(TipoUser=="CPM"){
+				$('#TablaTareas').html('');
 				TareasTipo('T',estado);
 				$('#SelectTipoTarPerTra').prop('disabled',false);
 				return;
@@ -816,7 +818,8 @@ function observadoresTask(){
 	    $.get('Tareas/'+Id_tarea, function (data) {
 	    	$.each(data, function(i,item){
 		    	$('#TituloTareaSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Nombre']);
-		    	$('#idTar').val(item['Id_tarea']);
+		    	$('#idTarea').val(item['Id_tarea']);
+		    	
 		    	$('#descripcionTareaSeguimiento').html(item['Descripcion']);
 		    	$('#FechaInicioTareaSeguimiento').html(item['FechaInicio']+' '+item['Hora_Inicio']);
 		    	$('#FechaLimiteTareaSeguimiento').html(item['FechaFin']+' '+item['Hora_Fin']);
@@ -859,10 +862,14 @@ function observadoresTask(){
 						                                    <div id="btnRegistrarObservacion"><button onclick="RegistrarObservacion()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button></div>
 						                                `);
 									$('#PanelEvidencias').html('');
-									$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-									<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
-									<input  type="file" class="form-control input-default" id="filedoc"><br>
-							        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>Registrar</button>`);
+								    $('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
+	                                <input hidden="true" id="idTar" name="idTar" value="${item['Id_tarea']}">
+	                                <input hidden="true" id="EstadoNav" name="EstadoNav" value="${item['Estado_Tarea']}">
+	                                <input hidden="true" id="TipoTarea" name="TipoTarea" value="${$('#SelectTipoTarPerTra').val()}">
+	                                <input hidden="true" id="TipoUsuario" name="TipoUsuario" value="${$('#SelecTipoUserTareas').val()}">
+	                                <input name="DescripcionEvidencia" required type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+	                                <input required  type="file" class="form-control input-default" name="filedoc" id="filedoc"><br>
+	                                <button  type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>`);
 
 									btnEntregar=`<div class="col-md-6">
 					                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
@@ -966,10 +973,14 @@ function observadoresTask(){
 		                                `);
 							$('#PanelEvidencias').html('');
 							$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-								<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
-								<input  type="file" class="form-control input-default" id="filedoc"><br>
-						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>`);
-							$('#botoneSeguimiento').append(`<div class="row">
+                                <input hidden="true" id="idTar" name="idTar" value="${item['Id_tarea']}">
+                                <input hidden="true" id="EstadoNav" name="EstadoNav" value="${item['Estado_Tarea']}">
+                                <input hidden="true" id="TipoTarea" name="TipoTarea" value="${$('#SelectTipoTarPerTra').val()}">
+                                <input hidden="true" id="TipoUsuario" name="TipoUsuario" value="${$('#SelecTipoUserTareas').val()}">
+                                <input name="DescripcionEvidencia" required type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+                                <input required  type="file" class="form-control input-default" name="filedoc" id="filedoc"><br>
+                                <button  type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>`);
+								$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
 		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
 		                            </div>
@@ -1029,9 +1040,13 @@ function observadoresTask(){
 				                                `);
 							$('#PanelEvidencias').html('');
 							$('#PanelEvidencias').append(`<label for="" style="color: black"><i class="fa fa-paperclip"></i>  <b>Adjuntar Evidencia:</b></label>
-								<input type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
-								<input  type="file" class="form-control input-default" id="filedoc"><br>
-						        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm"><i class=" fa fa-save"></i>  Registrar</button>`);
+                                <input hidden="true" id="idTar" name="idTar" value="${item['Id_tarea']}">
+                                <input hidden="true" id="EstadoNav" name="EstadoNav" value="${item['Estado_Tarea']}">
+                                <input hidden="true" id="TipoTarea" name="TipoTarea" value="${$('#SelectTipoTarPerTra').val()}">
+                                <input hidden="true" id="TipoUsuario" name="TipoUsuario" value="${$('#SelecTipoUserTareas').val()}">
+                                <input name="DescripcionEvidencia" required type="text" class="form-control input-default" id="DescripcionEvidencia" placeholder="Descripción"><br>
+                                <input required  type="file" class="form-control input-default" name="filedoc" id="filedoc"><br>
+                                <button  type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>`);
 							$('#botoneSeguimiento').html('');
 							$('#botoneSeguimiento').append(`<div class="row">
 				                            <div class="col-md-6">
@@ -1292,12 +1307,12 @@ function observadoresTask(){
 		limpiarModalTareasCrear();
 		$("#ModalTareasSeguimiento").modal("hide");
 		$("#ModalCrearTareas").modal("show");
-		 $.get('Tareas/'+$('#idTar').val(), function (data) {
+		 $.get('Tareas/'+$('#idTarea').val(), function (data) {
 	    	$.each(data, function(i,item){
 		    	$('#TituloTareaCrear').html("<i class='fa fa-bookmark'></i>  "+  'Modificar Tareas');
 		    	$('#Nombretarea').val(item['Nombre']);
 		    	$('#tipoTarea').val(item['Id_Tipo_Tarea']);
-		    	$('#TaskID').val($('#idTar').val());
+		    	$('#TaskID').val($('#idTarea').val());
 		    	$('#descripcionTarea').val(item['Descripcion']);
 		  		$('#FechaInicioTarea').val(item['FechaInicio']);
 		  		$('#HoraInicioTarea').val(item['Hora_Inicio']);
@@ -1371,7 +1386,7 @@ function observadoresTask(){
 		}else{
 			$('#btnRegistrarObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
 			 var FrmData = { 
-		    	idtarea: $("#idTar").val(),
+		    	idtarea: $("#idTarea").val(),
 		    	Observacion: $("#ObservacionTareaSeguimiento").val(),
 		    	tipo:'C',
 		    }
@@ -1402,10 +1417,15 @@ function observadoresTask(){
 	//PARA GAUARDAS LAS EVIDENCIAS
 	function RegistrarEvidencias(){
 
+		// var formData = new FormData();
 
+		// formData.append("Id_Tarea", $("#idTarea").val());
+		// formData.append("Descripcion", $('#DescripcionEvidencia').val()); // number 123456 is immediately converted to string "123456"
+		// formData.append("file", filedoc.files[0]);
+    console.log($("#filedoc").files[0]);
 		 var FrmData = { 
-	    	Id_Tarea: $("#idTar").val(),
-	    	file: $('#filedoc').val(),
+	    	Id_Tarea: $("#idTarea").val(),
+	    	file: $("#filedoc").files[0],
 	    	Descripcion: $('#DescripcionEvidencia').val(),
 	    }
 
@@ -1436,14 +1456,14 @@ function observadoresTask(){
 
 	//PARA LISTAR LAS EVIDENCIAS
 	function ListaEvidencia(){
-		$.get('Documentos/'+$("#idTar").val(), function (data) {
+		$.get('Documentos/'+$("#idTarea").val(), function (data) {
 				$('#listaEvidencias').html('');
 		 	 	$.each(data, function(i,$valores){
 		 	 		$('#listaEvidencias').append(`<tr>
 	                                    <td> ${$valores['Descripcion']}</td>
 	                                    <td><a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$valores['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</a></td>
 	                                    <td>${$valores['Fecha']}</td>
-	                                    <td><a target="_blank" href="/Documento/${$valores['Ruta']}" type="button" class="btn btn-sm input-default btn-primary"><i class="fa fa-eye"></i>  Ver</td>
+	                                    <td><a target="_blank" href="/Documento/${$valores['Ruta']}" role="button" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i>  Ver</a></td>
 	                                  
 	                                </tr>`);
 
@@ -1457,7 +1477,8 @@ function observadoresTask(){
 
 	//PARA LISTAR LAS OBSERVACIONES O COMENTARIOS
 	function listaObservaciones(){
-		 $.get('Observacion/'+$('#idTar').val(), function (data) {
+
+		 $.get('Observacion/'+$('#idTarea').val(), function (data) {
 
 		 	if(data.length != 0){
 		 		llenarComentarios(data);
@@ -1562,7 +1583,7 @@ function observadoresTask(){
 		 }else{
 			 $('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
 			 var FrmData = { 
-		    	idtarea: $("#idTar").val(),
+		    	idtarea: $("#idTarea").val(),
 		    	Observacion: $("#ObservacionRespuesta").val(),
 		    	Id_Observacion: Id_Observacion,
 		    	tipo: 'S',

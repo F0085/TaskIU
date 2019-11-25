@@ -81,38 +81,31 @@ class DocumentoController extends Controller
 
     public function store(Request $request)
     {
-        $file=$request->file('file');
-        $clientA = new Client([
-              'base_uri' => $this->servidor,
+        $file=$request->filedoc;
+        $nombrearchivo=$file->getClientOriginalName(); // OBTENGO EL NOMBRE DEL ARCHIVO 
+        $extension = pathinfo($nombrearchivo, PATHINFO_EXTENSION); //OBTENGO LA EXTENSION DEL ARCHIVO
+        $ruta = date('Ymd'). time(). "_".$request->idTar."." . $extension; // LE ASIGNO UN NOMBRE ALEATORIO
+
+        session_start();
+        $fechaactual=date('Y-m-j H:i:s');
+
+        $client = new Client([
+          'base_uri' => $this->servidor.'Documento',
         ]);
-        $dataA = ['file'=>$file]; //EL data para enviar a la API
-        $clientA->request('POST','',['form_params' => $dataA]);
+        $data = ['Descripcion'=>$request->DescripcionEvidencia,
+                 'Ruta'=>$ruta,
+                 'Id_Tarea'=>$request->idTar,
+                 'Id_Usuario'=>$_SESSION['id'],
+                 'Fecha'=>$fechaactual]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
 
-
-
-             // return json_decode((string) $res->getBody(), true);
-
-
-        // session_start();
-        // $fechaactual=date('Y-m-j H:i:s');
-
-        // $client = new Client([
-        //   'base_uri' => $this->servidor.'Documento',
-        // ]);
-        // $data = ['Descripcion'=>$request->Descripcion,
-        //          'Ruta'=>'prueba',
-        //          'Id_Tarea'=>$request->Id_Tarea,
-        //          'Id_Usuario'=>$_SESSION['id'],
-        //          'Fecha'=>$fechaactual]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
-
-        // $res = $client->request('POST','',['form_params' => $data]);
+        $res = $client->request('POST','',['form_params' => $data]);
                    
-        //      if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
-        //          $dataA = ['file'=>$file]; //EL 
-
-        //         $clientA->request('POST','',['form_params' => $dataA]);
-        //      return json_decode((string) $res->getBody(), true);
-        //     }
+             if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+                \Storage::disk('Documento')->put($ruta,  \File::get($file));
+                $public_path = public_path();
+                return back()->with(['Id_Tarea'=>$request->idTar,'TipoUsuario'=>$request->TipoUsuario])->withInput();
+                // return view('GestionTareas.MisTareas')->with(['EstadoNav'=>$request->EstadoNav,'TipoTarea'=>$request->TipoTarea,'TipoUsuario'=>$request->TipoUsuario,'idTar'=>$request->idTar]);
+            }
    
     }
 

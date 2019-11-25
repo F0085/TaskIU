@@ -17,7 +17,16 @@
             TareasAdmin('Pendiente');
         });
     </script>
-    @else
+    @elseif(session()->has('Id_Tarea'))
+      <script type="text/javascript">
+      $( document ).ready(function() {
+      $('#SelecTipoUserTareas').val('MisTareasResponsables');
+      TareasPorUsuario('','MisTareasResponsables','120');
+      ModalTareas('{{session('Id_Tarea')}}');
+      // $('#SelecTipoUserTareas').val('CPM');     
+      });
+      </script>
+      @else
         <script type="text/javascript">
         $( document ).ready(function() {
              TareasTipo('T','Pendiente');
@@ -26,6 +35,12 @@
 
     @endif
 @endif
+
+
+
+
+
+
 <div id="cargar"></div>
 
 <div class="row">
@@ -110,13 +125,37 @@
                        <h1 class="card-title" style="padding-top: 20px"><b>LISTA DE TAREAS</b></h1>
                 </div>
                 <div class="col-md-6" id="PanelAdminRol">
-                     @if(isset($_SESSION['Id_tipo_Usuarios']))
+                @if(isset($_SESSION['Id_tipo_Usuarios']))
 
                  <select id="SelecTipoUserTareas" onchange="TareasPorUsuario('',this.value,'{{$_SESSION['id']}}')" class="form-control input-default">
-                    <option value="CPM">Creadas por mi</option>
-                    <option value="MisTareasResponsables">Responsable</option>
-                    <option value="MisTareasParticipantes">Participante</option>
-                    <option value="MisTareasObservadores">Observador</option>
+                  @if(session()->has('TipoUsuario'))
+                    @if(session('TipoUsuario')=='CPM')
+                      <option selected="true" value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                    @elseif(session('TipoUsuario')=='MisTareasResponsables')
+                      <option value="CPM">Creadas por mi</option>
+                      <option selected="true" value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                    @elseif(session('TipoUsuario')=='MisTareasParticipantes')
+                      <option value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option selected="true" value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                    @elseif(session('TipoUsuario')=='MisTareasObservadores')
+                      <option value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option selected="true" value="MisTareasObservadores">Observador</option>
+                    @endif
+                  @else
+                      <option value="CPM">Creadas por mi</option>
+                      <option value="MisTareasResponsables">Responsable</option>
+                      <option value="MisTareasParticipantes">Participante</option>
+                      <option value="MisTareasObservadores">Observador</option>
+                  @endif
                  </select>
                  @endif
                 </div>

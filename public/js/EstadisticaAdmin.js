@@ -324,33 +324,33 @@ function ResponsabilidadPersonal(anio,mes) {
 
 
 $( document ).ready(function() { // 6,32 5,38 2,34
-	Morris.Bar({
-  element: 'graph',
-  data: [
-    {x: 'Leoanrdo', y: 0},
-    {x: 'fsd', y: 1},
-    {x: '2fdsf', y: 2},
-    {x: 'sdf', y: 3},
-    {x: 'fsd', y: 4},
-    {x: 'fds', y: 5},
-    {x: '2012 Q3', y: 6},
-    {x: '2012 Q4', y: 7},
-    {x: '2013 Q1', y: 8}
-  ],
-  xkey: 'x',
-  ykeys: ['y'],
-  labels: ['Efectividad'],
-  units: '%',
-  barColors: function (row, series, type) {
-    if (type === 'bar') {
-      var red = Math.ceil(255 * row.y / this.ymax);
-      return 'rgb(' + red + ',0,0)';
-    }
-    else {
-      return '#000';
-    }
-  }
-});
+// 	Morris.Bar({
+//   element: 'graph',
+//   data: [
+//     {x: 'Leoanrdo', y: 0},
+//     {x: 'fsd', y: 1},
+//     {x: '2fdsf', y: 2},
+//     {x: 'sdf', y: 3},
+//     {x: 'fsd', y: 4},
+//     {x: 'fds', y: 5},
+//     {x: '2012 Q3', y: 6},
+//     {x: '2012 Q4', y: 7},
+//     {x: '2013 Q1', y: 8}
+//   ],
+//   xkey: 'x',
+//   ykeys: ['y'],
+//   labels: ['Efectividad'],
+//   units: '%',
+//   barColors: function (row, series, type) {
+//     if (type === 'bar') {
+//       var red = Math.ceil(255 * row.y / this.ymax);
+//       return 'rgb(' + red + ',0,0)';
+//     }
+//     else {
+//       return '#000';
+//     }
+//   }
+// });
 	TotalEstadoEmpresa();    
     
         

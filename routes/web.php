@@ -193,6 +193,12 @@ route::get('TotalTareasResponsablesPersonal/{Anio}/{Mes}', 'DashboardController@
 route::get('TotalTareasResponsablesLaboralAdmin/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@TotalTareasResponsablesLaboralAdmin');
 route::get('TotalTareasResponsablesPersonalAdmin/{Id_Usuario}/{Anio}/{Mes}', 'EstadisticaAdminController@TotalTareasResponsablesPersonalAdmin');
 
+route::get('ConfirmAsistencia/{Id_Reunion}/{Id_Usuario}/{tipo}', 'AsistenciaController@ConfirmAsistencia');
+
+route::POST('Motivo/{Id_Reunion}/{Id_Usuario}', 'AsistenciaController@GuardarMotivo');
+
+route::get('CalcularEdad/{Fecha_Nacimiento}', 'UsuarioController@CalcularEdad');
+
 
 
 

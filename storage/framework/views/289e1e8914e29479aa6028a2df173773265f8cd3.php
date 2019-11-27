@@ -1,8 +1,3 @@
-<?php
-  session_start(); 
-    
-?>
-
 <?php $__env->startSection('contenido'); ?>
 <div id="cargar"></div>
     <div class="login-form-bg h-100">

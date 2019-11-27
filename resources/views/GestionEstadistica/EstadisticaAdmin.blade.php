@@ -340,9 +340,9 @@
     	</div>
   	</div>
  </div>
- <h1>ESTO LO ESTOY PROGRAMANDO AUN</h1>
+<!--  <h1>ESTO LO ESTOY PROGRAMANDO AUN</h1>
 	<div id="graph"></div>
 
-		<pre id="code" class="prettyprint linenums">
+		<pre id="code" class="prettyprint linenums"> -->
 
 @endsection

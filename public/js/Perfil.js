@@ -161,20 +161,27 @@ function ActualizarClave(){
 }
 
 function ModalPerfilUsuario(IDus){
+	var edad=0;
 	$("#ModalPerfilUsuario").modal("show");
 	$.get('Usuarios/'+IDus, function (data) {
-		$('#TipoUserP').html(data['TipoUsuario']);
-		$('#NombreUserP').html(data['Nombre']+' '+data['Apellido']);
-		$('#TipoUserP').html(data['TipoUsuario']);
-		$('#CedulaUserP').html(`<b><i class="fa fa-address-card-o"></i>  Cédula:</b> ${data['Cedula']}`);
-		$('#EmailUserP').html(`<b><i class="fa fa-envelope"></i>    Email:</b> ${data['email']}` );
-		$('#CelularUserP').html(`<b><i class="fa fa-phone"></i>    Celular:</b> ${data['Celular']}`);
-		$('#DireccionUserP').html(`<b><i class="fa  fa-map-marker"></i>    Dirección:</b>  ${data['Direccion']}`);
-		$('#SexoUserP').html(`<b><i class="fa fa-venus-double"></i>    Sexo:</b>  ${data['Sexo']}`);
-		$('#EdadUserP').html(`<b><i class="fa fa-child"></i>    Edad:</b>`);
-	    $('#InstagramUserP').html(`<b><i class="fa fa-instagram"></i>    Instagram:</b> ${data['Instagram']}`);
-	    $('#FacebookUserP').html(`<b><i class="fa  fa-facebook"></i>    Facebook:</b> ${data['Facebook']}`);
-		$('#TwitterUserP').html(`<b><i class="fa  fa-twitter"></i>    Twitter:</b> ${data['Twitter']}`);
-		$('#InteresesUserP').html(`<b><i class="fa fa-heart"></i>    Intereses:</b> ${data['Intereses']}`);
+		$.get('CalcularEdad/'+data['Fecha_Nacimiento'], function (dataF) {
+			edad=dataF;
+		
+		
+			// console.log(data['Fecha_Nacimiento']);
+			$('#TipoUserP').html(data['TipoUsuario']);
+			$('#NombreUserP').html(data['Nombre']+' '+data['Apellido']);
+			$('#TipoUserP').html(data['TipoUsuario']);
+			$('#CedulaUserP').html(`<b><i class="fa fa-address-card-o"></i>  Cédula:</b> ${data['Cedula']}`);
+			$('#EmailUserP').html(`<b><i class="fa fa-envelope"></i>    Email:</b> ${data['email']}` );
+			$('#CelularUserP').html(`<b><i class="fa fa-phone"></i>    Celular:</b> ${data['Celular']}`);
+			$('#DireccionUserP').html(`<b><i class="fa  fa-map-marker"></i>    Dirección:</b>  ${data['Direccion']}`);
+			$('#SexoUserP').html(`<b><i class="fa fa-venus-double"></i>    Sexo:</b>  ${data['Sexo']}`);
+			$('#EdadUserP').html(`<b><i class="fa fa-child"></i>    Edad:</b> ${edad}`);
+		    $('#InstagramUserP').html(`<b><i class="fa fa-instagram"></i>    Instagram:</b> ${data['Instagram']}`);
+		    $('#FacebookUserP').html(`<b><i class="fa  fa-facebook"></i>    Facebook:</b> ${data['Facebook']}`);
+			$('#TwitterUserP').html(`<b><i class="fa  fa-twitter"></i>    Twitter:</b> ${data['Twitter']}`);
+			$('#InteresesUserP').html(`<b><i class="fa fa-heart"></i>    Intereses:</b> ${data['Intereses']}`);
+		});
 	});
 }

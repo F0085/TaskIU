@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use DateTime;
 
 class UsuarioController extends Controller
 {
@@ -314,5 +315,12 @@ class UsuarioController extends Controller
             $_SESSION['Password']=$UsuariosLogin[0]['Password'];
            
         }
+    }
+
+    public function CalcularEdad($Fecha_Nacimiento){
+         $cumpleanos = new DateTime($Fecha_Nacimiento);
+         $hoy = new DateTime();
+         $annos = $hoy->diff($cumpleanos);
+         return $annos->y;
     }
 }

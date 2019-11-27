@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Mail;
+use Illuminate\Support\Facades\Crypt;
 
 class ReunionController extends Controller
 {
@@ -106,6 +107,7 @@ class ReunionController extends Controller
      */
     public function store(Request $request)
     {
+
        //  $data = ['Tema' => $request->Tema,
        //           'Fecha' => $request->FechaIn,
        //          'Hora' => $request->HoraIn,
@@ -153,6 +155,7 @@ class ReunionController extends Controller
 
         $res = $client->request('POST','',['form_params' => $data]);
         $ResultadoReunion=json_decode((string) $res->getBody(), true);
+        $Id_Reunion=Crypt::encrypt($ResultadoReunion['Id_Reunion']);
     
          if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
             if($request->ResponsablesReunion != null){
@@ -163,10 +166,14 @@ class ReunionController extends Controller
                      //BUSCAR EL CORREO DEL PARTICIPANTE
                     $responseRespo = $clienUser->request('GET', "Usuarios/{$responsables}");
                     $resultRespo= json_decode((string) $responseRespo->getBody(), true);
+                    $Id_Usuario=Crypt::encrypt($responsables);
+
                     $dataEmail = ['Tema' => $request->Tema,
                                   'Fecha' => $request->FechaIn,
                                   'Hora' => $request->HoraIn,
-                                  'Tipo' => 'Responsable'];
+                                  'Tipo' => 'Responsable',
+                                  'Id_Reunion'=>$Id_Reunion,
+                                  'Id_Usuario'=>$Id_Usuario];
                     Mail::send('GestionReunion.Email.email', $dataEmail, function ($m) Use($resultRespo){
                          $m->to($resultRespo['email'])
                         ->subject('INVITACIÓN A REUNIÓN');
@@ -178,15 +185,18 @@ class ReunionController extends Controller
                 foreach ($request->ParticipantesReunion as $key => $participantes) {
                    //PARA GUARDAR EL PARTICIPANTES
                     $dataParticipantes = ['Id_Usuario'=>$participantes,
-                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion'],'asistencia'=>'1'];
+                     'Id_Reunion'=>$ResultadoReunion['Id_Reunion'],'asistencia'=>'0'];
                     $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
                     //BUSCAR EL CORREO DEL PARTICIPANTE
                     $responseParti = $clienUser->request('GET', "Usuarios/{$participantes}");
                     $resultPar= json_decode((string) $responseParti->getBody(), true);
+                    $Id_Usuario=Crypt::encrypt($participantes);
                     $dataEmail = ['Tema' => $request->Tema,
                                   'Fecha' => $request->FechaIn,
                                   'Hora' => $request->HoraIn,
-                                  'Tipo' => 'Participante'];
+                                  'Tipo' => 'Participante',
+                                  'Id_Reunion'=>$Id_Reunion,
+                                  'Id_Usuario'=>$Id_Usuario];
                     Mail::send('GestionReunion.Email.email', $dataEmail, function ($m) Use($resultPar){
                          $m->to($resultPar['email'])
                         ->subject('INVITACIÓN A REUNIÓN');

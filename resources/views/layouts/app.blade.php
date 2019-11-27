@@ -107,16 +107,16 @@
                 </div> -->
                 <div class="header-right">
                     <ul class="clearfix">
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+     <!--                    <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-email-outline"></i>
                                 <span class="badge gradient-1 badge-pill badge-primary">3</span>
                             </a>
-                            <div class="drop-down animated fadeIn dropdown-menu">
-                                <div class="dropdown-content-heading d-flex justify-content-between">
+                            <div class="drop-down animated fadeIn dropdown-menu"> -->
+           <!--                      <div class="dropdown-content-heading d-flex justify-content-between">
                                     <span class="">3 New Messages</span>  
                                     
-                                </div>
-                                <div class="dropdown-content-body">
+                                </div> -->
+          <!--                       <div class="dropdown-content-body">
                                     <ul>
                                         <li class="notification-unread">
                                             <a href="javascript:void()">
@@ -160,10 +160,10 @@
                                         </li>
                                     </ul>
                                     
-                                </div>
-                            </div>
-                        </li>
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                                </div> -->
+                  <!--           </div>
+                        </li> -->
+       <!--                  <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-bell-outline"></i>
                                 <span class="badge badge-pill gradient-2 badge-primary">3</span>
                             </a>
@@ -214,7 +214,7 @@
                                     
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
         
                         <li class="icons dropdown">
                             <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">

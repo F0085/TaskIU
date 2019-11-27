@@ -199,6 +199,12 @@ route::POST('Motivo/{Id_Reunion}/{Id_Usuario}', 'AsistenciaController@GuardarMot
 
 route::get('CalcularEdad/{Fecha_Nacimiento}', 'UsuarioController@CalcularEdad');
 
+route::resource('Notificaciones', 'NotificacionController');
+route::get('ContarNotificaciones', 'NotificacionController@ContarNotificaciones');
+route::get('Task/{IdTtar_Reu}/{tipoRol}', 'NotificacionController@Task');
+route::get('ReunionN/{IdTtar_Reu}/{tipoRol}', 'NotificacionController@ReunionN');
+
+
 
 
 

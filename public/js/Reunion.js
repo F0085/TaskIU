@@ -254,6 +254,7 @@ function TerminarReunion(){
 		// console.log(estado);
 		$('#TablaReuniones').html('');
 		    $.get(TipoUser+'/'+estado, function (data) {
+		    	$('#TablaReuniones').html('');
 				$.each(data, function(i1, $valore) { 
 						llenarTabla($valore);
 					}); 
@@ -405,6 +406,11 @@ function ParticipantesReunion(){
 				    		}else{
 				    			var estado='';
 				    		}
+				    		if(item2['motivo']!=null){
+				    			var motivo=item2['motivo'];
+				    		}else{
+				    			var motivo='';
+				    		}
 				    		if($('#SelecTipoUserReunion').val()=="MisReunionesResponsables"){
 								$('#ParticipantesReunionSeguimiento').append(`<tr >
                                     <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
@@ -419,7 +425,9 @@ function ParticipantesReunion(){
                                      <td  centerDiv><div class="form-check form-check-inline">
                                         <label class="form-check-label">
                                         <input disabled type="checkbox" class="form-check-input " ${estado}  value=""></label>
-                                    </div></td>
+                                    </div>
+                                    <td>${motivo}</td>
+                                    </td>
                           
                                 </tr>`);
 							}
@@ -643,7 +651,7 @@ function ParticipantesReunion(){
 							            <i class="fa fa-info fa-2x"></i> 
 							          </div>
 							          <div class="col-lg-11 centerDiv">
-							           <strong> ESTA TAREA AÚN NO INICIA.</strong>
+							           <strong> ESTA REUNIÓN AÚN NO INICIA.</strong>
 							          </div>
 							        </div>
 							      </div>      

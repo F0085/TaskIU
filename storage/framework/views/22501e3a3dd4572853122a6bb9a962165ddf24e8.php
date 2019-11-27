@@ -23,6 +23,31 @@
        </script>
 
     <?php endif; ?>
+    <?php if(session()->has('IdTtar_Reu')): ?>
+    <?php if(session('tipoRol')=='Responsable'): ?>
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserReunion').val('MisReunionesResponsables');
+          // $('#TablaTareas').html('');
+            ReunionesPorRol('MisReunionesResponsables');
+          ModalReunion('<?php echo e(session('IdTtar_Reu')); ?>');
+
+         });
+    </script>
+    <?php endif; ?>
+    <?php if(session('tipoRol')=='Participante'): ?>
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserReunion').val('MisReunionesParticipantes');
+          // $('#TablaTareas').html('');
+          ReunionesPorRol('MisReunionesParticipantes');
+          ModalReunion('<?php echo e(session('IdTtar_Reu')); ?>');
+
+
+         });
+    </script>
+    <?php endif; ?>
+  <?php endif; ?>
 <?php endif; ?>
 
 <div class="row">

@@ -16,15 +16,7 @@
             TareasAdmin('Pendiente');
         });
     </script>
-    <?php elseif(session()->has('Id_Tarea')): ?>
-      <script type="text/javascript">
-      $( document ).ready(function() {
-      $('#SelecTipoUserTareas').val('MisTareasResponsables');
-      TareasPorUsuario('','MisTareasResponsables','120');
-      ModalTareas('<?php echo e(session('Id_Tarea')); ?>');
-      // $('#SelecTipoUserTareas').val('CPM');     
-      });
-      </script>
+    <!--  -->
       <?php else: ?>
         <script type="text/javascript">
         $( document ).ready(function() {
@@ -33,7 +25,47 @@
        </script>
 
     <?php endif; ?>
+    <?php if(session()->has('IdTtar_Reu')): ?>
+    <?php if(session('tipoRol')=='Responsable'): ?>
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserTareas').val('MisTareasResponsables');
+          // $('#TablaTareas').html('');
+         // TareasPorUsuario('','MisTareasResponsables','<?php echo e($_SESSION['id']); ?>');
+          ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
+
+         });
+    </script>
+    <?php endif; ?>
+    <?php if(session('tipoRol')=='Participante'): ?>
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserTareas').val('MisTareasParticipantes');
+          // $('#TablaTareas').html('');
+         TareasPorUsuario('','MisTareasParticipantes','<?php echo e($_SESSION['id']); ?>');
+          ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
+
+
+         });
+    </script>
+    <?php endif; ?>
+    <?php if(session('tipoRol')=='Observador'): ?>
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserTareas').val('MisTareasObservadores');
+          // $('#TablaTareas').html('');
+         TareasPorUsuario('','MisTareasObservadores','<?php echo e($_SESSION['id']); ?>');
+          ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
+
+         });
+    </script>
+    <?php endif; ?>
+  <?php endif; ?>
 <?php endif; ?>
+
+
+
+
 
 
 

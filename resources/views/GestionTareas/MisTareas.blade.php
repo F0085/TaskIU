@@ -17,15 +17,7 @@
             TareasAdmin('Pendiente');
         });
     </script>
-    @elseif(session()->has('Id_Tarea'))
-      <script type="text/javascript">
-      $( document ).ready(function() {
-      $('#SelecTipoUserTareas').val('MisTareasResponsables');
-      TareasPorUsuario('','MisTareasResponsables','120');
-      ModalTareas('{{session('Id_Tarea')}}');
-      // $('#SelecTipoUserTareas').val('CPM');     
-      });
-      </script>
+    <!--  -->
       @else
         <script type="text/javascript">
         $( document ).ready(function() {
@@ -34,7 +26,47 @@
        </script>
 
     @endif
+    @if(session()->has('IdTtar_Reu'))
+    @if(session('tipoRol')=='Responsable')
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserTareas').val('MisTareasResponsables');
+          // $('#TablaTareas').html('');
+          TareasPorUsuario('','MisTareasResponsables','{{$_SESSION['id']}}');
+          ModalTareas('{{session('IdTtar_Reu')}}');
+
+         });
+    </script>
+    @endif
+    @if(session('tipoRol')=='Participante')
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserTareas').val('MisTareasParticipantes');
+          // $('#TablaTareas').html('');
+         TareasPorUsuario('','MisTareasParticipantes','{{$_SESSION['id']}}');
+          ModalTareas('{{session('IdTtar_Reu')}}');
+
+
+         });
+    </script>
+    @endif
+    @if(session('tipoRol')=='Observador')
+    <script type="text/javascript">
+       $( document ).ready(function() {
+         $('#SelecTipoUserTareas').val('MisTareasObservadores');
+          // $('#TablaTareas').html('');
+         TareasPorUsuario('','MisTareasObservadores','{{$_SESSION['id']}}');
+          ModalTareas('{{session('IdTtar_Reu')}}');
+
+         });
+    </script>
+    @endif
+  @endif
 @endif
+
+
+
+
 
 
 

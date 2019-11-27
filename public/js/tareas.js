@@ -28,6 +28,10 @@ function TareasAdmin(estado){
 		})
 }
 
+function resetearTipo(){
+	 $('#SelecTipoUserTareas').val('CPM');
+}
+
 
 function TareasEstAdministrador(estado){
 	$('#PanelAdminRol').html('');
@@ -567,6 +571,7 @@ function observadoresTask(){
 			// console.log(estado);
 			$('#TablaTareas').html('');
 			    $.get(TipoUser+'/'+IdUsuario+'/'+estado, function (data) {
+			    	$('#TablaTareas').html('');
 					$.each(data, function(i2, $valore) { 
 							$.each($valore, function(i2, $valores) { 
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
@@ -786,6 +791,7 @@ function observadoresTask(){
 
 //PARA CERRAR EL TIEMPO DE EJECUCION DE LA LISTA DE OBSERVACIONES
 	function cerrarIntervalo(){
+
 		window.clearInterval(intervalId);
 	}
 

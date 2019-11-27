@@ -141,6 +141,12 @@ class ReunionController extends Controller
                   'base_uri' => $this->servidor.'Reunio_Participante',
         ]); 
 
+        //CLIENTE NOTIFICACIONES
+        $ClienteNotificaciones = new Client([
+              'base_uri' => $this->servidor.'Notificaciones',
+        ]); 
+
+
 
         $fecha=date('Y-m-j H:i:s');
         $data = ['Id_Usuario'=>$_SESSION['id'],
@@ -168,6 +174,17 @@ class ReunionController extends Controller
                     $resultRespo= json_decode((string) $responseRespo->getBody(), true);
                     $Id_Usuario=Crypt::encrypt($responsables);
 
+                    $descripcionNotificacion='Ha sido invitado como Responsable a la reunión'.' '.$ResultadoReunion['Tema'].', para confirmar su asistencia por favor revise su correo electrónico.';
+                    $dataNotificacion = ['Id_Usuario'=>$responsables,
+                        'FechaLimite'=>$ResultadoReunion['FechadeReunion'],
+                        'VistaWeb'=>'0',
+                        'VistaMovil'=>'0',
+                        'tipo'=>'Reunion',
+                        'tipoRol'=>'Responsable',
+                        'descripcion'=>$descripcionNotificacion,
+                        'Id_Ttar_Reu'=>$ResultadoReunion['Id_Reunion']];
+                    $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
+
                     $dataEmail = ['Tema' => $request->Tema,
                                   'Fecha' => $request->FechaIn,
                                   'Hora' => $request->HoraIn,
@@ -191,6 +208,17 @@ class ReunionController extends Controller
                     $responseParti = $clienUser->request('GET', "Usuarios/{$participantes}");
                     $resultPar= json_decode((string) $responseParti->getBody(), true);
                     $Id_Usuario=Crypt::encrypt($participantes);
+
+                    $descripcionNotificacion='Ha sido invitado como Participante a la reunión'.' '.$ResultadoReunion['Tema'].', para confirmar su asistencia por favor revise su correo electrónico.';
+                    $dataNotificacion = ['Id_Usuario'=>$responsables,
+                        'FechaLimite'=>$ResultadoReunion['FechadeReunion'],
+                        'VistaWeb'=>'0',
+                        'VistaMovil'=>'0',
+                        'tipo'=>'Reunion',
+                        'tipoRol'=>'Participante',
+                        'descripcion'=>$descripcionNotificacion,
+                        'Id_Ttar_Reu'=>$ResultadoReunion['Id_Reunion']];
+                    $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
                     $dataEmail = ['Tema' => $request->Tema,
                                   'Fecha' => $request->FechaIn,
                                   'Hora' => $request->HoraIn,

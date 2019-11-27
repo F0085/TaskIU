@@ -105,7 +105,8 @@
 					                                        <thead >
 					                                            <tr style="color: black">
 					                                                <th>Usuario</th>
-					                                                <th align="center">Asistencia</th>                                      
+					                                                <th align="center">Asistencia</th> 
+                                                                    <th align="center">Observación</th>                                       
 					                                            </tr>
 					                                        </thead>
 					                                        <tbody id="ParticipantesReunionSeguimiento">

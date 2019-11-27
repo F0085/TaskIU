@@ -43,8 +43,10 @@ class AsistenciaController extends Controller
         if($tipo=='C'){
 
             $data = ['asistencia'=>'1',
-                    'motivo'=>''];       
+                    'motivo'=>''];      
+
             $res = $clientAsis->request('PUT','',['form_params' => $data]);
+           
             return view('ConfirmarAsistencia.Confirmar')->with(['Reunion'=>$Reunion]);
         }else if($tipo == 'NA'){
             $Id_Reunion= Crypt::encrypt($Id_Reunion);

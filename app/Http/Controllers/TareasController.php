@@ -286,17 +286,21 @@ class TareasController extends Controller
 	    //CLIENTE PARA RESPONSABLES
         $Clienteresponsable = new Client([
 		          'base_uri' => $this->servidor.'Responsables',
-		]); 
+		    ]); 
 
 	    //CLIENTE PARA PARTICIPANTES
         $ClienteParticipantes= new Client([
 		          'base_uri' => $this->servidor.'Participantes',
-		]); 
+		    ]); 
 
 	    //CLIENTE PARA OBSERVADORES
         $ClienteObservadores= new Client([
 		          'base_uri' => $this->servidor.'Observadores',
-		]); 
+		    ]); 
+
+         $ClienteNotificaciones = new Client([
+              'base_uri' => $this->servidor.'Notificaciones',
+        ]); 
 
         //PARA SABER SI CREAR UNA TAREA O SUBTAREAS
         if($request->tareasIdTareas != null){
@@ -320,8 +324,6 @@ class TareasController extends Controller
                  'tareaFavorita'=>'1',
                  'tareasIdTareas'=>$request->tareasIdTareas,
                  'tip_tar'=>$tipTar]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
-
-
         $res = $client->request('POST','',['form_params' => $data]);
         $ResultadoTareas=json_decode((string) $res->getBody(), true);
   
@@ -335,22 +337,52 @@ class TareasController extends Controller
 	         	foreach ($request->ResponsablesTask as $key => $responsables) {
 	         	    $dataResponsables = ['Id_Usuario'=>$responsables,
 	                 'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
-	                $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+	              $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
+                $descripcionNotificacion='Ha sido invitado como Responsable de la tarea'.' '.$ResultadoTareas['Nombre'];
+                $dataNotificacion = ['Id_Usuario'=>$responsables,
+                   'FechaLimite'=>$ResultadoTareas['FechaFin'],
+                   'VistaWeb'=>'0',
+                   'VistaMovil'=>'0',
+                    'tipo'=>'Tarea',
+                    'tipoRol'=>'Responsable',
+                    'descripcion'=>$descripcionNotificacion,
+                    'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
+                $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
 	         	}
         	}
         	if($request->ParticipantesTask != null){
 	         	foreach ($request->ParticipantesTask as $key => $participantes) {
-	                $dataParticipantes = ['Id_Usuario'=>$participantes,
+	              $dataParticipantes = ['Id_Usuario'=>$participantes,
 	                 'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
-	                $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+	              $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
+                $descripcionNotificacion='Ha sido invitado como Participante de la tarea'.' '.$ResultadoTareas['Nombre'];
+                $dataNotificacion = ['Id_Usuario'=>$participantes,
+                  'FechaLimite'=>$ResultadoTareas['FechaFin'],
+                  'VistaWeb'=>'0',
+                  'VistaMovil'=>'0',
+                  'tipo'=>'Tarea',
+                  'tipoRol'=>'Participante',
+                  'descripcion'=>$descripcionNotificacion,
+                  'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
+                $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
 	            } 
 	        }
 	        
             if($request->ObservadoresTask !=null){
               foreach ($request->ObservadoresTask as $key => $observadores) {
                   $dataObservadores = ['Id_Usuario'=>$observadores,
-                   'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
+                  'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
                   $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
+                  $descripcionNotificacion='Ha sido invitado como Observador de la tarea'.' '.$ResultadoTareas['Nombre'];
+                  $dataNotificacion = ['Id_Usuario'=>$observadores,
+                    'FechaLimite'=>$ResultadoTareas['FechaFin'],
+                    'VistaWeb'=>'0',
+                    'VistaMovil'=>'0',
+                    'tipo'=>'Tarea',
+                    'tipoRol'=>'Observador',
+                    'descripcion'=>$descripcionNotificacion,
+                    'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
+                  $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
               } 
             }
             return json_decode((string) $res->getBody(), true);

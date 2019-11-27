@@ -153,7 +153,7 @@ class TareasController extends Controller
 
      public function TareasEstadoAdministrador($estado)
     {
-        session_start();
+        // session_start();
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);

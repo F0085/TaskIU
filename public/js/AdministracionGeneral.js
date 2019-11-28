@@ -35,7 +35,7 @@ function RegistrarArea(){
 		        
 		        	ListaAreas();
 		        	ListaAreaRoles('F');
-		        	$('#cargar').fadeIn(1000).html(data); 
+		        	$('#cargar').fadeIn(1000).html(''); 
 		        	alertify.success("Registro exitoso!")
 		        	CancelarActualizacionArea();	        	
 
@@ -132,7 +132,7 @@ function ActualizarArea(){
 	        {
 	            ListaAreas();
 	            ListaAreaRoles('F');
-	        	$('#cargar').fadeIn(1000).html(data); 
+	        	$('#cargar').fadeIn(1000).html(''); 
 	        	alertify.success("Registro Actualizado!");
 	        	CancelarActualizacionArea();
 	        
@@ -170,7 +170,7 @@ function EliminarArea($id){
 	        		$(`#AreaSubArea option[value=${data}]`).remove();
 	        	ListaAreas();
 	        	ListaAreaRoles('F');
-	        	$('#cargar').fadeIn(1000).html(data); 
+	        	$('#cargar').fadeIn(1000).html(''); 
 	        	alertify.success("Registro Eliminado!")
 	        	CancelarActualizacionArea();
 	        	

@@ -89,7 +89,7 @@ function EditarArea(id){
         $("#IngresarArea").html("");
         $("#Area").val(data['Descripcion']);
         $("#IngresarArea").append(`<button onclick="ActualizarArea()" type="button" class="btn btn-warning btn-block">Actualizar </button> <button onclick="CancelarActualizacionArea()" type="button" class="btn btn-primary btn-block">Cancelar </button>`);
-    	// $('#cargar').fadeIn(1000).html(data); 
+    	// $('#cargar').fadeIn(1000).html(''); 
     });
 }
 
@@ -217,7 +217,7 @@ function RegistrarSubArea(){
 		        	$('#SubArea_A_ROL').append(`<option value="${data['Id_Sub_Area']}">${data.Descripcion}</option>`);
 		        	ListaSubArea();
 		        	// ListaAreaRoles('F');
-		        	$('#cargar').fadeIn(1000).html(data); 
+		        	$('#cargar').fadeIn(1000).html(''); 
 		        	alertify.success("Registro exitoso!")
 		        	 CancelarActualizacionSubArea();	        	
 
@@ -269,7 +269,7 @@ function EditarSubArea(id){
         $("#IngresarSubArea").html("");
         $("#SubAreaInp").val(data['Descripcion']);
         $("#IngresarSubArea").append(`<button onclick="ActualizarSubArea()" type="button" class="btn btn-warning btn-block">Actualizar </button> <button onclick="CancelarActualizacionSubArea()" type="button" class="btn btn-primary btn-block">Cancelar </button>`);
-    	// $('#cargar').fadeIn(1000).html(data); 
+    	// $('#cargar').fadeIn(1000).html(''); 
     });
 }
 
@@ -319,7 +319,7 @@ function ActualizarSubArea(){
 		        {
 		        	ListaSubArea();
 		        	// ListaAreaRoles('F');
-		        	$('#cargar').fadeIn(1000).html(data); 
+		        	$('#cargar').fadeIn(1000).html(''); 
 		        	alertify.success("Registro Actualizado!")
 		        	 CancelarActualizacionSubArea();	        	
 
@@ -369,7 +369,7 @@ function EliminarSubArea($id){
 	        {
 	        	$(`#SubArea_A_ROL option[value=${data}]`).remove();
 		        	ListaSubArea();
-		        	$('#cargar').fadeIn(1000).html(data); 
+		        	$('#cargar').fadeIn(1000).html(''); 
 		        	alertify.success("Registro Eliminado!")
 		        	CancelarActualizacionSubArea();	
 	        	
@@ -443,7 +443,7 @@ function IngresarRol(){
 	        {
 	        	ListarRol();
 	        	// ListaAreaRoles('F');
-	        	$('#cargar').fadeIn(1000).html(data); 
+	        	$('#cargar').fadeIn(1000).html(''); 
 	        	alertify.success("Registro exitoso!")
 	        	CancelarActualizacionRol();
 	        
@@ -512,7 +512,7 @@ function ActualizarRol(){
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
 	        	ListarRol();
-	        	$('#cargar').fadeIn(1000).html(data); 
+	        	$('#cargar').fadeIn(1000).html(''); 
 	        	alertify.success("Registro Actualizado!")
 	        	CancelarActualizacionRol();
 	        
@@ -562,7 +562,7 @@ function EliminarRol($id){
 	        {
 	        
 	        	ListarRol();
-	        	$('#cargar').fadeIn(1000).html(data); 
+	        	$('#cargar').fadeIn(1000).html(''); 
 	        	alertify.success("Registro Eliminado!")
 	        	CancelarActualizacionRol();
 	        	
@@ -719,7 +719,7 @@ function RegistrarUsuario(val){
 				        if(val=='A'){
 				        	 ListaUsuarios();
 				        	 limpiarCampos();
-				        	$('#cargar').fadeIn(1000).html(data); 
+				        	$('#cargar').fadeIn(1000).html(''); 
 				        	alertify.success("Registro exitoso!")
 				        }else if (val=='Z'){
 
@@ -848,7 +848,7 @@ function EditarUsuarios(id){
                                     <label class="form-check-label">
                                     <input onclick="onToggle()" type="checkbox" id="ActClaveCHE" class="form-check-input" value="">Actualizar Contraseña</label>
                                         </div> <div class="row"> <div class="col-md-6"> <button onclick="ActualizarUsuario()" type="button" class="btn btn-warning btn-block">Actualizar </button></div> <div class="col-md-6"><button onclick="CancelarActualizacionUser()" type="button" class="btn btn-primary btn-block">Cancelar </button></div></div>`);
-    	// $('#cargar').fadeIn(1000).html(data); 
+    	// $('#cargar').fadeIn(1000).html(''); 
     });
 
 }
@@ -902,7 +902,7 @@ function ActualizarUsuario(){
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
 	        	ListaUsuarios();
-	        	$('#cargar').fadeIn(1000).html(data); 
+	        	$('#cargar').fadeIn(1000).html(''); 
 	        	alertify.success("Registro Actualizado!");
 	        	CancelarActualizacionUser();
 	        
@@ -999,7 +999,7 @@ function RegistrarAreaRol(){
 		                       // Tipo de solicitud que se enviará, llamado como método
 		        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 		        { 
-		        	$('#cargar').fadeIn(1000).html(data); 
+		        	$('#cargar').fadeIn(1000).html(''); 
 		        	ListaAreaRoles('I');
 		        	
 		        	CancelarActualizacionAreaRol();
@@ -1043,7 +1043,7 @@ function EditarAreaRol(id){
 	        $("#AreaROL").val(data['Id_Area']);
 	        $("#ROL_A").val(data['Id_Roles']);
 	        $("#IngresarAreaRol").append(`<button onclick="ActualizarAreaRol()" type="button" class="btn btn-warning btn-block">Actualizar </button> <button onclick="CancelarActualizacionAreaRol()" type="button" class="btn btn-primary btn-block">Cancelar </button>`);
-	    	// $('#cargar').fadeIn(1000).html(data); 
+	    	// $('#cargar').fadeIn(1000).html(''); 
 	    
     });
 
@@ -1090,7 +1090,7 @@ function ActualizarAreaRol(){
 	                       // Tipo de solicitud que se enviará, llamado como método
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
-	        	  $('#cargar').fadeIn(1000).html(data); 
+	        	  $('#cargar').fadeIn(1000).html(''); 
 	  			ListaAreaRoles('A');
 	  			CancelarActualizacionAreaRol();
 	        	
@@ -1136,7 +1136,7 @@ function ListaAreaRoles(tipoT){
 	                    </td>
 	                 </tr>`);
 	        });    
-	        $('#cargar').fadeIn(1000).html(data); 
+	        $('#cargar').fadeIn(1000).html(''); 
 	        CancelarActualizacionAreaRol();
 	        if(tipoT=='A'){
 	        	alertify.success("Registro Actualizado!")
@@ -1169,7 +1169,7 @@ function EliminarAreaRoles($id){
 	        method: "DELETE", 
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
-	          $('#cargar').fadeIn(1000).html(data); 
+	          $('#cargar').fadeIn(1000).html(''); 
 	        	ListaAreaRoles('E');
 	        
 	        	// alertify.success("Registro Eliminado!")

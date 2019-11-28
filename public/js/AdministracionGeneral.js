@@ -813,7 +813,7 @@ function ListaUsuarios(){
                     <td> ${item['Direccion']}</td>
                     <td> ${item['TipoUsuario']}</td>
                     <td> ${item['email']}</td>
-                    <td><button onclick="EditarUsuarios(${item['Id_Usuario']})"  type="button" class=" btn btn-info btn-sm">  <span class="ti-pencil-alt"></span></button> <button disabled onclick="EliminarRol(${item['Id_Usuario']})"  type="button" class="btn btn-danger btn-sm" >  <span class="icon-trash"></span></button></td>
+                    <td><button onclick="EditarUsuarios(${item['Id_Usuario']})"  type="button" class=" btn btn-info btn-sm">  </td>
                  </tr>`);
         });      
     });

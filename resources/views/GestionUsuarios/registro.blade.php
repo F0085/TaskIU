@@ -165,7 +165,7 @@
                                                                 <td >{{$valor['Direccion']}}</td>
                                                                 <td >{{$valor['TipoUsuario']}}</td>
                                                                 <td >{{$valor['email']}}</td>
-                                                                <td><button  type="button" class=" btn btn-info btn-sm" onclick="EditarUsuarios('{{$valor['Id_Usuario']}}')">  <span class="ti-pencil-alt"></span></button>  <button disabled="" readonly type="button" class=" btn btn-danger btn-sm" onclick="EliminarArea('{{$valor['Id_Usuario']}}')">  <span class="icon-trash"></span></button>
+                                                                <td><button  type="button" class=" btn btn-info btn-sm" onclick="EditarUsuarios('{{$valor['Id_Usuario']}}')">  <span class="ti-pencil-alt"></span></button>  
                                                                 </td>
                                                             </tr>
                                                         @endforeach

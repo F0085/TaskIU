@@ -38,7 +38,7 @@
 					}));
 					$.each(item['sub_area'], function(i1, item1) {
 		       	 		items.push(new primitives.orgdiagram.ItemConfig({
-						id: item1['Id_Sub_Area'],
+						id: item1['Id_Sub_Area']+'sub',
 						parent: item['Id_Area'],
 						// title: `<i class="fa fa-user"></i>`,
 						description: item1['Descripcion'],
@@ -49,8 +49,8 @@
 						}));
 						$.each(item1['roles'], function(i2, item2) {
 			       	 		items.push(new primitives.orgdiagram.ItemConfig({
-							id: item2['Id_Roles'],
-							parent: item1['Id_Sub_Area'],
+							id: item2['Id_Roles']+'Rol',
+							parent: item1['Id_Sub_Area']+'sub',
 							// title: `<i class="fa fa-user"></i>`,
 							description: item2['Descripcion'],
 							groupTitle: "Rol",
@@ -61,8 +61,8 @@
 
 							$.each(item2['usuario_roles'], function(i3, item3) {
 			       	 		items.push(new primitives.orgdiagram.ItemConfig({
-							id: item3['Id_Usuario'],
-							parent: item2['Id_Roles'],
+							id: item3['Id_Usuario']+'user',
+							parent: item2['Id_Roles']+'Rol',
 							title:item3['usuarios']['Nombre']+' '+ item3['usuarios']['Apellido'],
 							description:  item3['usuarios']['email'],
 							groupTitle: "Usuarios",

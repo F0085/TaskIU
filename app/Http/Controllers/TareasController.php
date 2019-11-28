@@ -364,7 +364,7 @@ class TareasController extends Controller
                    'VistaWeb'=>'0',
                    'VistaMovil'=>'0',
                     'tipo'=>'Tarea',
-                    'tipoRol'=>'MisTareasResponsable',
+                    'tipoRol'=>'MisTareasResponsables',
                     'descripcion'=>$descripcionNotificacion,
                     'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
                 $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
@@ -381,7 +381,7 @@ class TareasController extends Controller
                   'VistaWeb'=>'0',
                   'VistaMovil'=>'0',
                   'tipo'=>'Tarea',
-                  'tipoRol'=>'MisTareasParticipante',
+                  'tipoRol'=>'MisTareasParticipantes',
                   'descripcion'=>$descripcionNotificacion,
                   'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
                 $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
@@ -399,7 +399,7 @@ class TareasController extends Controller
                     'VistaWeb'=>'0',
                     'VistaMovil'=>'0',
                     'tipo'=>'Tarea',
-                    'tipoRol'=>'MisTareasObservador',
+                    'tipoRol'=>'MisTareasObservadores',
                     'descripcion'=>$descripcionNotificacion,
                     'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
                   $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);

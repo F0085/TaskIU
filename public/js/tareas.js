@@ -517,6 +517,7 @@ function observadoresTask(){
 	function TareasCPM(estado){
 			$('#TablaTareas').html('');
 			    $.get('tareasCPM/'+estado, function (data) {
+			    	$('#TablaTareas').html('');
 							$.each(data, function(i2, $valores) { 
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>

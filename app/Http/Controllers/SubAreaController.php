@@ -116,6 +116,7 @@ class SubAreaController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
-        $res = $client->request('DELETE', "SubArea/".$id);
+        $client->request('DELETE', "SubArea/".$id);
+        return $id;
     }
 }

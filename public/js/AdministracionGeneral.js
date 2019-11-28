@@ -166,6 +166,8 @@ function EliminarArea($id){
 	        method: "DELETE", 
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
+	        	$(`#AreaROL option[value=${data}]`).remove();
+	        		$(`#AreaSubArea option[value=${data}]`).remove();
 	        	ListaAreas();
 	        	ListaAreaRoles('F');
 	        	$('#cargar').fadeIn(1000).html(data); 
@@ -365,6 +367,7 @@ function EliminarSubArea($id){
 	        method: "DELETE", 
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
+	        	$(`#SubArea_A_ROL option[value=${data}]`).remove();
 		        	ListaSubArea();
 		        	$('#cargar').fadeIn(1000).html(data); 
 		        	alertify.success("Registro Eliminado!")
@@ -406,7 +409,7 @@ function CancelarActualizacionRol(){
 	$("#SubArea_A_ROL").val('0');
 	$("#SubArea_A_ROL").prop('disabled',true);
 	$("#ROL_A_ROL").val("");
-	$("#IngresarRol").append(`<button onclick="RegistrarRol()" type="button" class="btn btn-primary btn-block">Ingresar </button> `);
+	$("#IngresarRol").append(`<button onclick="IngresarRol()" type="button" class="btn btn-primary btn-block">Ingresar </button> `);
 
 }
 
@@ -557,7 +560,7 @@ function EliminarRol($id){
 	        method: "DELETE", 
 	        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 	        {
-	        	// ListaRoles();
+	        
 	        	ListarRol();
 	        	$('#cargar').fadeIn(1000).html(data); 
 	        	alertify.success("Registro Eliminado!")

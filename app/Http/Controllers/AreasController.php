@@ -79,6 +79,7 @@ class AreasController extends Controller
           'base_uri' => $this->servidor,
         ]);
         $res = $client->request('DELETE', "Area/".$id);
+        return $id;
 
     }
 }

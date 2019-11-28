@@ -31,7 +31,7 @@
        $( document ).ready(function() {
          $('#SelecTipoUserTareas').val('MisTareasResponsables');
           // $('#TablaTareas').html('');
-         // TareasPorUsuario('','MisTareasResponsables','<?php echo e($_SESSION['id']); ?>');
+          TareasPorUsuario('','MisTareasResponsables','<?php echo e($_SESSION['id']); ?>');
           ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
 
          });

@@ -69,8 +69,17 @@ class TareasController extends Controller
         $client = new Client([
           'base_uri' => $this->servidor,
         ]);
+        $resul =array();
         $response = $client->request('GET', "Usuarios");
-        return json_decode((string) $response->getBody(), true);
+        $resultado= json_decode((string) $response->getBody(), true);
+        return $resultado;
+        // foreach ($resultado as $key => $value) {
+        //   if($value['email'] != ''){
+        //     $resul[$key]=$value;
+        //   }
+        // }
+        // return $resul;
+
     }
 
     

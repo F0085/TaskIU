@@ -37,8 +37,13 @@
 
 
 </head>
+<?php if(isset($_SESSION['id'])): ?>
+<body  onload="TiempoActividad();NotificarTareas('<?php echo e($_SESSION['id']); ?>')" >
+<?php else: ?>
+<body  onload="TiempoActividad();">
 
-<body  onload="TiempoActividad();NotificarTareas()" >
+
+<?php endif; ?>
 
 
 
@@ -107,7 +112,7 @@
                 </div> -->
                 <div class="header-right">
                     <ul class="clearfix">
-                        <li class="icons dropdown"><a onclick="NotificarTareas();"  href="javascript:void(0)" data-toggle="dropdown">
+                        <li class="icons dropdown"><a <?php if(isset($_SESSION['id'])): ?> onclick="NotificarTareas('<?php echo e($_SESSION['id']); ?>');" <?php endif; ?>  href="javascript:void(0)" data-toggle="dropdown">
                                 <i  class="mdi mdi-bell-outline"></i>
                                 <span id="newMessage" class="badge gradient-1 badge-pill badge-primary"></span>
                             </a>

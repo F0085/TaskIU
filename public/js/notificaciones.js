@@ -1,9 +1,12 @@
-function NotificarTareas(){
+function NotificarTareas($idUsuario){
 
 	$('#CuerpoNotificaciones').html('');
 	$.get('Notificaciones', function (data) {
 		
+
+		
 		$.each(data, function(i, item) { 
+			if($idUsuario==item['Id_Usuario']){
 			console.log(item);
 			if(item['VistaWeb']==0){
 				if(item['tipo']=='Tarea'){var ruta='/Task'; var notifyHead='Tarea'; var img="/images/task.png";}else if(item['tipo']=='Reunion'){var ruta='/ReunionN'; var notifyHead='Reunión';var img="/images/reunion.png";}
@@ -18,8 +21,9 @@ function NotificarTareas(){
                                             </a>
                                         </li>`);
 			}
-
-	});
+		}
+		});
+		
 		
 	});
 }

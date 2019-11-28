@@ -186,6 +186,8 @@ function FiltroGeneral(IdUsuario,anio,mes) {
 	}
 
 	if($('#FiltroUsuario').val() != ''){
+		 		$('#divMesAdmin').prop('hidden',false);
+ 		$('#divAnioAdmin').prop('hidden',false);
 		IdUsuario=$('#FiltroUsuario').val();
 		if(anio == 0 || mes== 0){
 			TotalPorUsuario(IdUsuario);
@@ -195,10 +197,11 @@ function FiltroGeneral(IdUsuario,anio,mes) {
 		IdUsuario=0;
 		TotalEstadoEmpresa();
  		$('#TituloSituacion').html(`<b>SITUACIÓN ACTUAL DE LA EMPRESA`);
- 		$('#MesAdmin').prop('disabled',true);
- 		$('#anioAdmin').prop('disabled',true);
+ 		
  		$('#divMesAdmin').prop('hidden',true);
  		$('#divAnioAdmin').prop('hidden',true);
+
+
  		return;
 
 	}

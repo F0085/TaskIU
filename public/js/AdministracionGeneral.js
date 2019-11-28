@@ -30,6 +30,9 @@ function RegistrarArea(){
 		                       // Tipo de solicitud que se enviará, llamado como método
 		        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 		        {
+		        	$('#AreaSubArea').append(`<option value="${data['Id_Area']}">${data.Descripcion}</option>`);
+		        	$('#AreaROL').append(`<option value="${data['Id_Area']}">${data.Descripcion}</option>`);
+		        
 		        	ListaAreas();
 		        	ListaAreaRoles('F');
 		        	$('#cargar').fadeIn(1000).html(data); 
@@ -209,6 +212,7 @@ function RegistrarSubArea(){
 		                       // Tipo de solicitud que se enviará, llamado como método
 		        success: function (data)   // Una función a ser llamada si la solicitud tiene éxito
 		        {
+		        	$('#SubArea_A_ROL').append(`<option value="${data['Id_Sub_Area']}">${data.Descripcion}</option>`);
 		        	ListaSubArea();
 		        	// ListaAreaRoles('F');
 		        	$('#cargar').fadeIn(1000).html(data); 

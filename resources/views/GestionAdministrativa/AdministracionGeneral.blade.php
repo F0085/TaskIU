@@ -11,9 +11,9 @@
             <div class="card-body">
                 <h4 class="card-title">GESTIÓN ADMINISTRATIVA</h4>
                 <ul class="nav nav-tabs mb-3" role="tablist">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#AreaP"><span><i class="fa fa-ravelry"></i>  Registro de Áreas</span></a>
+                    <li class="nav-item"><a  class="nav-link active" data-toggle="tab" href="#AreaP"><span><i class="fa fa-ravelry"></i>  Registro de Áreas</span></a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#SubAreas"><span><i class="fa fa-eercast"></i>  Registro de SubAreas</span></a>
+                    <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#SubAreas"><span><i class="fa fa-eercast"></i>  Registro de SubAreas</span></a>
                     </li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#AreaRoles"><span><i class="fa fa-superpowers"></i>  Registro de Roles</span></a>
                     </li>

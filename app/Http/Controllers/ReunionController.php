@@ -174,7 +174,7 @@ class ReunionController extends Controller
                     $resultRespo= json_decode((string) $responseRespo->getBody(), true);
                     $Id_Usuario=Crypt::encrypt($responsables);
 
-                    $descripcionNotificacion='Ha sido invitado como Responsable a la reunión'.' '.$ResultadoReunion['Tema'].', para confirmar su asistencia por favor revise su correo electrónico.';
+                    $descripcionNotificacion='Ha sido invitado como Responsable a la reunión'.' "'.$ResultadoReunion['Tema'].'", para confirmar su asistencia por favor revise su correo electrónico.';
                     $dataNotificacion = ['Id_Usuario'=>$responsables,
                         'FechaLimite'=>$ResultadoReunion['FechadeReunion'],
                         'VistaWeb'=>'0',
@@ -209,8 +209,8 @@ class ReunionController extends Controller
                     $resultPar= json_decode((string) $responseParti->getBody(), true);
                     $Id_Usuario=Crypt::encrypt($participantes);
 
-                    $descripcionNotificacion='Ha sido invitado como Participante a la reunión'.' '.$ResultadoReunion['Tema'].', para confirmar su asistencia por favor revise su correo electrónico.';
-                    $dataNotificacion = ['Id_Usuario'=>$responsables,
+                    $descripcionNotificacion='Ha sido invitado como Participante a la reunión'.' "'.$ResultadoReunion['Tema'].'", para confirmar su asistencia por favor revise su correo electrónico.';
+                    $dataNotificacion = ['Id_Usuario'=>$participantes,
                         'FechaLimite'=>$ResultadoReunion['FechadeReunion'],
                         'VistaWeb'=>'0',
                         'VistaMovil'=>'0',

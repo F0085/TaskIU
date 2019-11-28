@@ -7,11 +7,11 @@ function NotificarTareas($idUsuario){
 		
 		$.each(data, function(i, item) { 
 			if($idUsuario==item['Id_Usuario']){
-			console.log(item);
+		
 			if(item['VistaWeb']==0){
 				if(item['tipo']=='Tarea'){var ruta='/Task'; var notifyHead='Tarea'; var img="/images/task.png";}else if(item['tipo']=='Reunion'){var ruta='/ReunionN'; var notifyHead='Reunión';var img="/images/reunion.png";}
 				$('#CuerpoNotificaciones').append(`<li class="notification-unread">
-                                            <a href="${ruta}/${item['Id_Ttar_Reu']}/${item['tipoRol']}">
+                                            <a href="${ruta}/${item['Id_Ttar_Reu']}/${item['tipoRol']}/${item['Id_notificaciones']}">
                                                 <img class="float-left mr-3 avatar-img" src="${img}" alt="">
                                                 <div class="notification-content">
                                                     <div class="notification-heading">Invitación a ${notifyHead}</div>

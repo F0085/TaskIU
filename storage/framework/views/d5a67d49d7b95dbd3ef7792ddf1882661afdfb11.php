@@ -10,7 +10,7 @@
 </script> -->
 <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
     <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-
+ 
     <script type="text/javascript">
         $( document ).ready(function() {
             TareasAdmin('Pendiente');
@@ -23,45 +23,52 @@
              TareasTipo('T','Pendiente');
         });
        </script>
+    
+
+
 
     <?php endif; ?>
-    <?php if(session()->has('IdTtar_Reu')): ?>
-    <?php if(session('tipoRol')=='Responsable'): ?>
-    <script type="text/javascript">
-       $( document ).ready(function() {
-         $('#SelecTipoUserTareas').val('MisTareasResponsables');
-          // $('#TablaTareas').html('');
-          TareasPorUsuario('','MisTareasResponsables','<?php echo e($_SESSION['id']); ?>');
-          ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
-
-         });
-    </script>
-    <?php endif; ?>
-    <?php if(session('tipoRol')=='Participante'): ?>
-    <script type="text/javascript">
-       $( document ).ready(function() {
-         $('#SelecTipoUserTareas').val('MisTareasParticipantes');
-          // $('#TablaTareas').html('');
-         TareasPorUsuario('','MisTareasParticipantes','<?php echo e($_SESSION['id']); ?>');
-          ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
-
-
-         });
-    </script>
-    <?php endif; ?>
-    <?php if(session('tipoRol')=='Observador'): ?>
-    <script type="text/javascript">
-       $( document ).ready(function() {
-         $('#SelecTipoUserTareas').val('MisTareasObservadores');
-          // $('#TablaTareas').html('');
-         TareasPorUsuario('','MisTareasObservadores','<?php echo e($_SESSION['id']); ?>');
-          ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
-
-         });
-    </script>
-    <?php endif; ?>
-  <?php endif; ?>
+    
 <?php endif; ?>
+
+    <?php if(session()->has('IdTtar_Reu')): ?>
+
+      <?php if(session('tipoRol')=='MisTareasResponsables'): ?>
+    
+      <script type="text/javascript">
+         $( document ).ready(function() {
+           $('#SelecTipoUserTareas').val('MisTareasResponsables');
+            // $('#TablaTareas').html('');
+            TareasPorUsuario('','MisTareasResponsables','<?php echo e($_SESSION['id']); ?>');
+            ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
+
+           });
+      </script>
+      <?php endif; ?>
+      <?php if(session('tipoRol')=='MisTareasParticipantes'): ?>
+      <script type="text/javascript">
+         $( document ).ready(function() {
+           $('#SelecTipoUserTareas').val('MisTareasParticipantes');
+            // $('#TablaTareas').html('');
+           TareasPorUsuario('','MisTareasParticipantes','<?php echo e($_SESSION['id']); ?>');
+            ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
+
+
+           });
+      </script>
+      <?php endif; ?>
+      <?php if(session('tipoRol')=='MisTareasObservadores'): ?>
+      <script type="text/javascript">
+         $( document ).ready(function() {
+           $('#SelecTipoUserTareas').val('MisTareasObservadores');
+            // $('#TablaTareas').html('');
+           TareasPorUsuario('','MisTareasObservadores','<?php echo e($_SESSION['id']); ?>');
+            ModalTareas('<?php echo e(session('IdTtar_Reu')); ?>');
+
+           });
+      </script>
+      <?php endif; ?>
+  <?php endif; ?>
 
 
 

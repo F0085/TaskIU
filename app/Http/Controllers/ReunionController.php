@@ -43,7 +43,15 @@ class ReunionController extends Controller
           'base_uri' => $this->servidor,
         ]);
         $response = $client->request('GET', "ReunionPorEstado_User/{$estado}/{$_SESSION['id']}");
-        return json_decode((string) $response->getBody(), true);
+        $resultado= json_decode((string) $response->getBody(), true);
+        foreach ($resultado as $key => $value) {
+            $estado=$this->EstadoVencimiento($value['FechadeReunion'].' '.$value['HoraReunion']);
+            // $resultado[$key]=array('Estado'=>$estado);
+             array_push($resultado[$key],$estado);
+            // $resultado[$key]->EstadoV=$estado;
+        }
+        return $resultado;
+   
     }
 
 

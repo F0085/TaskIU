@@ -103,7 +103,8 @@ class DocumentoController extends Controller
              if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
                 \Storage::disk('Documento')->put($ruta,  \File::get($file));
                 $public_path = public_path();
-                return back()->with(['Id_Tarea'=>$request->idTar,'TipoUsuario'=>$request->TipoUsuario])->withInput();
+              
+                return back()->with(['IdTtar_Reu'=>$request->idTar,'tipoRol'=>$request->TipoUsuario])->withInput();
                 // return view('GestionTareas.MisTareas')->with(['EstadoNav'=>$request->EstadoNav,'TipoTarea'=>$request->TipoTarea,'TipoUsuario'=>$request->TipoUsuario,'idTar'=>$request->idTar]);
             }
    

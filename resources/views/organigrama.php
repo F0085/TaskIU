@@ -10,8 +10,10 @@
 	
 	<script type="text/javascript" src="/BasicPrimitives/min/primitives.min.js?5100"></script>
 	<link href="/BasicPrimitives/min/primitives.latest.css?5100" media="screen" rel="stylesheet" type="text/css" />
+	  <script type="text/javascript" src="{{asset('js/OrganigramaF.js')}}"></script>
 
 	<script type='text/javascript'>
+
 		var control;
 		var timer = null;
 

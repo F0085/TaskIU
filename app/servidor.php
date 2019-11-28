@@ -1,6 +1,6 @@
 <?php
 function servidor()
 {
-    $servidor = "http://localhost:8000/";
+    $servidor = "http://18.188.234.88/";
     return $servidor;
  }

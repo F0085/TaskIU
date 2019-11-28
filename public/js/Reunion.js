@@ -194,6 +194,7 @@ function TerminarReunion(){
 	    }
 		$('#TablaReuniones').html('');
 	    $.get('ReunionPorEstado_User/'+estado, function (data) {
+	    	
 	    	  llenarTabla(data,estado);			 
 		      	
 			 });
@@ -201,7 +202,7 @@ function TerminarReunion(){
 
 
 	function llenarTabla(data,estado){
-		console.log(estado);		var signo;
+				var signo;
 	
 		// var progreso=100;
 	    $.each(data, function(i1, $valores) { 
@@ -243,10 +244,16 @@ function TerminarReunion(){
 
 	    	}
 	    	else{
-	    	 $.get('EstadoVencimiento/'+$valores['FechadeReunion']+' '+$valores['HoraReunion'], function (data) {
-	    	 	 vencida=`<span style="font-size:12px	" class="badge badge-danger">Vencida</span>`;
+	 
+
+
+	    	 
 	    	
-	    	
+	    	if($valores['0']='1'){
+	    		var Vencida='Vencida';
+	    	}else{
+	    		var Vencida='Pendiente';
+	    	}
 	    	
 
 	    	
@@ -260,10 +267,10 @@ function TerminarReunion(){
 	                                    </td>
 	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
 	                                    <td>${$valores['FechaCreacion']}</td>
-	                                    <td>${vencida}</td>
+	                                    <td><span style="font-size:12px	" class="badge badge-danger">${Vencida}</span></td>
 
 	                                </tr>`);
-		     });
+		    
 	    	}
 		    $.each($valores['responsables'], function(i, $vREs) { 
 		      $('#'+$valores['Id_Reunion']+'Responsable').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vREs['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']}</a> <br><br>`);
@@ -307,7 +314,7 @@ function TerminarReunion(){
 		    $.get(TipoUser+'/'+estado, function (data) {
 		    	$('#TablaReuniones').html('');
 				$.each(data, function(i1, $valore) { 
-						llenarTabla($valore);
+						llenarTabla($valore,estado);
 					}); 
 			      	$('#cargar').fadeIn(1000).html(''); 
 	   	});

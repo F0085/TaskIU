@@ -28,11 +28,18 @@ class NotificacionController extends Controller
         return json_decode((string) $response->getBody(), true);
     }
 
-    public function Task($IdTtar_Reu,$tipoRol){
+    public function Task($IdTtar_Reu,$tipoRol,$idNotificacion){
+        
     	 return redirect('Tareas')->with(['IdTtar_Reu'=>$IdTtar_Reu,'tipoRol'=> $tipoRol]);
     }
 
-    public function ReunionN($IdTtar_Reu,$tipoRol){
+    public function ReunionN($IdTtar_Reu,$tipoRol,$idNotificacion){
+            $client = new Client([
+          'base_uri' => $this->servidor.'Notificaciones/'.$idNotificacion,
+        ]);
+                $data = ['VistaWeb'=>'1'];
+        $res = $client->request('PUT','',['form_params' => $data]); 
+
     	 return redirect('Reunion')->with(['IdTtar_Reu'=>$IdTtar_Reu,'tipoRol'=> $tipoRol]);
     }
 }

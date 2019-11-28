@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 Use Exception;
 
 
+
 class TareasController extends Controller
 {
     public $servidor;
@@ -18,12 +19,17 @@ class TareasController extends Controller
 
 	public function index(){
   
-      
-   
+      try {
+
       $Usuarios=$this->Usuarios();
       $Tareas=$this->TareasEstado('Pendiente');
       $TipoTareas=$this->TipoTareasPerTra();  
       return view('GestionTareas.MisTareas')->with(['Usuarios'=>$Usuarios, 'Tareas'=>$Tareas,'TipoTareas'=>$TipoTareas]);
+      } catch (Exception $e) {
+        return redirect('login');
+      }
+   
+      
 
 	} 
 
@@ -358,7 +364,7 @@ class TareasController extends Controller
                    'VistaWeb'=>'0',
                    'VistaMovil'=>'0',
                     'tipo'=>'Tarea',
-                    'tipoRol'=>'Responsable',
+                    'tipoRol'=>'MisTareasResponsable',
                     'descripcion'=>$descripcionNotificacion,
                     'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
                 $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
@@ -375,7 +381,7 @@ class TareasController extends Controller
                   'VistaWeb'=>'0',
                   'VistaMovil'=>'0',
                   'tipo'=>'Tarea',
-                  'tipoRol'=>'Participante',
+                  'tipoRol'=>'MisTareasParticipante',
                   'descripcion'=>$descripcionNotificacion,
                   'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
                 $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);
@@ -393,7 +399,7 @@ class TareasController extends Controller
                     'VistaWeb'=>'0',
                     'VistaMovil'=>'0',
                     'tipo'=>'Tarea',
-                    'tipoRol'=>'Observador',
+                    'tipoRol'=>'MisTareasObservador',
                     'descripcion'=>$descripcionNotificacion,
                     'Id_Ttar_Reu'=>$ResultadoTareas['Id_tarea']];
                   $ClienteNotificaciones->request('POST','',['form_params' => $dataNotificacion]);

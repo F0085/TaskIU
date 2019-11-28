@@ -208,9 +208,9 @@
                 </div>
             <div class="table-responsive" style="font-size: 12px; overflow:scroll; height:500px; width:100%">
                 <table class="table  header-border table-hover sortable">
-                    <thead>
+                    <thead id="cabeceraTareas">
                         <tr style="color: black">
-               <!--              <th scope="col">#</th> -->
+        
                             <th style="cursor: pointer;" title="Ordenar" scope="col">Nombre</th>
                             <th style="cursor: pointer;" title="Ordenar" scope="col">Fecha Límite</th>
                             <th style="cursor: pointer;" title="Ordenar"  scope="col">Creado Por</th>
@@ -218,6 +218,7 @@
                             <th style="cursor: pointer;" title="Ordenar" scope="col">Participantes</th>
                             <th style="cursor: pointer;" title="Ordenar" scope="col">Observadores</th>
                             <th style="cursor: pointer;" title="Ordenar" scope="col" rowspan="2">Tipo</th>
+                        
                         </tr>
                     </thead>
                     <tbody id="TablaTareas">
@@ -246,6 +247,26 @@
 
 <?php echo $__env->make('GestionTareas.ModalCrearTareas', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('GestionTareas.ModalTareasSeguimiento', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+ <div class="modal fade" id="id_modal_conf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><span class="fa fa-question-circle"></span>  Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro de terminar la tarea, una vez terminada no podrá editarla?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="TerminarTarea()" >Si</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
 <link href="/css/MyStyle.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo e(asset('js/nav.js')); ?>"></script>
 <script type="text/javascript" src="<?php echo e(asset('js/tareas.js')); ?>"></script>

@@ -289,6 +289,10 @@ function CrearSubtarea(Id_tarea,Nombretarea,tipoTarea,FechaLimite,Horalimite){
 	    }
 }
 
+function ConfirmarTerminarTarea(){
+	$('#id_modal_conf').modal("show");
+}
+
 function TerminarTarea(){
 	// var Vtarea= validadorCampos('Nombretarea'); 
 	// var Vdescripcion= validadorCampos('descripcionTarea');
@@ -694,7 +698,6 @@ function observadoresTask(){
 		  $('#TablaTareas').html('');
 		    $.get('TareasPorTipo/'+estado+'/'+tipo, function (data) {
 		    	 $('#TablaTareas').html('');
-			
 							$.each(data, function(i2, $valores) { 
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
@@ -878,7 +881,7 @@ function observadoresTask(){
 	                                <button  type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>`);
 
 									btnEntregar=`<div class="col-md-6">
-					                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+					                                <button onclick="ConfirmarTerminarTarea()" class="btn btn-success btn-block">Terminar Tarea</button>
 					                            </div>`;
 					                $('#botoneSeguimiento').append(`<div class="row">
 												${btnEntregar}
@@ -957,7 +960,17 @@ function observadoresTask(){
 						}
 						
 												//SI EL TAG ES TERMINADA O VENCIDA OCULATAMOS BOTON ENTREGAR 
-						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado') ){
+						if($('#Terminada').hasClass('activado') ){
+							$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporte/${item['Id_tarea']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+		
+					                        </div> `);
+							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
+						}
+						if( $('#Vencida').hasClass('activado') ){
 							$('#botoneSeguimiento').html('');
 							$('#EstadoObservacion').html('');
 							$('#PanelObservacion').html('');
@@ -988,7 +1001,7 @@ function observadoresTask(){
                                 <button  type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>  Registrar</button>`);
 								$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
-		                                <button onclick="TerminarTarea()" class="btn btn-success btn-block">Entregar Tarea</button>
+		                                <button onclick="ConfirmarTerminarTarea()" class="btn btn-success btn-block">Terminar Tarea</button>
 		                            </div>
 		                            <div class="col-md-6">
 		                                <div class="btn-group">
@@ -1024,11 +1037,21 @@ function observadoresTask(){
 							$('#botoneSeguimiento').html('');
 							$('#PanelEvidencias').html('');
 						}
-						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						if($('#Terminada').hasClass('activado') ){
 							$('#botoneSeguimiento').html('');
-							$('#PanelObservacion').html('');
-							$('#PanelEvidencias').html('');						
+							$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporte/${item['Id_tarea']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+		
+					                        </div> `);
 							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
+						}
+						if( $('#Vencida').hasClass('activado') ){
+							$('#botoneSeguimiento').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
 						}
 					});
 
@@ -1089,11 +1112,21 @@ function observadoresTask(){
 							$('#botoneSeguimiento').html('');
 							$('#PanelEvidencias').html('');
 						}
-						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						if($('#Terminada').hasClass('activado') ){
 							$('#botoneSeguimiento').html('');
-							$('#PanelObservacion').html('');
-							$('#PanelEvidencias').html('');						
+							$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporte/${item['Id_tarea']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+		
+					                        </div> `);
 							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
+						}
+						if( $('#Vencida').hasClass('activado') ){
+							$('#botoneSeguimiento').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
 						}
 
 					});
@@ -1145,11 +1178,21 @@ function observadoresTask(){
 							$('#botoneSeguimiento').html('');
 							$('#PanelEvidencias').html('');
 						}	
-						if($('#Terminada').hasClass('activado') || $('#Vencida').hasClass('activado')){
+						if($('#Terminada').hasClass('activado') ){
 							$('#botoneSeguimiento').html('');
-							$('#PanelObservacion').html('');
-							$('#PanelEvidencias').html('');						
+							$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporte/${item['Id_tarea']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+		
+					                        </div> `);
 							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
+						}
+						if( $('#Vencida').hasClass('activado') ){
+							$('#botoneSeguimiento').html('');
+							$('#EstadoObservacion').html('');
+							$('#PanelObservacion').html('');
+							$('#PanelEvidencias').html('');
 						}
 					});
 				
@@ -1240,7 +1283,7 @@ function observadoresTask(){
 
 	//LIMPIAR MODAL DE TAREAS SEGUIMIENTO
 	function limpiarModalTareas(){
-		
+		$('#mensajePendiente').html('');
 		$('#FechaCreacionTareaSeguimiento').html('');
 		$('#divEvidenciaSeguimiento').html('');
 		$('#divObservacionSeguimiento').html('');
@@ -1262,7 +1305,7 @@ function observadoresTask(){
 	function limpiarModalTareasCrear(){
 
 
-
+	$('#mensajePendiente').html('');
     $('#mensajefechas').html('');
 	$('#TaskID').html('');
 	$('#FF').html('');

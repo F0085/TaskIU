@@ -29,6 +29,9 @@
                       href="{{url('/ConfirmAsistencia/'.$Id_Reunion.'/'.$Id_Usuario.'/C')}}">
                      CONFIRMO MI ASISTENCIA
           </a>
+          <br>
+          <br>
+          <br>
           <a  style="text-decoration: none;
                      padding: 10px;
                      font-weight: ;

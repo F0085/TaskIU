@@ -88,12 +88,13 @@
 
 	</script>
 
-	<div class="row">
-		<div class="col-md-12">
-				<div id="basicdiagram" style="width: 1150px; height: 500px; "></div>
+		<div class="row">
+			<div class="col-md-12">
+					<div id="basicdiagram" style="width: 100%; height: 100em; "></div>
 
+			</div>
 		</div>
-	</div>
+
 
 <?php $__env->stopSection(); ?>
 

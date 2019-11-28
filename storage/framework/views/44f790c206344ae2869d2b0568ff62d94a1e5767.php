@@ -198,7 +198,7 @@
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                              
-                                <img src="<?php echo e(asset('images/form-user.png')); ?>" height="40" width="40" alt="">
+                                <img src="<?php echo e(asset('images/user/1.png')); ?>" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile   dropdown-menu">
                                 <div class="dropdown-content-body">

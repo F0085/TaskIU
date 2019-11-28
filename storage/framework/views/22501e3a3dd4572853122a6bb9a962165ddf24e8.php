@@ -83,7 +83,7 @@
                                 <?php endif; ?>
                             <?php endif; ?>>Suspendidas</a>
                         </li>
-                        <li><a id="Vencida" href="javascript:void(0);"
+                        <!-- <li><a id="Vencida" href="javascript:void(0);"
                             <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                                 <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
                                     onClick="   ReunionPorUsuario('Vencida');"
@@ -91,7 +91,7 @@
                                     onClick="   ReunionPorUsuario('Vencida');"
                                 <?php endif; ?>
                             <?php endif; ?>>Vencidas</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="col-md-2 centerDiv" >
@@ -143,6 +143,7 @@
                             <th scope="col">Responsables</th>
                             <th scope="col">Participantes</th>
                             <th scope="col">Emisión</th>
+                            <th scope="col">Estado</th>
                         </tr>
                     </thead>
                     <tbody id="TablaReuniones">
@@ -166,9 +167,28 @@
         </div>
     </div>
 </div>
+
 <?php echo $__env->make('GestionReunion.ModalReunionSeguimiento', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('GestionReunion.ModalCrearReunion', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+ <div class="modal fade" id="id_modal_conf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><span class="fa fa-question-circle"></span>  Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro de terminar la reunión, una vez terminada no podrá editarla?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="TerminarReunion()" >Si</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
     <link href="<?php echo e(asset('css/MyStyle.css')); ?>" rel="stylesheet">
     <script type="text/javascript" src="<?php echo e(asset('js/nav.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/Reunion.js')); ?>"></script>

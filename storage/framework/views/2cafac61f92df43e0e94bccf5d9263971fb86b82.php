@@ -30,7 +30,7 @@
 
 				 	<div class="row">
 					  	<div class="col-md-12" align="right">
-					  		<textarea name="motivo" class="form-control" placeholder="(Opcional)"></textarea>
+					  		<textarea required="true" name="motivo" class="form-control" placeholder="(Opcional)"></textarea>
 					  	</div>
 					  	
 				  	</div>

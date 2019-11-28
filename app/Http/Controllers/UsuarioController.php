@@ -240,8 +240,11 @@ class UsuarioController extends Controller
 
 
     public function Perfil(){   
+        session_start();
+        // dd($_SESSION['Fecha_Nacimiento']);
+        $edad=$this->CalcularEdad($_SESSION['Fecha_Nacimiento']);
+        return view('PerfilUsuario.Perfil')->with(['Edad'=>$edad]);
 
-        return view('PerfilUsuario.Perfil');
     }
 
 

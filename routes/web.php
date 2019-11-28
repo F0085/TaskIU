@@ -53,6 +53,9 @@ Route::group([
 
 
 });
+route::get('GenerarReporte/{idtarea}', 'ReportesController@GenerarReporte');
+route::get('GenerarReporteReunion/{idtarea}', 'ReporteReunionController@GenerarReporte');
+
 
 
 //######################GESTIÓN ADMINISTRATIVA#######################
@@ -203,6 +206,9 @@ route::resource('Notificaciones', 'NotificacionController');
 route::get('ContarNotificaciones', 'NotificacionController@ContarNotificaciones');
 route::get('Task/{IdTtar_Reu}/{tipoRol}', 'NotificacionController@Task');
 route::get('ReunionN/{IdTtar_Reu}/{tipoRol}', 'NotificacionController@ReunionN');
+route::get('EstadoVencimiento/{Fecha}', 'ReunionController@EstadoVencimiento');
+
+
 
 
 

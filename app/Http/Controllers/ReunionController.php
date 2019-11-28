@@ -88,6 +88,17 @@ class ReunionController extends Controller
            return $arrae;
     }
 
+    public function EstadoVencimiento($Fecha){
+          $Fecha=strtotime ($Fecha); 
+          
+          $fechaactual=date('Y-m-j H:i:s');
+          $fechaactual=strtotime ($fechaactual); 
+           if($Fecha < $fechaactual){
+            return 1;
+           }
+        
+    }
+
 
     /**
      * Show the form for creating a new resource.

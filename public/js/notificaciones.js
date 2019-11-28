@@ -32,8 +32,11 @@ function ContarNotificarTareas(){
 			if(data==1){
 				$('#cantidaNoti').html(data+' '+ 'Nueva notificación');
 				$('#newMessage').html(data);
-			}else{
+			}else if(data>1){
 				$('#cantidaNoti').html(data+' '+ 'Nuevas notificaciones');
+				$('#newMessage').html(data);
+			}else{
+				$('#cantidaNoti').html(data+' '+ 'Notificaciones');
 				$('#newMessage').html(data);
 			}
 

@@ -1,7 +1,4 @@
-<?php
-  session_start(); 
-    
-?>
+
 @extends('layouts.app')
 @section('contenido')
 <div id="cargar"></div>
@@ -10,10 +7,12 @@
 	    <div class="card">
 	        <div class="card-body">
 	            <div class="media align-items-center mb-4">
-	                <img class="mr-3" src="images/form-user.png" width="80" height="80" alt="">
+	                <img class="mr-3" src="images/user/1.png" width="80" height="80" alt="">
 	                <div class="media-body">
 	                    <h3 class="mb-0">@if(isset($_SESSION['nombre'])){{$_SESSION['nombre']}} {{$_SESSION['apellido']}}@endif</h3>
 	                    <p class="text-muted mb-0">@if(isset($_SESSION['Id_tipo_Usuarios'])) @if($_SESSION['Id_tipo_Usuarios'] == 1) Empleado @elseif($_SESSION['Id_tipo_Usuarios'] == 2) Administrador @endif @endif</p>
+	               
+	                 
 	                </div>
 	            </div>
 	            
@@ -35,7 +34,7 @@
 	                    	<div class="col-lg-12">
 		                        <span class="mb-1 text-warning"></span>
 		                       <!--   <p style="color: black"><b><i class="fa fa-birthday-cake"></i>    Cumpleaños:</b> </p> -->
-		                        <p style="color: black"><b><i class="fa fa-child"></i>    Edad:</b>  </p>
+		                        <p style="color: black"><b><i class="fa fa-child"></i>    Edad:</b>  @if(isset($Edad)){{$Edad}}@endif  </p>
 		                        <p style="color: black"><b><i class="fa fa-instagram"></i>    Instagram:</b> @if(isset($_SESSION['Instagram'])){{$_SESSION['Instagram']}}@endif</p>
 		                        <p style="color: black"><b><i class="fa  fa-facebook"></i>    Facebook:</b> @if(isset($_SESSION['Facebook'])){{$_SESSION['Facebook']}}@endif</p>
 		                         <p style="color: black"><b><i class="fa  fa-twitter"></i>    Twitter:</b> @if(isset($_SESSION['Twitter'])){{$_SESSION['Twitter']}}@endif</p>
@@ -64,7 +63,7 @@
 	    <div class="card">
 	        <div class="card-body">
 	            <div class="media align-items-center mb-4">
-	                <img class="mr-3" src="images/form-user.png" width="80" height="80" alt="">
+	                <img class="mr-3" src="images/user/1.png" width="80" height="80" alt="">
 	                <div class="media-body">
 	                    <h3 class="mb-0">Editar Perfil</h3>
 	  <!--                   <p class="text-muted mb-0">@if(isset($_SESSION['Id_tipo_Usuarios'])) @if($_SESSION['Id_tipo_Usuarios'] == 1) Empleado @elseif($_SESSION['Id_tipo_Usuarios'] == 2) Administrador @endif @endif</p> -->

@@ -172,7 +172,7 @@ function ModalPerfilUsuario(IDus){
 			$('#TipoUserP').html(data['TipoUsuario']);
 			$('#NombreUserP').html(data['Nombre']+' '+data['Apellido']);
 			$('#TipoUserP').html(data['TipoUsuario']);
-			$('#CedulaUserP').html(`<b><i class="fa fa-address-card-o"></i>  Cédula:</b> ${data['Cedula']}`);
+			$('#CedulaUserP').html(`<b><i class="fa fa-birthday-cake "></i>  Fecha Nacimiento:</b> ${data['Fecha_Nacimiento']}`);
 			$('#EmailUserP').html(`<b><i class="fa fa-envelope"></i>    Email:</b> ${data['email']}` );
 			$('#CelularUserP').html(`<b><i class="fa fa-phone"></i>    Celular:</b> ${data['Celular']}`);
 			$('#DireccionUserP').html(`<b><i class="fa  fa-map-marker"></i>    Dirección:</b>  ${data['Direccion']}`);

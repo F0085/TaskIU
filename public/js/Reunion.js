@@ -114,6 +114,9 @@ function GuardarReunion(){
 
 	}
 
+function ConfirmarTerminarReunion(){
+	$('#id_modal_conf').modal("show");
+}
 
 //ACTUALIZAR REUNION
 function TerminarReunion(){
@@ -191,17 +194,23 @@ function TerminarReunion(){
 	    }
 		$('#TablaReuniones').html('');
 	    $.get('ReunionPorEstado_User/'+estado, function (data) {
-	    	  llenarTabla(data);			 
-		      	$('#cargar').fadeIn(1000).html(data); 
+	    	  llenarTabla(data,estado);			 
+		      	
 			 });
 	}
 
 
-	function llenarTabla(data){
-		var signo;
+	function llenarTabla(data,estado){
+		console.log(estado);		var signo;
+	
 		// var progreso=100;
 	    $.each(data, function(i1, $valores) { 
+	    	var vencida;
+	    	if(estado=='Terminada'){
+	    	
+	    		
 
+	    	
 		    $('#TablaReuniones').append(`<tr>
 	                                    <td > <i class="fa fa-bullhorn" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalReunion(${$valores['Id_Reunion']})">${$valores['Tema']}</a></td>
 
@@ -212,9 +221,50 @@ function TerminarReunion(){
 	                                    </td>
 	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
 	                                    <td>${$valores['FechaCreacion']}</td>
+	                                    <td><span class="badge badge-success" style="font-size:12px	" >Terminada</span></td>
 
 	                                </tr>`);
 
+	    	}else if(estado=='Suspendida'){
+
+		   		 $('#TablaReuniones').append(`<tr>
+	                                    <td > <i class="fa fa-bullhorn" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalReunion(${$valores['Id_Reunion']})">${$valores['Tema']}</a></td>
+
+	                                     <td><b>${$valores['Lugar']}</td>
+	                                     <td><b>${$valores['FechadeReunion']} / ${$valores['HoraReunion']}</td>
+	                                     <td><a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$valores['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</a></td>   
+	                                    <td id='${$valores['Id_Reunion']+'Responsable'}'>   
+	                                    </td>
+	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
+	                                    <td>${$valores['FechaCreacion']}</td>
+	                                    <td><span class="badge badge-primary" style="font-size:12px	" >Suspendida</span></td>
+
+	                                </tr>`);
+
+	    	}
+	    	else{
+	    	 $.get('EstadoVencimiento/'+$valores['FechadeReunion']+' '+$valores['HoraReunion'], function (data) {
+	    	 	 vencida=`<span style="font-size:12px	" class="badge badge-danger">Vencida</span>`;
+	    	
+	    	
+	    	
+
+	    	
+		    $('#TablaReuniones').append(`<tr>
+	                                    <td > <i class="fa fa-bullhorn" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalReunion(${$valores['Id_Reunion']})">${$valores['Tema']}</a></td>
+
+	                                     <td><b>${$valores['Lugar']}</td>
+	                                     <td><b>${$valores['FechadeReunion']} / ${$valores['HoraReunion']}</td>
+	                                     <td><a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$valores['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$valores['usuario']['Nombre']} ${$valores['usuario']['Apellido']}</a></td>   
+	                                    <td id='${$valores['Id_Reunion']+'Responsable'}'>   
+	                                    </td>
+	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
+	                                    <td>${$valores['FechaCreacion']}</td>
+	                                    <td>${vencida}</td>
+
+	                                </tr>`);
+		     });
+	    	}
 		    $.each($valores['responsables'], function(i, $vREs) { 
 		      $('#'+$valores['Id_Reunion']+'Responsable').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vREs['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']}</a> <br><br>`);
 		    });
@@ -223,6 +273,7 @@ function TerminarReunion(){
 		    });	
 
 		}); 
+		$('#cargar').fadeIn(1000).html(data); 
 	}
 
 
@@ -375,6 +426,10 @@ function ParticipantesReunion(){
 //PARA EL MODAL DEL SEGUIMIENTO DE LA REUNION
 	function ModalReunion(Id_reunion){
 		 limpiarModalReunionCrear();
+		 $( document ).ready(function() {	
+		     intervalId=window.setInterval(listaObservaciones,5000);;
+		      
+		});
 		$('#mensajefechas').html('');
 		$("#ModalReunionSeguimiento").modal("show");
 		$('#cargatareas').append(`<div id="preloader" style="background: #ffffff00">
@@ -400,7 +455,7 @@ function ParticipantesReunion(){
 		    	});
 		    	$('#ParticipantesReunionSeguimiento').html('');
 		    	$.each(item['participantes'], function(i2,item2){
-		    				
+		
 					    	if(item2['asistencia']=='1'){
 				    			var estado='checked';
 				    		}else{
@@ -416,20 +471,26 @@ function ParticipantesReunion(){
                                     <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
                                      <td  centerDiv><div class="form-check form-check-inline">
                                         <label class="form-check-label">
-                                        <input onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
+                                        <input id="inputCheck"  onclick="onToggle(${item['Id_Reunion']},${item2['usuario']['Id_Usuario']})" id="${item2['usuario']['Id_Usuario']+'AsistenciaChek'}" type="checkbox" class="form-check-input " ${estado}  value=""></label>
                                     </div></td>
                                 </tr>`);
+                            if($('#Terminada').hasClass('activado')){
+							 $('#inputCheck').prop('disabled',true);
+						    }
 							}else{
 								$('#ParticipantesReunionSeguimiento').append(`<tr >
                                     <td > <i   class=" fa fa-user"></i> ${item2['usuario']['Nombre']} ${item2['usuario']['Apellido']} </td>
                                      <td  centerDiv><div class="form-check form-check-inline">
                                         <label class="form-check-label">
-                                        <input disabled type="checkbox" class="form-check-input " ${estado}  value=""></label>
+                                        <input id="inputCheck" disabled type="checkbox" class="form-check-input " ${estado}  value=""></label>
                                     </div>
                                     <td>${motivo}</td>
                                     </td>
                           
                                 </tr>`);
+                            if($('#Terminada').hasClass('activado')){
+							 $('#inputCheck').prop('disabled',true);
+						    }
 							}
 		    	});	  
 		    	//SI SELECCIONA LAS REUNIONES QUE SON CREADAS POR MI
@@ -451,7 +512,6 @@ function ParticipantesReunion(){
 				                                    Más
 				                                  </button>
 				                                  <div class="dropdown-menu">
-				                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
 				                                    <div id="btneditar">
 				                                    ${btneditar}
 				                                   </div>
@@ -492,7 +552,6 @@ function ParticipantesReunion(){
 			                                    Más
 			                                  </button>
 			                                  <div class="dropdown-menu">
-			                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
 			                                    <div id="btneditar">
 			                                    ${btneditar}
 			                                   </div>
@@ -503,7 +562,12 @@ function ParticipantesReunion(){
 						  // document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
 						}
 						if($('#Terminada').hasClass('activado')){
+							$('#inputCheck').prop('disabled',true);
 							$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporteReunion/${item['Id_Reunion']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+			                            <
+			                        </div> `);
 							$('#PanelObservacion').html('');
 							$('#EstadoObservacion').html('');
 							$('#PanelConclusiones').html('');
@@ -550,7 +614,7 @@ function ParticipantesReunion(){
 						 //        <button onclick="RegistrarEvidencias()" type="button" class="btn btn-success btn-sm">Registrar</button>`);
 							$('#botoneSeguimiento').append(`<div class="row">
 		                            <div class="col-md-6">
-		                                <button onclick="TerminarRreunion()" class="btn btn-success btn-block"><i class="fa fa-paper-plane-o"></i>   Entregar Reunión</button>
+		                                <button onclick="ConfirmarTerminarReunion()" class="btn btn-success btn-block"><i class="fa fa-paper-plane-o"></i>   Terminar Reunión</button>
 		                            </div>
 		                            <div class="col-md-6">
 		                                <div class="btn-group">
@@ -559,7 +623,6 @@ function ParticipantesReunion(){
 		                                  </button>
 		                                  <div class="dropdown-menu">
 		                                    <a id="SuspenderReunion" class="dropdown-item"  href="javascript:void(0);" ><i style="color:red" class="fa fa-pause"></i>  Suspender</a>
-		                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
 		                                  </div>
 		                                </div>
 		                            </div>
@@ -590,7 +653,12 @@ function ParticipantesReunion(){
 						}
 
 						if($('#Terminada').hasClass('activado')){
+							$('#inputCheck').prop('disabled',true);
 							$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporteReunion/${item['Id_Reunion']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+			                            <
+			                        </div> `);
 							$('#PanelObservacion').html('');
 							$('#PanelEvidencias').html('');						
 							$('#EstadoObservacion').html('');
@@ -611,6 +679,10 @@ function ParticipantesReunion(){
 					$('#EstadoObservacionReunion').html('');
 					$('#PanelObservacion').html('');
 					$('#botoneSeguimiento').html('');
+					$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporteReunion/${item['Id_Reunion']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+			                            <
+			                        </div> `);
 					$('#PanelEvidencias').html('');
 					$('#PanelConclusiones').html('');
 					$.get('validarinicioTarea/'+item['FechadeReunion']+'/'+item['HoraReunion'], function (data) {
@@ -663,7 +735,12 @@ function ParticipantesReunion(){
 							$('#PanelConclusiones').html('');
 						}
 						if($('#Terminada').hasClass('activado')){
+								$('#inputCheck').prop('disabled',true);
 							$('#botoneSeguimiento').html('');
+							$('#botoneSeguimiento').append(`<div class="row">
+												<a style="font-size: 12px" href="GenerarReporteReunion/${item['Id_Reunion']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+			                            <
+			                        </div> `);
 							$('#PanelObservacion').html('');
 							$('#EstadoObservacion').html('');
 							$('#PanelConclusiones').html('');
@@ -712,7 +789,6 @@ function ParticipantesReunion(){
 			                                    Más
 			                                  </button>
 			                                  <div class="dropdown-menu">
-			                                    <a id="CrearSubtareaModal" class="dropdown-item"  href="javascript:void(0);" data-dismiss="modal"><i class="fa fa-plus"></i>  Crear Subtarea</a>
 			                                    <div id="btneditar">
 			                                    ${btneditar}
 			                                   </div>
@@ -902,43 +978,70 @@ function ActualizarReunion(){
   }
 
 
-  //COMENTARIOS
+ function borderInput(val){ 
+	if($('#'+val).val() == '' || $('#'+val).val() == '0' ){	
+		if($('#'+val).hasClass('valid')){
+		 $('#'+val).removeClass('valid');
+		}
+		$('#'+val).addClass('invalid');
+	}else{
+		if($('#'+val).hasClass('valid')){
+		 $('#'+val).removeClass('valid');
+		}else if($('#'+val).hasClass('invalid')){
+		 $('#'+val).removeClass('invalid');
+		}
+	}
+}
+
+//ELIMINAR LA CLASE DE LOS INPUTS
+function eliminarclaseInput(val){
+	if($('#'+val).hasClass('valid')){
+	 $('#'+val).removeClass('valid');
+	}else if($('#'+val).hasClass('invalid')){
+	 $('#'+val).removeClass('invalid');
+	}
+}
 
   	//PARA GAUARDAS LAS OBSERVACIONES O COMENTARIOS
 	function RegistrarObservacionReunion(){
-
-
-		$('#btnRegistrarObservacionReunion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
-		 var FrmData = { 
-	    	IdReunion: $("#idReun").val(),
-	    	Observacion: $("#ObservacionReunionSeguimiento").val(),
-	    	tipo:'C',
-	    }
-	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-	    $.ajax({
-	        url: 'ObservacionesReuniones', 
-	        method: "POST", 
-	        data: FrmData,
-	        dataType: 'json',
-	        success: function (data) 
-	        {
-
-	        	$('#btnRegistrarObservacionReunion').html(`<button type="button" onclick="RegistrarObservacionReunion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
-	      		 $("#ObservacionReunionSeguimiento").val('');
-	      		 listaObservaciones();
-	        },
-	        error: function () { 
-	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-	        }
-	    });
+		if($('#ObservacionReunionSeguimiento').val()==''){
+				borderInput('ObservacionReunionSeguimiento');
+			}else{
+			
+			$('#btnRegistrarObservacionReunion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Registrando</button>`); 
+			 var FrmData = { 
+		    	IdReunion: $("#idReun").val(),
+		    	Observacion: $("#ObservacionReunionSeguimiento").val(),
+		    	tipo:'C',
+		    }
+		    $.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+		    });
+		    $.ajax({
+		        url: 'ObservacionesReuniones', 
+		        method: "POST", 
+		        data: FrmData,
+		        dataType: 'json',
+		        success: function (data) 
+		        {
+		        	eliminarclaseInput('ObservacionReunionSeguimiento');
+		        	$('#btnRegistrarObservacionReunion').html(`<button type="button" onclick="RegistrarObservacionReunion()" class="btn btn-success btn-sm"><i class="fa fa-save"></i>   Registrar</button>`); 
+		      		$("#ObservacionReunionSeguimiento").val('');
+		      		listaObservaciones();
+		        },
+		        error: function () { 
+		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+		        }
+		    });
+		}
 	}
 
 		//BOTON REPOSNDER COMENTARIO
 	function  ResponderComentario(id){
+			cerrarIntervalo();
+			;
 		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="CerrarComentario(${id})" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>  Cerrar</button>
 		`);
 		$('#'+id+'c').html(`  <textarea class="form-control input-default" id="ObservacionRespuesta"></textarea><br>
@@ -947,6 +1050,7 @@ function ActualizarReunion(){
 
 	//BOTON CERRAR COMENTARIO
 	function  CerrarComentario(id){
+			intervalId=window.setInterval(listaObservaciones,5000);
 		$('#'+id+'btnEnviarComentario').html(`<button type="button" onclick="ResponderComentario(${id})" class="btn btn-outline-dark btn-sm"><i class="fa fa-share"></i>  Responder</button>
 		`);
 		$('#'+id+'c').html('');
@@ -955,36 +1059,48 @@ function ActualizarReunion(){
 
 	//GUARDAR RESPUESTA COMENTARIO
 	function RespuestaObservacion(Id_Observacion){
-		$('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
-		 var FrmData = { 
-	    	IdReunion: $("#idReun").val(),
-	    	Observacion: $("#ObservacionRespuesta").val(),
-	    	Id_Observacion: Id_Observacion,
-	    	tipo: 'S',
+			intervalId=window.setInterval(listaObservaciones,5000);
+		if($("#ObservacionRespuesta").val()==''){
+		 	borderInput('ObservacionRespuesta');
+		 }else{
+			$('#btnResponderObservacion').html(`<button type="button" disabled class="btn btn-success btn-sm"><i class="fa fa-spinner"></i>   Enviando</button>`); 
+			 var FrmData = { 
+		    	IdReunion: $("#idReun").val(),
+		    	Observacion: $("#ObservacionRespuesta").val(),
+		    	Id_Observacion: Id_Observacion,
+		    	tipo: 'S',
 
-	    }
-	    $.ajaxSetup({
-	        headers: {
-	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	        }
-	    });
-	    $.ajax({
-	        url: 'ObservacionesReuniones', 
-	        method: "POST", 
-	        data: FrmData,
-	        dataType: 'json',
-	        success: function (data) 
-	        {
-
-	        	$('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
-	      		 $('#'+Id_Observacion+'c').html('');
-	      		 listaObservaciones();
-	        },
-	        error: function () { 
-	            alertify.error(" Ocurrió un error, contactese con el Administrador.")
-	        }
-	    });
+		    }
+		    $.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+		    });
+		    $.ajax({
+		        url: 'ObservacionesReuniones', 
+		        method: "POST", 
+		        data: FrmData,
+		        dataType: 'json',
+		        success: function (data) 
+		        {
+		        	eliminarclaseInput('ObservacionRespuesta');
+		        	$('#btnResponderObservacion').html(`<button type="button" onclick="RespuestaObservacion(${Id_Observacion})" class="btn btn-success btn-sm"><i class="fa fa-send"></i>  Enviar</button>`); 
+		      		$('#'+Id_Observacion+'c').html('');
+		      		listaObservaciones();
+		        },
+		        error: function () { 
+		            alertify.error(" Ocurrió un error, contactese con el Administrador.")
+		        }
+		    });
+		}
 	}
+	 	var intervalId; 
+	//PARA CERRAR EL TIEMPO DE EJECUCION DE LA LISTA DE OBSERVACIONES
+	function cerrarIntervalo(){
+		window.clearInterval(intervalId);
+	}
+
+
 
 
   	//PARA LLENAR LOS COMENTARIOS EN EL CARD

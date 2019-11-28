@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+Use Exception;
+
 
 class TareasController extends Controller
 {
@@ -15,11 +17,14 @@ class TareasController extends Controller
       //LISTA DE USUARIOS
 
 	public function index(){
-	
-		$Usuarios=$this->Usuarios(); 
-		$Tareas=$this->TareasEstado('Pendiente');
-		$TipoTareas=$this->TipoTareasPerTra();	
-	  return view('GestionTareas.MisTareas')->with(['Usuarios'=>$Usuarios, 'Tareas'=>$Tareas,'TipoTareas'=>$TipoTareas]);
+  
+      
+   
+      $Usuarios=$this->Usuarios();
+      $Tareas=$this->TareasEstado('Pendiente');
+      $TipoTareas=$this->TipoTareasPerTra();  
+      return view('GestionTareas.MisTareas')->with(['Usuarios'=>$Usuarios, 'Tareas'=>$Tareas,'TipoTareas'=>$TipoTareas]);
+
 	} 
 
 	//TAREAS POR ESTADO PENDIENTE TERMINADAS VENCIDAS PROCESO
@@ -347,7 +352,7 @@ class TareasController extends Controller
 	         	    $dataResponsables = ['Id_Usuario'=>$responsables,
 	                 'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
 	              $ResultResponsables = $Clienteresponsable->request('POST','',['form_params' => $dataResponsables]);
-                $descripcionNotificacion='Ha sido invitado como Responsable de la tarea'.' '.$ResultadoTareas['Nombre'];
+                $descripcionNotificacion='Ha sido invitado como Responsable de la tarea'.' "'.$ResultadoTareas['Nombre'].'"';
                 $dataNotificacion = ['Id_Usuario'=>$responsables,
                    'FechaLimite'=>$ResultadoTareas['FechaFin'],
                    'VistaWeb'=>'0',
@@ -364,7 +369,7 @@ class TareasController extends Controller
 	              $dataParticipantes = ['Id_Usuario'=>$participantes,
 	                 'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
 	              $ResultParticipantes= $ClienteParticipantes->request('POST','',['form_params' => $dataParticipantes]);
-                $descripcionNotificacion='Ha sido invitado como Participante de la tarea'.' '.$ResultadoTareas['Nombre'];
+                $descripcionNotificacion='Ha sido invitado como Participante de la tarea'.' "'.$ResultadoTareas['Nombre'].'"';
                 $dataNotificacion = ['Id_Usuario'=>$participantes,
                   'FechaLimite'=>$ResultadoTareas['FechaFin'],
                   'VistaWeb'=>'0',
@@ -382,7 +387,7 @@ class TareasController extends Controller
                   $dataObservadores = ['Id_Usuario'=>$observadores,
                   'Id_Tarea'=>$ResultadoTareas['Id_tarea']];
                   $ResultObservadores= $ClienteObservadores->request('POST','',['form_params' => $dataObservadores]);
-                  $descripcionNotificacion='Ha sido invitado como Observador de la tarea'.' '.$ResultadoTareas['Nombre'];
+                  $descripcionNotificacion='Ha sido invitado como Observador de la tarea'.' "'.$ResultadoTareas['Nombre'].'"';
                   $dataNotificacion = ['Id_Usuario'=>$observadores,
                     'FechaLimite'=>$ResultadoTareas['FechaFin'],
                     'VistaWeb'=>'0',

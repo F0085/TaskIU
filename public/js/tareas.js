@@ -333,7 +333,7 @@ function TerminarTarea(){
 	        dataType: 'json',
 	        success: function (data) 
 	        {
-	        	alert(data);
+	        	
 	        	if(data==1){
 	        		$('#mensajePendiente').html('');
 					$('#mensajePendiente').append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">

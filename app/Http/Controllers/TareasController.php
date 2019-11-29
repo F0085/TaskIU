@@ -239,7 +239,7 @@ class TareasController extends Controller
 
 
         $resul=$this->TareasPendientesPorTareas($request);
-        dd($resul);
+       
         if(empty($resul)){
            $resTarea = $clientTarea->request('PUT','',['form_params' => $dataTarea]); 
            return 0;

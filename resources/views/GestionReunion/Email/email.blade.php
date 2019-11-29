@@ -15,7 +15,7 @@
    <body>
 <!--       <h3>INVITACIÓN A REUNIÓN</h3> -->
       <p>Se le ha asignado como {{$Tipo}} a la reunión con el tema de {{$Tema}} el día {{$Fecha}} a las {{$Hora}}<br><br><br>
-      <b>Para más información puede acceder al <a href="http://localhost:8080/" >sistema web</a>  con sus credenciales de acceso</b></p><br>
+      <b>Para más información puede acceder al <a href="{{url('/')}}" >sistema web</a>  con sus credenciales de acceso</b></p><br>
       <center>
         @if(isset($Id_Reunion) && isset($Id_Usuario) )
          <a  style="text-decoration: none;

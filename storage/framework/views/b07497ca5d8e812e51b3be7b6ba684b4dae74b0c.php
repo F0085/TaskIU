@@ -23,7 +23,7 @@
 	                        <p style="color: black"><b><i class="fa fa-envelope"></i>    Email:</b> <?php if(isset($_SESSION['email'])): ?><?php echo e($_SESSION['email']); ?><?php endif; ?> </p>
 	                        <p style="color: black"><b><i class="fa fa-phone"></i>    Celular:</b> <?php if(isset($_SESSION['celular'])): ?><?php echo e($_SESSION['celular']); ?><?php endif; ?> </p>
 	                        <p style="color: black"><b><i class="fa  fa-map-marker"></i>    Dirección:</b> <?php if(isset($_SESSION['direccion'])): ?><?php echo e($_SESSION['direccion']); ?><?php endif; ?> </p>
-	                        <p style="color: black"><b><i class="fa fa-venus-double"></i>    Sexo:</b> <?php if(isset($_SESSION['sexo'])): ?><?php if($_SESSION['sexo'] == "M"): ?> Masculino <?php else: ?> Femenino <?php endif; ?> <?php endif; ?> </p>
+	                        <p style="color: black"><b><i class="fa fa-venus-mars"></i>    Sexo:</b> <?php if(isset($_SESSION['sexo'])): ?><?php if($_SESSION['sexo'] == "M"): ?> Masculino <?php else: ?> Femenino <?php endif; ?> <?php endif; ?> </p>
 	                        </div>
 	                    </div>
 	                </div>

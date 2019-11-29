@@ -25,7 +25,7 @@
 	                        <p style="color: black"><b><i class="fa fa-envelope"></i>    Email:</b> @if(isset($_SESSION['email'])){{$_SESSION['email']}}@endif </p>
 	                        <p style="color: black"><b><i class="fa fa-phone"></i>    Celular:</b> @if(isset($_SESSION['celular'])){{$_SESSION['celular']}}@endif </p>
 	                        <p style="color: black"><b><i class="fa  fa-map-marker"></i>    Dirección:</b> @if(isset($_SESSION['direccion'])){{$_SESSION['direccion']}}@endif </p>
-	                        <p style="color: black"><b><i class="fa fa-venus-double"></i>    Sexo:</b> @if(isset($_SESSION['sexo']))@if($_SESSION['sexo'] == "M") Masculino @else Femenino @endif @endif </p>
+	                        <p style="color: black"><b><i class="fa fa-venus-mars"></i>    Sexo:</b> @if(isset($_SESSION['sexo']))@if($_SESSION['sexo'] == "M") Masculino @else Femenino @endif @endif </p>
 	                        </div>
 	                    </div>
 	                </div>

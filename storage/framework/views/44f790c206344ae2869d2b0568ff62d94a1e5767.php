@@ -193,7 +193,7 @@
         
                         <li class="icons dropdown">
                             <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
-                                <span><?php if(isset($_SESSION['nombre'])): ?><?php echo e($_SESSION['nombre']); ?><?php endif; ?></span> <!--  <i class="fa fa-angle-down f-s-14" aria-hidden="true"></i> -->
+                                <span><?php if(isset($_SESSION['nombre'])): ?><?php echo e($_SESSION['nombre']); ?> <?php echo e($_SESSION['apellido']); ?><?php endif; ?></span> <!--  <i class="fa fa-angle-down f-s-14" aria-hidden="true"></i> -->
                             </a>
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>

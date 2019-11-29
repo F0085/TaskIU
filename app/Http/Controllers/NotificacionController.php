@@ -29,7 +29,11 @@ class NotificacionController extends Controller
     }
 
     public function Task($IdTtar_Reu,$tipoRol,$idNotificacion){
-        
+        $client = new Client([
+          'base_uri' => $this->servidor.'Notificaciones/'.$idNotificacion,
+        ]);
+        $data = ['VistaWeb'=>'1'];
+        $res = $client->request('PUT','',['form_params' => $data]); 
     	 return redirect('Tareas')->with(['IdTtar_Reu'=>$IdTtar_Reu,'tipoRol'=> $tipoRol]);
     }
 

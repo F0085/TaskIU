@@ -21,8 +21,9 @@ th, td {
                 <h3><?php if(isset($reunion)): ?><?php echo e($reunion['Tema']); ?><?php endif; ?></h3>
             </div>
              <div class="col-md-12"style="border: solid 1px #000000;">
-                <p style="padding-left:5px;"><b>Orden del Día:</b>  <?php echo e($reunion['Orden_del_Dia']); ?></p>
-                <p style="padding-left:5px;"><b>Fecha de Creación:</b>  <?php echo e($reunion['FechaCreacion']); ?></p>
+                 <p style="padding-left:5px;"><b>Orden del Día:</b>
+                <textarea><?php echo e($reunion['Orden_del_Dia']); ?></textarea>
+                              <p style="padding-left:5px;"><b>Fecha de Creación:</b>  <?php echo e($reunion['FechaCreacion']); ?></p>
                 <p style="padding-left:5px;"><b>Fecha de Reunión:</b>  <?php echo e($reunion['FechadeReunion']); ?> <?php echo e($reunion['HoraReunion']); ?></p>
                 <p style="padding-left:5px;"><b>Lugar:</b>  <?php echo e($reunion['Lugar']); ?> </p>
                 <p style="padding-left:5px;"><b>Estado:</b>  <?php echo e($reunion['Estado']); ?></p>

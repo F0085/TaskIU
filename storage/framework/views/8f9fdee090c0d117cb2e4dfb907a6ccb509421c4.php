@@ -97,7 +97,7 @@ th, td {
                             <td align="center" style="    border-top: 1px solid black;
 										    border-right:1px solid black;
 										    border-bottom: 1px solid black;
-										    border-left: 1px solid black;"><?php if($vPar['asistencia']=='1'): ?> SI <?php else: ?> if($vPar['asistencia']=='0') No <?php endif; ?></td>
+										    border-left: 1px solid black;"><?php if($vPar['asistencia']=='1'): ?> SI <?php elseif($vPar['asistencia']=='0'): ?> No <?php endif; ?></td>
                             <td style="    border-top: 1px solid black;
 										    border-right:1px solid black;
 										    border-bottom: 1px solid black;

@@ -249,10 +249,12 @@ function TerminarReunion(){
 
 	    	 
 	    	
-	    	if($valores['0']='1'){
-	    		var Vencida='Vencida';
+	    	if($valores['0']=='Vencida'){
+	    	
+	    		var bag='danger';
 	    	}else{
-	    		var Vencida='Pendiente';
+	   
+	    		var bag='success';
 	    	}
 	    	
 
@@ -267,7 +269,7 @@ function TerminarReunion(){
 	                                    </td>
 	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
 	                                    <td>${$valores['FechaCreacion']}</td>
-	                                    <td><span style="font-size:12px	" class="badge badge-danger">${Vencida}</span></td>
+	                                    <td><span style="font-size:12px	" class="badge badge-${bag}">${$valores[0]}</span></td>
 
 	                                </tr>`);
 		    
@@ -312,11 +314,14 @@ function TerminarReunion(){
 		// console.log(estado);
 		$('#TablaReuniones').html('');
 		    $.get(TipoUser+'/'+estado, function (data) {
+		    	
 		    	$('#TablaReuniones').html('');
-				$.each(data, function(i1, $valore) { 
-						llenarTabla($valore,estado);
-					}); 
-			      	$('#cargar').fadeIn(1000).html(''); 
+		    	llenarTabla(data,estado);
+		    	$('#cargar').fadeIn(1000).html(''); 
+				// $.each(data, function(i1, $valore) { 
+				// 		llenarTabla($valore,estado);
+				// 	}); 
+			 //      	$('#cargar').fadeIn(1000).html(''); 
 	   	});
 	}
 

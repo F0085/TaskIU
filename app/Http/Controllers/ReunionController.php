@@ -48,6 +48,7 @@ class ReunionController extends Controller
             $estado=$this->EstadoVencimiento($value['FechadeReunion'].' '.$value['HoraReunion']);
             // $resultado[$key]=array('Estado'=>$estado);
              array_push($resultado[$key],$estado);
+
             // $resultado[$key]->EstadoV=$estado;
         }
         return $resultado;
@@ -66,9 +67,13 @@ class ReunionController extends Controller
         $resultado= json_decode((string) $response->getBody(), true);
         $arrae=array();
         //COMPARO QUE EL ESTADO DE LA REUNION DE  ACUERDO AL PARAMETRO Y CREO UN ARREGLO SEGUN EL ESTADO
-        foreach ($resultado as $key => $value) {
+        foreach ($resultado as $key => $value) { 
+      
           if($value['reunion']['Estado'] == $estado){
-          $arrae[$key]= array($value['reunion']);
+            $arrae[$key]= $value['reunion'];
+            $estadov=$this->EstadoVencimiento($value['reunion']['FechadeReunion'].' '.$value['reunion']['HoraReunion']);
+            // $resultado[$key]=array('Estado'=>$estado);
+             array_push($arrae[$key],$estadov);
           }
        
         }
@@ -88,7 +93,10 @@ class ReunionController extends Controller
         foreach ($resultado as $key => $value) {
          
           if($value['reunion']['Estado'] == $estado){
-          $arrae[$key]= array($value['reunion']);
+            $arrae[$key]= $value['reunion'];
+            $estadov=$this->EstadoVencimiento($value['reunion']['FechadeReunion'].' '.$value['reunion']['HoraReunion']);
+            // $resultado[$key]=array('Estado'=>$estado);
+             array_push($arrae[$key],$estadov);
           }
        
         }
@@ -97,12 +105,17 @@ class ReunionController extends Controller
     }
 
     public function EstadoVencimiento($Fecha){
+      
           $Fecha=strtotime ($Fecha); 
           
           $fechaactual=date('Y-m-j H:i:s');
+ 
+         
           $fechaactual=strtotime ($fechaactual); 
            if($Fecha < $fechaactual){
-            return 1;
+            return 'Vencida';
+           }else{
+            return 'Pendiente';
            }
         
     }

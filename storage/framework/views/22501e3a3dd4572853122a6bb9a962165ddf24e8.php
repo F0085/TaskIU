@@ -12,7 +12,7 @@
 
     <script type="text/javascript">
         $( document ).ready(function() {
-            ReunionPorUsuario('Pendiente');
+            ReunionAdmin('Pendiente');
         });
     </script>
     <?php else: ?>
@@ -59,7 +59,7 @@
                          <li ><a class="activado" id="Pendiente"   href="javascript:void(0);" 
                             <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                                 <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                    onClick="   ReunionPorUsuario('Pendiente');"
+                                    onClick="   ReunionAdmin('Pendiente');"
                                 <?php else: ?>
                                     onClick="   ReunionPorUsuario('Pendiente');"
                                 <?php endif; ?>
@@ -68,7 +68,7 @@
                          <li><a id="Terminada" href="javascript:void(0);"
                             <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                                 <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                    onClick="   ReunionPorUsuario('Terminada');"
+                                    onClick="   ReunionAdmin('Terminada');"
                                 <?php else: ?>
                                     onClick="   ReunionPorUsuario('Terminada');"
                                 <?php endif; ?>
@@ -77,7 +77,7 @@
                         <li><a id="Suspendida" href="javascript:void(0);"
                             <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
                                 <?php if($_SESSION['Id_tipo_Usuarios']=='2'): ?>
-                                    onClick="   ReunionPorUsuario('Suspendida');"
+                                    onClick="   ReunionAdmin('Suspendida');"
                                 <?php else: ?>
                                     onClick="   ReunionPorUsuario('Suspendida');"
                                 <?php endif; ?>
@@ -112,7 +112,7 @@
                 <div class="col-md-6">
                        <h1 class="card-title" style="padding-top: 20px"><b>LISTA DE REUNIONES</b></h1>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" id="PanelAdminRol">
                      <?php if(isset($_SESSION['Id_tipo_Usuarios'])): ?>
 
                  <select id="SelecTipoUserReunion" onchange="ReunionesPorRol(this.value)" class="form-control input-default">

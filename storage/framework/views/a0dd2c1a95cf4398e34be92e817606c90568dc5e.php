@@ -28,7 +28,11 @@ th, td {
                 <?php if($tarea['Estado_Tarea'] == 'Terminada'): ?> 
                 <p style="padding-left:5px;"><b>Entregada el:</b>  <?php echo e($tarea['FechaEntrega']); ?></p>
                 <?php endif; ?>
+                <?php if($tarea['estadoVencida'] == 'true'): ?>
+                <p style="padding-left:5px;"><b>Estado:</b>  Vencida</p>
+                <?php else: ?>
                 <p style="padding-left:5px;"><b>Estado:</b>  <?php echo e($tarea['Estado_Tarea']); ?></p>
+                <?php endif; ?>
                  <hr style=" border: solid 1px ">
                 <p style="padding-left:5px;"><b>RESPONSABLES:</b></p>
                 <?php $__currentLoopData = $tarea['responsables']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vres): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

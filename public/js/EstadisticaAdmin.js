@@ -1,25 +1,25 @@
-function home(){
+// function home(){
 
-	// $.get('TotalTareasResponsables', function (res) {
-	// 			$('#TaskLaborales').html(res['Laboral']);
-	// 			$('#TAskPersonales').html(res['Personal']);
-	// 			$('#ReunionesResponsable').html(res['ReunionResponsable']);
-	// 			$('#ReunionesParticipante').html(res['ReunionParticipante']);
+// 	// $.get('TotalTareasResponsables', function (res) {
+// 	// 			$('#TaskLaborales').html(res['Laboral']);
+// 	// 			$('#TAskPersonales').html(res['Personal']);
+// 	// 			$('#ReunionesResponsable').html(res['ReunionResponsable']);
+// 	// 			$('#ReunionesParticipante').html(res['ReunionParticipante']);
 
 				
-	// });
+// 	// });
 	
 
-}
-$( document ).ready(function() {
-	home();
-	// google.charts.load('current', {'packages':['corechart']});
- //      google.charts.setOnLoadCallback(drawChart);
- //   drawChart();
- 	  // google.charts.load('current', {'packages':['gauge']});
-    //   google.charts.setOnLoadCallback(Efectividad);
-      // Efectividad();
-});
+// }
+// $( document ).ready(function() {
+// 	home();
+// 	// google.charts.load('current', {'packages':['corechart']});
+//  //      google.charts.setOnLoadCallback(drawChart);
+//  //   drawChart();
+//  	  // google.charts.load('current', {'packages':['gauge']});
+//     //   google.charts.setOnLoadCallback(Efectividad);
+//       // Efectividad();
+// });
 
 // function drawChart(){
 
@@ -248,47 +248,47 @@ function FiltroGeneral(IdUsuario,anio,mes) {
 				$('#Efectividad').html(`<br><br>No hay tareas en esta fecha`);
 			}
     });
-    $.get('TotalTareasResponsablesPersonalAdmin/'+IdUsuario+'/'+anio+'/'+mes, function (resP) {
+   //  $.get('TotalTareasResponsablesPersonalAdmin/'+IdUsuario+'/'+anio+'/'+mes, function (resP) {
       
-			if(resP!=0){
-			 //TOTAL RESPONSABLES PERSONALES
-				window.ResponsableLaboral=Morris.Donut({
-			 		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
-					  element: 'TotalResponP',
-					  data: [
-					    {label: "Pendientes", value: resP['Total_Pendiente']},
-					    {label: "Terminadas", value: resP['Total_Terminada']},
-					    {label: "Vencidas", value: resP['Total_Vencida']}
-					  ],
-				  // formatter: function (x) { return x + "%"}
-				});
-			}else{
-				$('#TotalResponP').html(`<br><br>No hay tareas en esta fecha`);
-			}
-    });
-    $.get('EfectividadPersonal/'+IdUsuario+'/'+anio+'/'+mes, function (res) {
+			// if(resP!=0){
+			//  //TOTAL RESPONSABLES PERSONALES
+			// 	window.ResponsableLaboral=Morris.Donut({
+			//  		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
+			// 		  element: 'TotalResponP',
+			// 		  data: [
+			// 		    {label: "Pendientes", value: resP['Total_Pendiente']},
+			// 		    {label: "Terminadas", value: resP['Total_Terminada']},
+			// 		    {label: "Vencidas", value: resP['Total_Vencida']}
+			// 		  ],
+			// 	  // formatter: function (x) { return x + "%"}
+			// 	});
+			// }else{
+			// 	$('#TotalResponP').html(`<br><br>No hay tareas en esta fecha`);
+			// }
+   //  });
+   //  $.get('EfectividadPersonal/'+IdUsuario+'/'+anio+'/'+mes, function (res) {
 
-			if(res!=0){
-				$("#EfectividadP").circliful({
-		            animation: 1,
-		            animationStep: 1,
-		            target: 10,
-		            start: 2,
-		            showPercent: 1,
-		            backgroundColor: '#000',
-		            foregroundColor: '#A8C64A',
-		            fontColor: '#000',
-		            iconColor: '#000',
-		            icon: 'f183',
-		            iconSize: '40',
-		            iconPosition: 'middle',
-		            // text: 'Efectividad',
-		            percent: res['Efectividad']
-		        });
-			}else{
-				$('#EfectividadP').html(`<br><br>No hay tareas en esta fecha`);
-			}
-    })
+			// if(res!=0){
+			// 	$("#EfectividadP").circliful({
+		 //            animation: 1,
+		 //            animationStep: 1,
+		 //            target: 10,
+		 //            start: 2,
+		 //            showPercent: 1,
+		 //            backgroundColor: '#000',
+		 //            foregroundColor: '#A8C64A',
+		 //            fontColor: '#000',
+		 //            iconColor: '#000',
+		 //            icon: 'f183',
+		 //            iconSize: '40',
+		 //            iconPosition: 'middle',
+		 //            // text: 'Efectividad',
+		 //            percent: res['Efectividad']
+		 //        });
+			// }else{
+			// 	$('#EfectividadP').html(`<br><br>No hay tareas en esta fecha`);
+			// }
+   //  })
 
 
 }
@@ -325,38 +325,41 @@ function ResponsabilidadPersonal(anio,mes) {
     });
 }
 
+//PASAMOS LA DATA CON LOS USUARIOS Y LA EFECTIVIDAD EN PORCENTAJE 
+//CONSUMIMOS LA RUTA Y LUEGO LA AGREGAMOS AL DATA DEL GRAFICO
+function GraficoBarras(){
+		Morris.Bar({
+		  element: 'graph',
+		  data: [
+		    {x: 'Leoanrdo', y: 0},
+		    {x: 'fsd', y: 1},
+		    {x: '2fdsf', y: 2},
+		    {x: 'sdf', y: 3},
+		    {x: 'fsd', y: 4},
+		    {x: 'fds', y: 5},
+		    {x: '2012 Q3', y: 6},
+		    {x: '2012 Q4', y: 7},
+		    {x: '2013 Q1', y: 8}
+		  ],
+		  xkey: 'x',
+		  ykeys: ['y'],
+		  labels: ['Efectividad'],
+		  units: '%',
+		  barColors: function (row, series, type) {
+		    if (type === 'bar') {
+		      var red = Math.ceil(255 * row.y / this.ymax);
+		      return 'rgb(' + red + ',0,0)';
+		    }
+		    else {
+		      return '#000';
+		    }
+		  }
+		});
+}
 
 $( document ).ready(function() { // 6,32 5,38 2,34
-// 	Morris.Bar({
-//   element: 'graph',
-//   data: [
-//     {x: 'Leoanrdo', y: 0},
-//     {x: 'fsd', y: 1},
-//     {x: '2fdsf', y: 2},
-//     {x: 'sdf', y: 3},
-//     {x: 'fsd', y: 4},
-//     {x: 'fds', y: 5},
-//     {x: '2012 Q3', y: 6},
-//     {x: '2012 Q4', y: 7},
-//     {x: '2013 Q1', y: 8}
-//   ],
-//   xkey: 'x',
-//   ykeys: ['y'],
-//   labels: ['Efectividad'],
-//   units: '%',
-//   barColors: function (row, series, type) {
-//     if (type === 'bar') {
-//       var red = Math.ceil(255 * row.y / this.ymax);
-//       return 'rgb(' + red + ',0,0)';
-//     }
-//     else {
-//       return '#000';
-//     }
-//   }
-// });
-	TotalEstadoEmpresa();    
-    
-        
+	// GraficoBarras();
+	TotalEstadoEmpresa();      
 });
 
  function TotalEstadoEmpresa(){
@@ -409,32 +412,32 @@ $( document ).ready(function() { // 6,32 5,38 2,34
 		            // text: 'Efectividad',
 		            percent: res['Efectividad']
 		        });
-		        window.ResponsablePersonal=Morris.Donut({
-			 		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
-					  element: 'TotalResponP',
-					  data: [
-					    {label: "Pendientes", value: res['Total_PendienteP']},
-					    {label: "Terminadas", value: res['Total_TerminadaP']},
-					    {label: "Vencidas", value: res['Total_VencidaP']}
-					  ],
-				  // formatter: function (x) { return x + "%"}
-				});
-				$("#EfectividadP").circliful({
-		            animation: 1,
-		            animationStep: 1,
-		            target: 10,
-		            start: 2,
-		            showPercent: 1,
-		            backgroundColor: '#000',
-		            foregroundColor: '#A8C64A',
-		            fontColor: '#000',
-		            iconColor: '#000',
-		            icon: 'f183',
-		            iconSize: '40',
-		            iconPosition: 'middle',
-		            // text: 'Efectividad',
-		            percent: res['EfectividadP']
-		        });
+		  //       window.ResponsablePersonal=Morris.Donut({
+			 // 		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
+				// 	  element: 'TotalResponP',
+				// 	  data: [
+				// 	    {label: "Pendientes", value: res['Total_PendienteP']},
+				// 	    {label: "Terminadas", value: res['Total_TerminadaP']},
+				// 	    {label: "Vencidas", value: res['Total_VencidaP']}
+				// 	  ],
+				//   // formatter: function (x) { return x + "%"}
+				// });
+				// $("#EfectividadP").circliful({
+		  //           animation: 1,
+		  //           animationStep: 1,
+		  //           target: 10,
+		  //           start: 2,
+		  //           showPercent: 1,
+		  //           backgroundColor: '#000',
+		  //           foregroundColor: '#A8C64A',
+		  //           fontColor: '#000',
+		  //           iconColor: '#000',
+		  //           icon: 'f183',
+		  //           iconSize: '40',
+		  //           iconPosition: 'middle',
+		  //           // text: 'Efectividad',
+		  //           percent: res['EfectividadP']
+		  //       });
 		
     });
     
@@ -492,32 +495,32 @@ $( document ).ready(function() { // 6,32 5,38 2,34
 		            // text: 'Efectividad',
 		            percent: res['Efectividad']
 		        });
-		        window.ResponsablePersonal=Morris.Donut({
-			 		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
-					  element: 'TotalResponP',
-					  data: [
-					    {label: "Pendientes", value: res['Total_PendienteP']},
-					    {label: "Terminadas", value: res['Total_TerminadaP']},
-					    {label: "Vencidas", value: res['Total_VencidaP']}
-					  ],
-				  // formatter: function (x) { return x + "%"}
-				});
-				$("#EfectividadP").circliful({
-		            animation: 1,
-		            animationStep: 1,
-		            target: 10,
-		            start: 2,
-		            showPercent: 1,
-		            backgroundColor: '#000',
-		            foregroundColor: '#A8C64A',
-		            fontColor: '#000',
-		            iconColor: '#000',
-		            icon: 'f183',
-		            iconSize: '40',
-		            iconPosition: 'middle',
-		            // text: 'Efectividad',
-		            percent: res['EfectividadP']
-		        });
+		  //       window.ResponsablePersonal=Morris.Donut({
+			 // 		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
+				// 	  element: 'TotalResponP',
+				// 	  data: [
+				// 	    {label: "Pendientes", value: res['Total_PendienteP']},
+				// 	    {label: "Terminadas", value: res['Total_TerminadaP']},
+				// 	    {label: "Vencidas", value: res['Total_VencidaP']}
+				// 	  ],
+				//   // formatter: function (x) { return x + "%"}
+				// });
+				// $("#EfectividadP").circliful({
+		  //           animation: 1,
+		  //           animationStep: 1,
+		  //           target: 10,
+		  //           start: 2,
+		  //           showPercent: 1,
+		  //           backgroundColor: '#000',
+		  //           foregroundColor: '#A8C64A',
+		  //           fontColor: '#000',
+		  //           iconColor: '#000',
+		  //           icon: 'f183',
+		  //           iconSize: '40',
+		  //           iconPosition: 'middle',
+		  //           // text: 'Efectividad',
+		  //           percent: res['EfectividadP']
+		  //       });
 		
     });
 

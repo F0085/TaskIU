@@ -84,12 +84,14 @@ class RolesController extends Controller
               'base_uri' => $this->servidor.'Roles',
             ]);
 
+            // DATA CON CLAVE VALOR: CLAVE ES EL NOMBRE DEL CAMPO DE LA BASE DE DATOS Y EL VALOR LO QUE QUIERAS INSERTAR
             $data = ['Descripcion'=>$request->Descripcion,
-                     'Id_Sub_Area'=>$request->Id_Sub_Area]; //EL REQUEST ES EL FORM DATA QUE VIENE EN EL AJAX
+                     'Id_Sub_Area'=>$request->Id_Sub_Area]; 
 
             $res = $client->request('POST','',['form_params' => $data]);
-                   
-             if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+              
+            //COMPRUEBO SI LA INSERCION FUE CORRECTA Y RETORNO     
+            if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
              return json_decode((string) $res->getBody(), true);
             }
     }

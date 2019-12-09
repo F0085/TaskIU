@@ -30,7 +30,11 @@ th, td {
                 @if($tarea['Estado_Tarea'] == 'Terminada') 
                 <p style="padding-left:5px;"><b>Entregada el:</b>  {{$tarea['FechaEntrega']}}</p>
                 @endif
+                @if($tarea['estadoVencida'] == 'true')
+                <p style="padding-left:5px;"><b>Estado:</b>  Vencida</p>
+                @else
                 <p style="padding-left:5px;"><b>Estado:</b>  {{$tarea['Estado_Tarea']}}</p>
+                @endif
                  <hr style=" border: solid 1px ">
                 <p style="padding-left:5px;"><b>RESPONSABLES:</b></p>
                 @foreach($tarea['responsables'] as $vres)

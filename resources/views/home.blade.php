@@ -98,7 +98,52 @@
 					</div>
 			</div>
 			<!-- <hr style="border: solid 1px; "> -->
-
+	<div class="col-lg-12">
+			<div class="card">
+				<div class="card-title" style="padding-top: 30px; color: black; padding-left: 15px">
+					<b><span class="fa fa-user"></span>  FILTRAR POR MES Y AÑO</b>
+				</div>
+					<div class="card-body" >
+						<div class="row">
+							<div id="divMesAdmin" class="col-md-6">
+								<select style="height: 30%"   id="MesHome" onchange="ResumenDatos('','',this.value)" class="form-control input-default">
+									<option value="">Seleccione el Mes</option>
+									<option value="1">Enero</option>
+									<option value="2">Febrero</option>
+									<option value="3">Marzo</option>
+									<option value="4">Abril</option>
+									<option value="5">Mayo</option>
+									<option value="6">Junio</option>
+									<option value="7">Julio</option>
+									<option value="8">Agosto</option>
+									<option value="9">Septiembre</option>
+									<option value="10">Octubre</option>
+									<option value="11">Noviembre</option>
+									<option value="12">Diciembre</option>
+								</select>
+							</div>
+							<div  id="divAnioAdmin"  class="col-md-6">
+								<select style="height: 30%"  id="anioHome" onchange="ResumenDatos('',this.value,'')"  class="form-control input-default">
+									<option value="">Seleccione el Año</option>
+									<option selected="true" value="2019">2019</option>
+									<option value="2020">2020</option>
+									<option value="2021">2021</option>
+									<option value="2022">2022</option>
+									<option value="2023">2023</option>
+									<option value="2024">2024</option>
+									<option value="2025">2025</option>
+									<option value="2026">2026</option>
+									<option value="2027">2027</option>
+									<option value="2028">2028</option>
+									<option value="2029">2029</option>
+									<option value="2030">2030</option>
+								</select>
+							</div>
+						</div>	<br>	
+					
+					</div>
+			</div>
+	</div>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="card" style="background-color: white;height: 82%">
@@ -107,42 +152,6 @@
 						</div>
 					
 						<div class="card-body" style="padding-top: 0px">
-							<div class="row">
-								<div class="col-md-6">
-									<select style="height: 30%"   id="MesResponsableLaboral" onchange="ResponsabilidadLaboral('',this.value)" class="form-control input-default">
-										<option value="">Seleccione el Mes</option>
-										<option value="1">Enero</option>
-										<option value="2">Febrero</option>
-										<option value="3">Marzo</option>
-										<option value="4">Abril</option>
-										<option value="5">Mayo</option>
-										<option value="6">Junio</option>
-										<option value="7">Julio</option>
-										<option value="8">Agosto</option>
-										<option value="9">Septiembre</option>
-										<option value="10">Octubre</option>
-										<option value="11">Noviembre</option>
-										<option value="12">Diciembre</option>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<select style="height: 30%"  id="anioResponsbleLaboral" onchange="ResponsabilidadLaboral(this.value,'')"  class="form-control input-default">
-										<option value="">Seleccione el Año</option>
-										<option value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
-										<option value="2027">2027</option>
-										<option value="2028">2028</option>
-										<option value="2029">2029</option>
-										<option value="2030">2030</option>
-									</select>
-								</div>
-							</div>	
 							<center><div style="width: 50%;" align="center" id="TotalRespon" ></div></center>
 						</div>
 
@@ -154,43 +163,6 @@
 							<b>EFECTIVIDAD LABORAL</b>
 						</div>
 						<div class="card-body" style="padding-top: 0px">
-							<div class="row">
-								<div class="col-md-6">
-									<select style="height: 30%" id="MesEfectividad" onchange="EfectividadMeses('',this.value)" class="form-control input-default">
-										<option value="">Seleccione el Mes</option>
-										<option value="1">Enero</option>
-										<option value="2">Febrero</option>
-										<option value="3">Marzo</option>
-										<option value="4">Abril</option>
-										<option value="5">Mayo</option>
-										<option value="6">Junio</option>
-										<option value="7">Julio</option>
-										<option value="8">Agosto</option>
-										<option value="9">Septiembre</option>
-										<option value="10">Octubre</option>
-										<option value="11">Noviembre</option>
-										<option value="12">Diciembre</option>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<select  style="height: 30%" id="anioEfectividad" onchange="EfectividadMeses(this.value,'')"  class="form-control input-default">
-										<option value="">Seleccione el Año</option>
-										<option value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
-										<option value="2027">2027</option>
-										<option value="2028">2028</option>
-										<option value="2029">2029</option>
-										<option value="2030">2030</option>
-									</select>
-								</div>
-							</div>
-							
 							<center><div style="width: 70%" align="center" id="Efectividad" ></div></center>
 						</div>
 					</div>
@@ -206,43 +178,7 @@
 							<b>RESPONSABILIDAD PERSONAL</b>
 						</div>
 					
-						<div class="card-body" style="padding-top: 0px">
-							<div class="row">
-								<div class="col-md-6">
-									<select style="height: 30%" id="MesResponsablePersonal" onchange="ResponsabilidadPersonal('',this.value)" class="form-control input-default">
-										<option value="">Seleccione el Mes</option>
-										<option value="1">Enero</option>
-										<option value="2">Febrero</option>
-										<option value="3">Marzo</option>
-										<option value="4">Abril</option>
-										<option value="5">Mayo</option>
-										<option value="6">Junio</option>
-										<option value="7">Julio</option>
-										<option value="8">Agosto</option>
-										<option value="9">Septiembre</option>
-										<option value="10">Octubre</option>
-										<option value="11">Noviembre</option>
-										<option value="12">Diciembre</option>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<select style="height: 30%"  id="anioResponsblePersonal" onchange="ResponsabilidadPersonal(this.value,'')"  class="form-control input-default">
-										<option value="">Seleccione el Año</option>
-										<option value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
-										<option value="2027">2027</option>
-										<option value="2028">2028</option>
-										<option value="2029">2029</option>
-										<option value="2030">2030</option>
-									</select>
-								</div>
-							</div>	
+						<div class="card-body" style="padding-top: 0px">	
 							<center><div style="width: 50%;" align="center" id="TotalResponP" ></div></center>
 						</div>
 					</div>
@@ -253,43 +189,6 @@
 							<b>EFECTIVIDAD PERSONAL</b>
 						</div>
 						<div class="card-body" style="padding-top: 0px">
-							<div class="row">
-								<div class="col-md-6">
-									<select style="height: 30%" id="MesEfectividadP" onchange="EfectividadMesesPersonales('',this.value)" class="form-control input-default">
-										<option value="">Seleccione el Mes</option>
-										<option value="1">Enero</option>
-										<option value="2">Febrero</option>
-										<option value="3">Marzo</option>
-										<option value="4">Abril</option>
-										<option value="5">Mayo</option>
-										<option value="6">Junio</option>
-										<option value="7">Julio</option>
-										<option value="8">Agosto</option>
-										<option value="9">Septiembre</option>
-										<option value="10">Octubre</option>
-										<option value="11">Noviembre</option>
-										<option value="12">Diciembre</option>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<select style="height: 30%" id="anioEfectividadP" onchange="EfectividadMesesPersonales(this.value,'')"  class="form-control input-default">
-										<option value="">Seleccione el Año</option>
-										<option value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
-										<option value="2027">2027</option>
-										<option value="2028">2028</option>
-										<option value="2029">2029</option>
-										<option value="2030">2030</option>
-									</select>
-								</div>
-							</div>
-
 							<center><div style="width: 70%" align="center" id="EfectividadP" ></div></center>
 						</div>
 					</div>

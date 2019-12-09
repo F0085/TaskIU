@@ -127,7 +127,7 @@
                             @endif
                         @endif 
                         >Terminadas</a></li>
-                        <li><a id="Vencida" href="javascript:void(0);"
+                        <!-- <li><a id="Vencida" href="javascript:void(0);"
                          @if(isset($_SESSION['Id_tipo_Usuarios']))
                             @if($_SESSION['Id_tipo_Usuarios']=='2')
                                 onClick="TareasEstAdministrador('Vencida');"
@@ -135,7 +135,7 @@
                                onClick="TareasTipo('T','Vencida');"]}});"
                             @endif
                         @endif 
-                        >Vencidas</a></li>
+                        >Vencidas</a></li> -->
                         <!--  <select id="SelectTipoTarPerTra" onchange="TareasTipo(this.value,'filtro')" class=" input-default">
                             <option value="T">Creadas por mi</option>
                             <option value="T">Responsable</option>
@@ -225,7 +225,8 @@
                             <th style="cursor: pointer;" title="Ordenar" scope="col">Responsables</th>
                             <th style="cursor: pointer;" title="Ordenar" scope="col">Participantes</th>
                             <th style="cursor: pointer;" title="Ordenar" scope="col">Observadores</th>
-                            <th style="cursor: pointer;" title="Ordenar" scope="col" rowspan="2">Tipo</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col" >Tipo</th>
+                            <th style="cursor: pointer;" title="Ordenar" scope="col" >Estado</th>
                         
                         </tr>
                     </thead>

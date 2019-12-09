@@ -69,63 +69,63 @@
 					</div>
 			</div>
 			<!-- <hr style="border: solid 1px; "> -->
-			<div class="col-lg-12">
-				<div class="card">
-					<div class="card-title" style="padding-top: 30px; color: black; padding-left: 15px">
-						<b><span class="fa fa-user"></span>  FILTRAR POR USUARIO</b>
-					</div>
-						<div class="card-body" >
-							<div class="row">
-								<div class="col-md-12">
-									<select id="FiltroUsuario" name="FiltroUsuario" onchange="FiltroGeneral(this.value,'','')" class="form-control input-default">
-										<option value="">Seleccione el Usuario...</option>
-										<?php if(isset($Usuarios)): ?>
-											<?php $__currentLoopData = $Usuarios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-											<option value="<?php echo e($val['Id_Usuario']); ?>"><?php echo e($val['Nombre']); ?> <?php echo e($val['Apellido']); ?></option>
-											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-										<?php endif; ?>
-									</select>
-								</div>
-							</div><br>
-							<div class="row">
-								<div id="divMesAdmin" hidden="true" class="col-md-6">
-									<select style="height: 30%"   id="MesAdmin" onchange="FiltroGeneral('','',this.value)" class="form-control input-default">
-										<option value="">Seleccione el Mes</option>
-										<option value="1">Enero</option>
-										<option value="2">Febrero</option>
-										<option value="3">Marzo</option>
-										<option value="4">Abril</option>
-										<option value="5">Mayo</option>
-										<option value="6">Junio</option>
-										<option value="7">Julio</option>
-										<option value="8">Agosto</option>
-										<option value="9">Septiembre</option>
-										<option value="10">Octubre</option>
-										<option value="11">Noviembre</option>
-										<option value="12">Diciembre</option>
-									</select>
-								</div>
-								<div  id="divAnioAdmin" hidden="true" class="col-md-6">
-									<select style="height: 30%"  id="anioAdmin" onchange="FiltroGeneral('',this.value,'')"  class="form-control input-default">
-										<option value="">Seleccione el Año</option>
-										<option selected="true" value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
-										<option value="2027">2027</option>
-										<option value="2028">2028</option>
-										<option value="2029">2029</option>
-										<option value="2030">2030</option>
-									</select>
-								</div>
-							</div>	
-						
-						</div>
+	<div class="col-lg-12">
+			<div class="card">
+				<div class="card-title" style="padding-top: 30px; color: black; padding-left: 15px">
+					<b><span class="fa fa-user"></span>  FILTRAR POR USUARIO</b>
 				</div>
+					<div class="card-body" >
+						<div class="row">
+							<div class="col-md-12">
+								<select id="FiltroUsuario" name="FiltroUsuario" onchange="FiltroGeneral(this.value,'','')" class="form-control input-default">
+									<option value="">Seleccione el Usuario...</option>
+									<?php if(isset($Usuarios)): ?>
+										<?php $__currentLoopData = $Usuarios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+										<option value="<?php echo e($val['Id_Usuario']); ?>"><?php echo e($val['Nombre']); ?> <?php echo e($val['Apellido']); ?></option>
+										<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+									<?php endif; ?>
+								</select>
+							</div>
+						</div><br>
+						<div class="row">
+							<div id="divMesAdmin" hidden="true" class="col-md-6">
+								<select style="height: 30%"   id="MesAdmin" onchange="FiltroGeneral('','',this.value)" class="form-control input-default">
+									<option value="">Seleccione el Mes</option>
+									<option value="1">Enero</option>
+									<option value="2">Febrero</option>
+									<option value="3">Marzo</option>
+									<option value="4">Abril</option>
+									<option value="5">Mayo</option>
+									<option value="6">Junio</option>
+									<option value="7">Julio</option>
+									<option value="8">Agosto</option>
+									<option value="9">Septiembre</option>
+									<option value="10">Octubre</option>
+									<option value="11">Noviembre</option>
+									<option value="12">Diciembre</option>
+								</select>
+							</div>
+							<div  id="divAnioAdmin" hidden="true" class="col-md-6">
+								<select style="height: 30%"  id="anioAdmin" onchange="FiltroGeneral('',this.value,'')"  class="form-control input-default">
+									<option value="">Seleccione el Año</option>
+									<option selected="true" value="2019">2019</option>
+									<option value="2020">2020</option>
+									<option value="2021">2021</option>
+									<option value="2022">2022</option>
+									<option value="2023">2023</option>
+									<option value="2024">2024</option>
+									<option value="2025">2025</option>
+									<option value="2026">2026</option>
+									<option value="2027">2027</option>
+									<option value="2028">2028</option>
+									<option value="2029">2029</option>
+									<option value="2030">2030</option>
+								</select>
+							</div>
+						</div>	
+					
+					</div>
+			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
@@ -239,7 +239,7 @@
 		
 			</div>
 
-			<div class="row">
+		<!-- 	<div class="row">
 				<div class="col-lg-6">
 					<div class="card" style="background-color: white;height: 82%">
 						<div align="center" class="card-title" style="padding-top: 60px; color: black; padding-left: 15px">
@@ -248,7 +248,7 @@
 					
 						<div class="card-body" style="padding-top: 0px">
 							<div class="row">
-								<!-- <div class="col-md-6">
+								<div class="col-md-6">
 									<select style="height: 30%" id="MesResponsablePersonal" onchange="ResponsabilidadPersonal('',this.value)" class="form-control input-default">
 										<option value="">Seleccione el Mes</option>
 										<option value="1">Enero</option>
@@ -281,7 +281,7 @@
 										<option value="2029">2029</option>
 										<option value="2030">2030</option>
 									</select>
-								</div> -->
+								</div>
 							</div>	
 							<center><div style="width: 50%;" align="center" id="TotalResponP" ></div></center>
 						</div>
@@ -294,56 +294,33 @@
 						</div>
 						<div class="card-body" style="padding-top: 0px">
 							<div class="row">
-								<!-- <div class="col-md-6">
-									<select style="height: 30%" id="MesEfectividadP" onchange="EfectividadMesesPersonales('',this.value)" class="form-control input-default">
-										<option value="">Seleccione el Mes</option>
-										<option value="1">Enero</option>
-										<option value="2">Febrero</option>
-										<option value="3">Marzo</option>
-										<option value="4">Abril</option>
-										<option value="5">Mayo</option>
-										<option value="6">Junio</option>
-										<option value="7">Julio</option>
-										<option value="8">Agosto</option>
-										<option value="9">Septiembre</option>
-										<option value="10">Octubre</option>
-										<option value="11">Noviembre</option>
-										<option value="12">Diciembre</option>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<select style="height: 30%" id="anioEfectividadP" onchange="EfectividadMesesPersonales(this.value,'')"  class="form-control input-default">
-										<option value="">Seleccione el Año</option>
-										<option value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
-										<option value="2027">2027</option>
-										<option value="2028">2028</option>
-										<option value="2029">2029</option>
-										<option value="2030">2030</option>
-									</select>
-								</div> -->
+								
 							</div>
 
 							<center><div style="width: 70%" align="center" id="EfectividadP" ></div></center>
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 
-    	</div>
+    	</div>	
   	</div>
  </div>
-<!--  <h1>ESTO LO ESTOY PROGRAMANDO AUN</h1>
-	<div id="graph"></div>
+</div>
+<!--  <div class="col-lg-12">
+ 	<div class="card">
+ 		<div align="center" class="card-title" style="padding-top: 30px; color: black; padding-left: 15px">
+ 			<h3><b>LOS 10 MEJORES EMPLEADOS</b></h3>
+ 		</div>
+ 		<div class="card-body">
+ 			<div id="graph"></div>
+			<pre id="code" class="prettyprint linenums">
+ 		</div>
+ 	</div>
+ </div> -->
+ <!-- <h1>ESTO LO ESTOY PROGRAMANDO AUN</h1> -->
 
-		<pre id="code" class="prettyprint linenums"> -->
 
 <?php $__env->stopSection(); ?>
 

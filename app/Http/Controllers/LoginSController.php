@@ -19,15 +19,19 @@ class LoginSController extends Controller
 
     //LOGUEAR O INICIAR SESIÓN
     public function Login(Request $request){  
+
         $client = new Client([
           'base_uri' => $this->servidor.'Login',
         ]);
         $password= base64_encode($request->password);
 
         if($request->email != null && $request->password != null ){
+
             $data = ['email'=>$request->email,'password'=>$password]; 
+       
             $response = $client->request('POST','',['form_params' => $data]);     
             $UsuariosLogin= json_decode((string) $response->getBody(), true);
+            
             if($UsuariosLogin !=null){
                 session_start();
                 $_SESSION['id']=$UsuariosLogin[0]['Id_Usuario'];

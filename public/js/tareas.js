@@ -61,6 +61,16 @@ function TareasEstAdministrador(estado){
 		$('#TablaTareas').html('');
 	    $.get('TareasEstadoAdministrador/'+estado, function (data) {
 					$.each(data, function(i2, $valores) { 
+						if($valores['0']=='Vencida'){
+				    		var bag='danger';
+
+				    	}else if($valores['0']=='Pendiente'){
+				    		var bag='success';
+				    	}
+				    	if(estado=='Terminada'){
+				    		var bag='success';
+				    		$valores['0']='Terminada';
+				    	}
 				    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 			                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 			                                     <td><b>${$valores['FechaFin']}</td>
@@ -70,6 +80,7 @@ function TareasEstAdministrador(estado){
 			                                    <td id='${$valores['Id_tarea']+'50'}'></td>
 			                                    <td id='${$valores['Id_tarea']+'75'}'></td>
 												<td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
+	                                    		<td><span style="font-size:12px	" class="badge badge-${bag}">${$valores[0]}</span></td>
 			                                  
 			                                </tr>`);
 					    $.each($valores['responsables'], function(i, $vREs) { 
@@ -320,6 +331,8 @@ function TerminarTarea(){
 	    	idtarea: $("#idTarea").val(),
 	    	Observacion: $("#ObservacionTareaSeguimiento").val(),
 	    	filedoc:$("#ObservacionTareaSeguimiento").val(),
+	    	FechaFin:$('#FechaFinSeguir').val(),
+	    	HoraFin:$('#HoraFinSeguir').val(),
 	    }
 	    $.ajaxSetup({
 	        headers: {
@@ -577,9 +590,15 @@ function observadoresTask(){
 			// console.log(estado);
 			$('#TablaTareas').html('');
 			    $.get(TipoUser+'/'+IdUsuario+'/'+estado, function (data) {
+			    	console.log(data);
 			    	$('#TablaTareas').html('');
-					$.each(data, function(i2, $valore) { 
-							$.each($valore, function(i2, $valores) { 
+					// $.each(data, function(i2, $valore) { 
+							$.each(data, function(i2, $valores) { 
+								if($valores[0]=='Vencida'){
+									var bag='danger';
+								}else if($valores[0]=='Pendiente'){
+									var bag='success';
+								}
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
@@ -589,6 +608,8 @@ function observadoresTask(){
 					                                    <td id='${$valores['Id_tarea']+'50'}'></td>
 					                                    <td id='${$valores['Id_tarea']+'75'}'></td>
 					                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
+	                                   					<td><span style="font-size:12px	" class="badge badge-${bag}">${$valores[0]}</span></td>
+					                                
 					                                </tr>`);
 							    $.each($valores['responsables'], function(i, $vREs) { 
 							      $('#'+$valores['Id_tarea']+'25').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vREs['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']}</a> <br><br>`);
@@ -600,7 +621,7 @@ function observadoresTask(){
 							      $('#'+$valores['Id_tarea']+'75').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vOBSE['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vOBSE['usuario']['Nombre']} ${$vOBSE['usuario']['Apellido']}</a> <br><br>`);
 							    });		
 						 	});
-						}); 
+						// }); 
 				      	$('#cargar').fadeIn(1000).html(''); 
 		   		 });
 	}
@@ -639,6 +660,12 @@ function observadoresTask(){
 	    		signo='fa fa-sticky-note';
 
 	    	}
+	    	if($valores['0']=='Vencida'){
+	    		var bag='danger';
+
+	    	}else if($valores['0']=='Pendiente'){
+	    		var bag='success';
+	    	}
 		
 	    	if($valores['Estado_Tarea'] == estado){
 		    $('#'+idtabla).append(`<tr  id="accordion${$valores['tareasIdTareas']}${textoid}" class="${col} tr_tareas">
@@ -650,6 +677,8 @@ function observadoresTask(){
 	                                    <td id='${$valores['Id_tarea']+'50'+textoid}'></td>
 	                                    <td id='${$valores['Id_tarea']+'75'+textoid}'></td>
 	                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
+	                                    <td><span style="font-size:12px	" class="badge badge-${bag}">${$valores[0]}</span></td>
+	                                	
 	                                </tr>`);
 
 		    $.each($valores['responsables'], function(i, $vREs) { 
@@ -728,6 +757,7 @@ function observadoresTask(){
 		}
 
 		if(estado=='filtro' && $('#Pendiente').hasClass('activado')){
+
 			if(tipo=='T'){
 				TareasGenerales('Pendiente');
 				return;
@@ -739,7 +769,7 @@ function observadoresTask(){
 			
 		}
 		if(tipo=='T' && (estado=='Terminada' || estado=='Vencida') ){
-			 if(estado=='Proceso'){
+			if(estado=='Proceso'){
 		    	$('#Proceso').addClass('activado');
 		    	$('#Pendiente').removeClass('activado');
 		    	$('#Terminada').removeClass('activado');
@@ -776,7 +806,7 @@ function observadoresTask(){
 			$('#SelectTipoTarPerTra').val(tipo);
 		  
 		    $.get('TareasPorTipoPendiente/'+estado+'/'+tipo, function (data) {
-		    	
+		    	console.log(data);
 		    	
 			  $('#TablaTareas').html('');
 						llenarbucle(data,'0','collapse show','TablaTareas','');	
@@ -830,7 +860,8 @@ function observadoresTask(){
 	    	$.each(data, function(i,item){
 		    	$('#TituloTareaSeguimiento').html("<i class='fa fa-sticky-note'></i>  "+  item['Nombre']);
 		    	$('#idTarea').val(item['Id_tarea']);
-		    	
+		    	$('#FechaFinSeguir').val(item['FechaFin']);
+		    	$('#HoraFinSeguir').val(item['Hora_Fin']);
 		    	$('#descripcionTareaSeguimiento').html(item['Descripcion']);
 		    	$('#FechaInicioTareaSeguimiento').html(item['FechaInicio']+' '+item['Hora_Inicio']);
 		    	$('#FechaLimiteTareaSeguimiento').html(item['FechaFin']+' '+item['Hora_Fin']);

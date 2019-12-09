@@ -157,6 +157,49 @@ function TerminarReunion(){
 	    });
 	}
 }
+//TODAS LAS REUNIONES PARA EL ADMINISTRADOR 
+	function ReunionAdmin(estado){
+		$('#PanelAdminRol').html('');
+		$('#cargar').append(`<div id="preloader" style="background: #ffffff00">
+		    <div class="loader"> 
+		        <svg class="circular" viewBox="25 25 50 50">
+		            <circle   class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+		        </svg>
+
+		    </div>
+		</div>`);
+		if(estado=='Pendiente'){
+	    	$('#Suspendida').removeClass('activado');
+	    	$('#Pendiente').addClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }else if(estado=='Terminada'){
+	    	$('#Suspendida').removeClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').addClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }
+	    else if(estado=='Vencida'){
+	    	$('#Suspendida').removeClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').addClass('activado');
+	    }
+	     else if(estado=='Suspendida'){
+	    	$('#Suspendida').addClass('activado');
+	    	$('#Pendiente').removeClass('activado');
+	    	$('#Terminada').removeClass('activado');
+	    	$('#Vencida').removeClass('activado');
+	    }
+		$('#TablaReuniones').html('');
+	    $.get('ReunionAdmin/'+estado, function (data) {
+	    	
+	    	  llenarTabla(data,estado);			 
+		      	
+			 });
+	}
+
+
 
 //TODAS LAS REUNIONES PARA EL ADMINISTRADOR O LA PERSONA QUE LAS CREA
 	function ReunionPorUsuario(estado){
@@ -238,7 +281,7 @@ function TerminarReunion(){
 	                                    </td>
 	                                    <td id='${$valores['Id_Reunion']+'Participantes'}'></td>
 	                                    <td>${$valores['FechaCreacion']}</td>
-	                                    <td><span class="badge badge-primary" style="font-size:12px	" >Suspendida</span></td>
+	                                    <td><span class="badge badge-warning" style="font-size:12px	" >Suspendida</span></td>
 
 	                                </tr>`);
 
@@ -789,7 +832,17 @@ function ParticipantesReunion(){
 			                                  </div>
 			                                </div>
 			                            </div>
+			                            <div class="col-md-6">
+			                                <div class="btn-group">
+			                                <a style="font-size: 12px" href="GenerarReporteReunion/${item['Id_Reunion']}" class="btn btn-success "><span class="fa fa-download"></span> Descargar Reporte</a
+			                            <
+			                                </div>
+			                            </div>
+
 			                        </div> `);
+						// $('#botoneSeguimiento').append(`<div class="row">
+
+			   //                      </div> `);
 					}else{
 						var btneditar=` <a  class="dropdown-item" href="javascript:void(0);" onclick="TareasEditar()"><i class="fa fa-pencil-square-o"></i>  Editar Tarea</a>`;
 						$('#botoneSeguimiento').html('');
@@ -808,6 +861,7 @@ function ParticipantesReunion(){
 			                                </div>
 			                            </div>
 			                        </div> `);
+							
 						// document.getElementById('CrearSubtareaModal').setAttribute('onclick',`CrearSubtarea(${item['Id_tarea']},'${item['Nombre']}', '${item['Id_Tipo_Tarea']}','${item['FechaFin']}','${item['Hora_Fin']}')`) ;
 
 					}

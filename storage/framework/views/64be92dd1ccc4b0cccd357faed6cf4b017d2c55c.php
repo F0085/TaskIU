@@ -13,6 +13,8 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input hidden="true" id="FechaFinSeguir">
+                <input hidden="true" id="HoraFinSeguir">
                 <input hidden="true" id="idTarea">
                 <div id="EstadoObservacion"></div>
                 <div class="row">

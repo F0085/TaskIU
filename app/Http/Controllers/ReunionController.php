@@ -31,9 +31,30 @@ class ReunionController extends Controller
     }
     public function index()
     {
-        $Usuarios=$this->Usuarios(); 
+      $Usuarios=$this->Usuarios(); 
       return view('GestionReunion.Reunion')->with(['Usuarios'=>$Usuarios]);
     }
+
+     //LISTA REUNIONES POR ESTADOS Y DE ACUERDO AL USUARIO Q CREA
+    public function ReunionAdmin($estado)
+    {
+        session_start();
+        $client = new Client([
+          'base_uri' => $this->servidor,
+        ]);
+        $response = $client->request('GET', "ReunionAdmin/{$estado}");
+        $resultado= json_decode((string) $response->getBody(), true);
+        foreach ($resultado as $key => $value) {
+            $estado=$this->EstadoVencimiento($value['FechadeReunion'].' '.$value['HoraReunion']);
+            // $resultado[$key]=array('Estado'=>$estado);
+             array_push($resultado[$key],$estado);
+
+            // $resultado[$key]->EstadoV=$estado;
+        }
+        return $resultado;
+   
+    }
+
 
      //LISTA REUNIONES POR ESTADOS Y DE ACUERDO AL USUARIO Q CREA
     public function ReunionPorEstado_User($estado)

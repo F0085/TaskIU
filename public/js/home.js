@@ -176,21 +176,40 @@ $( document ).ready(function() {
     
   });
 
-function EfectividadMeses(anio,mes) {
+function ResumenDatos(anio,mes) {
 	$('#Efectividad').html('');
-	$('#anioEfectividad').val();
-	if($('#anioEfectividad').val() != ''){
-		anio=$('#anioEfectividad').val();
+	$('#EfectividadP').html('');
+	$('#TotalRespon').html('');
+	$('#TotalResponP').html('');
+	if($('#anioHome').val() != ''){
+		anio=$('#anioHome').val();
 	}else{
 		anio=0;
 	}
-	if($('#MesEfectividad').val() != ''){
-		mes=$('#MesEfectividad').val();
+	if($('#MesHome').val() != ''){
+		mes=$('#MesHome').val();
 	}else{
 		mes=0;
 	}
+	$.get('TotalTareasResponsablesLaboral/'+anio+'/'+mes, function (res) {
+ 
+			if(res!=0){
+			 //TOTAL RESPONSABLES PERSONALES
+				window.ResponsableLaboral=Morris.Donut({
+			 		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
+					  element: 'TotalRespon',
+					  data: [
+					    {label: "Pendientes", value: res['Total_Pendiente']},
+					    {label: "Terminadas", value: res['Total_Terminada']},
+					    {label: "Vencidas", value: res['Total_Vencida']}
+					  ],
+				  // formatter: function (x) { return x + "%"}
+				});
+			}else{
+				$('#TotalRespon').html(`<br><br>No hay tareas en esta fecha`);
+			}
+    });
 	$.get('EfectividadPorMeses/'+anio+'/'+mes, function (res) {
-
 			if(res!=0){
 				$("#Efectividad").circliful({
 		            animation: 1,
@@ -208,20 +227,52 @@ function EfectividadMeses(anio,mes) {
 		            // text: 'Efectividad',
 		            percent: res['Efectividad']
 		        });
-				// window.EfectividadMeses=Morris.Donut({
-
-			 // 		  colors: ["#00a65a"],
-				// 	  element: 'Efectividad',
-				// 	  data: [
-				// 	    {label: "Efectividad", value: res['Efectividad']}
-				// 	  ],
-				// 	  formatter: function (x) { return x + "%"}
-
-				// });
 			}else{
 				$('#Efectividad').html(`<br><br>No hay tareas en esta fecha`);
 			}
     });
+    $.get('TotalTareasResponsablesPersonal/'+anio+'/'+mes, function (res) {
+ 
+			if(res!=0){
+							//TOTAL RESPONSABLES PERSONALES
+				window.ResponsablePersonal=Morris.Donut({
+			 		  colors: ["#00a65a", "#f39c12", "#3c8dbc"],
+					  element: 'TotalResponP',
+					  data: [
+					    {label: "Pendientes", value: res['Total_Pendiente']},
+					    {label: "Terminadas", value: res['Total_Terminada']},
+					    {label: "Vencidas", value: res['Total_Vencida']}
+					  ],
+				  // formatter: function (x) { return x + "%"}
+				});
+			}else{
+				$('#TotalResponP').html(`<br><br>No hay tareas en esta fecha`);
+			}
+    });
+    $.get('EfectividadPorMesesPersonales/'+anio+'/'+mes, function (res) {
+			if(res!=0){
+
+				$("#EfectividadP").circliful({
+		            animation: 1,
+		            animationStep: 1,
+		            target: 10,
+		            start: 2,
+		            showPercent: 1,
+		            backgroundColor: '#000',
+		            foregroundColor: '#A8C64A',
+		            fontColor: '#000',
+		            iconColor: '#000',
+		            icon: 'f183',
+		            iconSize: '40',
+		            iconPosition: 'middle',
+		            // text: 'Efectividad',
+		            percent: res['Efectividad']
+		        });
+			}else{
+				$('#EfectividadP').html(`<br><br>No hay tareas en esta fecha`);
+			}
+    });
+
 }
 
 function EfectividadMesesPersonales(anio,mes) {
@@ -256,16 +307,6 @@ function EfectividadMesesPersonales(anio,mes) {
 		            // text: 'Efectividad',
 		            percent: res['Efectividad']
 		        });
-				// window.EfectividadPMeses=Morris.Donut({
-
-			 // 		  colors: ["#00a65a"],
-				// 	  element: 'EfectividadP',
-				// 	  data: [
-				// 	    {label: "Efectividad", value: res['Efectividad']}
-				// 	  ],
-				// 	  formatter: function (x) { return x + "%"}
-
-				// });
 			}else{
 				$('#EfectividadP').html(`<br><br>No hay tareas en esta fecha`);
 			}
@@ -335,27 +376,5 @@ function ResponsabilidadPersonal(anio,mes) {
 			}
     });
 }
-
-
- $( document ).ready(function() { // 6,32 5,38 2,34
-
-        // $("#EfectividadP").circliful({
-        //     animation: 1,
-        //     animationStep: 1,
-        //     target: 10,
-        //     start: 2,
-        //     showPercent: 1,
-        //     backgroundColor: '#000',
-        //     foregroundColor: '#A8C64A',
-        //     fontColor: '#000',
-        //     iconColor: '#000',
-        //     icon: 'f0a0',
-        //     iconSize: '40',
-        //     iconPosition: 'middle',
-        //     text: 'Efectividad',
-        //     percent: 88
-        // });
-        
-    });
 
 

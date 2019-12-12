@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Fecha Inicio</b></label>
-                        <input   value="<?php echo date("Y-m-d");?>"  onkeyup="borderInput('FechaInicioTarea')"  type="date" min="<?php echo date("Y-m-d");?>" class="form-control input-default" id="FechaInicioTarea"> 
+                        <input   value="<?php echo date('h:i');?>" onkeyup="borderInput('FechaInicioTarea')"  type="date" min="<?php echo date("Y-m-d");?>" class="form-control input-default" id="FechaInicioTarea"> 
                     </div>
                     <div class="col-md-6">
                         <label for="" style="color: black"><b>Hora Inicio</b></label>

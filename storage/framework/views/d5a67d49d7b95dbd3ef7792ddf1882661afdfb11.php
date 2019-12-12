@@ -156,6 +156,17 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
+               <?php if(session()->has('MensajeEliminar')): ?>
+               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <?php echo e(session('MensajeEliminar')); ?>
+
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+           
+
+                <?php endif; ?>
             <ul>
             <div id="EstaTar" hidden="true"></div>
             <div class="row">

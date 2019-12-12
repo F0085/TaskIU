@@ -209,6 +209,7 @@
             </div>
             <div class="modal-footer" style="display: block">
                 <div hidden="true" id="mensajePendiente"></div>
+           
                 <div class="row">
                     <div class="col-md-7" id="botoneSeguimiento">
                         <div class="row">

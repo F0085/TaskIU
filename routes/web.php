@@ -208,6 +208,8 @@ route::get('Task/{IdTtar_Reu}/{tipoRol}/{idNotificacion}', 'NotificacionControll
 route::get('ReunionN/{IdTtar_Reu}/{tipoRol}/{idNotificacion}', 'NotificacionController@ReunionN');
 route::get('EstadoVencimiento/{Fecha}', 'ReunionController@EstadoVencimiento');
 route::get('ReunionAdmin/{estado}', 'ReunionController@ReunionAdmin');
+route::get('eliminarTareas/{id}', 'TareasController@eliminarTareas');
+
 
 
 

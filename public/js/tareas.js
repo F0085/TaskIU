@@ -590,7 +590,7 @@ function observadoresTask(){
 			// console.log(estado);
 			$('#TablaTareas').html('');
 			    $.get(TipoUser+'/'+IdUsuario+'/'+estado, function (data) {
-			    	console.log(data);
+			    	
 			    	$('#TablaTareas').html('');
 					// $.each(data, function(i2, $valore) { 
 							$.each(data, function(i2, $valores) { 
@@ -599,6 +599,7 @@ function observadoresTask(){
 								}else if($valores[0]=='Pendiente'){
 									var bag='success';
 								}
+								console.log($valores);
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
@@ -928,6 +929,8 @@ function observadoresTask(){
 					                                    <div id="btneditar">
 					                                    ${btneditar}
 					                                   </div>
+					                          			 <a id="EliminarTarea" class="dropdown-item"  href="/eliminarTareas/${item['Id_tarea']}" ><i class="fa fa-trash"></i>  Eliminar Tarea</a>
+
 					                                  </div>
 					                                </div>
 					                            </div>
@@ -946,6 +949,8 @@ function observadoresTask(){
 					                                    <div id="btneditar">
 					                                    ${btneditar}
 					                                   </div>
+					                           			<a id="EliminarTarea" class="dropdown-item"  href="/eliminarTareas/${item['Id_tarea']}" ><i class="fa fa-trash"></i>  Eliminar Tarea</a>
+
 					                                  </div>
 					                                </div>
 					                            </div>
@@ -985,6 +990,8 @@ function observadoresTask(){
 			                                    <div id="btneditar">
 			                                    ${btneditar}
 			                                   </div>
+					                           <a id="EliminarTarea" class="dropdown-item"  href="/eliminarTareas/${item['Id_tarea']}" ><i class="fa fa-trash"></i>  Eliminar Tarea</a>
+
 			                                  </div>
 			                                </div>
 			                            </div>
@@ -1268,6 +1275,8 @@ function observadoresTask(){
 			                                    <div id="btneditar">
 			                                    ${btneditar}
 			                                   </div>
+					                           <a id="EliminarTarea" class="dropdown-item"  href="/eliminarTareas/${item['Id_tarea']}" ><i class="fa fa-trash"></i>  Eliminar Tarea</a>
+			                                   
 			                                  </div>
 			                                </div>
 			                            </div>

@@ -15,7 +15,34 @@ class TareasController extends Controller
     {
         $this->servidor=servidor();
     }
-      //LISTA DE USUARIOS
+      
+    public function eliminarTareas($id){
+             $client = new Client([
+                      'base_uri' => $this->servidor.'Tareas/'.$id,
+                    ]);
+
+     
+            $client2 = new Client([
+              'base_uri' => $this->servidor,
+            ]);
+            session_start();
+            $response = $client2->request('GET', "TareasPendientesPorTareas/{$id}/{$_SESSION['id']}");
+            $resul= json_decode((string) $response->getBody(), true);
+           
+            if(empty($resul)){
+
+            $data = ['estadoEliminar'=>'true']; 
+            $res = $client->request('PUT','',['form_params' => $data]); 
+                          
+               
+            if ($res->getStatusCode()==200 || $res->getStatusCode()==201 ){
+              return redirect('Tareas');
+            }
+            }else{
+              return back()->with(['MensajeEliminar'=>'Tiene subtareas pendientes no se puede eliminar']);
+            }
+
+    }
 
     public function EstadoVencimiento($Fecha){
       

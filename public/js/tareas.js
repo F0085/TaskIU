@@ -531,8 +531,18 @@ function observadoresTask(){
 	function TareasCPM(estado){
 			$('#TablaTareas').html('');
 			    $.get('tareasCPM/'+estado, function (data) {
+			    	console.log(data);
 			    	$('#TablaTareas').html('');
 							$.each(data, function(i2, $valores) { 
+								if($valores[0]=='Vencida'){
+									var bag='danger';
+								}else if($valores[0]=='Pendiente'){
+									var bag='success';
+								}
+								if(estado=='Terminada'){
+						    		var bag='success';
+						    		$valores['0']='Terminada';
+						    	}
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
@@ -542,6 +552,8 @@ function observadoresTask(){
 					                                    <td id='${$valores['Id_tarea']+'50'}'></td>
 					                                    <td id='${$valores['Id_tarea']+'75'}'></td>
 					                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
+	                                   					<td><span style="font-size:12px	" class="badge badge-${bag}">${$valores[0]}</span></td>
+					                                	
 					                                </tr>`);
 							    $.each($valores['responsables'], function(i, $vREs) { 
 							      $('#'+$valores['Id_tarea']+'25').append(`<a title="Ver Perfil" style="font-size:12px"  href="javascript:void(0);" onclick="ModalPerfilUsuario(${$vREs['usuario']['Id_Usuario']})"><i class="fa fa-user"></i> ${$vREs['usuario']['Nombre']} ${$vREs['usuario']['Apellido']}</a> <br><br>`);
@@ -599,7 +611,11 @@ function observadoresTask(){
 								}else if($valores[0]=='Pendiente'){
 									var bag='success';
 								}
-								console.log($valores);
+								if(estado=='Terminada'){
+						    		var bag='success';
+						    		$valores['0']='Terminada';
+						    	}
+								
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">
 					                                    <td title="Abrir Tarea" > <i   class=" fa fa-sticky-note "></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
 					                                     <td><b>${$valores['FechaFin']}</td>
@@ -667,7 +683,16 @@ function observadoresTask(){
 	    	}else if($valores['0']=='Pendiente'){
 	    		var bag='success';
 	    	}
-		
+	    	if(estado=='Terminada'){
+	    		var bag='success';
+	    		$valores['0']='Terminada';
+	    	}
+			if(sangria>0){
+				var td=``;
+			}else{
+			
+				var td=`<span style="font-size:12px	" class="badge badge-${bag}">${$valores[0]}</span>`;
+			}
 	    	if($valores['Estado_Tarea'] == estado){
 		    $('#'+idtabla).append(`<tr  id="accordion${$valores['tareasIdTareas']}${textoid}" class="${col} tr_tareas">
 	                                    <td title="Abrir Tarea"> <i  data-toggle="collapse" data-target="#accordion${$valores['Id_tarea']}${textoid}" onclick="CambioIconoBoton(this)" class="clickable collapse-row collapsed ${signo} " style="text-indent: ${sangria+'cm'}" ></i> <a style="font-size:12px"  href="javascript:void(0);" onclick="ModalTareas(${$valores['Id_tarea']})">${$valores['Nombre']}</a></td>
@@ -678,7 +703,7 @@ function observadoresTask(){
 	                                    <td id='${$valores['Id_tarea']+'50'+textoid}'></td>
 	                                    <td id='${$valores['Id_tarea']+'75'+textoid}'></td>
 	                                    <td >${$valores['tipo_tareas']['0']['Descripcion']}</td>
-	                                    <td><span style="font-size:12px	" class="badge badge-${bag}">${$valores[0]}</span></td>
+	                                    <td>${td}</td>
 	                                	
 	                                </tr>`);
 
@@ -723,12 +748,14 @@ function observadoresTask(){
 			}
 
 			if(tipo =='T'){
+
 				TareasCPM(estado);
 				return;
 			}
 
 		  $('#TablaTareas').html('');
 		    $.get('TareasPorTipo/'+estado+'/'+tipo, function (data) {
+		    	// alert('hola');
 		    	 $('#TablaTareas').html('');
 							$.each(data, function(i2, $valores) { 
 						    	$('#TablaTareas').append(`<tr  id="accordion${$valores['Id_tarea']}"  tr_tareas">

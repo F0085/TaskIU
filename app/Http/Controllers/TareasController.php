@@ -120,6 +120,7 @@ class TareasController extends Controller
         ]);
         $response = $client->request('GET', "TipoTareasPerTra");
         return json_decode((string) $response->getBody(), true);
+
     }
 
 
@@ -178,7 +179,14 @@ class TareasController extends Controller
           'base_uri' => $this->servidor,
         ]);
         $response = $client->request('GET', "tareasCPM/{$estado}/{$_SESSION['id']}");
-        return json_decode((string) $response->getBody(), true);
+        $resul= json_decode((string) $response->getBody(), true);
+
+         foreach ($resul as $key => $value) {
+          $arrae[$key]= $value;
+          $estadov=$this->EstadoVencimiento($value['FechaFin'].' '.$value['Hora_Fin']);
+          array_push($arrae[$key],$estadov);
+        }
+        return $arrae;
     }
 
     //LISTA TAREA TODAS
@@ -238,7 +246,13 @@ class TareasController extends Controller
         //     }
         //   }
         $response = $client->request('GET', "TareasEstadoAdministrador/{$estado}");
-        return json_decode((string) $response->getBody(), true);
+        $resul= json_decode((string) $response->getBody(), true);
+        foreach ($resul as $key => $value) {
+          $arrae[$key]= $value;
+          $estadov=$this->EstadoVencimiento($value['FechaFin'].' '.$value['Hora_Fin']);
+          array_push($arrae[$key],$estadov);
+        }
+        return $arrae;
         
     }
 

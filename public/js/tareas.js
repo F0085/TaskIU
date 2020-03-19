@@ -3,7 +3,6 @@
 function TareasAdmin(estado){
 	$('#PanelAdminRol').html('');
 	$('#PanelAdminTipoT').html('');
-	
 	$('#TablaTareas').html('');
 		if(estado=='Pendiente'){
 	    	$('#Proceso').removeClass('activado');
@@ -22,7 +21,7 @@ function TareasAdmin(estado){
 	    	$('#Terminada').removeClass('activado');
 	    	$('#Vencida').addClass('activado');
 	    }
-	 $.get('TareasAdministrador/'+estado, function (data) {
+	 	$.get('TareasAdministrador/'+estado, function (data) {
 	    	  llenarbucle(data,'0','collapse show','TablaTareas','');			 
 		      $('#cargar').fadeIn(1000).html(data); 
 		})
